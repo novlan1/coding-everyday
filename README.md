@@ -8,6 +8,8 @@
    * [计数排序](#count-sort)
    * [基数排序](#radix-sort)
 
+* [动态规划](#dp)
+   * [01背包问题](#bag-question)
 <h2 id="1">质数因子</h2>
 
 ```python
@@ -161,4 +163,19 @@ def radixSort(A):
       s[j//(10**i)%10].append(j)
     A = [a for b in s for a in b]
   return A
+```
+
+<h2 id='dp'>动态规划</h2>
+<h3 id='bag-question'>01背包问题</h3>
+
+```python
+def bag(w, v, cap):
+  n = len(w)
+  dp = [[0 for i in range(cap + 1)] for j in range(n + 1)]
+  for i in range(1, n + 1)：
+    for j in range(1, cap + 1):
+      dp[i][j] = dp[i - 1][j]
+      if j >= w[i -1] and res[i - 1][j - w[i - 1]] + v[i - 1] > res[i - 1][j]:
+        res[i][j] = res[i - 1][j - w[i - 1]] + v[i - 1]
+  return dp[-1][-1]
 ```
