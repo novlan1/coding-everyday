@@ -10,6 +10,11 @@
 
 * [动态规划](#dp)
    * [01背包问题](#bag-question)
+   
+* [二叉树](#Tree)
+   * [二叉树的实现](#make-tree)
+   
+   
 <h2 id="1">质数因子</h2>
 
 ```python
@@ -178,4 +183,39 @@ def bag(w, v, cap):
       if j >= w[i -1] and dp[i-1][j-w[i-1]] + v[i-1] > dp[i-1][j]:
         dp[i][j] = dp[i-1][j-w[i-1]] + v[i-1]
   return dp[-1][-1]
+```
+
+
+<h2 id='Tree'>二叉树</h2>
+
+<h3 id='make-tree'>二叉树的实现</h3>
+
+```python
+class Node:
+  def __init__(self, x):
+    self.val = x
+    self.left = None
+    self.right = None
+
+class Tree:
+  def __init__(self):
+    self.head = None
+  
+  def add(self, x):
+    node = Node(x)
+    if not self.head:
+      self.head = node
+    else:
+      q = [self.head]
+      while True:
+        p = q.pop(0)
+        if p.left is None:
+          p.left = node
+          return
+        elif p.right is None:
+          p.right = node
+          return
+        else:
+          q.append(p.left)
+          q.append(p.right)
 ```
