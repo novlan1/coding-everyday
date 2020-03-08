@@ -33,3 +33,16 @@ def selectionSort(A):
   return A
 ```
 
+<h3 id='quick-sort'>快排</h3>
+
+```python
+def quick(A):
+  n = len(A)
+  if n <= 1: return A
+  m = A[0]
+  left = quick([i for i in A if i < m])
+  right = quick([i for i in A if i > m])
+  mm = [i for i in A if i == m]
+  return left + mm + right
+
+```
