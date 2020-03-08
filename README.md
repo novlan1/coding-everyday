@@ -1,5 +1,6 @@
 * [排序](#sort)
    * [选择排序](#choose-sort)
+   * [冒泡排序](#bubble-sort)
    * [快排](#quick-sort)
    * [堆排序](#heap-sort)
    * [希尔排序](#shell-sort)
@@ -35,6 +36,19 @@ def selectionSort(A):
       if A[min_index] > A[j]:
         min_index = j
     A[i], A[min_index] = A[min_index], A[i]
+  return A
+```
+
+
+<h3 id='bubble-sort'>冒泡排序</h3>
+
+```python
+def bubbleSort(A):
+  n = len(A)
+  for i in range(n - 1):
+    for j in range(n - i - 1):
+      if A[j] > A[j + 1]:
+        A[j], A[j + 1] = A[j + 1], A[j]
   return A
 ```
 
