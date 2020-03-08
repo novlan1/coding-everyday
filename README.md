@@ -1,5 +1,6 @@
 * [排序](#sort)
    * [选择排序](#choose-sort)
+   * [快速排序](#quick-sort)
 
 
 <h2 id="1">质数因子</h2>
@@ -45,4 +46,27 @@ def quick(A):
   mm = [i for i in A if i == m]
   return left + mm + right
 
+```
+
+<h3 id='heap-sort'>堆排序</h3>
+```python
+def heap(A, i, n):
+  j = 2 * i +1
+  while j < n:
+    if j + 1 < n and A[j] < A[j+1]:
+      A[j] = A[j+1]
+    if A[i] < A[j]:
+      A[i], A[j] = A[j], A[i]
+      i = j
+      j = 2 * i + 1
+    else:
+      break
+def heapSort(A):
+  n = len(A)
+  for i in range(n // 2 - 1, -1, -1):
+    heap(A, i, n)
+  for i in range(n - 1, -1, -1):
+    A[i], A[0] = A[0], A[i]
+    heap(A, 0, i)
+  return A
 ```
