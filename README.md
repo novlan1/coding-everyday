@@ -1,6 +1,7 @@
 * [排序](#sort)
    * [选择排序](#choose-sort)
    * [快速排序](#quick-sort)
+   * [堆排序](#heap-sort)
 
 
 <h2 id="1">质数因子</h2>
@@ -62,6 +63,7 @@ def heap(A, i, n):
       j = 2 * i + 1
     else:
       break
+      
 def heapSort(A):
   n = len(A)
   for i in range(n // 2 - 1, -1, -1):
@@ -69,5 +71,26 @@ def heapSort(A):
   for i in range(n - 1, -1, -1):
     A[i], A[0] = A[0], A[i]
     heap(A, 0, i)
+  return A
+```
+
+<h3 id='shell-sort'>希尔排序</h3>
+
+```python
+def shellSort(A):
+  n = len(A)
+  step = 4
+  while step > 0:
+    for i in range(step, n):
+      p = i
+      q = i-step
+      while q > 0:
+        if A[q] > A[p]:
+          A[p], A[q] = A[q], A[p]
+          p = q
+          q = i - step
+        else:
+          break
+    step -= 1
   return A
 ```
