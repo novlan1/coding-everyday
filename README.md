@@ -1,8 +1,11 @@
 * [排序](#sort)
    * [选择排序](#choose-sort)
-   * [快速排序](#quick-sort)
+   * [快排](#quick-sort)
    * [堆排序](#heap-sort)
-
+   * [希尔排序](#shell-sort)
+   * [归并排序](#merge-sort)
+   * [计数排序](#count-sort)
+   * [基数排序](#radix-sort)
 
 <h2 id="1">质数因子</h2>
 
@@ -92,5 +95,56 @@ def shellSort(A):
         else:
           break
     step -= 1
+  return A
+```
+<h3 id='merge-sort'>归并排序</h3>
+
+```python
+def mergeSort(A):
+  n = len(A)
+  if n <= 1: return A
+  num = n // 2
+  left = mergeSort(A[:num])
+  right = mergeSort(A[num:])
+  res = []
+  i, j = 0, 0
+  while i < left[left] and j < len(right):
+    if left[i] < right[j]:
+      res.append(left[i])
+      i += 1
+    else:
+      res.append(right[j])
+      j += 1
+  res += left[i:]
+  res += right[j:]
+  return res
+```
+
+<h3 id='count-sort'>计数排序</h3>
+
+```python
+def countingSort(A):
+  mi = min(A)
+  ma = max(A)
+  res = []
+  bu = [0] * (ma - mi + 1)
+  for i in A:
+    bu[i - mi] += 1
+  for i in range(len(bu)):
+    if bu[i]:
+      res = [i + mi] * bu[i]
+  return res
+```
+
+<h3 id='radix-sort'>基数排序</h3>
+
+```python
+def radixSort(A):
+  n = len(A)
+  for i in range(4):
+    s = [[] for _ in range(10)]
+    for j in A:
+      s[j//(10**i)%10].append(j)
+    A = [a for b in s for a in b]
   return A
 ```
