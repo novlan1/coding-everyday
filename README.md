@@ -49,6 +49,7 @@ def quick(A):
 ```
 
 <h3 id='heap-sort'>堆排序</h3>
+
 ```python
 def heap(A, i, n):
   j = 2 * i +1
