@@ -13,6 +13,7 @@
    
 * [二叉树](#Tree)
    * [二叉树的实现](#make-tree)
+   * [二叉树的按层打印](#level-print-tree)
    
    
 <h2 id="1">质数因子</h2>
@@ -199,14 +200,14 @@ class Node:
 
 class Tree:
   def __init__(self):
-    self.head = None
+    self.root = None
   
   def add(self, x):
     node = Node(x)
-    if not self.head:
-      self.head = node
+    if not self.root:
+      self.root = node
     else:
-      q = [self.head]
+      q = [self.root]
       while True:
         p = q.pop(0)
         if p.left is None:
@@ -218,4 +219,26 @@ class Tree:
         else:
           q.append(p.left)
           q.append(p.right)
+```
+
+<h3 id='level-print-tree'>二叉树的按层打印</h3>
+
+```python
+def levelOrder(root):
+  if not root: return []
+  res = []
+  cur = [root]
+  nxt = []
+  res.append([i.val for i in cur])
+  while cur or nxt:
+    for node in cur:
+      if node.left:
+        nxt.append(node.left)
+      if node.right:
+        nxt.append(node.right)
+    if nxt:
+      res.append([i.val for i in nxt])
+    cur = nxt
+    nxt = []
+  return res
 ```
