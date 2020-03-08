@@ -22,7 +22,6 @@ def getZ(n):
 <h3 id='choose-sort'>选择排序</h3>
 
 ```python
-
 def selectionSort(A):
   n = len(A)
   for i in range(n-1):
@@ -32,6 +31,5 @@ def selectionSort(A):
         min_index = j
     A[i], A[min_index] = A[min_index], A[i]
   return A
-  
 ```
 
