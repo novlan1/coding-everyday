@@ -20,7 +20,7 @@ def getZ(n):
 <h2 id='sort'>排序</h2>
 
 <h3 id='choose-sort'>选择排序</h3>
-```
+```python
 def selectionSort(A):
   n = len(A)
   for i in range(n-1):
