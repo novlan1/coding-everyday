@@ -32,7 +32,8 @@ def getZ(n):
       i += 1
   return res
 ```
-
+<br/>
+<br/>
 <h2 id='sort'>排序</h2>
 
 <h3 id='choose-sort'>选择排序</h3>
@@ -172,7 +173,8 @@ def radixSort(A):
     A = [a for b in s for a in b]
   return A
 ```
-
+<br/>
+<br/>
 <h2 id='dp'>动态规划</h2>
 <h3 id='bag-question'>01背包问题</h3>
 
@@ -244,7 +246,8 @@ def levelOrder(root):
     nxt = []
   return res
 ```
-
+<br/>
+<br/>
 
 <h2 id='node'>node</h2>
 <h3 id='get-all-video'>扫描所有视频文件</h3>
