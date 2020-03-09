@@ -15,6 +15,8 @@
    * [二叉树的实现](#make-tree)
    * [二叉树的按层打印](#level-print-tree)
    
+* [node](#node-api)
+   * [扫描所有视频文件](#get-all-video)
    
 <h2 id="1">质数因子</h2>
 
@@ -241,4 +243,49 @@ def levelOrder(root):
     cur = nxt
     nxt = []
   return res
+```
+
+
+<h2 id='node'>node</h2>
+<h3 id='get-all-video'>扫描所有视频文件</h3>
+
+```javascript
+const path = require('path')
+const fs = require('fs')
+
+// 要遍历的根目录
+// const firstPath = path.join(__dirname, '.')
+const firstPath = 'D:'
+const saveFileLocation = path.join(__dirname, 'video_list.txt')
+readDir(firstPath)
+
+let count = 1
+// 遍历目录
+function readDir(rootPath) {
+  fs.readdir(rootPath, {encoding: 'utf8'}, (err, files) => {
+    if(!files || !files.length) return
+    
+    files.forEach(file => {
+      const filePath = `${rootPath}/${file}`
+      
+      fs.stat(filePath, (err, info) => {
+        if (info && info.isDirectory()) {
+          readDir(filePath)
+        } else {
+          const extName = path.extname(filePath)
+          if (['.mp4', '.avi', '.mkv', '.rmvb'].includes(extName)){
+            writeToFile(saveFileLocation, `${count}. ${filePath}\n`)
+            count += 1
+          }
+        }
+      })
+    }) 
+  })
+}
+
+function writeToFile(file, data) {
+  fs.writeFile(file, data, {flag: 'a'}, (err,a,b) =>{
+  })
+}
+
 ```
