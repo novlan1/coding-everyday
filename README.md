@@ -15,7 +15,7 @@
    * [二叉树的实现](#make-tree)
    * [二叉树的按层打印](#level-print-tree)
    
-* [node](#node-api)
+* [Node](#node-api)
    * [扫描所有视频文件](#get-all-video)
    
 <h2 id="1">质数因子</h2>
@@ -189,7 +189,7 @@ def bag(w, v, cap):
   return dp[-1][-1]
 ```
 
-
+<br/>
 <h2 id='Tree'>二叉树</h2>
 
 <h3 id='make-tree'>二叉树的实现</h3>
@@ -248,7 +248,7 @@ def levelOrder(root):
 <br/>
 
 
-<h2 id='node'>node</h2>
+<h2 id='node'>Node</h2>
 <h3 id='get-all-video'>扫描所有视频文件</h3>
 
 ```javascript
