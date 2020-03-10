@@ -18,6 +18,10 @@
 * [Node](#node-api)
    * [扫描所有视频文件](#get-all-video)
    
+* [前端](#front-code)
+   * [下载CSV](#download-csv)
+   
+   
 <h2 id="1">质数因子</h2>
 
 ```python
@@ -290,4 +294,22 @@ function writeToFile(file, data) {
   })
 }
 
+```
+
+<br/>
+<h2 id='front-code'>前端</h2>
+<h3 id='download-csv'>下载CSV</h3>
+```javascript
+export const exportCSV = (data, name) => {
+  // var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+  var downloadLink = document.createElement("a");
+  // downloadLink.href = uri;
+  var blob = new Blob(["\ufeff" + data], {type: 'text/csv,charset=UTF-8'}); //解决大文件下载失败
+  downloadLink.setAttribute("href", URL.createObjectURL(blob));
+  
+  downloadLink.download = name ? (name+".csv"): "temp.csv";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}
 ```
