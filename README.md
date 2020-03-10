@@ -15,6 +15,9 @@
    * [二叉树的实现](#make-tree)
    * [二叉树的按层打印](#level-print-tree)
    
+* [编程基础](#coding-base)
+   * [质数因子](#get-prime-number)
+   
 * [Node](#node-api)
    * [扫描所有视频文件](#get-all-video)
    
@@ -23,21 +26,7 @@
    * [格式化数字，添加逗号](#format-money)
    * [随机字符串](#random-string)
    
-   
-<h2 id="1">质数因子</h2>
 
-```python
-def getZ(n):
-  i = 2
-  res = []
-  while n != 1:
-    if n%i == 0:
-      res.append(i)
-      n = n//i
-    else:
-      i += 1
-  return res
-```
 <br/>
 <h2 id='sort'>排序</h2>
 
@@ -251,9 +240,24 @@ def levelOrder(root):
     nxt = []
   return res
 ```
+
 <br/>
+<h3 id='coding-base'>编程基础</h3>
+<h2 id="get-prime-number">质数因子</h2>
 
-
+```python
+def getPrime(n):
+  i = 2
+  res = []
+  while n != 1:
+    if n%i == 0:
+      res.append(i)
+      n = n//i
+    else:
+      i += 1
+  return res
+```
+<br/>
 <h2 id='node'>Node</h2>
 <h3 id='get-all-video'>扫描所有视频文件</h3>
 
