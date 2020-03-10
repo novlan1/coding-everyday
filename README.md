@@ -20,6 +20,7 @@
    
 * [前端](#front-code)
    * [下载CSV](#download-csv)
+   * [格式化数字，添加逗号](#format-money)
    
    
 <h2 id="1">质数因子</h2>
@@ -301,16 +302,55 @@ function writeToFile(file, data) {
 <h3 id='download-csv'>下载CSV</h3>
 
 ```javascript
-export const exportCSV = (data, name) => {
+const exportCSV = (data, name) => {
   // var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
   var downloadLink = document.createElement("a");
   // downloadLink.href = uri;
   var blob = new Blob(["\ufeff" + data], {type: 'text/csv,charset=UTF-8'}); //解决大文件下载失败
   downloadLink.setAttribute("href", URL.createObjectURL(blob));
-  
   downloadLink.download = name ? (name+".csv"): "temp.csv";
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
+}
+```
+
+<h3 id='format-money'>格式化数字，添加逗号</h3>
+
+```javascript
+const formatMoney = (n, isDecimal, isCutTwo)=> {
+  if (n === 0) {
+    if(isCutTwo){
+      return '0.00'
+    }
+    return 0
+  }
+  if (n === undefined || n === null) return ""
+  const isMinus = n < 0
+  let num = Math.abs(n).toString()
+  // 判断是否有小数
+  let decimals = num.indexOf('.') > -1 ?  num.split('.')[1] : ''
+  let len = num.split('.')[0].length
+  let res = num
+  let temp = ''
+  if (len > 3) {
+    let remainder = len % 3
+    temp = decimals ? '.' + decimals : temp
+    if (remainder > 0) { // 不是3的整数倍
+        res = num.slice(0, remainder) + ',' + num.slice(remainder, len).match(/\d{3}/g).join(',')
+    } else {          // 是3的整数倍
+        res = num.slice(0, len).match(/\d{3}/g).join(',') 
+    }
+  }
+  if(isMinus) {
+    res = '-' + res
+  }
+  if (isCutTwo && num.indexOf(".") > -1) {
+    return res + temp.slice(0, 3)
+  }
+  if(isDecimal) {
+    return res + temp
+  }
+  return res.split('.')[0]  // 默认取整
 }
 ```
