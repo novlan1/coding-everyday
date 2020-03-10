@@ -21,6 +21,7 @@
 * [前端](#front-code)
    * [下载CSV](#download-csv)
    * [格式化数字，添加逗号](#format-money)
+   * [随机字符串](#random-string)
    
    
 <h2 id="1">质数因子</h2>
@@ -353,4 +354,17 @@ const formatMoney = (n, isDecimal, isCutTwo)=> {
   }
   return res.split('.')[0]  // 默认取整
 }
+```
+
+<h3 id='random-string'>随机字符串</h3>
+
+```javascript
+function getRandomString() {
+  return Math.random()
+    .toString(36)
+    .substr(2);
+}
+// toString()方法可以根据所传递的参数把数值转换为对应进制的数字字符串。参数范围为 2~36 之间的任意整数。
+// substr() 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
+// e.g, 0.3288894104484157 => '0.agp1hbf0dko' => 'agp1hbf0dko'
 ```
