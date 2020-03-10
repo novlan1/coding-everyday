@@ -242,8 +242,8 @@ def levelOrder(root):
 ```
 
 <br/>
-<h3 id='coding-base'>编程基础</h3>
-<h2 id="get-prime-number">质数因子</h2>
+<h2 id='coding-base'>编程基础</h2>
+<h3 id="get-prime-number">质数因子</h3>
 
 ```python
 def getPrime(n):
