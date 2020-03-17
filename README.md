@@ -13,6 +13,7 @@
    
 * [二叉树](#Tree)
    * [二叉树的实现](#make-tree)
+   * [二叉树的层次遍历](#traverse-tree)
    * [二叉树的按层打印](#level-print-tree)
    
 * [编程基础](#coding-base)
@@ -219,15 +220,32 @@ class Tree:
           q.append(p.right)
 ```
 
+<h3 id='traverse-tree'>二叉树的层次遍历</h3>
+
+```python
+def traverseTree(root):
+  if not root: return []
+  res = [root.val]
+  q = [root]
+  while q:
+    p = q.pop(0)
+    res.append(p.val)
+    if q.left:
+      p.append(q.left)
+    if q.right:
+      p.append(q.right)
+  return res
+
+```
+
 <h3 id='level-print-tree'>二叉树的按层打印</h3>
 
 ```python
 def levelOrder(root):
   if not root: return []
-  res = []
+  res = [root.val]
   cur = [root]
   nxt = []
-  res.append([i.val for i in cur])
   while cur or nxt:
     for node in cur:
       if node.left:
