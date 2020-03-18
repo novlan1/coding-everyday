@@ -11,6 +11,7 @@
 * [动态规划](#dp)
    * [01背包问题](#bag-question)
    * [最长公共子序列LCS](#long-common-subsequence)
+   * [最长上升子序列LIS](#LIS)
    
 * [二叉树](#Tree)
    * [二叉树的实现](#make-tree)
@@ -197,9 +198,9 @@ def LCS(A, B):
   dp =[[0 for i in range(m)]for j in range(n)]
   dp[0][0] = 1 if A[0] == B[0] else 0
   for i in range(1, n):
-    dp[i][0] = 1 if A[i] == B[0] else A[i-1][0]
+    dp[i][0] = 1 if A[i] == B[0] else dp[i-1][0]
   for j in range(1, m):
-    dp[0][j] = 1 if A[0] == B[j] else A[0][j-1]
+    dp[0][j] = 1 if A[0] == B[j] else dp[0][j-1]
   for i in range(1, n):
     for j in range(1, m):
       if A[i] == B[j]:
@@ -208,6 +209,24 @@ def LCS(A, B):
         dp[i][j] = max(dp[i-1][j], dp[i][j-1])
   return dp[-1][-1]
 ```
+
+<h3 id='LIS'>最长上升子序列LIS</h3>
+
+```python
+def LIS(A):
+  n = len(A)
+  dp = [0 for i in range(n)]
+  dp[0] = 1
+  for i in range(1, n):
+    temp = 0
+    for j in range(i):
+      if A[j] < A[i] and temp < dp[j]:
+        temp = dp[j]
+    dp[i] = temp + 1
+  return dp[-1]
+```
+
+
 
 <br/>
 <h2 id='Tree'>二叉树</h2>
