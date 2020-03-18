@@ -319,7 +319,7 @@ def fold(i, n, down, res):
   if i > n: return 
   fold(i + 1, n, True, res)
   res.append('down') if down else res.append('up')
-  fold(i + 1，n, False, res)
+  fold(i + 1, n, False, res)
   
 def foldPaper(n):
   res = []
