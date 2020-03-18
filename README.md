@@ -189,7 +189,8 @@ def bag(w, v, cap):
         dp[i][j] = dp[i-1][j-w[i-1]] + v[i-1]
   return dp[-1][-1]
 ```
-<h3 id='long-common-subsequence'>最长公共子序列LCS<h3>
+
+<h3 id='long-common-subsequence'>最长公共子序列LCS</h3>
 
 ```python
 def LCS(A, B):
