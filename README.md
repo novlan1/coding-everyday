@@ -16,6 +16,7 @@
    * [二叉树的层次遍历](#traverse-tree)
    * [二叉树的前序、中序、后序遍历（递归）](#pre-in-post-order-treee)
    * [二叉树的按层打印](#level-print-tree)
+   * [二叉树之字形打印](#zhi-print-tree)
    
 * [编程基础](#coding-base)
    * [质数因子](#get-prime-number)
@@ -279,6 +280,32 @@ def levelOrder(root):
         nxt.append(node.right)
     if nxt:
       res.append([i.val for i in nxt])
+    cur = nxt
+    nxt = []
+  return res
+```
+
+<h3 id='zhi-print-tree'>二叉树之字形打印</h3>
+
+```python
+def print(root):
+  if not root: return []
+  cur = [root]
+  nxt = []
+  res = [root.val]
+  left_to_right = true
+  while cur or nxt:
+    for node in cur:
+      if node.left:
+        nxt.append(node.left)
+      if node.right:
+        nxt.append(node.right)
+    if nxt:
+      if left_to_right:
+        res.append([i.val for i in nxt])
+      else:
+        res.append([i.val for i in nxt][::-1])
+      left_to_right = not left_to_right
     cur = nxt
     nxt = []
   return res
