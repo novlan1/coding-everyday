@@ -17,6 +17,7 @@
    * [二叉树的前序、中序、后序遍历（递归）](#pre-in-post-order-treee)
    * [二叉树的按层打印](#level-print-tree)
    * [二叉树之字形打印](#zhi-print-tree)
+   * [折纸问题](#paper-question)
    
 * [编程基础](#coding-base)
    * [质数因子](#get-prime-number)
@@ -293,7 +294,7 @@ def print(root):
   cur = [root]
   nxt = []
   res = [root.val]
-  left_to_right = true
+  left_to_right = True
   while cur or nxt:
     for node in cur:
       if node.left:
@@ -310,7 +311,21 @@ def print(root):
     nxt = []
   return res
 ```
+<h3 id='paper-question'>折纸问题</h3>
+把纸条从下往上对折，此时向下突起，再折一次，从上到下突起方向分别为：下、下、上，那么折n次突起顺序？
 
+```python
+def fold(i, n, down, res):
+  if i > n: return 
+  fold(i + 1, n, True, res)
+  res.append('down') if down else res.append('up')
+  fold(i + 1，n, False, res)
+  
+def foldPaper(n):
+  res = []
+  fold(1, n, True, res)
+  return res
+```
 <br/>
 <h2 id='coding-base'>编程基础</h2>
 <h3 id="get-prime-number">质数因子</h3>
