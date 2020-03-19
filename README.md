@@ -12,6 +12,7 @@
    * [01背包问题](#bag-question)
    * [最长公共子序列LCS](#long-common-subsequence)
    * [最长上升子序列LIS](#LIS)
+   * [找零钱问题](#exchange-money)
    
 * [二叉树](#Tree)
    * [二叉树的实现](#make-tree)
@@ -227,7 +228,20 @@ def LIS(A):
   return dp[-1]
 ```
 
+<h3 id='exchange-money'>找零钱问题</h3>
 
+```python
+def exchange(penny, aim):
+  n = len(penny)
+  res = [0 for i in range(aim + 1)]
+  res[0] = 1
+  for i in range(1, n):
+    j = penny[i]
+    while j <= aim:
+      res[j] += res[j - penny[i]]
+      j += 1
+  return res[-1]
+```
 
 <br/>
 <h2 id='Tree'>二叉树</h2>
