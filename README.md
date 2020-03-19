@@ -235,7 +235,7 @@ def exchange(penny, aim):
   n = len(penny)
   res = [0 for i in range(aim + 1)]
   res[0] = 1
-  for i in range(1, n):
+  for i in range(n):
     j = penny[i]
     while j <= aim:
       res[j] += res[j - penny[i]]
