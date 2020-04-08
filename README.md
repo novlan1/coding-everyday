@@ -463,52 +463,76 @@ const exportCSV = (data, name) => {
 <h3 id='format-money'>格式化数字，添加逗号</h3>
 
 ```javascript
-const formatMoney = (n, isDecimal, isCutTwo)=> {
+
+/**
+ * 格式化数字，添加逗号
+ * isDecimal: 是否返回小数部分，优先级低
+ * isCutTwo: 保留两位小数
+ * isCutThree: 保留三位小数
+ */
+export const formatMoney = (n, isDecimal, isCutTwo, isCutThree)=> {
   if (n === 0) {
-    if(isCutTwo){
+    if (isCutTwo){
       return '0.00'
+    } else if (isCutThree) {
+      return '0.000'
     }
     return 0
   }
-  if (n === undefined || n === null) return ""
+  if (n === undefined || n === null || isNaN(n)) return ""
+  // 是否是负数
   const isMinus = n < 0
-  let num = Math.abs(n).toString()
-  // 判断是否有小数
-  let decimals = num.indexOf('.') > -1 ?  num.split('.')[1] : ''
+  // 绝对值，转为string
+  let num = '' + Math.abs(n)
+  // 小数部分
+  let decimals = num.indexOf('.') > -1 ?  '.' + num.split('.')[1] : ''
+  // 整数部分长度
   let len = num.split('.')[0].length
-  let res = num
-  let temp = ''
+  // 整数部分
+  let res = num.split('.')[0]
+
   if (len > 3) {
     let remainder = len % 3
-    temp = decimals ? '.' + decimals : temp
-    if (remainder > 0) { // 不是3的整数倍
-        res = num.slice(0, remainder) + ',' + num.slice(remainder, len).match(/\d{3}/g).join(',')
-    } else {          // 是3的整数倍
-        res = num.slice(0, len).match(/\d{3}/g).join(',') 
+    if (remainder > 0) { 
+      // 不是3的整数倍
+      res = num.slice(0, remainder) + ',' + num.slice(remainder, len).match(/\d{3}/g).join(',')
+    } else {          
+      // 是3的整数倍
+      res = num.slice(0, len).match(/\d{3}/g).join(',') 
     }
   }
   if(isMinus) {
     res = '-' + res
   }
   if (isCutTwo && num.indexOf(".") > -1) {
-    return res + temp.slice(0, 3)
+    return res + decimals.slice(0, 3)
   }
-  if(isDecimal) {
-    return res + temp
+  if (isCutThree && num.indexOf(".") > -1) {
+    return res + decimals.slice(0, 4)
   }
-  return res.split('.')[0]  // 默认取整
+  if (isDecimal) {
+    // return res + decimals
+    // 最多显示3位小数 TODO
+    return res + decimals.slice(0, 4) 
+  }
+  // 默认取整
+  return res.split('.')[0]  
 }
+
 ```
 
 <h3 id='random-string'>随机字符串</h3>
 
 ```javascript
+/**
+ * toString()方法可以根据所传递的参数把数值转换为对应进制的数字字符串。参数范围为 2~36 之间的任意整数。
+ * substr() 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
+ * e.g, 0.3288894104484157 => '0.agp1hbf0dko' => 'agp1hbf0dko'
+ */
 function getRandomString() {
   return Math.random()
     .toString(36)
     .substr(2);
 }
-// toString()方法可以根据所传递的参数把数值转换为对应进制的数字字符串。参数范围为 2~36 之间的任意整数。
-// substr() 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
-// e.g, 0.3288894104484157 => '0.agp1hbf0dko' => 'agp1hbf0dko'
+
 ```
