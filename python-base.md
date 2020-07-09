@@ -1,5 +1,6 @@
 * [如何在列表、字典和集合中根据条件筛选数据](#filter)
 * [如何统计序列中元素的出现的频度](#stat-frequency)
+* [如何让字典保持有序](#ordered-dict)
 <br />
 <br />
 
@@ -260,3 +261,29 @@ print counter.most_common(10)
 [('in', 12), ('the', 11), ('as', 10), ('China', 9), ('by', 7), ('AI', 7), ('guideline', 6), ('and', 6), ('to', 5), ('intelligence', 5)]
 ```
 代码中，test.txt文件的内容来自扇贝新闻。这样我们也圆满完成实际案例中的第二个案例。
+
+
+<br />
+<h2 id='ordered-dict'>如何让字典保持有序</h2>
+我们可以使用collections.OrderedDict来处理该问题。代码如下：
+```
+from collections import OrderedDict
+
+d = OrderedDict()
+
+d['Li'] = (1, 29)
+
+d['Jack'] = (2, 35)
+
+d['Jim'] = (3, 36)
+
+for k in d:
+    print k
+```
+其输出结果如下：
+
+```
+Li
+Jack
+Jim
+```
