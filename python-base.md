@@ -266,6 +266,7 @@ print counter.most_common(10)
 <br />
 <h2 id='ordered-dict'>如何让字典保持有序</h2>
 我们可以使用collections.OrderedDict来处理该问题。代码如下：
+
 ```
 from collections import OrderedDict
 
@@ -280,6 +281,7 @@ d['Jim'] = (3, 36)
 for k in d:
     print k
 ```
+
 其输出结果如下：
 
 ```
