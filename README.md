@@ -1,6 +1,7 @@
 * [排序](#sort)
    * [选择排序](#choose-sort)
    * [冒泡排序](#bubble-sort)
+   * [插入排序](#insert-sort)
    * [快排](#quick-sort)
    * [堆排序](#heap-sort)
    * [希尔排序](#shell-sort)
@@ -61,6 +62,18 @@ def bubbleSort(A):
     for j in range(n - i - 1):
       if A[j] > A[j + 1]:
         A[j], A[j + 1] = A[j + 1], A[j]
+  return A
+```
+
+<h3 id='insert-sort'>插入排序</h3>
+
+```python
+def insertSort(A):
+  n = len(A)
+  for i in range(1, n):
+    for j in range(i):
+      if A[j] > A[i]:
+        A[i], A[j] = A[j], A[i]
   return A
 ```
 
