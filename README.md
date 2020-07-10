@@ -109,11 +109,11 @@ def heapSort(A):
 def shellSort(A):
   n = len(A)
   step = 4
-  while step >= 0:
+  while step > 0:
     for i in range(step, n):
       p = i
       q = i-step
-      while q > 0:
+      while q >= 0:
         if A[q] > A[p]:
           A[p], A[q] = A[q], A[p]
           p = q
