@@ -158,7 +158,7 @@ def countingSort(A):
     bu[i - mi] += 1
   for i in range(len(bu)):
     if bu[i]:
-      res = [i + mi] * bu[i]
+      res += [i + mi] * bu[i]
   return res
 ```
 
