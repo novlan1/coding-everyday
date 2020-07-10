@@ -8,6 +8,7 @@
    * [归并排序](#merge-sort)
    * [计数排序](#count-sort)
    * [基数排序](#radix-sort)
+   * [有序数组合并](#sorted-array-merge)
 
 * [动态规划](#dp)
    * [01背包问题](#bag-question)
@@ -187,6 +188,26 @@ def radixSort(A):
     A = [a for b in s for a in b]
   return A
 ```
+
+<h3 id='sorted-array-merge'>有序数组合并</h3>
+
+```python
+def mergeAB(A, B):
+  n = len(A)
+  m = len(B)
+  A.extend([0] * m)
+  while i >= 0 and j >= 0:
+    if A[i] > B[j]:
+      A[i+j+1] = A[i]
+      i -= 1
+    else:
+      A[i+j+1]=B[j]
+      j -= 1
+  if j >= 0:
+    A[:j+1] = B[:j+1]
+  return A
+```
+
 <br/>
 
 <h2 id='dp'>动态规划</h2>
