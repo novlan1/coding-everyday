@@ -85,7 +85,7 @@ def heap(A, i, n):
   j = 2 * i +1
   while j < n:
     if j + 1 < n and A[j] < A[j+1]:
-      A[j] = A[j+1]
+      j += 1
     if A[i] < A[j]:
       A[i], A[j] = A[j], A[i]
       i = j
