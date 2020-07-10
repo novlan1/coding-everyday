@@ -134,7 +134,7 @@ def mergeSort(A):
   right = mergeSort(A[num:])
   res = []
   i, j = 0, 0
-  while i < len[left] and j < len(right):
+  while i < len(left) and j < len(right):
     if left[i] < right[j]:
       res.append(left[i])
       i += 1
