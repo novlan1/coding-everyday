@@ -9,6 +9,7 @@
    * [计数排序](#count-sort)
    * [基数排序](#radix-sort)
    * [有序数组合并](#sorted-array-merge)
+   * [三色排序问题](#sort-three-color)
 
 * [动态规划](#dp)
    * [01背包问题](#bag-question)
@@ -207,6 +208,34 @@ def mergeAB(A, B):
     A[:j+1] = B[:j+1]
   return A
 ```
+
+<h3 id='sort-three-color'>三色排序问题</h3>
+
+```python
+def sortThreeColor(A):
+  n = len(A)
+  p = 0
+  q = n - 1
+  while A[p] == 0:
+    p += 1
+  while A[q] == 2:
+    q -= 1
+  i = p
+  
+  m = len(B)
+  A.extend([0] * m)
+  while i >= 0 and j >= 0:
+    if A[i] > B[j]:
+      A[i+j+1] = A[i]
+      i -= 1
+    else:
+      A[i+j+1]=B[j]
+      j -= 1
+  if j >= 0:
+    A[:j+1] = B[:j+1]
+  return A
+```
+
 
 <br/>
 
