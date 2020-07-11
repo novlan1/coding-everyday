@@ -680,3 +680,50 @@ var minSubArrayLen = function(s, nums) {
 };
 
 ```
+
+### 3. 无重复字符的最长子串
+给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+
+```
+示例 1:
+
+输入: "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+示例 2:
+
+输入: "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+示例 3:
+
+输入: "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+```  
+     
+
+```javascript
+var lengthOfLongestSubstring = function(s) {
+    let freq = {}
+    let l = 0
+    let r = 0  //滑动窗口为s[l...r]
+    const n = s.length
+    let res = 0
+
+    // 在每次循环里逐渐改变窗口, 维护freq, 并记录当前窗口中是否找到了一个新的最优值
+    while (l < n) {
+        if (r < n && !freq[s[r]]) {
+
+            freq[s[r]] = 1
+            r+=1
+        } 
+        else {   //r已经到头 || freq[s[r+1]] == 1
+            freq[s[l++]] --
+        }
+        res = Math.max(res, r-l)
+    }
+    return res
+};
+```
