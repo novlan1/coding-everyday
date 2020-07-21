@@ -1,3 +1,4 @@
+## 业务
 ###  如果需要手动写动画，你认为最小时间间隔是多久，为什么？
 
 ```
@@ -19,6 +20,7 @@
  核心过程应该是：浏览器获得一个临时 id，通过长连接等待客户端扫描带有此 id 的二维码后,从长连接中获得客户端上报给 server的帐号信息进行展示。并在客户端点击确认后，获得服务器授信的令牌，进行随后的信息交互过程。在超时、网络断开、其他设备上登录后，此前获得的令牌或丢失、或失效，对授权过程形成有效的安全防护。
 ```
 
+## 类型和变量
 ### javascript 有哪几种数据类型
 六种基本数据类型(值类型)
 - undefined
@@ -289,7 +291,7 @@ Boolean([])是true，Boolean({})是true
 console.log( [] ? true : false) // true
 ```
 
-
+## 原型和原型链
 ### 构造函数的特点
 1. 构造函数名称大写。
 2. 默认 return this，写不写无所谓
@@ -356,10 +358,305 @@ console.log(s)   // 3
 4. 所有的引用类型（数组、对象、函数），__proto__属性值指向它的构造函数的 prototype 属性值
 5. 当试图得到一个引用类型的某个属性时，如果这个对象本身没有这个属性，那么会去它的__proto__中（即它的构造函数的 prototype ）寻找
 
-![原型链](http://image.gwxl.xyz/own_mike_20200721192843_f82e9b759458.png)
+![原型链](imgs/prototype.png)
+
+
+### 描述new一个对象的过程？
+1. 创建一个对象
+2. this指向这个对象
+3. 执行代码，即对this赋值
+4. 返回this
+
+
+### 如何判断一个变量是数组类型？
+```
+var arr = []
+arr instanceof Array;  // true
+```
+
+
+### 写一个原型链继承的例子
+
+```
+// 动物类
+function Animal(){
+    this.eat = function(){
+        console.log('animal eat')}
+}
+
+// 狗类
+function Dog(){
+    this.bark = function(){
+        console.log('dog bark')}
+}
+
+Dog.prototype = new Animal()
+
+var hashiqi = new Dog()
+
+hashiqi.eat() // animal eat
+```
+另一个例子：
+```
+// 获取元素的构造函数
+function Elem(id){
+    this.elem = document.getElementById(id)
+}
+
+// 构造函数上的原型链上的方法
+Elem.prototype.html = function(val){
+    var elem = this.elem;
+    if(val) {
+        elem.innerHTML = val;
+        return this;
+    } else {
+        return  elem.innerHTML;
+    }
+}
+
+// 构造函数上的原型链上的方法
+Elem.prototype.on = function(type,fn){
+    var elem = this.elem;
+    elem.addEventListener(type,fn);
+    return this
+}
+
+var div1 = new Elem('div1')
+console.log(div1.html())
+
+div1.html('<h1>gogo</h1>').on('click',function(){alert('clicked')}) //链式操作
+
+div1.html('<h1>gogo</h1>').on('click',function({alert('clicked')}).html('<h1>nono</h1>')
+```
+
+## 作用域 闭包 执行上下文
+
+### 函数表达式会变量提升吗？
+
+```
+fn1(); 
+var fn1=function(){} // 报错(fn1 is not a function)，函数表达式
+
+fn2(); 
+function fn2(){} // undefined，函数声明
+```
+可见，函数声明才会出现变量提升，函数表达式不会。
+变量提升的其他例子：
+```
+console.log(a);
+var a=9;         			 //undefined
+
+fn6('zhang');
+function fn6(name){
+    console.log(name)
+}    		                  // zhang
+
+fn('zhang');
+function fn(name){
+    age =20; 
+    console.log(name, age);
+    var age
+}                         //zhang 20
+```
+可以看出，函数提升就可以执行，变量只是声明。
+再看几个例子：
+```
+fn('zhang');
+function fn(name){
+    console.log(name, age); 
+    var age=10
+}    			// zhang undefined
+
+var fo = 1;
+var foobar = function(){
+    console.log(fo);
+    var fo=2;
+}
+foobar();
+// undefined
+// 既不是1也不是2，因为函数中的 var fo 存在变量提升，会覆盖全局的 fo
+```
+### 什么是执行上下文？
+当代码运行时，会产生一个对应的执行环境，在这个环境中，所有变量会被事先提出来（变量提升），有的直接赋值，有的为默认值 undefined，代码从上往下开始执行，就叫做执行上下文。
+
+在 JavaScript 中，运行环境有三种，分别是：
+1. 全局环境：代码首先进入的环境，也就是一段<script>
+2. 函数环境：函数被调用时执行的环境
+3. eval函数（不常用）
+
+全局范围内什么会出现变量提升？
+1. 变量定义
+2. 函数声明
+
+函数内什么会出现变量提升？
+1. 变量定义
+2. 函数声明
+3. this
+4. arguments
+
+
+### 执行上下文特点
+1. 单线程，在主进程上运行
+2. 同步执行，从上往下按顺序执行
+3. **全局上下文只有一个**，浏览器关闭时会被弹出栈
+4. 函数的执行上下文没有数目限制
+5. 函数每被调用一次，**都会产生一个新的执行上下文环境**
+
+### 什么是执行上下文栈？
+执行全局代码时，会产生一个执行上下文环境，每次调用函数都又会产生执行上下文环境。当函数调用完成时，这个上下文环境以及其中的数据都会被消除，再重新回到全局上下文环境。处于活动状态的执行上下文环境只有一个。
+其实这是一个压栈出栈的过程——执行上下文栈。
+![执行上下文栈](imgs/js_process_environment.png)
+
+函数中调用其他函数：
+![执行上下文栈](imgs/js_process_environment_iter.png)
+
+### this使用场景
+
+1. 作为构造函数
+2. 作为对象属性
+3. 作为普通函数
+4. call apply bind
+
+普通函数 ，this就是window
+
+### this的特点
+this要在执行时才能确认值，定义时无法确认：
+```
+var a = {
+    name : 'A',
+    fn: function() {
+        console.log(this.name)
+    }
+}
+
+a.fn() // 此时 this 等于 a
+
+a.fn.call({ name: 'b' }) // 此时 this 等于{ name: 'b' }
+
+var fn1 = a.fn()
+fn1() // 此时 this 等于 window
+```
+
+
+
+### js 的作用域有哪些？
+
+js没有块级作用域，只有函数和局部作用域：
+```
+// 无块级作用域
+if (true) {
+    var name = 'ZhangSan'
+}
+console.log(name) // 'ZhangSan'
+```
+```
+// 函数和全局作用域
+var a = 'LiBai'
+function fn() {
+    var a = 'DuFu'
+    console.log(a)
+}
+
+console.log('global', a) // 'LiBai'
+
+fn() // 'DuFu'
+````
 
 
 
 
+### 什么是自由变量和作用域链？
+1. 当前作用域（函数或全局）没有定义的变量，就是自由变量。
+2. 当前函数没有定义a，就一层一层去父级作用域寻找，形成链式结构，成为作用域链。
+
+```
+var a = 100
+function fn() {
+    var b = 200
+    console.log(a) // 当前作用域没有定义的变量，即自由变量
+    console.log(b)
+}
+
+fn()
+```
+再看一个例子：
+```
+var a = 100
+function fn1() {
+    var b = 200
+    function fn2() {
+        var c = 300
+        console.log(a) // 自由变量
+        console.log(b) // 自由变量
+        console.log(c)
+    }
+    fn2()
+}
+
+fn1()
+```
+
+### 什么是js的闭包？有什么作用，用闭包写个单例模式
+
+MDN对闭包的定义是：闭包是指那些**能够访问自由变量的函数**，**自由变量是指在函数中使用的，但既不是函数参数又不是函数的局部变量的变量**。
+由此可以看出，闭包=函数+函数能够访问的自由变量，所以从技术的角度讲，**所有JS函数都是闭包**，但是这是理论上的闭包。还有一个实践角度上的闭包。
+从实践角度上来说，只有满足1、**即使创建它的上下文已经销毁，它仍然存在**，2、在代码中引入了自由变量，才称为闭包。
+
+闭包的应用：
+1. 模仿块级作用域
+2. 保存外部函数的变量
+3. 封装私有变量
+
+单例模式，参见 [前端面试手写代码](https://uwayfly.com/detail/69)
+
+### 写一个自执行函数
+```
+( function(i){ console.log(i)} ) (2)    // 2
+```
+
+### 异步和单线程
+### 前端使用异步的场景？
+1. 定时任务：setTimeout，setInterval
+2. 网络请求：ajax请求，动态<img>加载
+3. 事件绑定
+
+
+
+### 同步和异步的区别是什么？分别举一个同步和异步的例子
+- 同步会**阻塞代码执行**，而异步不会
+- alert是同步，setTimeout是异步
+
+
+### css 是同步执行还是异步的？
+css没有同步和异步一说，弄清楚这个问题需要知道浏览器的渲染机制，dom树和css结合之后才会形成渲染树，才会执行页面渲染。
+
+
+### 函数方法中，forEach 和 map 的区别？
+- forEach()方法不会返回执行结果，而是undefined。
+- 也就是说，forEach()会修改原来的数组。而map()方法会得到一个新的数组并返回。
+
+
+### 获取随机数，要求是长度一致的字符串格式
+```
+function getRandomNums(len = 10) {
+    var random = Math.random()
+    for (let i = 0; i < len; i ++) random += '*'
+    return random.slice(0, len)
+}
+
+// 更好的方法
+function getRandomString() {
+  return Math.random()
+    .toString(36)
+      .substr(2)
+} 
+// 比如，'ihen49kznl'
+```
+
+
+### DOM是哪种基本数据结构
+1.DOM，Document Object Model，文档对象模型 
+2. DOM 的本质 => 树结构
+3. DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
 
 
