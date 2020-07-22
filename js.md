@@ -480,7 +480,7 @@ foobar();
 当代码运行时，会产生一个对应的执行环境，在这个环境中，所有变量会被事先提出来（变量提升），有的直接赋值，有的为默认值 undefined，代码从上往下开始执行，就叫做执行上下文。
 
 在 JavaScript 中，运行环境有三种，分别是：
-1. 全局环境：代码首先进入的环境，也就是一段<script>
+1. 全局环境：代码首先进入的环境，也就是一段`<script>`
 2. 函数环境：函数被调用时执行的环境
 3. eval函数（不常用）
 
@@ -614,7 +614,7 @@ MDN对闭包的定义是：闭包是指那些**能够访问自由变量的函数
 ( function(i){ console.log(i)} ) (2)    // 2
 ```
 
-### 异步和单线程
+## 异步和单线程
 ### 前端使用异步的场景？
 1. 定时任务：setTimeout，setInterval
 2. 网络请求：ajax请求，动态<img>加载
@@ -635,7 +635,7 @@ css没有同步和异步一说，弄清楚这个问题需要知道浏览器的�
 - forEach()方法不会返回执行结果，而是undefined。
 - 也就是说，forEach()会修改原来的数组。而map()方法会得到一个新的数组并返回。
 
-
+## 日期 Math 数组 对象
 ### 获取随机数，要求是长度一致的字符串格式
 ```
 function getRandomNums(len = 10) {
@@ -653,10 +653,173 @@ function getRandomString() {
 // 比如，'ihen49kznl'
 ```
 
-
+## JS Web API
 ### DOM是哪种基本数据结构
 1.DOM，Document Object Model，文档对象模型 
 2. DOM 的本质 => 树结构
 3. DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
+
+
+### DOM节点的Attribute和property有何区别？
+1. property只是一个**JS对象的属性**的修改（如`nodeType/nodeName/classList`）
+2. attribute是对 **html标签属性**的修改
+
+以下是property：
+```
+var pList = document.querySelectAll('p')
+var p = pList[0]
+console.log(p.style.width) // 获取样式
+p.style.width = '100px' // 修改样式
+
+console.log(p.className) // 获取class
+p.className = 'p1' // 修改class
+
+// 获取nodeName和nodeType
+console.log(p.nodeName)
+console.log(p.nodeType)
+```
+以下是attribute：
+```
+var pList = document.querySelectAll('p')
+var p = pList[0]
+p.getAttribute('data-name')
+p.setAttribute('data-name', 'mike')
+
+p.getAttribute('style')
+p.setAttribute('style', 'font-size: 30px;')
+```
+
+attribute：
+```
+<li class='item'>
+  <a href='' class='mock-link'>
+    <img src='img/mock.png' alt='mock' style='' />
+  </a>
+</li>
+```
+
+
+### 什么是BOM？
+
+1. BOM 是 Broswer Object Model 的缩写，中文为**浏览器对象模型**。
+2. BOM 提供了独立于内容而与浏览器窗口进行交互的对象。
+3. 由于 BOM 主要用于管理窗口与窗口之间的通讯，因此其核心对象是**` window`**。
+4. BOM 缺乏标准，所以你会发现 MDN 上面搜寻不了，JavaScript语法的标准化组织是 ECMA，DOM 的标准化组织是 W3C。
+
+
+### BOM 通用的API
+- window对象——BOM核心
+```
+window.alert('提示信息')
+window.confirm('确认信息')
+window.prompt('弹出输入框')
+window.open('url地址', '_blank或_self', '新窗口大小')；     // _blank：新开一个空白的窗口打开链接，_self在当前框架中打开链接
+window.close()   // 关闭当前页
+setTimeout(函数， 时间)    // 定时器，只执行一次
+clearTimeout(定时器名称)  // 清除计时器
+setInterval(函数，时间)     // 定时器，无限执行
+clearInterval()      // 停止执行 setInterval()
+```
+- location对象
+```
+localtion.href = 'url地址';           // 跳转到这个url地址
+localtion.hostname         // 返回 web 主机名
+localtion.pathname            // 返回当前页面的路径和文件名
+localtion.port             // 返回 web 主机的端口
+localtion.protocol      // 返回页面使用的web协议，http||https
+```
+- navigator对象 —— 获取浏览器的所有信息
+```
+navigator.appCodeName   // 返回浏览器的代码名
+navigator.appMinorVersion      // 返回浏览器的次级版本
+navigator.appName    // 返回浏览器的名称
+navigator.appVersion   // 返回浏览器的平台和版本信息
+navigator.browserLanguage      // 返回当前浏览器的语言
+navigator.userAgent       // 返回由客户机发送服务器的 user-agent 头部的值。
+```
+- screen对象
+```
+screen.height     // 获取整个屏幕的高
+screen.width        // 获取整个屏幕的宽
+screen.availiHeight         // 整个屏幕的高减去系统部件的高（可用的屏幕高度）
+screen.availWidth         // 整个屏幕的宽减去系统部件的宽（可用的屏幕宽度）
+```
+- history对象 包含浏览器的历史
+```
+history.back();         // 返回上一页
+history.forward()      // 前进下一页
+history.go('参数');     // -1 表示上一页，1表示下一页
+```
+参考资料：[BOM](https://www.cnblogs.com/pingzi-wq/p/11525058.html)
+### 如何检测浏览器的类型？
+```
+var ua = navigator.userAgent // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36"
+var isChrome = ua.includes('Chrome') // true
+```
+从 userAgent 的输出可以看出，前端可以判断系统类型，`Mac/Windows`，这是很多软件下载网站需要做的事情。
+
+### 拆解URL的各部分
+```
+const { href, hash, search, host, port, protocol } = location
+```
+
+### 对于一个无限下拉加载图片的页面，如何给每个图片绑定事件？
+采用事件代理，给父容器绑定事件，然后通过 event.target 判断是否是图片类型，是的话，执行事件逻辑。
+
+### 事件代理的好处
+1. 代码简洁
+2. 减少浏览器内存的占用
+
+
+### 手动编写一个ajax，不依赖第三方库
+```
+function ajax() {
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', 'api', false)
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200){
+            console.log(xhr.responceText)
+        }
+    }
+    xhr.send(null)
+}
+```
+
+
+xhr.readyState 有几种状态？
+- 0，未初始化（还没有调用send方法）;
+- 1，载入（已经调用send方法，正在发送请求）;
+- 2，载入完成（send方法执行完成，已经收到全部响应内容）;
+- 3，交互（正在解析响应的内容）;
+- 4，完成（响应内容解析完成，可以在客户端调用了）
+
+
+### 什么是跨域？
+1. 浏览器有同源策略，不允许ajax访问其他域接口
+2. 跨域条件：协议、域名、端口，有一个不同就算跨域
+
+
+### 可以跨域的三个标签
+img、link、script
+
+
+
+### 三个标签的使用场景
+1. `<img>`用于打点统计，统计网站可能是其他域；
+2. `<link><script>`可以使用CDN，CDN的也是其他域；
+3. `<script>`可以用于JSONP。
+
+
+### 跨域注意事项
+所有的跨域必须经过信息提供方允许
+
+
+
+
+
+
+
+
+
 
 
