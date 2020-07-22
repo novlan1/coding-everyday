@@ -657,6 +657,6 @@ function getRandomString() {
 ### DOM是哪种基本数据结构
 1.DOM，Document Object Model，文档对象模型 
 2. DOM 的本质 => 树结构
-3. DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
+3.  DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
 
 
