@@ -906,7 +906,7 @@ img、link、script
 
 
 #### 前端优化
-1. 降低请求量（减少请求数量和大小）：合并资源，减少HTTP 请求数，minify / gzip 压缩，webP，lazyLoad。
+1. 降低请求量（减少请求数量和大小）：合并资源，减少HTTP 请求数，minify / gzip 压缩，webP，lazyLoad，防抖和节流。
 2. 加快请求速度：预解析DNS，减少域名数，并行加载，CDN 分发。
 3. 缓存：HTTP 协议缓存请求，离线缓存 manifest，离线数据缓存localStorage。
 4. 渲染：JS/CSS优化，加载顺序，服务端渲染，pipeline。
@@ -953,7 +953,7 @@ json不是最好加不加，而是必须加，而且加的是双引号。
 
 #### 实现一个两列等高布局
 
-为了实现两列等高，可以给每列加上 `padding-bottom:9999px; margin-bottom:-9999px;`
+为了实现两列等高，可以给每列加上 `padding-bottom:预加载; margin-bottom:-9999px;`
 同时父元素设置`overflow:hidden;`
 
 #### 懒加载与预加载的基本概念
@@ -979,7 +979,7 @@ json不是最好加不加，而是必须加，而且加的是双引号。
 
 
 #### 关于Event Loop
-一、为什么`JavaScript`是单线程？
+##### 一、为什么`JavaScript`是单线程？
 JavaScript 语言的一大特点就是单线程，也就是说，**同一个时间只能做一件事**。那么，为什么JavaScript 不能有多个线程呢？这样能提高效率啊。
 
 JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，JavaScript的主要用途是与用户互动，以及操作DOM。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？
@@ -988,7 +988,7 @@ JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，J
 
 为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。
 
-二、任务队列
+##### 二、任务队列
 单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。
 
 如果排队是因为计算量大，CPU忙不过来，倒也算了，但是很多时候CPU是闲着的，因为IO设备（输入输出设备）很慢（比如Ajax操作从网络读取数据），不得不等着结果出来，再往下执行。
@@ -1017,7 +1017,7 @@ JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设
 参考资料：[Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 
 
-三、事件和回调函数
+##### 三、事件和回调函数
 "任务队列"是一个**事件的队列**（也可以理解成消息的队列），**IO设备完成一项任务，就在"任务队列"中添加一个事件**，表示相关的异步任务可以进入"执行栈"了。主线程读取"任务队列"，就是读取里面有哪些事件。
 
 "任务队列"中的事件，除了IO设备的事件以外，还包括一些**用户产生的事件（比如鼠标点击、页面滚动等等）**。只要指定过回调函数，这些事件发生时就会进入"任务队列"，等待主线程读取。
@@ -1026,7 +1026,7 @@ JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设
 
 "任务队列"是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，"任务队列"上第一位的事件就自动进入主线程。但是，由于存在后文提到的"定时器"功能，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。
 
-四、Event Loop
+##### 四、Event Loop
 主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。
 
 ![Event Loop](imgs/eventloop2.png)
@@ -1054,5 +1054,420 @@ req.onerror = function (){};
 也就是说，指定回调函数的部分（onload和onerror），在send()方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取"任务队列"。
 
 
+#### XSS 和 CSRF
 
+- XSS：跨站脚本攻击（Cross-site scripting）
+- CSRF：跨站请求伪造（Cross-site request forgery）
+
+
+XSS：
+1. 比如在新浪博客中写一篇文章，同时偷偷插入一段`<script>`
+2. 攻击代码中，获取cookie，发送到服务器
+3. 发布博客，有人查看博客内容
+4. 会把查看者到cookie发送到攻击者到服务器
+
+
+XSS防范：
+- 将`<`和`>`替换
+
+#### flex布局
+首先要有个容器，并设置`display: flex; display: -webkit-flex;`
+该容器有以下六个属性：
+
+- flex-direction (元素排列方向)
+  - row, row-reverse, column, column-reverse
+- flex-wrap (换行)
+  - nowrap, wrap, wrap-reverse
+- flex-flow (以上两者的简写)
+  - flex-direction || flex-wrap
+- justify-content (水平对齐方式)主轴
+  - flex-start, flex-end, center, space-between, space-around
+- align-items (垂直对齐方式)交叉轴
+  - stretch（拉伸）, flex-start, flex-end, center, baseline（文字底部对齐）
+- align-content (多行垂直对齐方式)
+  - stretch, flex-start, flex-end, center, space-between, space-around
+
+项目的属性：
+
+- order 排列顺序，数值，默认0
+  - "integer"
+- flex-grow定义放大比例，默认0，即如果存在剩余空间，也不放大。
+  - "number"
+- flex-shrink定义缩小比例，默认1，如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。
+   - "number"
+- flex-basis 定义项目占据的主轴空间，默认auto。会根据flex-direction定义的主轴（水平或者垂直），定义项目本来的大小，跟width或者height一样。
+
+- flex 推荐，以上三个的缩写，默认 0 1 auto
+  - "flex-grow" "flex-shrink" "flex-basis"
+- align-self单个项目有与其他项目不一样的对齐方式，可覆盖align-items
+  - "auto","flex-start","flex-end","center","baseline","stretch"　
+
+
+注意：flex 弹性盒子**消除了里面元素的 block 属性**，因此里面**不用加 Inline-block**
+
+
+#### BFC及其作用
+
+BFC( block formatting context ）：简单来说，BFC 就是一种属性，这种属性会影响着元素的定位以及与其兄弟元素之间的相互作用。 
+
+中文常译为**块级格式化上下文**。是 W3C CSS 2.1 规范中的一个概念，它决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。 
+在进行盒子元素布局的时候，BFC提供了一个环境，在这个环境中按照一定规则进行布局不会影响到其它环境中的布局。比如浮动元素会形成BFC，浮动元素内部子元素的主要受该浮动元素影响，两个浮动元素之间是互不影响的。
+也就是说，**如果一个元素符合了成为BFC的条件，该元素内部元素的布局和定位就和外部元素互不影响(除非内部的盒子建立了新的 BFC)**，是一个隔离了的独立容器。（在 CSS3 中，BFC 叫做 Flow Root）
+
+
+BFC（块级格式化上下文，用于**清除浮动，防止margin重叠**等）
+- 直译成：块级格式化上下文，是一个**独立的渲染区域，并且有一定的布局规则**。
+- BFC区域不会与float box重叠
+- BFC是页面上的一个独立容器，**子元素不会影响到外面**
+- 计算BFC的高度时，浮动元素也会参与计算
+
+#### 哪些元素会生成BFC
+1. 根元素
+2. float不为none的元素
+3. position为fixed和absolute的元素
+4. display为inline-block、table-cell、table-caption，flex，inline-flex的元素
+5. overflow不为visible的元素
+
+
+
+
+
+#### 同源策略
+所谓"同源"是指**协议**、**端口号**、**域名**相同，那么"跨域"就可以理解为**不同源的网站之间的访问**，最常见的应用是当我们调用ajax接口时如果不设置跨域浏览器会报错，这证明使用xmlHttpRequest 对象不能发送跨域请求。
+
+有疑惑的小伙伴肯定会问，那我用a标签和script标签请求其他网站，是不是就是跨域了呢？
+
+这里要明白**跨域**是指在**当前域下调用其他域下的东西**，而链接则是**直接跳转到对方的域下**了，跟你之前的域名毫无关系。
+
+
+#### JSONP实现跨域的原理
+
+通过动态构建 script  标签来实现跨域请求，因为浏览器对 script 标签的引入没有跨域的访问限制 。通过**在请求的 url 后指定一个回调函数**，然后服务器在返回数据的时候，构建一个 json 数据的包装，这个包装就是回调函数，然后返回给前端，前端接收到数据后，**因为请求的是脚本文件，所以会直接执行**，这样我们先前定义好的**回调函数就可以被调用**，从而实现了跨域请求的处理。这种方式只能用于 get 请求。
+
+
+#### 浏览器内核的理解
+
+主要分成两部分：**渲染引擎(layout engineer 或 Rendering Engine) **和** JS 引擎**。
+
+- 渲染引擎：**负责取得网页的内容（HTML、 XML 、图像等等）、整理讯息（例如加入 CSS 等），以及计算网页的显示方式，然后会输出至显示器或打印机**。
+浏览器的内核的不同对于网页的语法解释会有不同，所以渲染的效果也不相同。所有网页浏览器、电子邮件客户端以及其它需要编辑、显示网络内容的应用程序都需要内核。
+- JS引擎则**解析和执行 javascript 来实现网页的动态效果**。
+
+最开始渲染引擎和JS引擎并没有区分的很明确，后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。 
+
+
+#### 将一个类数组对象转化为数组的几种方法
+1. slice
+`Array.prototype.slice.call(arguments)`，或者 `[].slice.call(arguments)`亦可
+2. splice
+`Array.prototype.splice.call(arguments, 0);`
+
+3. `Array.prototype.concat.apply([], arguments)`
+4. ES6中的`Array.from`
+语法：`Array.from(arguments)`
+5. [...arguments]
+
+
+
+
+
+
+
+#### 事件处理程序
+
+##### DOM0 级事件处理程序
+1. 先把元素取出来，然后为其属性添加一个事件的方法叫DOM0级处理程序。
+2. 它是一种较传统的方式：把一个函数赋值给一个事件处理程序的属性。
+3. 优点：简单，跨浏览器的优势
+
+
+
+##### DOM2 级事件
+两个方法：
+1. 处理指定事件处理程序的操作：addEventListener()
+2. 删除事件处理程序的操作：removeEventListener()
+
+接收三个参数：
+1. 要处理的事件名（**去掉前面的on**，比如直接写`click`或`mouseover`）
+2. 作为事件处理程序的函数
+3. 布尔值（**false是事件冒泡，true是事件捕获，默认false**）
+
+
+注意：
+1. 通过addEventListener添加的事件只能通过removeEventListener去掉
+2. addEventListener可以添加多个事件。
+
+
+
+##### IE 事件处理程序
+1. attachEvent() 添加事件 （它又加上on了，即onclick等）
+2. detachEvent() 删除事件
+3. 接收相同的两个参数：事件处理程序的名称和事件处理程序的函数
+4. **不使用第三参数**的原因：IE8 以及更早的浏览器版本**只支持事件冒泡**！
+
+
+
+
+##### 事件对象
+事件对象（event）：在触发 DOM 上的事件时都会产生一个对象。
+DOM 中的事件对象
+1. type 属性：用于获取事件类型
+2. target 属性：用于获取事件目标
+3. stopPropagation() 方法，阻止时间冒泡
+4. preventDefault() 方法，阻止事件的默认行为（比如a标签默认跳转）
+
+
+
+
+##### DOM事件级别：
+- DOM0：element.onclick=function(){}
+- DOM2：element.addEventListener(‘click’, function(){}, false)
+- DOM3：element.addEventListener(‘keyup, function(){}, false)
+
+##### DOM事件模型：
+- 捕获（从上往下）
+- 冒泡（从下往上）
+
+
+##### 事件流三个阶段
+捕获、目标阶段、冒泡
+
+
+##### 描述DOM事件捕获到具体流程：
+- window => document => html => body => ....=> 目标元素
+
+
+##### event 对象的常见应用：
+- event.preventDefault()
+- event.stopPropagation()
+- event.stopImmediatePropagation() 
+- event.currentTarget
+- event.target
+
+
+
+#### onclick 与 addEventListener 区别？
+1. onclick事件在同一时间**只能指向唯一对象**。就算对于一个对象**绑定了多次**，但是仍然只会**执行最后的一次绑定**。
+2. addEventListener 给一个事件**注册多个listener**
+3. addEventListener 对任何DOM都是有效的，而 onclick 仅限于HTML
+4. addEventListener 可以控制 listener 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 removeEventListener 清除
+5. IE9使用 attachEvent 和 detachEvent
+
+
+
+
+####  absolute、relative、fixed、static 的区别
+- absolute：相对于**上一级不是static的元素**定位，脱离文档流。
+- relative：相对于**上一级**定位，static也可以，不脱离文档流，保留原来的位置。
+- fixed：相对于**浏览器窗口**定义，脱离文档流。
+- static：不定位。
+
+#### `display:none`与`visibility：hidden`的区别？
+1. `display：none` 不显示对应的元素，在文档布局中不再分配空间（**回流reflow + 重绘repaint**）
+2. `visibility：hidden` 隐藏对应元素，在文档布局中仍保留原来的空间（**重绘repaint**）
+
+
+#### 为什么会出现浮动？什么时候需要清除浮动？
+
+浮动元素碰到包含它的边框或者浮动元素的边框停留。由于浮动元素不在文档流中，所以文档流的块框表现得就像浮动框不存在一样。浮动元素会漂浮在文档流的块框上。
+
+浮动带来的问题：
+1. 父元素的高度无法被撑开，影响与父元素同级的元素
+2. 与浮动元素同级的非浮动元素（内联元素）会跟随其后
+3. 若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构。
+
+#### 清除浮动的方式
+
+1. 父级div定义`height`
+2. 最后一个浮动元素后加空div标签 并添加样式`clear:both`。
+3. 包含浮动元素的父标签添加样式`overflow为hidden或auto`。
+4. 父级div定义`zoom`
+
+
+#### img标签的title与alt区别
+1. title属性规定关于元素的额外信息。这些信息通常会在**鼠标移到元素上**时显示一段工具**提示文本（tooltip text）**。在显示的内容被省略的时候，可以加一个title属性，快速实现提示文本。
+2. alt属性alt定义有关图形的短的描述。在**图片加载失败了**的时候，会显示该描述。
+
+
+另外，注意`onerror`属性：
+`onerror`属性找图片加载失败了的时候，可以使用`onerror`将图片替换为默认图片。注意，一定要**在`onerror`里面将`onerror`置空**，不然在新的图片也加载失败后，会形成死循环。
+```
+<img src="http://example.com/a.png" onerror="this.onerror=''; this.src='http://example.com/b.png'">
+```
+
+#### 常见的浏览器内核比较
+```
+Trident：这种浏览器内核是 IE 浏览器用的内核，因为在早期 IE 占有大量的市场份额，所以这种内核比较流行，以前有很多
+网页也是根据这个内核的标准来编写的，但是实际上这个内核对真正的网页标准支持不是很好。但是由于 IE 的高市场占有率，微
+软也很长时间没有更新 Trident 内核，就导致了 Trident 内核和 W3C 标准脱节。还有就是 Trident 内核的大量 Bug 等
+安全问题没有得到解决，加上一些专家学者公开自己认为 IE 浏览器不安全的观点，使很多用户开始转向其他浏览器。
+
+Gecko：这是 Firefox 和 Flock 所采用的内核，这个内核的优点就是功能强大、丰富，可以支持很多复杂网页效果和浏览器扩
+展接口，但是代价是也显而易见就是要消耗很多的资源，比如内存。
+
+Presto：Opera 曾经采用的就是 Presto 内核，Presto 内核被称为公认的浏览网页速度最快的内核，这得益于它在开发时的
+天生优势，在处理 JS 脚本等脚本语言时，会比其他的内核快3倍左右，缺点就是为了达到很快的速度而丢掉了一部分网页兼容性。
+
+Webkit：Webkit 是 Safari 采用的内核，它的优点就是网页浏览速度较快，虽然不及 Presto 但是也胜于 Gecko 和 Trid
+ent，缺点是对于网页代码的容错性不高，也就是说对网页代码的兼容性较低，会使一些编写不标准的网页无法正确显示。WebKit 
+前身是 KDE 小组的 KHTML 引擎，可以说 WebKit 是 KHTML 的一个开源的分支。
+
+Blink：谷歌在 Chromium Blog 上发表博客，称将与苹果的开源浏览器核心 Webkit 分道扬镳，在 Chromium 项目中研发 B
+link 渲染引擎（即浏览器核心），内置于 Chrome 浏览器之中。其实 Blink 引擎就是 Webkit 的一个分支，就像 webkit 是
+KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共同研发，上面提到过的，Opera 弃用了自己的 Presto 
+内核，加入 Google 阵营，跟随谷歌一起研发 Blink。
+```
+
+#### 常见浏览器所用内核
+
+```
+ （1） IE 浏览器内核：Trident 内核，也是俗称的 IE 内核；
+
+ （2） Chrome 浏览器内核：统称为 Chromium 内核或 Chrome 内核，以前是 Webkit 内核，现在是 Blink内核；
+
+ （3） Firefox 浏览器内核：Gecko 内核，俗称 Firefox 内核；
+
+ （4） Safari 浏览器内核：Webkit 内核；
+
+ （5） Opera 浏览器内核：最初是自己的 Presto 内核，后来加入谷歌大军，从 Webkit 又到了 Blink 内核；
+
+ （6） 360浏览器、猎豹浏览器内核：IE + Chrome 双内核；
+
+ （7） 搜狗、遨游、QQ 浏览器内核：Trident（兼容模式）+ Webkit（高速模式）；
+
+ （8） 百度浏览器、世界之窗内核：IE 内核；
+
+ （9） 2345浏览器内核：好像以前是 IE 内核，现在也是 IE + Chrome 双内核了；
+
+ （10）UC 浏览器内核：这个众口不一，UC 说是他们自己研发的 U3 内核，但好像还是基于 Webkit 和 Trident ，还有说
+      是基于火狐内核。
+```
+#### 什么是JS Engine（JS引擎）？
+**处理并执行js代码的运行环境**， 也就是专门处理Js脚本的虚拟机。
+
+#### JS引擎中栈和堆
+- 同其它编程语言（java）一样，JS引擎中也有堆(Heap)和栈(Stack)的概念
+- 堆和栈都是内存中划分出来用来存储的区域，是一种数据结构，它基本记录了程序中的位置
+- 栈（stack）为**自动分配**的内存空间，它由系统**自动释放**，用来存储**方法和基本数据类型**；
+- 堆（heap）则是**动态分配**的内存，**大小不定**，也不会自动释放，用来存储**引用数据类型**;
+
+
+基本数据类型存储
+- 基本数据类型存放在栈中
+- 栈内存中的简单数据，数据大小确定，内存空间大小可以分配，是直接**按值存放**的
+
+引用数据类型
+- 引用类型存放在堆中，变量实际上是一个**存放在栈内存的指针**，
+- 这个指针指向堆内存中的地址。每个空间大小不一样，根据情况进行特定的分配
+
+![图解基本数据和引用数据类型存放位置](imgs/stackAndheap.png)
+
+
+
+### NodeJS
+#### nodejs 全局变量和全局对象
+##### 1、全局对象
+所有模块都可以调用
+1）`global`：表示Node所在的全局环境，类似于浏览器中的window对象。
+2）`process`：指向Node内置的process模块，允许开发者与当前进程互动。
+例如你在DOS或终端窗口直接输入node，就会进入NODE的命令行方式（REPL环境）。退出要退出的话，可以输入 process.exit();
+3）`console`：指向Node内置的console模块，提供命令行环境中的标准输入、标准输出功能。
+通常是写console.log()，无须多言
+
+
+##### 2、全局函数：
+1）定时器函数：共有4个，分别是`setTimeout()`, `clearTimeout()`, `setInterval()`, `clearInterval()`。
+2）`require`：用于加载模块。
+
+
+##### 3、全局变量：
+1）`_filename`：指向当前运行的脚本文件名。
+2）`_dirname`：指向当前运行的脚本所在的目录。
+
+
+##### 4、准全局变量
+模块内部的局部变量，指向的对象根据模块不同而不同，但是所有模块都适用，可以看作是伪全局变量，主要为`module`,`module.exports`, `exports`等。
+
+`module`变量指代当前模块。`module.exports`变量表示当前模块对外输出的接口，**其他文件加载该模块，实际上就是读取`module.exports`变量**。
+
+- `module.id` 模块的识别符，通常是模块的文件名。
+- `module.filename` 模块的文件名。
+- `module.loaded` 返回一个布尔值，表示模块是否已经完成加载。
+- `module.parent` 返回使用该模块的模块。
+- `module.children` 返回一个数组，表示该模块要用到的其他模块
+
+
+
+
+
+
+
+####  module.exports 和 exports
+
+ 
+
+1. **exports只是module.exports的全局引用**，在模块被导出之前exports被赋值为module.exports。
+2. 用中文的话来说就是一个**全局引用**，在模块内部你都可以使用exports导出一些东西。
+3. 值得注意的是，**不能给exports赋值**，这很重要，很重要，很重要。
+
+ 
+
+比如，你想导出一个类。
+
+```
+class Boy{
+    constructor(age) {
+        this.age = age
+    }
+    say() {
+    }
+}
+
+// 导出Boy
+exports = Boy // 报错，不能重写exports
+// 正确做法
+module.exports = Boy 
+```
+
+总结：
+1. exports只是module.exports的引用
+2. 如果你想要使用exports导出模块，千万不能给它赋值！
+3. 稳一点的做法是使用module.exports，虽然exports用起来是挺爽的
+
+
+
+#### 对称加密和非对称加密算法
+##### 可解密：
+1. 对称加密：DES、3DES、AES
+2. 非对称加密：RSA
+
+##### 不可解密：
+不可逆加密算法：MD5、SHA1
+
+
+
+
+#### 最快合并两个数组
+```
+let arr1=[1,3]
+let arr2=[4,6]
+arr1.concat(arr2) // [1, 3, 4, 6] 
+
+
+// ES6
+[...arr1, ...arr2] // [1, 3, 4, 6]
+```
+
+
+#### 简述js中 for in 与 for of 区别
+1. for in是ES5标准，**遍历key**，并且可以遍历**继承的可枚举的属性**，常用于**对象**的遍历。
+2. for of是**ES6**标准，**遍历value**，常用于**数组**的遍历。
+
+
+
+#### overflow 清除浮动 的原理
+
+要讲清楚这个解决方案的原理，首先需要了解块格式化上下文，块格式化上下文是CSS可视化渲染的一部分，它是一块区域，规定了内部块盒 的渲染方式，以及浮动相互之间的影响关系
+
+当元素设置了overflow样式且值不为visible时，该元素就**构建了一个BFC，BFC在计算高度时，内部浮动元素的高度也要计算在内**，也就是说技术BFC区域内只有一个浮动元素，BFC的高度也不会发生塌缩，所以达到了清除浮动的目的。
 
