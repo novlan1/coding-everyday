@@ -1060,15 +1060,42 @@ req.onerror = function (){};
 - CSRF：跨站请求伪造（Cross-site request forgery）
 
 
-XSS：
+##### XSS攻击
 1. 比如在新浪博客中写一篇文章，同时偷偷插入一段`<script>`
 2. 攻击代码中，获取cookie，发送到服务器
 3. 发布博客，有人查看博客内容
 4. 会把查看者到cookie发送到攻击者到服务器
 
 
-XSS防范：
+##### XSS防范
 - 将`<`和`>`替换
+
+
+
+##### CSRF攻击
+
+CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站发送恶意请求。 CRSF能做的事情包括利用你的身份发邮件、发短信、进行交易转账等，甚至盗取你的账号。
+
+
+1. 首先用户C浏览并登录了受信任站点A；
+2. 登录信息验证通过以后，站点A会在返回给浏览器的信息中带上已登录的cookie，cookie信息会在浏览器端保存一定时间（根据服务端设置而定）；
+3. 完成这一步以后，用户在没有登出（清除站点A的cookie）站点A的情况下，访问恶意站点B；
+4. 这时恶意站点 B的某个页面向站点A发起请求，而这个请求会带上浏览器端所保存的站点A的cookie；
+5. 站点A根据请求所带的cookie，判断此请求为用户C所发送的。
+
+
+受害者只需要做下面两件事情，攻击者就能够完成CSRF攻击：
+1. 登录受信任站点 A，并在本地**生成cookie**；
+2. 在**不登出站点A（清除站点A的cookie）**的情况下，访问**恶意站点B**。
+
+
+##### CSRF的防御
+1. 尽量使用`POST`，限制`GET`
+2. 将`cookie`设置为`HttpOnly`
+3. 增加`token` (在请求中放入攻击者所不能伪造的信息，并且该信息不存在于cookie之中)
+4. 通过`Referer`识别
+5. 在 HTTP 头中自定义属性并验证
+
 
 #### flex布局
 首先要有个容器，并设置`display: flex; display: -webkit-flex;`
@@ -1470,4 +1497,345 @@ arr1.concat(arr2) // [1, 3, 4, 6]
 要讲清楚这个解决方案的原理，首先需要了解块格式化上下文，块格式化上下文是CSS可视化渲染的一部分，它是一块区域，规定了内部块盒 的渲染方式，以及浮动相互之间的影响关系
 
 当元素设置了overflow样式且值不为visible时，该元素就**构建了一个BFC，BFC在计算高度时，内部浮动元素的高度也要计算在内**，也就是说技术BFC区域内只有一个浮动元素，BFC的高度也不会发生塌缩，所以达到了清除浮动的目的。
+
+
+
+#### ES6 模块与 CommonJS 模块的差异
+1. CommonJS 模块输出的是一个**值的拷贝**，ES6 模块输出的是**值的引用**。
+2. CommonJS 模块是**运行时加载**，ES6 模块是**编译时输出接口**。
+
+
+
+ 
+
+ 
+
+#### 如何在选择图片后，不经后端而显示预览图片？
+1. 监听`input`的`change`事件，从`e.target.files[0]`获取file对象。
+2. `window.URL`获取URL对象，利用`URL.createObjectURL(file)`生成目标`url`，设置`img`的`src`属性为生成的`url`。 或者`new一个FileReader()`得到`reader`....
+
+ 
+
+ 
+
+#### cache-control 属性有哪些？
+
+1. cache-control: max-age=xxxx，public
+
+客户端和代理服务器都可以缓存该资源；
+客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存,statu code:200 ，如果用户做了刷新操作，就向服务器发起http请求
+
+
+2. cache-control: max-age=xxxx，private
+
+只让客户端可以缓存该资源；代理服务器不缓存
+客户端在xxx秒内直接读取缓存,statu code:200
+
+3. cache-control: max-age=xxxx，immutable
+
+客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存,statu code:200 ，即使用户做了刷新操作，也不向服务器发起http请求
+
+4. cache-control: no-cache
+
+跳过设置强缓存，但是不妨碍设置协商缓存；一般如果你做了强缓存，只有在强缓存失效了才走协商缓存的，设置了no-cache就不会走强缓存了，每次请求都回询问服务端。
+
+
+5. cache-control: no-store
+
+不缓存，这个会让客户端、服务器都不缓存，也就没有所谓的强缓存、协商缓存了。
+
+`Cache-Control: max-age=3600, immutable`，表明该资源能存活一小时，在一小时之内，即便用户刷新也不要发送条件请求，不走协商缓存的流程。在过期之后，浏览器会发送一个不带`If-Modified-Since`和`If-None-Match`的请求来更新资源，这里需要注意，一旦被标志成 immutable，则这个资源不可能返回 304 响应了，只有 200（Chrome 开发者工具的network里面size会显示为`from memory cache/from disk cache`。）。
+
+ 总结：immutable 为了让用户在刷新页面的时候不要去请求服务器。
+
+
+参考资料：[扼杀 304，Cache-Control: immutable](https://www.cnblogs.com/ziyunfei/p/5642796.html) 
+
+#### 协商缓存触发条件
+1. `Cache-Control`的值为`no-cache` （不强缓存）
+2. 或者`max-age`过期了 （强缓存，但总有过期的时候）
+
+
+参考资料：[强缓存和协商缓存](https://www.cnblogs.com/everlose/p/12779864.html)，[浅谈http中的Cache-Control](https://blog.csdn.net/u012375924/article/details/82806617)
+
+
+
+
+
+
+#### 为什么要有etag？
+
+你可能会觉得使用`last-modified`已经足以让浏览器知道本地的缓存副本是否足够新，为什么还需要`etag`呢？HTTP1.1中etag的出现（也就是说，etag是新增的，为了解决之前只有If-Modified的缺点）主要是为了解决几个last-modified比较难解决的问题：
+1. 一些文件也许会**周期性的更改**，但是他的**内容并不改变(仅仅改变的修改时间)**，这个时候我们并不希望客户端认为这个文件被修改了，而重新get；
+2. 某些文件**修改非常频繁**，比如在**秒以下的时间内进行修改，(比方说1s内修改了N次)**，if-modified-since能检查到的粒度是秒级的，这种修改无法判断(或者说UNIX记录MTIME只能精确到秒)；
+3. 某些**服务器不能精确的得到文件的最后修改时间**。
+
+ 
+
+#### Blob 和 ArrayBuffer
+
+##### Blob
+`Blob(binary large object)`，**二进制类文件大对象**，是一个可以**存储二进制文件的“容器”**，HTML5中的Blob对象除了存放二进制数据外还可以设置这个数据的MIME类型。File接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
+
+```
+new Blob([data], {type: "application/octet-binary"})
+```
+Blob构造函数接受两个参数，第一个参数是一个包含实际数据的数组，第二个参数是数据的MIME类型。
+
+##### ArrayBuffer
+`ArrayBuffer`对象表示内存中一段原始的二进制数据容器（**缓冲区**）
+
+```
+const buffer = new ArrayBuffer(8); // create an ArrayBuffer with a size in bytes
+
+console.log(buffer.byteLength); // 8
+```
+
+
+
+##### Blob 和 ArrayBuffer 的区别
+
+1. Blob和ArrayBuffer都能存储二进制数据。Blob相对而言储存的**二进制数据大**（如File文件对象）。
+2. ArrayBuffer对象表示原始的二进制数据缓冲区，即在内存中分配指定大小的二进制缓冲区（容器），用于存储各种类型化数组的数据，是**最基础的原始数据容器，无法直接读取或写入**， 需要通过具体视图来读取或写入，即`TypedArray`对象或`DataView`对象对内存大小进行读取或写入；Blob对象表示一个不可变、原始数据的类文件对象。
+3. ArrayBuffer是**原始的二进制数据缓冲区**，**不能设置MIME类型**；Blob可以储存大量的二进制编码格式的数据，可以设置对象的MIME类型。
+
+二者可以相互转换：
+```
+// Blob => ArrayBuffer：
+let blob = new Blob([1,2,3,4])
+let reader = new FileReader();
+reader.onload = function(result) {
+    console.log(result);
+}
+reader.readAsArrayBuffer(blob);
+
+// ArrayBuffer => Blob：
+let blob = new Blob([buffer])
+```
+
+#### 使用blob和URL.createObjectURL生成一个url
+
+```
+var blob = new Blob("保存为blob形式的数据");
+var url = new URL.createObjectURL(blob);
+```
+可以被img等标签使用,例如:image.src = url;
+
+
+#### URL.createObjectURL()
+
+URL.createObjectURL() 静态方法会创建一个 DOMString，其中包含一个表示参数中给出的对象的URL。这个 URL 的生命周期和创建它的窗口中的 document 绑定。这个新的URL 对象表示指定的File对象或Blob对象。
+
+#### `URL.createObjectURL(blob)`和`FileReader.readAsDataURL(file)`的异同：
+
+区别
+1. 通过`FileReader.readAsDataURL(file)`可以获取一段`data:base64`的字符串
+2. 通过`URL.createObjectURL(blob)`可以获取当前文件的一个`内存URL`
+
+
+执行时机
+1. `createObjectURL`是同步执行（立即的）
+2. `FileReader.readAsDataURL`是异步执行（过一段时间）
+
+内存使用
+1. `createObjectURL`返回一段带hash的url，并且一直存储在内存中，直到`document`触发了unload事件（例如：document close）或者执行revokeObjectURL来释放。
+2. `FileReader.readAsDataURL`则返回包含很多字符的`base64`，并会比`blob url`消耗更多内存，但是在不用的时候会自动从内存中清除（通过垃圾回收机制）
+
+
+
+#### 文件和二进制数据对象
+
+Blob对象是一个代表二进制数据的基本对象，在它的基础上，又衍生出一系列相关的API，用来操作文件。
+- `File`对象：负责处理那些以文件形式存在的二进制数据，也就是操作本地文件；
+- `FileList`对象：File对象的网页表单接口；
+- `FileReader`对象：负责将二进制数据读入内存内容；
+- `URL`对象：用于对二进制数据生成URL。
+
+
+对于不同类型的文件，`FileReader`提供不同的方法读取文件。
+- `readAsBinaryString(Blob|File)`：返回二进制字符串，该字符串每个字节包含一个0到255之间的整数。
+- `readAsText(Blob|File, opt_encoding)`：返回文本字符串。默认情况下，文本编码格式是’UTF-8’，可以通过可选的格式参数，指定其他编码格式的文本。
+- `readAsDataURL(Blob|File)`：返回一个基于Base64编码的data-uri对象
+- `readAsArrayBuffer(Blob|File)`：返回一个ArrayBuffer对象。
+
+
+
+参考资料：[js中Blob对象一般用法](https://www.cnblogs.com/cheng825/p/11694348.html) [ArrayBuffer-MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer)
+
+#### 实现promise时需要注意的点
+
+1. `New promise`时接收一个`executor函数`作为参数，该函数立即执行，该函数有两个参数`resolve`和`reject`，它俩也是函数。
+2. 状态流转，只能从`pending`转为`fulfilled`或者`rejected`，并且不可逆。
+3. `Promise`拥有一个`then`方法，接收两个参数`onFulfilled`和`onRejected`，分别作为`promise`成功和失败的回调。所以在`then`方法中对`state`进行判断，如果为`fulfilled`执行`onFulfilled(value)`，如果为`rejected`，执行`onRejected(reason)`。
+4. 由于成功值`value`和失败原因`reason`是用户在`executor`通过`resolve(value)`和`reject(reason)`传入的，所以设置初始的`value`和`reason`为全局变量。
+5. 如果是异步调用`resolve()`，比如放到`setTimeout`中，需要添加回调函数数组`onFulfilledCallbacks`和`onRejectedCallbacks`，并且在`then`方法中将`pending`状态的回调放到两个回调数组中(用来存储`then()`传入的成功和失败的回调)。当用户调用`resolve()`或`reject()`的时候，修改`state`状态时，并从相应的回调数组中取出回调执行。
+
+
+
+#### CSS优先级
+
+##### CSS选择器的优先级关系
+内联 > ID选择器 > 类选择器 > 标签选择器。
+
+##### 浏览器具体的优先级算法是怎样的？
+
+优先级是由A、B、C、D的值来决定的，其中它们的值计算规则如下：
+1. 如果存在**内联样式**，那么A = 1, 否则A = 0;
+2. B的值等于**ID选择器**出现的次数;
+3. C的值等于**类选择器**和**属性选择器**和**伪类**出现的总次数;
+4. D的值等于**标签选择器**和**伪元素**出现的总次数 。
+
+这样子直接看好像也还是很明白 ，那先上个例子：
+```css
+#nav-global > ul > li > a.nav-link
+```
+套用上面的算法，依次求出ABCD的值：
+1. 因为没有内联样式 ，所以A = 0;
+2. ID选择器总共出现了1次，B = 1;
+3. 类选择器出现了1次， 属性选择器出现了0次，伪类选择器出现0次，所以C = (1 + 0 + 0) = 1；
+4. 标签选择器出现了3次， 伪元素出现了0次，所以D = (3 + 0) = 3;
+上面算出的A、B、C、D可以简记作：(0, 1, 1, 3)。
+
+
+##### 怎么比较两个优先级的高低？
+现在已经弄清楚了优先级是怎么算的了。但是，还有一个问题，怎么比较两个优先级的高低呢？
+比较规则是: **从左往右依次进行比较 ，较大者胜出，如果相等，则继续往右移动一位进行比较** 。**如果4位全部相等，则后面的会覆盖前面的**。
+
+
+##### 覆盖内联样式方法
+内联样式的优先级是最高的，但是外部样式有没有什么办法覆盖内联样式呢？有的，那就要`!important`出马了。因为一般情况下，很少会使用内联样式 ，所以`!important`也很少会用到！如果不是为了要覆盖内联样式，建议尽量不要使用`!important`。
+如果内联样式用了`!important`，外部样式就没有办法了。所以**千万不要在内联样式中使用`!important`**。
+
+
+#### 伪类和伪元素的区别
+
+伪类和伪元素的根本区别在于：它们是否**创造了新的元素**。
+
+1. 伪元素/伪对象：不存在在DOM文档中，是虚拟的元素，是创建新元素。代表某个元素的子元素，这个子元素虽然在**逻辑上存在**，但却**并不实际存在于文档树中**。例如：用`::before`和`::after`。
+2. 伪类：表示**已存在的某个元素处于某种状态**，但是通过dom树又无法表示这种状态，就可以通过伪类来为其添加样式。例如a元素的`:hover`, ` :active`等。
+
+伪元素：
+![伪元素](imgs/pseudo_elements.png)
+
+
+
+伪类：
+![伪类](imgs/pseudo_classes.png)
+
+另外：
+
+1. 伪类的效果可以通过**添加实际的类**来实现
+2. 伪元素的效果可以通过**添加实际的元素**来实现
+3. 所以它们的本质区别就是是否抽象**创造了新元素**
+
+注意：
+1. 伪类只能使用`：`
+2. 除了`::placeholder`和`::selection`，伪元素既可以使用`:`，也可以使用`::`。
+3. 因为伪类是类似于添加类所以可以是多个，而伪元素在一个选择器中只能出现一次，并且只能出现在末尾。
+
+
+##### `:after/::after`和`:before/::before`的异同
+相同点
+1. 都可以用来表示伪元素，用来设置对象前的内容。
+2. `:before`和`::before`写法是等效的， `:after`和`::after`写法是等效的。
+
+不同点
+1. `:before/:after`是CSS2的写法，`::before/::after`是CSS3的写法。
+2. `:before/:after`的兼容性要比`::before/::after`好 ，不过在H5开发中建议使用`::before/::after`比较好。
+
+注意：
+1. 伪元素要配合`content`属性一起使用
+2. 伪元素**不会出现在DOM中**，所以**不能通过js来操作**，仅仅是在**CSS 渲染层加入**
+3. 伪元素的特效通常要使用`:hover`伪类样式来激活
+eg: 当鼠标移在`span`上时，`span`前插入”mike”
+```css
+span:hover::before{
+    content: 'mike'
+}
+```
+
+参考资料：[伪类和伪元素的区别](https://www.cnblogs.com/xmbg/p/11608268.html)，[伪类和伪元素的区别总结](https://blog.csdn.net/qq_27674439/article/details/90608220)
+
+
+
+#### 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)
+
+1. 在浏览器地址栏输入 URL
+2. 浏览器查看缓存，如果请求资源在缓存中并且新鲜，跳转到转码步骤
+
+   1. 如果资源未缓存，发起新请求
+   2. 如果已缓存，检验是否足够新鲜，足够新鲜直接提供给客户端，否则与服务器进行验证。
+   3. 检验新鲜通常有两个 HTTP 头进行控制`Expires`和`Cache-Control`：
+      - HTTP1.0 提供 Expires，值为一个绝对时间表示缓存新鲜日期
+      - HTTP1.1 增加了 Cache-Control: max-age=,值为以秒为单位的最大新鲜时间
+
+3. 浏览器**解析 URL**获取协议，主机，端口，path
+4. 浏览器**组装一个 HTTP（GET）请求报文**
+5. 浏览器获取主机 ip 地址，过程如下：
+   1. 浏览器缓存
+   2. 本机缓存
+   3. hosts 文件
+   4. 路由器缓存
+   5. ISP DNS 缓存
+   6. DNS 递归查询（可能存在负载均衡导致每次 IP 不一样）
+
+6. 打开一个 socket 与目标 IP 地址，端口建立 TCP 链接，三次握手如下：
+
+   1. 客户端发送一个 TCP 的**SYN=1，Seq=X**的包到服务器端口
+   2. 服务器发回**SYN=1， ACK=X+1， Seq=Y**的响应包
+   3. 客户端发送**ACK=Y+1， Seq=Z**
+
+7. TCP 链接建立后**发送 HTTP 请求**
+
+8. 服务器接受请求并解析，将请求转发到服务程序，如虚拟主机使用 HTTP Host 头部判断请求的服务程序
+
+9. 服务器检查**HTTP 请求头是否包含缓存验证信息**如果验证缓存新鲜，返回**304**等对应状态码
+
+10. 处理程序读取完整请求并准备 HTTP 响应，可能需要查询数据库等操作
+
+11. 服务器将**响应报文通过 TCP 连接发送回浏览器**
+
+12. 浏览器接收 HTTP 响应，然后根据情况选择关闭 TCP 连接或者保留重用，关闭 TCP 连接的四次握手如下：
+    1. 主动方发送**Fin=1， Ack=Z， Seq= X**报文
+    2. 被动方发送**ACK=X+1， Seq=Z**报文
+    3. 被动方发送**Fin=1， ACK=X， Seq=Y**报文
+    4. 主动方发送**ACK=Y， Seq=X**报文
+
+13. 浏览器检查响应状态吗：是否为 1XX，3XX， 4XX， 5XX，这些情况处理与 2XX 不同
+14. 如果资源可缓存，**进行缓存**
+15. 对响应进行**解码**（例如 gzip 压缩）
+16. 根据资源类型决定如何处理（假设资源为 HTML 文档）
+17. **解析 HTML 文档，构件 DOM 树，下载资源，构造 CSSOM 树，执行 js 脚本**，这些操作没有严格的先后顺序，以下分别解释
+
+18. 构建 DOM 树：
+    1. **Tokenizing**：根据 HTML 规范将字符流解析为标记
+    2. **Lexing**：词法分析将标记转换为对象并定义属性和规则
+    3. **DOM construction**：根据 HTML 标记关系将对象组成 DOM 树
+
+19. 解析过程中遇到图片、样式表、js 文件，**启动下载**
+20. 构建CSSOM 树：
+    1. **Tokenizing**：字符流转换为标记流
+    2. **Node**：根据标记创建节点
+    3. **CSSOM**：节点创建 CSSOM 树
+
+21. [根据 DOM 树和 CSSOM 树构建渲染树](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction):
+    1. 从 DOM 树的根节点遍历所有**可见节点**，不可见节点包括：(1) `script`,`meta`这样本身不可见的标签。(2) 被 css 隐藏的节点，如`display: none`
+    2. 对每一个可见节点，找到恰当的 CSSOM 规则并应用
+    3. 发布可视节点的内容和计算样式
+
+22. js 解析如下：
+    1. 浏览器创建 Document 对象并解析 HTML，将解析到的元素和文本节点添加到文档中，此时**document.readystate 为 loading**
+    2. HTML 解析器遇到**没有 async 和 defer 的 script 时**，将他们添加到文档中，然后执行行内或外部脚本。这些脚本会同步执行，并且在脚本下载和执行时解析器会暂停。这样就可以用 document.write()把文本插入到输入流中。**同步脚本经常简单定义函数和注册事件处理程序，他们可以遍历和操作 script 和他们之前的文档内容**
+    3. 当解析器遇到设置了**async**属性的 script 时，开始下载脚本并继续解析文档。脚本会在它**下载完成后尽快执行**，但是**解析器不会停下来等它下载**。异步脚本**禁止使用 document.write()**，它们可以访问自己 script 和之前的文档元素
+    4. 当文档完成解析，document.readState 变成 interactive
+    5. 所有**defer**脚本会**按照在文档出现的顺序执行**，延迟脚本**能访问完整文档树**，禁止使用 document.write()
+    6. 浏览器**在 Document 对象上触发 DOMContentLoaded 事件**
+    7. 此时文档完全解析完成，浏览器可能还在等待如图片等内容加载，等这些**内容完成载入并且所有异步脚本完成载入和执行**，document.readState 变为 complete,window 触发 load 事件
+
+23. **显示页面**（HTML 解析过程中会逐步显示页面）
+
+![输入URL过程](imgs/visit_url.svg)
+
+
+
 
