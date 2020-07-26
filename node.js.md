@@ -1084,3 +1084,22 @@ readerStream.pipe(writerStream);
 
 
 
+### body-parser
+bodyparser 用来解析post的请求取代了原生的 req.on 的方式 但是只能取到ajax和表单的数据 ，取不到上传的文件类型。
+
+
+
+对请求体的四种解析方式:
+1. bodyParser.json(options): 解析json数据
+2. bodyParser.raw(options): 解析二进制格式(Buffer流数据)
+3. bodyParser.text(options): 解析文本数据
+4. bodyParser.urlencoded(options): 解析UTF-8的编码的数据(表单)。
+
+
+
+- bodyParser 解析json数据
+- var bodyParser = require('body-parser')
+- bodyParser变量是对中间件的引用。请求体解析后，解析值都会被放到`req.body`属性，内容为空时是一个{}空对象。
+
+
+
