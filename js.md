@@ -1,98 +1,3 @@
-- [业务](#业务)
-  - [如果需要手动写动画，你认为最小时间间隔是多久，为什么？](#如果需要手动写动画你认为最小时间间隔是多久为什么)
-  - [HTML 规范中为什么要求引用资源不加协议头http或者https？](#html-规范中为什么要求引用资源不加协议头http或者https)
-  - [扫描二维码登录网页是什么原理，前后两个事件是如何联系的？](#扫描二维码登录网页是什么原理前后两个事件是如何联系的)
-- [类型和变量](#类型和变量)
-  - [javascript 有哪几种数据类型](#javascript-有哪几种数据类型)
-  - [javascript 按照存储方式区分变量类型？](#javascript-按照存储方式区分变量类型)
-  - [引用类型的特点？](#引用类型的特点)
-  - [typeof 能区分哪些类型？](#typeof-能区分哪些类型)
-  - [如何强制类型转换？](#如何强制类型转换)
-  - [什么情况下会发生隐式类型转换？](#什么情况下会发生隐式类型转换)
-  - [隐式类型转换的常见应用？](#隐式类型转换的常见应用)
-  - [如何判断一个变量会被当做true或者false？](#如何判断一个变量会被当做true或者false)
-  - [说一下引用类型的比较规则，并回答下列结果](#说一下引用类型的比较规则并回答下列结果)
-  - [引用类型比较，何时返回true？](#引用类型比较何时返回true)
-  - [值类型的添加属性、获取属性是如何实现的，如获取 str.length ？](#值类型的添加属性获取属性是如何实现的如获取-strlength-)
-  - [何时使用===和==？](#何时使用和)
-  - [JS内置函数有哪些？](#js内置函数有哪些)
-  - [如何理解 JSON？](#如何理解-json)
-  - [函数和数组可以有属性吗？](#函数和数组可以有属性吗)
-  - [`!!()`是false的情况有哪几种？ ](#是false的情况有哪几种-)
-  - [===运算符判断相等的流程是怎样的](#运算符判断相等的流程是怎样的)
-  - [==运算符判断相等的流程是怎样的](#运算符判断相等的流程是怎样的)
-  - [对象到字符串的转换步骤](#对象到字符串的转换步骤)
-  - [对象到数字的转换步骤](#对象到数字的转换步骤)
-  - [判断`[] == false`的输出是什么？](#判断--false的输出是什么)
-  - [判断`{} == false`的输出是什么？](#判断--false的输出是什么)
-  - [判断`[] == ![]`的输出是什么？](#判断--的输出是什么)
-  - [判断`{} == !{}`的输出是什么？](#判断--的输出是什么)
-  - [判断`console.log( [] ? true : false)`的输出是什么？](#判断consolelog---true--false的输出是什么)
-- [原型和原型链](#原型和原型链)
-  - [构造函数的特点](#构造函数的特点)
-  - [只有对象都有构造函数吗？](#只有对象都有构造函数吗)
-  - [如何判断一个函数是否为一个变量的构造函数？](#如何判断一个函数是否为一个变量的构造函数)
-  - [逗号运算符的规则](#逗号运算符的规则)
-  - [说一下原型链](#说一下原型链)
-  - [描述new一个对象的过程？](#描述new一个对象的过程)
-  - [如何判断一个变量是数组类型？](#如何判断一个变量是数组类型)
-  - [写一个原型链继承的例子](#写一个原型链继承的例子)
-- [作用域 闭包 执行上下文](#作用域-闭包-执行上下文)
-  - [函数表达式会变量提升吗？](#函数表达式会变量提升吗)
-  - [什么是执行上下文？](#什么是执行上下文)
-  - [执行上下文特点](#执行上下文特点)
-  - [什么是执行上下文栈？](#什么是执行上下文栈)
-  - [this使用场景](#this使用场景)
-  - [this的特点](#this的特点)
-  - [js 的作用域有哪些？](#js-的作用域有哪些)
-  - [什么是自由变量和作用域链？](#什么是自由变量和作用域链)
-  - [什么是js的闭包？有什么作用，用闭包写个单例模式](#什么是js的闭包有什么作用用闭包写个单例模式)
-  - [写一个自执行函数](#写一个自执行函数)
-- [异步和单线程](#异步和单线程)
-  - [前端使用异步的场景？](#前端使用异步的场景)
-  - [同步和异步的区别是什么？分别举一个同步和异步的例子](#同步和异步的区别是什么分别举一个同步和异步的例子)
-  - [css 是同步执行还是异步的？](#css-是同步执行还是异步的)
-  - [函数方法中，forEach 和 map 的区别？](#函数方法中foreach-和-map-的区别)
-- [日期 Math 数组 对象](#日期-math-数组-对象)
-  - [获取随机数，要求是长度一致的字符串格式](#获取随机数要求是长度一致的字符串格式)
-- [JS Web API](#js-web-api)
-  - [DOM是哪种基本数据结构](#dom是哪种基本数据结构)
-  - [DOM节点的Attribute和property有何区别？](#dom节点的attribute和property有何区别)
-  - [什么是BOM？](#什么是bom)
-  - [BOM 通用的API](#bom-通用的api)
-  - [如何检测浏览器的类型？](#如何检测浏览器的类型)
-  - [拆解URL的各部分](#拆解url的各部分)
-  - [对于一个无限下拉加载图片的页面，如何给每个图片绑定事件？](#对于一个无限下拉加载图片的页面如何给每个图片绑定事件)
-  - [事件委托](#事件委托)
-  - [事件代理的好处](#事件代理的好处)
-  - [什么时候用事件委托？](#什么时候用事件委托)
-  - [手动编写一个ajax，不依赖第三方库](#手动编写一个ajax不依赖第三方库)
-  - [什么是跨域？](#什么是跨域)
-  - [可以跨域的三个标签](#可以跨域的三个标签)
-  - [三个标签的使用场景](#三个标签的使用场景)
-  - [跨域注意事项](#跨域注意事项)
-  - [前端优化](#前端优化)
-  - [JS实现异步的几种方式](#js实现异步的几种方式)
-  - [构造json参数时key需要加引号吗？](#构造json参数时key需要加引号吗)
-
-
-### 业务
-####  如果需要手动写动画，你认为最小时间间隔是多久，为什么？
-
-多数显示器默认频率是60Hz，即1秒刷新60次，所以理论上最小间隔为1/60*1000ms＝16.7ms
-
-#### HTML 规范中为什么要求引用资源不加协议头http或者https？
-
-如果用户当前访问的页面是通过 HTTPS 协议来浏览的，那么网页中的资源也只能通过 HTTPS 协议来引用，否则浏览器会出现警告信息，不同浏览器警告信息展现形式不同。
-
-为了解决这个问题，我们可以省略 URL 的协议声明，省略后浏览器照样可以正常引用相应的资源，这项解决方案称为protocol-relative URL，暂且可译作协议相对 URL。
-
-如果使用协议相对 URL，无论是使用 HTTPS，还是 HTTP 访问页面，浏览器都会以相同的协议请求页面中的资源，避免弹出类似的警告信息，同时还可以节省5字节的数据量。
-
-#### 扫描二维码登录网页是什么原理，前后两个事件是如何联系的？
-
-核心过程应该是：浏览器获得一个临时 id，通过长连接等待客户端扫描带有此 id 的二维码后,从长连接中获得客户端上报给 server的帐号信息进行展示。并在客户端点击确认后，获得服务器授信的令牌，进行随后的信息交互过程。在超时、网络断开、其他设备上登录后，此前获得的令牌或丢失、或失效，对授权过程形成有效的安全防护。
-
 ### 类型和变量
 #### javascript 有哪几种数据类型
 六种基本数据类型(值类型)
@@ -535,6 +440,7 @@ function fn(name){
 ```
 可以看出，函数提升就可以执行，变量只是声明。
 再看几个例子：
+
 ```
 fn('zhang');
 function fn(name){
@@ -919,7 +825,10 @@ img、link、script
 4. 生成器函数
 5. async/await
 
+注意：`await`在`for`循环中才生效，`forEach`不生效
+
 #### 构造json参数时key需要加引号吗？
+
 json不是最好加不加，而是必须加，而且加的是双引号。
 
 
@@ -1116,79 +1025,6 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 ![图解基本数据和引用数据类型存放位置](imgs/stackAndheap.png)
 
 
-
-### NodeJS
-#### nodejs 全局变量和全局对象
-##### 1、全局对象
-所有模块都可以调用
-1）`global`：表示Node所在的全局环境，类似于浏览器中的window对象。
-2）`process`：指向Node内置的process模块，允许开发者与当前进程互动。
-例如你在DOS或终端窗口直接输入node，就会进入NODE的命令行方式（REPL环境）。退出要退出的话，可以输入 process.exit();
-3）`console`：指向Node内置的console模块，提供命令行环境中的标准输入、标准输出功能。
-通常是写console.log()，无须多言
-
-
-##### 2、全局函数：
-1）定时器函数：共有4个，分别是`setTimeout()`, `clearTimeout()`, `setInterval()`, `clearInterval()`。
-2）`require`：用于加载模块。
-
-
-##### 3、全局变量：
-1）`_filename`：指向当前运行的脚本文件名。
-2）`_dirname`：指向当前运行的脚本所在的目录。
-
-
-##### 4、准全局变量
-模块内部的局部变量，指向的对象根据模块不同而不同，但是所有模块都适用，可以看作是伪全局变量，主要为`module`,`module.exports`, `exports`等。
-
-`module`变量指代当前模块。`module.exports`变量表示当前模块对外输出的接口，**其他文件加载该模块，实际上就是读取`module.exports`变量**。
-
-- `module.id` 模块的识别符，通常是模块的文件名。
-- `module.filename` 模块的文件名。
-- `module.loaded` 返回一个布尔值，表示模块是否已经完成加载。
-- `module.parent` 返回使用该模块的模块。
-- `module.children` 返回一个数组，表示该模块要用到的其他模块
-
-
-
-
-
-
-
-####  module.exports 和 exports
-
- 
-
-1. **exports只是module.exports的全局引用**，在模块被导出之前exports被赋值为module.exports。
-2. 用中文的话来说就是一个**全局引用**，在模块内部你都可以使用exports导出一些东西。
-3. 值得注意的是，**不能给exports赋值**，这很重要，很重要，很重要。
-
- 
-
-比如，你想导出一个类。
-
-```
-class Boy{
-    constructor(age) {
-        this.age = age
-    }
-    say() {
-    }
-}
-
-// 导出Boy
-exports = Boy // 报错，不能重写exports
-// 正确做法
-module.exports = Boy 
-```
-
-总结：
-1. exports只是module.exports的引用
-2. 如果你想要使用exports导出模块，千万不能给它赋值！
-3. 稳一点的做法是使用module.exports，虽然exports用起来是挺爽的
-
-
-
 #### 对称加密和非对称加密算法
 ##### 可解密：
 1. 对称加密：DES、3DES、AES
@@ -1336,11 +1172,435 @@ Blob对象是一个代表二进制数据的基本对象，在它的基础上，�
 4. 由于成功值`value`和失败原因`reason`是用户在`executor`通过`resolve(value)`和`reject(reason)`传入的，所以设置初始的`value`和`reason`为全局变量。
 5. 如果是异步调用`resolve()`，比如放到`setTimeout`中，需要添加回调函数数组`onFulfilledCallbacks`和`onRejectedCallbacks`，并且在`then`方法中将`pending`状态的回调放到两个回调数组中(用来存储`then()`传入的成功和失败的回调)。当用户调用`resolve()`或`reject()`的时候，修改`state`状态时，并从相应的回调数组中取出回调执行。
 
+### fetch发送2次请求的原因
+
+fetch发送post请求的时候，总是发送2次，第一次状态码是204，第二次才成功？
+
+原因很简单，因为你用fetch的post请求的时候，导致`fetch`第一次发送了一个`Options`请求，**询问服务器是否支持修改的请求头**，如果服务器支持，则在第二次中发送真正的请求。
+
+
+
+### 正则中的`()`和`[]`有本质的区别
+- ()内的内容表示的是一个子表达式，()本身不匹配任何东西，也不限制匹配任何东西，只是把括号内的内容作为同一个表达式来处理，例如(ab){1,3}，就表示ab一起连续出现最少1次，最多3次。如果没有括号的话，ab{1,3},就表示a，后面紧跟的b出现最少1次，最多3次。另外，括号在匹配模式中也很重要。
+- []表示匹配的字符在[]中，并且只能出现一次，并且特殊字符写在[]会被当成普通字符来匹配。例如[(a)]，会匹配(、a、)、这三个字符。
+
+所以() [] 无论是作用还是表示的含义，都有天壤之别，没什么联系
+
+#### 圆括号()是组，主要应用在限制多选结构的范围/分组/捕获文本/环视/特殊模式处理
+示例：
+
+1. `(abc|bcd|cde)`，表示这一段是abc、bcd、cde三者之一均可，顺序也必须一致
+2. `(abc)?`，表示这一组要么一起出现，要么不出现，出现则按此组内的顺序出现
+3. `(?:abc)`表示找到这样abc这样一组，但不记录，不保存到$变量中，否则可以通过$x取第几个括号所匹配到的项，比如：`(aaa)(bbb)(ccc)(?:ddd)(eee)`，可以用`$1`获取`(aaa)`匹配到的内容，而`$3`则获取到了`(ccc)`匹配到的内容，而`$4`则获取的是由`(eee)`匹配到的内容，因为前一对括号没有保存变量
+4. `a(?=bbb)` 顺序环视 表示a后面必须紧跟3个连续的b
+5. `(?i:xxxx)` 不区分大小写 (?s:.*) 跨行匹配.可以匹配回车符
+
+#### 方括号是单个匹配，字符集/排除字符集/命名字符集
+示例：
+
+1. `[0-3]`，表示找到这一个位置上的字符只能是0到3这四个数字，与(abc|bcd|cde)的作用比较类似，但圆括号可以匹配多个连续的字符，而一对方括号只能匹配单个字符
+2. `[^0-3]`，表示找到这一个位置上的字符只能是除了0到3之外的所有字符
+3. `[:digit:]`：0-9，`[:alnum:]` ：A-Za-z0-9
+
+
+### `clothes.length=0, clothes[0]` 的值是什么
+```
+const clothes = ['jacket', 't-shirt'];
+clothes.length = 0;
+
+clothes[0]; // => ???
+```
+
+减少length属性的值有一个副作用，就是会删除索引位于新旧长度值之间的元素。
+
+`clothes[0]` 是`undefined`，因为 `clothes` 数组被清空了。
+
+
+
+### 空语句
+```
+const length = 4;
+const numbers = [];
+for (var i = 0; i < length; i++);{
+  numbers.push(i + 1);
+}
+
+numbers; // => ???
+```
+
+很容易忽略这个分号，而它创建了一个空语句。空语句是不做任何事情的语句。
+
+`for()` 在空语句（什么也不做）上循环了 4 次，忽略了实际上往数组里添加元素的代码块`{ numbers.push(i + 1); }。`
+
+
+### 自动插入分号
+```
+function arrayFromValue(item) {
+  return
+    [item];
+}
+
+arrayFromValue(10); // => ???
+```
+很容易忽略`return`关键字和`[items]`表达式之间的换行。
+换行使 JavaScript 自动在`return`和`[items]`表达式之间插入一个分号。函数中的` return;` 导致它返回` undefined`。
+因此 `arrayFromValue(10)` 的值是 `undefined`。
+
+
+### 让坐标变化的2种方式
+
+- 传统的top, left坐标修改
+- CSS3中的transform属性
+
+### 自适应字体大小
+给html设置`fontSize`大小，其实就是在`DOMContentLoaded`或者`resize`变化后调整`fontSize`的大小，从而调整rem的比值关系。
+
+
+```js
+var docEl = document.documentElement,
+    //当设备的方向变化（设备横向持或纵向持）此事件被触发。绑定此事件时，
+    //注意现在当浏览器不支持orientationChange事件的时候我们绑定了resize 事件。
+    //总来的来就是监听当然窗口的变化，一旦有变化就需要重新设置根字体的值
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function() {
+        //设置根字体大小
+        docEl.style.fontSize = 20 * (docEl.clientWidth / 320) + 'px';
+    };
+
+//绑定浏览器缩放与加载时间
+window.addEventListener(resizeEvt, recalc, false);
+document.addEventListener('DOMContentLoaded', recalc, false);
+```
+
+
+
+### `requestAnimFrame`
+`requestAnimFrame();`  是一个比较科学的API，相对于`setInterval`和`setTimeout`来讲，`requestAnimFrame`会更科学
+
+`requestAnimFrame`的原理就是：当前绘制完成之后，去根据你**机器的性能**来确定**间隔多长时间绘制下一帧**，所以它是一个智能计算的过程。而`setInterval`和`setTimeout`会有一个固定的时间，比如我们指定给它每过60ms就绘制一帧，万一你绘制的内容非常大，以至于60ms之内不能完成，而`requestAnimFrame`会是一个科学的方法，
+但是也有一个问题：`fps`————`frame per second`(每秒多少帧).
+使用`requestAnimFrame`会导致帧与帧之间的时间间隔是不固定的，所以有一个动态的时间间隔。
+
+
+
+### 正则断言
+- `(?=)`这个语法结构在正则里表示“设定后面是”的意思。
+- `(?=.*[a-zA-Z])`  这句的意思就是后面必须有一位大写或小写字母
+- `(?=.*[1-9])` 这句的意思是后面必须有一位数字
+
+正则表达式从文本头部向尾部开始解析，文本尾部方向为“前”，头部方向为“后”
+前瞻：正则表达式匹配到规则的时候，向前检查是否符合断言，后顾/后瞻方向相反（javascript不支持）
+
+- `reg(?=exp)`，零宽度正先行断言，reg匹配的内容后面内容满足exp规则
+- `reg(?!exp)`，零宽度负先行断言，reg匹配的内容后面内容不满足exp规则
+- `(?<=exp)reg`，零宽度正后发断言，reg匹配的内容前面内容满足exp规则
+- `(?<!exp)reg`，零宽度负后发断言，reg匹配的内容前面内容不满足exp规则
+
+"先行"表示待校验的位置在前，即校验的位置在exp匹配的内容之前
+"正"表示exp描述的规则，匹配校验位置后面的内容
+
+
+
+例如：
+
+- `(?=exp)`  匹配exp前面的位置
+  如 `"How are you doing"` 正则`"(.+(?=ing))"` 这里取ing前所有的字符，值为`"How are you do";`
+
+- `(?<=exp)`  匹配exp后面的位置
+如 `"How are you doing"` 正则`"((?<=How).+)"` 这里取`"How"`之后所有的字符，值为`" are you doing";`
+
+- `(?!exp)`  匹配后面跟的不是exp的位置
+  如`"123abc"` 正则 `"\d{3}(?!\d)"`匹配3位数字后非数字的结果
+
+- `(?<!exp)`  匹配前面不是exp的位置
+  如 `"abc123 "` 正则`"(?<![0-9])123"` 匹配"123"前面是非数字的结果也可写成`"(?!<\d)123"`
+
+
+
+另外，`?:` 非获取匹配
+- `(?:x)`匹配x但是不会捕获，不会 $n 获取到（与()有区别），但是可以被替换
+
+
+
+### 双~的用法
+`~~`它代表双按位取反运算符，如果你想使用比`Math.floor()`更快的方法，那就是它了。
+需要注意：
+- 对于正数，它向下取整；
+- 对于负数，向上取整；
+- 非数字取值为0，它具体的表现形式为：
+
+```
+~~null;      // => 0
+~~undefined; // => 0
+~~Infinity;  // => 0
+--NaN;       // => 0
+~~0;         // => 0
+~~{};        // => 0
+~~[];        // => 0
+~~(1/0);     // => 0
+~~false;     // => 0
+~~true;      // => 1
+~~1.9;       // => 1
+~~-1.9;      // => -1
+```
+ 特殊类型，转化为Boolean是true的输出1，转化为boolean是false的输出0；
+
+### `|` 的用法，通常用来取整
+```
+1.2|0  // 1
+1.8|0 // 1
+-1.2|0 // -1
+```
+
+### `Promise.resolve([123])`，借用promise的形式，统一代码
+`()=>{resolve()}`，其实就等于`resolve`，又比如`writer.on('error', reject)`
+
+### 如果两个方法处理错误的方式相同，如何用Promise封装？
+高阶函数，接收resove和reject两个参数，返回一个函数，函数的参数是err、body、statuCode三个参数。
+调用的时候就只用传两个参数了，否则还要传5个参数。代码清爽
+```
+_handleCallBack(resolve, reject) {
+  return (err, body, statusCode) {
+    if (err)  { reject(err) }
+    else { resolve( {code: statusCode, body } ) }
+  }
+}
+```
+
+### 原生JS获取dom中的id
+- `querySelector()` 返回匹配的一个元素，比如`'.class'`，`‘#id’`
+- 把数据通过`data-`放在dom上，比如`data-id={id}`，JS中获取到元素后，通过`element.dataset.id`来取
+
+
+
+### 对比`forEach`、`for in`、`for of`
+#### `forEach`
+1. 不能终止循环，break，continue不能使用。
+2. 不适应于 字符串，Object。
+
+#### `for in`
+1. index索引为字符串型数字，不能直接进行几何运算。
+2. 遍历顺序有可能不是按照实际数组的内部顺序。
+3. 使用`for in`会遍历数组所有的**可枚举属性**，包括原型。
+
+所以for in更适合遍历对象，不要使用for in遍历数组
+
+### `for of`
+1.	`for..of`适用遍历数/数组对象/字符串/map/set等拥有迭代器对象的集合.但是不能遍历对象，因为没有迭代器对象。
+2.	与`forEach()`不同的是，它可以**正确响应`break`、`continue`和`return`语句**。
+3.	for-of循环不支持普通对象，但如果你想迭代一个对象的属性，你可以用`for-in`循环（这也是它的本职工作）或内建的Object.keys()方法。
+
+
+
+### `onmouseenter`和`onmouseover`对比
+- `onmouseenter`和`onmouseleave`是一组：当鼠标进入指定区域的时候触发，但是不支持冒泡，进入或者离开子组件都不触发。
+- `onmouseover`和`onmouseout`是一组：当鼠标进入指定区域的时候触发，进入或者离开子组件也都触发
+
+比如在A上绑定事件，A包含子元素B，`onmouseenter` A进入B不触发，`onmouseover` A进入B触发
+
+
+
+### 数据属性和访问器属性
+
+ECMAScript中有两种属性：数据属性和访问器属性，数据属性一般用于存储数据数值，访问器属性对应的是set/get操作，不能直接存储数据值，每种属性下面又都含有四个特性.下面介绍一下:
+
+数据属性
+1. `[[Configurable]]`: 表示**能否通过delete将属性删除**，**能否把属性修改为访问器属性**, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
+2. `[[Enumerable]]`: 表示属性**可否被枚举**(即是否可以通过for in循环返回)，默认false
+3. `[[Writable]]`: 表示属性**是否可写**(即是否可以修改属性的值)，默认false
+4. `[[Value]]`: 该属性的数据值, 默认是undefined
+
+
+访问器属性
+1. `[[Configurable]]`: 表示能否通过delete将属性删除，能否把属性修改为数据属性, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
+2. `[[Enumerable]]`: 表示属性可否被枚举(即是否可以通过for in循环返回)，默认false
+3. `[[Get]]`: 读取属性时调用的函数, 默认为undefined
+4. `[[Set]]`: 写入属性时调用的函数, 默认是undefined
+
+
+### `async`函数、`setTimeOut`、`Promise`的打印顺序
+```js
+async function async1() {
+    console.log('async1 start')
+    await async2()
+    console.log('async1 end')
+} 
+
+async function async2() {
+    console.log('async2')
+} 
+console.log('script start')
+setTimeout(function() {
+    console.log('setTimeout')
+}, 0)
+async1()
+new Promise(resolve => {
+    console.log('promise1')
+    resolve()
+}).then(() => {
+    console.log('promise2')
+})
+console.log('script end')
+```
+
+打印顺序：
+
+```
+script start
+async1 start
+async2
+promise1
+script end
+async1 end
+promise2
+setTimeout
+```
+async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回（让出线程），等到触发的异步操作完成，再接着执行函数体内后面的语句。
+
+
+当调用一个 async 函数时，会返回一个 Promise 对象。当这个 async 函数返回一个值时，Promise 的 resolve 方法会负责传递这个值；当 async 函数抛出异常时，Promise 的 reject 方法也会传递这个异常值。
+
+await
+- 后面跟表达式（express）：一个 Promise 对象或者任何要等待的值。
+- 返回值（return_value）：返回 Promise 对象的处理结果。如果等待的不是 Promise 对象，则返回该值本身。
+
+Promise是一个立即执行函数，但是他的成功（或失败：reject）的回调函数resolve却是一个异步执行的回调。当执行到resolve()时，这个任务会被放入到**回调队列**中，等待调用栈有空闲时事件循环再来取走它。
 
 
 
 
 
+### `eval`和`json.parse` 解析`json`的区别：
+1.	`eval`不会判断你的字符串**是否合法**，且`json`字符串中的**一些方法会被执行**。
+2.	`parse`要判断字符串是否合法，要是不合法报错。
+3.	使用`parse`相对于`eval`比较安全，要是调用第三方数据，数据中存在恶意代码，使用`eval`就会被执行。
 
 
 
+### `undefined`和字符串相加
+```js
+console.log("a"+a); var a = 1; // aundefined
+console.log("b"+b); var b = 1; // bundefined
+```
+
+### parseInt()和Number()的区别
+- parseInt() 和 parseFloat() 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
+- 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
+- 如果字符串值能被完整地转换，Number() 将判断是调用 parseInt() 方法还是 parseFloat() 方法。
+
+
+### ES5实现继承
+TODO
+```
+
+
+```
+
+
+
+### `toSring`和`valueOf`对比
+1. toString() 方法返回一个**表示该对象的字符串**。
+对于对象x，toString() 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，toString() 返回x应有的文本值(不是单纯的加”“)
+
+2. valueOf() 方法返回**指定对象的原始值**
+每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，valueOf() 就会返回对象自身
+
+对比：
+- 当函数fn用+连接一个字符串或者是数字的时候，如果我们没有重新定义valueOf和toString，其隐式转换会调用默认的toString()方法，将函数本身内容作为字符串返回； 
+- 如果我们自己重新定义toString/valueOf方法，那么其转换会按照我们的定义来，其中valueOf比toString优先级更高（不鸣则已，一鸣惊人）
+```js
+// 这个对象是一个函数
+function fn() {
+    return 20;
+} 
+console.log(fn + 10);  // function fn(){return 20}10
+console.log(fn + 'hello'); // function fn(){return 20}hello
+
+fn.toString = function() {
+    return 10;
+}
+console.log(fn + 10);  // 20
+console.log(fn + 'hello');  //10hello
+
+fn.valueOf = function() {
+    return 5;
+}
+
+console.log(fn + 10);   //15
+console.log(fn + 'hello');   //5hello
+```
+如果这个对象不是函数呢？ 
+经测试，如果这个对象是object/数组/，结果和上面的一样 ； 
+但如果这个对象是Date，则都调用toString();
+
+
+
+### 序列化的坑
+- `undeifined`属性不会出现在序列化后的字符串中
+- `NaN`和`nfinity`都会转出`null`，`New Date() `会转成时间
+```js
+var obj = {x: 1, y: true, z: [1,2,3], nullVal: null}
+
+JSON.stringify(obj) // "{"x":1,"y":true,"z":[1,2,3],"nullVal":null}"
+
+obj = {a: undefined, b: NaN, c: Infinity, d: new Date()}
+JSON.stringify(obj) // "{"b":null,"c":null,"d":"2020-07-26T09:11:16.677Z"}"
+```
+
+
+### jQuery
+#### jQuery自执行函数与普通自执行函数的区别
+JS自执行函数： 
+```
+(function(){
+	//这里为调用的其它代码
+})();
+```
+Jquery立即执行函数：
+```
+$(function(){
+	//这里为要调用的其它代码
+})
+```
+区别：
+- 第一个为顺序执行，即如果要调用其它的js方法，则需要置于代码末尾。否则无法调用。
+- 第二个可以为全部代码加载后再执行，因此，如果第一个放在代码末尾，两者功能一样。
+
+
+
+#### jQuery 中`$.fn`是什么意思
+`jQuery.fn = jQuery.prototype`
+
+
+
+#### jQuery中的ready与load
+jQuery有3种针对文档加载的方法，其中一个是ready一个是load，这两个到底有什么区别呢？
+
+ready与load谁先执行：
+- 答案是ready先执行，load后执行。
+
+ready与load的区别就在于资源文件的加载，ready构建了基本的DOM结构，所以对于代码来说应该越快加载越好。
+
+
+
+#### jQuery组件开发分类
+1. 类级别组件开发：
+```
+jQuery.myPlugin = function(){
+    // do sth
+};
+```
+例如 `$.Ajax(), $.extend()`
+
+2. 对象级别组件开发
+```
+$.fn.myPlugin = function(){
+    // do sth
+};
+```
+这里的`$.fn===$.prototype`
+例如 `addClass()`，`attr()`
+
+#### 使用$好处：
+1. 只有$会暴露在window全局变量
+2. 将插件扩展统一到$.fn.xxx这一个接口，方便使用
