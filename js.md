@@ -1858,7 +1858,7 @@ Number ()）不允许出现非数字字符，否则会失败并返回 NaN。
 
 
 ### 43. JS为数字添加千位分隔符
-```
+```js
 function milliFormat(num) {
     return num && num.toString()
         .replace(/\d+/, function(s){
@@ -1867,3 +1867,14 @@ function milliFormat(num) {
 }
 ```
 
+### 44. 判断打印顺序
+```js
+for(var i = 0; i < 5; i++){
+  setTimeout((function() {
+    return function() {
+      console.log(i++)
+    }
+  })(), 0)
+}
+// 5 6 7 8 9
+```
