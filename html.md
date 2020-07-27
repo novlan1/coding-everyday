@@ -1,27 +1,24 @@
 - [1. 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)](#1-从浏览器地址栏输入-url-到显示页面的步骤以-http-为例)
-    - [(1) 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：](#1-从输入url到得到html的过程中浏览器做的工作大致分为以下几步)
-    - [(2) 浏览器**渲染**页面的过程：](#2-浏览器渲染页面的过程)
-    - [(3) DOM树的构建是文档加载完成开始的？](#3-dom树的构建是文档加载完成开始的)
-    - [(4) Render树是DOM树和CSSOM树构建完毕才开始构建的吗？](#4-render树是dom树和cssom树构建完毕才开始构建的吗)
-    - [(5) CSS的解析是从右往左逆向解析的](#5-css的解析是从右往左逆向解析的)
+    - [a. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：](#a-从输入url到得到html的过程中浏览器做的工作大致分为以下几步)
+    - [b. 浏览器**渲染**页面的过程：](#b-浏览器渲染页面的过程)
 - [2. `Winow.onload`和`DomContentLoaded`的区别](#2-winowonload和domcontentloaded的区别)
 - [3. cache-control 属性有哪些？](#3-cache-control-属性有哪些)
-    - [(1) `immutable`](#1-immutable)
+    - [a. `immutable`](#a-immutable)
 - [4. 协商缓存触发条件](#4-协商缓存触发条件)
 - [5. 强缓存和协商缓存](#5-强缓存和协商缓存)
 - [6. 为什么要有etag？](#6-为什么要有etag)
 - [7. 常见的浏览器内核比较](#7-常见的浏览器内核比较)
 - [8. 常见浏览器所用内核](#8-常见浏览器所用内核)
 - [9. 事件处理程序](#9-事件处理程序)
-    - [(1) DOM0 级事件处理程序](#1-dom0-级事件处理程序)
-    - [(2) DOM2 级事件](#2-dom2-级事件)
-    - [(3) IE 事件处理程序](#3-ie-事件处理程序)
-    - [(4) 事件对象](#4-事件对象)
-    - [(5) DOM事件级别：](#5-dom事件级别)
-    - [(6) DOM事件模型：](#6-dom事件模型)
-    - [(7) 事件流三个阶段](#7-事件流三个阶段)
-    - [(8) 描述DOM事件捕获到具体流程：](#8-描述dom事件捕获到具体流程)
-    - [(9) event 对象的常见应用：](#9-event-对象的常见应用)
+    - [a. DOM0 级事件处理程序](#a-dom0-级事件处理程序)
+    - [b. DOM2 级事件](#b-dom2-级事件)
+    - [c. IE 事件处理程序](#c-ie-事件处理程序)
+    - [d. 事件对象](#d-事件对象)
+    - [e. DOM事件级别：](#e-dom事件级别)
+    - [f. DOM事件模型：](#f-dom事件模型)
+    - [g. 事件流三个阶段](#g-事件流三个阶段)
+    - [h. 描述DOM事件捕获到具体流程：](#h-描述dom事件捕获到具体流程)
+    - [i. event 对象的常见应用：](#i-event-对象的常见应用)
 - [10. onclick 与 addEventListener 区别？](#10-onclick-与-addeventlistener-区别)
 - [11. `defer` 和 `async` 的区别](#11-defer-和-async-的区别)
 - [12. 懒加载与预加载的基本概念](#12-懒加载与预加载的基本概念)
@@ -29,93 +26,90 @@
 - [14. HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？](#14-html-规范中为什么要求引用资源不加协议头http或者https)
 - [15. `script`标签的`crossorigin`属性](#15-script标签的crossorigin属性)
 - [16. DOS攻击](#16-dos攻击)
-    - [(1) DDOS](#1-ddos)
+    - [a. DDOS](#a-ddos)
 - [17. script标签的integrity属性](#17-script标签的integrity属性)
-    - [(1) 如何开启 SRI 功能](#1-如何开启-sri-功能)
+    - [a. 如何开启 SRI 功能](#a-如何开启-sri-功能)
 - [18. `cookie`和`session`](#18-cookie和session)
-    - [(1) cookie ](#1-cookie-)
-    - [(2) `cookie`属性](#2-cookie属性)
-    - [(3) session](#3-session)
-    - [(4) sesssion 与 cookie 的区别](#4-sesssion-与-cookie-的区别)
+    - [a. cookie ](#a-cookie-)
+    - [b. `cookie`属性](#b-cookie属性)
+    - [c. session](#c-session)
+    - [d. sesssion 与 cookie 的区别](#d-sesssion-与-cookie-的区别)
 - [19. `session`和`token`](#19-session和token)
-    - [(1) `token`过程](#1-token过程)
-    - [(2) `session`和`token`的区别](#2-session和token的区别)
+    - [a. `token`过程](#a-token过程)
+    - [b. `session`和`token`的区别](#b-session和token的区别)
 - [20. `token`可以抵抗CSRF，`cookie+session`不行](#20-token可以抵抗csrfcookie+session不行)
 - [21. Viewport](#21-viewport)
 - [22. HTML `<meta>` 标签](#22-html-meta-标签)
-    - [(1) `name`属性](#1-name属性)
-    - [(2) `http-equiv`属性](#2-http-equiv属性)
-    - [(3) `HTML 4.01` 与 `HTML5`之间的差异](#3-html-401-与-html5之间的差异)
-    - [(4) Content-Type 类型](#4-content-type-类型)
-    - [(5) `application/x-www-form-urlencoded` 主要用于如下:](#5-application/x-www-form-urlencoded-主要用于如下)
-    - [(6) `multipart/form-data`](#6-multipart/form-data)
-    - [(7) `application/json`](#7-application/json)
+    - [a. `name`属性](#a-name属性)
+    - [b. `http-equiv`属性](#b-http-equiv属性)
+    - [c. `HTML 4.01` 与 `HTML5`之间的差异](#c-html-401-与-html5之间的差异)
+    - [d. Content-Type 类型](#d-content-type-类型)
 - [23. 响应式开发](#23-响应式开发)
 - [24. `class`和`id`命名规范](#24-class和id命名规范)
 - [25. 回流和重绘](#25-回流和重绘)
-    - [(1) 针对回流和重绘的优化点：](#1-针对回流和重绘的优化点)
+    - [a. 针对回流和重绘的优化点：](#a-针对回流和重绘的优化点)
 - [26. HTML5的Audio](#26-html5的audio)
-    - [(1) 当音频/视频处于加载过程中时，会依次发生以下事件](#1-当音频/视频处于加载过程中时会依次发生以下事件)
-    - [(2) 元数据和数据的区别？](#2-元数据和数据的区别)
-    - [(3) 动态的创建`<audio>`元素](#3-动态的创建audio元素)
-    - [(4) 判断浏览器支持的编码方式](#4-判断浏览器支持的编码方式)
+    - [a. 当音频/视频处于加载过程中时，会依次发生以下事件](#a-当音频/视频处于加载过程中时会依次发生以下事件)
+    - [b. 元数据和数据的区别？](#b-元数据和数据的区别)
+    - [c. 动态的创建`<audio>`元素](#c-动态的创建audio元素)
+    - [d. 判断浏览器支持的编码方式](#d-判断浏览器支持的编码方式)
 - [27. Doctype作用? 严格模式与混杂模式如何区分？它们有何意义?](#27-doctype作用-严格模式与混杂模式如何区分它们有何意义)
 - [28. 严格模式与混杂模式的语句解析不同点有哪些？](#28-严格模式与混杂模式的语句解析不同点有哪些)
 - [29. Doctype作用?严格模式与混杂模式如何区分？它们有何意义? TODO](#29-doctype作用严格模式与混杂模式如何区分它们有何意义-todo)
 - [30. 两个标签页的sessionstorage共享吗](#30-两个标签页的sessionstorage共享吗)
 - [31. Canvas](#31-canvas)
-    - [(1) 若浏览器不支持canvas](#1-若浏览器不支持canvas)
-    - [(2) canvas方法](#2-canvas方法)
-    - [(3) canvas 是基于状态绘制的，即先定义状态，后绘制](#3-canvas-是基于状态绘制的即先定义状态后绘制)
-    - [(4) 绘制一个数字，格子系统](#4-绘制一个数字格子系统)
-    - [(5) 自动绘制矩形](#5-自动绘制矩形)
-    - [(6) `canvas`的`save`与`restore`方法的作用](#6-canvas的save与restore方法的作用)
-    - [(7) lineCap](#7-linecap)
-    - [(8) lineJoin](#8-linejoin)
-    - [(9) 绘制五角星](#9-绘制五角星)
-    - [(10) 图形变换](#10-图形变换)
-    - [(11) 变换矩阵](#11-变换矩阵)
-    - [(12) 线性渐变和径向渐变](#12-线性渐变和径向渐变)
-    - [(13) 线性渐变](#13-线性渐变)
-    - [(14) 径向渐变](#14-径向渐变)
-    - [(15) 使用图片、画布或者video](#15-使用图片画布或者video)
-    - [(16) 圆弧](#16-圆弧)
-    - [(17) 贝塞尔曲线](#17-贝塞尔曲线)
-    - [(18) 文字渲染](#18-文字渲染)
-    - [(19) 设置canvas的阴影](#19-设置canvas的阴影)
-    - [(20) `globalAlpha`和`globalCompositeOperation`](#20-globalalpha和globalcompositeoperation)
-    - [(21) `clip`](#21-clip)
-    - [(22) 非零环绕原则 - 判断图形内、外](#22-非零环绕原则---判断图形内外)
-    - [(23) `isPointInPath`判断点是否在路径内](#23-ispointinpath判断点是否在路径内)
-    - [(24) 解决canvas浏览器兼容性](#24-解决canvas浏览器兼容性)
-    - [(25) Canvas图像](#25-canvas图像)
-    - [(26) 凸多边形](#26-凸多边形)
-    - [(27) drawImage](#27-drawimage)
-    - [(28) html中添加滑竿控件](#28-html中添加滑竿控件)
-    - [(29) 离屏canvas技术](#29-离屏canvas技术)
-    - [(30) 获取图像像素](#30-获取图像像素)
-    - [(31) 滤镜](#31-滤镜)
-    - [(32) 通过`createImageData`创建一个对象](#32-通过createimagedata创建一个对象)
+    - [a. 若浏览器不支持canvas](#a-若浏览器不支持canvas)
+    - [b. canvas方法](#b-canvas方法)
+    - [c. canvas 是基于状态绘制的，即先定义状态，后绘制](#c-canvas-是基于状态绘制的即先定义状态后绘制)
+    - [d. 绘制一个数字，格子系统](#d-绘制一个数字格子系统)
+    - [e. 自动绘制矩形](#e-自动绘制矩形)
+    - [f. `canvas`的`save`与`restore`方法的作用](#f-canvas的save与restore方法的作用)
+    - [g. lineCap](#g-linecap)
+    - [h. lineJoin](#h-linejoin)
+    - [i. 绘制五角星](#i-绘制五角星)
+    - [j. 图形变换](#j-图形变换)
+    - [k. 变换矩阵](#k-变换矩阵)
+    - [l. 线性渐变和径向渐变](#l-线性渐变和径向渐变)
+    - [m. 线性渐变](#m-线性渐变)
+    - [n. 径向渐变](#n-径向渐变)
+    - [o. 使用图片、画布或者video](#o-使用图片画布或者video)
+    - [p. 圆弧](#p-圆弧)
+    - [q. 贝塞尔曲线](#q-贝塞尔曲线)
+    - [r. 文字渲染](#r-文字渲染)
+    - [s. 设置canvas的阴影](#s-设置canvas的阴影)
+    - [t. `globalAlpha`和`globalCompositeOperation`](#t-globalalpha和globalcompositeoperation)
+    - [u. `clip`](#u-clip)
+    - [v. 非零环绕原则 - 判断图形内、外](#v-非零环绕原则---判断图形内外)
+    - [w. `isPointInPath`判断点是否在路径内](#w-ispointinpath判断点是否在路径内)
+    - [x. 解决canvas浏览器兼容性](#x-解决canvas浏览器兼容性)
+    - [y. Canvas图像](#y-canvas图像)
+    - [z. 凸多边形](#z-凸多边形)
+    - [a. drawImage](#a-drawimage)
+    - [b. html中添加滑竿控件](#b-html中添加滑竿控件)
+    - [c. 离屏canvas技术](#c-离屏canvas技术)
+    - [d. 获取图像像素](#d-获取图像像素)
+    - [e. 滤镜](#e-滤镜)
+    - [f. 通过`createImageData`创建一个对象](#f-通过createimagedata创建一个对象)
 - [32. SVG](#32-svg)
-    - [(1) 基本图形](#1-基本图形)
-    - [(2) 基本属性](#2-基本属性)
-    - [(3) 基本操作API](#3-基本操作api)
-    - [(4) `preserveAspectRatio`](#4-preserveaspectratio)
-    - [(5) SVG中的图形分组](#5-svg中的图形分组)
-    - [(6) SVG四个坐标系](#6-svg四个坐标系)
-    - [(7) 渐变](#7-渐变)
-    - [(8) SVG 圆弧命令：](#8-svg-圆弧命令)
-    - [(9) 线性(左标)变换](#9-线性左标变换)
-    - [(10) 颜色HSL](#10-颜色hsl)
-    - [(11) 笔刷](#11-笔刷)
-    - [(12) path命令](#12-path命令)
-    - [(13) 弧线(`arc`)命令](#13-弧线arc命令)
-    - [(14) 贝塞尔曲线命令 - 光滑曲线](#14-贝塞尔曲线命令---光滑曲线)
-    - [(15) SVG文本](#15-svg文本)
-    - [(16) 垂直居中](#16-垂直居中)
-    - [(17) `<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等](#17-textpath-路径文本可以让文本沿着路径排列比如曲线等)
-    - [(18) 图形的引用，裁切和蒙版](#18-图形的引用裁切和蒙版)
-    - [(19) 字体抗锯齿](#19-字体抗锯齿)
+    - [a. 基本图形](#a-基本图形)
+    - [b. 基本属性](#b-基本属性)
+    - [c. 基本操作API](#c-基本操作api)
+    - [d. `preserveAspectRatio`](#d-preserveaspectratio)
+    - [e. SVG中的图形分组](#e-svg中的图形分组)
+    - [f. SVG四个坐标系](#f-svg四个坐标系)
+    - [g. 渐变](#g-渐变)
+    - [h. SVG 圆弧命令：](#h-svg-圆弧命令)
+    - [i. 线性(左标)变换](#i-线性左标变换)
+    - [j. 颜色HSL](#j-颜色hsl)
+    - [k. 笔刷](#k-笔刷)
+    - [l. path命令](#l-path命令)
+    - [m. 弧线(`arc`)命令](#m-弧线arc命令)
+    - [n. 贝塞尔曲线命令 - 光滑曲线](#n-贝塞尔曲线命令---光滑曲线)
+    - [o. SVG文本](#o-svg文本)
+    - [p. 图形的引用，裁切和蒙版](#p-图形的引用裁切和蒙版)
+    - [q. 字体抗锯齿](#q-字体抗锯齿)
+
+
 ### 1. 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)
 
 1. 在浏览器地址栏输入 URL
@@ -196,7 +190,7 @@
 
 
 
-#### (1) 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
+#### a. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
 
 - 加载：根据请求的URL进行域名解析，向服务器发起请求，接收文件（HTML、JS、CSS、图象等）。
 - 解析：对加载到的资源（HTML、JS、CSS等）进行语法解析，建议相应的内部数据结构（比如HTML的DOM树，JS的（对象）属性表，CSS的样式规则等等）
@@ -206,7 +200,7 @@
 
 
 
-#### (2) 浏览器**渲染**页面的过程：
+#### b. 浏览器**渲染**页面的过程：
 
 ![渲染过程](imgs/dom_render_process.png)
 
@@ -217,13 +211,13 @@
 - 第五步，Render树和节点显示坐标都有了，就调用每个节点paint方法，把它们绘制出来。 
 
 
-##### (3) DOM树的构建是文档加载完成开始的？
+##### DOM树的构建是文档加载完成开始的？
 构建DOM数是一个渐进过程，为达到更好用户体验，渲染引擎会尽快将内容显示在屏幕上。它不必等到整个HTML文档解析完毕之后才开始构建render数和布局。
 
-##### (4) Render树是DOM树和CSSOM树构建完毕才开始构建的吗？
+##### Render树是DOM树和CSSOM树构建完毕才开始构建的吗？
 这三个过程在实际进行的时候又不是完全独立，而是会有交叉。会造成一边加载，一遍解析，一遍渲染的工作现象。
 
-##### (5) CSS的解析是从右往左逆向解析的
+##### CSS的解析是从右往左逆向解析的
 从DOM树的`下－上`解析比`上－下`解析效率高)，嵌套标签越多，解析越慢。
 
 
@@ -268,7 +262,7 @@ window.addEventListener('DomContentLoaded', function() {
 
 
 
-#### (1) `immutable`
+#### a. `immutable`
 
 `immutable` 为了让用户在刷新页面的时候不要去请求服务器。
 
@@ -363,14 +357,14 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 ### 9. 事件处理程序
 
-#### (1) DOM0 级事件处理程序
+#### a. DOM0 级事件处理程序
 1. 先把元素取出来，然后为其属性添加一个事件的方法叫DOM0级处理程序。
 2. 它是一种较传统的方式：把一个函数赋值给一个事件处理程序的属性。
 3. 优点：简单，跨浏览器的优势
 
 
 
-#### (2) DOM2 级事件
+#### b. DOM2 级事件
 两个方法：
 1. 处理指定事件处理程序的操作：addEventListener()
 2. 删除事件处理程序的操作：removeEventListener()
@@ -387,7 +381,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-#### (3) IE 事件处理程序
+#### c. IE 事件处理程序
 1. attachEvent() 添加事件 （它又加上on了，即onclick等）
 2. detachEvent() 删除事件
 3. 接收相同的两个参数：事件处理程序的名称和事件处理程序的函数
@@ -396,7 +390,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-#### (4) 事件对象
+#### d. 事件对象
 事件对象（event）：在触发 DOM 上的事件时都会产生一个对象。
 DOM 中的事件对象
 1. type 属性：用于获取事件类型
@@ -407,33 +401,33 @@ DOM 中的事件对象
 
 
 
-#### (5) DOM事件级别：
+#### e. DOM事件级别：
 - DOM0：`element.onclick=function(){}`
 - DOM2：`element.addEventListener(‘click’, function(){}, false)`
 - DOM3：`element.addEventListener(‘keyup, function(){}, false)`
 
 
 
-#### (6) DOM事件模型：
+#### f. DOM事件模型：
 
 - 捕获（从上往下）
 - 冒泡（从下往上）
 
 
 
-#### (7) 事件流三个阶段
+#### g. 事件流三个阶段
 
 捕获、目标阶段、冒泡
 
 
 
-#### (8) 描述DOM事件捕获到具体流程：
+#### h. 描述DOM事件捕获到具体流程：
 
 - window => document => html => body => ....=> 目标元素
 
 
 
-#### (9) event 对象的常见应用：
+#### i. event 对象的常见应用：
 
 - event.preventDefault()
 - event.stopPropagation()
@@ -537,7 +531,7 @@ DOM 中的事件对象
 
 
 
-#### (1) DDOS
+#### a. DDOS
 
 全称`Distributed Denial of Service`，中文意思为“分布式拒绝服务”，就是利用大量合法的**分布式服务器**对目标发送请求，从而导致正常合法用户无法获得服务。
 
@@ -570,7 +564,7 @@ setInterval(imgflood, 10)
 
 
 
-#### (1) 如何开启 SRI 功能
+#### a. 如何开启 SRI 功能
 
 SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS` 设置，然后需要在`<script>`中提供**签名**以供校验。由于 SRI 在不匹配的时候就不执行脚本。
 
@@ -589,7 +583,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 所以 cookie 和 session，你可以认为是同一层次的概念，也可以认为是不同层次的概念。具体到实现，session 因为 `session id` 的存在，通常要借助 cookie 实现，但这并非必要，只能说是通用性较好的一种实现方案。
 
 
-#### (1) cookie 
+#### a. cookie 
 服务器通过设置`set-cookie`这个响应头，将 cookie 信息返回给浏览器，浏览器将响应头中的 cookie 信息保存在本地，当下次向服务器发送 HTTP 请求时，浏览器会自动将保存的这些 cookie 信息添加到请求头中。
 `set-cookie`格式如下，
 `set-cookie: value[; expires=date][; domain=domain][; path=path][; secure]`
@@ -603,7 +597,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 ![set cookie](imgs/set_cookie.jpg)
 
-#### (2) `cookie`属性
+#### b. `cookie`属性
 - max-age
   - 过期时间有多长
   - 默认在浏览器关闭时失效
@@ -619,7 +613,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 
 
-#### (3) session
+#### c. session
 
 - 存放在服务器的一种用来存放用户数据的类似 HashTable 的结构
 - 浏览器第一次发送请求时，服务器自动生成了 HashTable 和 SessionID 来唯一标识这个 hash 表，并将 sessionID 存放在 cookie 中通过响应发送到浏览器。浏览器第二次发送请求会将前一次服务器响应中的 sessionID 随着 cookie 发送到服务器上，服务器从请求中提取 sessionID，并和保存的所有 sessionID 进行对比，找到这个用户对应的 hash 表。
@@ -630,7 +624,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 
 
-#### (4) sesssion 与 cookie 的区别
+#### d. sesssion 与 cookie 的区别
 
 - cookie 存在客户端，session 存在于服务端。
 - cookie 在客户端中存放，容易伪造，不如 session 安全
@@ -647,7 +641,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 
 
-#### (1) `token`过程
+#### a. `token`过程
 
 - 客户端登陆传递信息给服务端，服务端收到后把用户信息加密（`token`）传给客户端，客户端将`token`存放于`localStroage`等容器中。
 - 客户端每次访问都传递token，服务端解密`token`，就知道这个用户是谁了。
@@ -656,7 +650,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 
 
-#### (2) `session`和`token`的区别
+#### b. `session`和`token`的区别
 
 1. session存储于服务器，可以理解为一个状态列表，拥有一个唯一识别符号sessionId，通常存放于cookie中。服务器收到cookie后解析出sessionId，再去session列表中查找，才能找到相应session。依赖cookie。
 2. cookie类似一个令牌，装有sessionId，存储在客户端，浏览器通常会自动添加。
@@ -751,7 +745,7 @@ HTML 与 XHTML 之间的差异
 
 
 
-#### (1) `name`属性
+#### a. `name`属性
 
 `name`属性主要用于**描述网页**，与之对应的属性值为`content`，`content`中的内容主要是便于搜索引擎机器人查找信息和分类信息用的。 
 
@@ -775,7 +769,7 @@ meta标签的name属性语法格式是：
 
 
 
-#### (2) `http-equiv`属性
+#### b. `http-equiv`属性
 
 `http-equiv`顾名思义，**相当于http的文件头**作用，它可以向浏览器传回一些有用的信息，以帮助正确和精确地显示网页内容，与之对应的属性值为`content`，`content`中的内容其实就是各个参数的变量值。
 
@@ -815,7 +809,7 @@ meta标签的`http-equiv`属性语法格式是：
 
 
 
-#### (3) `HTML 4.01` 与 `HTML5`之间的差异
+#### c. `HTML 4.01` 与 `HTML5`之间的差异
 使用 `http-equiv` 已经不是规定 HTML 文档的字符集的唯一方式：
 
 `HTML 4.01`：
@@ -828,7 +822,7 @@ meta标签的`http-equiv`属性语法格式是：
 ```
 
 
-#### (4) Content-Type 类型
+#### d. Content-Type 类型
 
 `application/x-www-form-urlencoded`, `multipart/form-data`, `application/json`, `application/xml` 这四个是ajax的请求，表单提交或上传文件的常用的资源类型。
 form表单中可以定义`enctype`属性，该属性的含义是在发送到服务器之前应该如何对表单数据进行编码。默认的情况下，表单数据会编码为 `"application/x-www-form-unlencoded"`
@@ -837,7 +831,7 @@ enctype常用的属性值如下：
 - `application/x-www-form-unlencoded`： 在发送前编码所有字符(默认情况下)；
 - `multipart/form-data`, 不对字符编码。在使用文件上传时候，使用该值。
 
-##### (5) `application/x-www-form-urlencoded` 主要用于如下:
+##### `application/x-www-form-urlencoded` 主要用于如下:
 1. 最常见的POST提交数据方式。
 2. 原生form默认的提交方式(可以使用`enctype`指定提交数据类型)。
 3. jquery，zepto等默认post请求提交的方式。
@@ -849,14 +843,14 @@ enctype常用的属性值如下：
 <img src='imgs/content_type_urlencoded.png' height='250' />
 
 
-##### (6) `multipart/form-data`
+##### `multipart/form-data`
 使用表单上传文件时，必须指定表单的 `enctype`属性值为 `multipart/form-data`. 请求体被分割成多部分，每部分使用 `--boundary`分割；
 
 <img src='imgs/content_type_multipart.png' height='250' />
 
 
 
-##### (7) `application/json`
+##### `application/json`
 在http请求中，`Content-Type`都是默认的值 `application/x-www-form-urlencoded`, 这种编码格式的特点是：`name/value`值对，每组之间使用`&`连接，而`name`与`value`之间是使用 `=` 连接，比如 `key=xxx&name=111&password=123456; `键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用`application/json`传递比较好，
 
 <img src='imgs/content_type_json.png' height='250' />
@@ -891,7 +885,7 @@ enctype常用的属性值如下：
 
 
 
-#### (1) 针对回流和重绘的优化点：
+#### a. 针对回流和重绘的优化点：
 
 1. 用`translate`替代`top`改变
 2. 用`opacity`替代`visibility`
@@ -921,7 +915,7 @@ Audio的事件：
 
 
 
-#### (1) 当音频/视频处于加载过程中时，会依次发生以下事件
+#### a. 当音频/视频处于加载过程中时，会依次发生以下事件
 
 - loadstart
 - durationchange
@@ -935,14 +929,14 @@ Audio的事件：
 
 
 
-#### (2) 元数据和数据的区别？
+#### b. 元数据和数据的区别？
 
 - 元数据是用来**描述数据的数据**，比如“年龄"、"身高"、"相貌"、"性格”，数码照片的`EXIF`信息，何文件系统中的数据分为数据和元数据。
 - 数据是指普通文件中的实际数据，而元数据指用来描述一个文件的特征的系统数据，诸如访问权限、文件拥有者以及文件数据块的分布信息(`inode`...)等。
 
 
 
-#### (3) 动态的创建`<audio>`元素
+#### c. 动态的创建`<audio>`元素
 
 ```javascript
 //方式1
@@ -956,7 +950,7 @@ audio.play();
 ```
 
 
-#### (4) 判断浏览器支持的编码方式
+#### d. 判断浏览器支持的编码方式
 
 通过`canPlayType()`方法可以判断浏览器支持的编码方式，从而设置对应的音频文件。
 
@@ -1026,7 +1020,7 @@ canvas的宽高只能写在行内，同时决定**画布分辨率的大小**。c
 var canvas = document.getElementById("canvas1");
 var context = canvas .getContext('2d');//绘图环境
 ```
-#### (1) 若浏览器不支持canvas
+#### a. 若浏览器不支持canvas
 1. html  
     `<canvas>不支持canvas的内容</canvas>`（写在canvas标签的里面）
 2. js     
@@ -1038,13 +1032,13 @@ if (canvas.getContext('2d')){//判断浏览器是否支持canvas
 alert("");
 }
 ```
-#### (2) canvas方法
+#### b. canvas方法
 - `canvas.width`
 - `canvas.height`
 - `canvas.getContext('2d')`
 
 
-#### (3) canvas 是基于状态绘制的，即先定义状态，后绘制
+#### c. canvas 是基于状态绘制的，即先定义状态，后绘制
 1. 起始 `context.moveTo(100,100)`
 2. 终止 `context.lineTo(700,700)`
 3. 线条 `context.stroke()`
@@ -1059,7 +1053,7 @@ alert("");
 
 
 
-#### (4) 绘制一个数字，格子系统
+#### d. 绘制一个数字，格子系统
 ![绘制一个数字](imgs/canvas_draw_one_number.png)
 设圆的半径为R，圆与圆之间的间距为2px，所以圆所在的正方形格子的边长为`2*（R+1）`。
 其中x表示起始的横坐标，y表示起始的纵坐标，i表示行数，j表示列数，因此：
@@ -1071,7 +1065,7 @@ CenterY：y+i*2*(R+1)+(R+1)
 
 
 
-#### (5) 自动绘制矩形
+#### e. 自动绘制矩形
 
 - `context.rect(x, y, width, height);`  自动绘制矩形，规划路径
 - `context.fillRect(x, y, width, height);`  绘制填充矩形 不但规划路径，还把矩形给画出来
@@ -1079,7 +1073,7 @@ CenterY：y+i*2*(R+1)+(R+1)
 
 
 
-#### (6) `canvas`的`save`与`restore`方法的作用
+#### f. `canvas`的`save`与`restore`方法的作用
 
 - `save`：用来保存`Canvas`的状态。`save`之后，可以调用`Canvas`的平移、放缩、旋转、错切、裁剪等操作。
 - `restore`：用来恢复`Canvas`之前保存的状态。防止`save`后对`Canvas`执行的操作对后续的绘制有影响。
@@ -1088,11 +1082,11 @@ CenterY：y+i*2*(R+1)+(R+1)
 
 
 
-#### (7) lineCap
+#### g. lineCap
 - `lineCap`设置线条的帽子：`butt`（默认）、`round`、`square`。后两者绘制出的线条都要长一些（戴上了帽子）。`lineCap`适用于线条的起始处和结尾处不适用于连接处。
 - 通常绘制一个封闭的多边形用`beginPath()`和`closePath()`（推荐），但也可以不用`closePath()`而用`lineCap = “square”`来实现
 
-#### (8) lineJoin
+#### h. lineJoin
 <img src='imgs/canvas_linejoin.png' height='200' />
 lineJoin： 线条与线条相交的形式
 
@@ -1103,7 +1097,7 @@ lineJoin： 线条与线条相交的形式
 `miterLimit`:内角与外角的距离。默认值是10，此属性只有在`lineJoin = "miter"`下才有效，意思是`miterLimit >10`，线条连接处自动斜切（`lineJoin ="bevel"`)
 
 
-#### (9) 绘制五角星
+#### i. 绘制五角星
 ![绘制五角星](imgs/canvas_five_angles_star.png)
 大圆坐标：
 ```
@@ -1137,7 +1131,7 @@ Math.cos((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI)
 
 
 
-#### (10) 图形变换
+#### j. 图形变换
 图形变换： 位移、旋转、缩放。
 `context.translate(x, y); `默认多个`translate`会叠加。
 `save();` ` restore();` 成对出现，中间绘图状态不会对后面造成影响。
@@ -1146,7 +1140,7 @@ Math.cos((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI)
 
 
 
-#### (11) 变换矩阵
+#### k. 变换矩阵
 ```
 |a c e|
 |b d f|
@@ -1168,8 +1162,8 @@ context.transform(a, b, c, d, e, f);
 
 
 
-#### (12) 线性渐变和径向渐变
-#### (13) 线性渐变
+#### l. 线性渐变和径向渐变
+#### m. 线性渐变
 ```js
 var linearGrad = context.createLinearGradient(Xstar,Ystar,Xend,Yend); // 创建线性渐变（起始位置X，Y，结束位置X，Y）；
 grd.addColorStop(stop,color); //stop是（开始填充）位置(0.0~1.0的数值)，color是要填充的颜色；这个.addColorStop()至少要2个；
@@ -1178,13 +1172,13 @@ Context.fillRect(0,0,800,800); // 填充的形状，如现在，画布的长宽�
 ```
 
 
-#### (14) 径向渐变
+#### n. 径向渐变
 
 - `RadialGradient(x0,y0,r0,x1,y1,r1)`
 - xy为原点坐标，r为半径
 
 
-#### (15) 使用图片、画布或者video
+#### o. 使用图片、画布或者video
 ```
 createPattern(img, repeat-style);
 repeat-style: no-repeat  repeat-x  repeat-y repeat
@@ -1201,7 +1195,7 @@ context.fillRect(0, 0, 800, 800)
 
 
 
-#### (16) 圆弧
+#### p. 圆弧
 
 `context.arc(centerx, centery, radius, startingAngle, endingAngle, anticlockwise = false)；`
 
@@ -1222,7 +1216,7 @@ context.fillRect(0, 0, 800, 800)
 
 
 
-#### (17) 贝塞尔曲线
+#### q. 贝塞尔曲线
 二次贝塞尔曲线 `QuadraticCurveTo` :
 - `context.moveTo( x0, y0 );` 指定初始点
 - `context.quadraticCurveTo( x1, y1, x2, y2 ); `指定控制点（x1, y1）和终止点（x2, y2）
@@ -1233,7 +1227,7 @@ context.fillRect(0, 0, 800, 800)
 
 
 
-#### (18) 文字渲染
+#### r. 文字渲染
 - `context.font = "bold 40px Arial"`(粗框,40px大小,字体)
 - `context.fillStyle="#058"`颜色
 - `context.fillText(string,x,y,[maxlen](文字的最长宽度))`
@@ -1253,7 +1247,7 @@ context.fillRect(0, 0, 800, 800)
 
 
 
-#### (19) 设置canvas的阴影
+#### s. 设置canvas的阴影
 
 - `context.shadowColor="颜色值"；` 阴影颜色值，可以为任何颜色的表现形式
 - `context.shadowOffsetX=value1;` 水平方向的偏移，值可以为负值，负值则方向相反
@@ -1261,17 +1255,17 @@ context.fillRect(0, 0, 800, 800)
 - `context.shadowBlur=value3;` 阴影模糊程度，正比例增加
 
 
-#### (20) `globalAlpha`和`globalCompositeOperation`
+#### t. `globalAlpha`和`globalCompositeOperation`
 - `globalAlpha`设置全局的透明度
 - `ctx.globalCompositeOperation = "source-over"` (默认，后绘制的图形会压在先绘制的图形上) /` "destination-over"`(先绘制的图形压在后绘制的图形上
 
 
-#### (21) `clip`
+#### u. `clip`
 - `context.clip()`使用刚才绘制的路径把它剪切为当前的绘制环境
 
 
 
-#### (22) 非零环绕原则 - 判断图形内、外
+#### v. 非零环绕原则 - 判断图形内、外
 
 是用来判断哪些区域属于路径内( 计算结果非0，即为路径内 )。
 1. 在路径包围的区域中，随便找一点，向外发射一条射线，
@@ -1283,7 +1277,7 @@ context.fillRect(0, 0, 800, 800)
 
 
 
-#### (23) `isPointInPath`判断点是否在路径内
+#### w. `isPointInPath`判断点是否在路径内
 
 ```
 var x = event.clientX - canvas.getBoundingClientRect().left;//在当前画布上的位置
@@ -1300,7 +1294,7 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 
 
-#### (24) 解决canvas浏览器兼容性
+#### x. 解决canvas浏览器兼容性
 `explorecanvas`
 只要多引入这个js包就可以支持了 
 ```html
@@ -1309,7 +1303,7 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 
 
-#### (25) Canvas图像
+#### y. Canvas图像
 
 图像VS图形<===>位图VS矢量图
 - 图像：是由像素点阵构成的位图
@@ -1317,7 +1311,7 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 
 
-#### (26) 凸多边形
+#### z. 凸多边形
 
 凸多边形（Convex Polygon）指如果把一个多边形的所有边中，任意一条边向两方无限延长成为一直线时，其他各边都在此直线的同旁，
 
@@ -1327,7 +1321,7 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 
 
-#### (27) drawImage
+#### a. drawImage
 
 - `context.drawImage(image, dx, dy);`
 - `context.drawImage(image, dx, dy, dw, dh);`
@@ -1338,7 +1332,7 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 <img src='imgs/canvas_drawImage.png'  height='300' />
 
 
-#### (28) html中添加滑竿控件
+#### b. html中添加滑竿控件
 ```html
 <input type="range" name="hg" min="0.5" max="3.0"step="0.01" value="1.0" />
 ```
@@ -1351,13 +1345,13 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 
 
-#### (29) 离屏canvas技术
+#### c. 离屏canvas技术
 
 将一个canvas内容加载到另一个canvas上
 
 
 
-#### (30) 获取图像像素
+#### d. 获取图像像素
 
 ```js
 imageData = context.getImageData（x，y，w，h）;
@@ -1380,7 +1374,7 @@ imageData = context.getImageData（x，y，w，h）;
 
 
 
-#### (31) 滤镜
+#### e. 滤镜
 - 灰色的计算公式 ：`r*0.3 + g*0.59 + b*0.11`
 - 反色滤镜：`rgb`取反
 - 黑白滤镜：获得`rgb`，得到灰度值，将得到的灰度值分类：或者黑或者白
@@ -1389,7 +1383,7 @@ imageData = context.getImageData（x，y，w，h）;
 
 
 
-#### (32) 通过`createImageData`创建一个对象
+#### f. 通过`createImageData`创建一个对象
 ```js
 var imageData = context.createImageData(canvas.width, canvas.height)
 ```
@@ -1398,7 +1392,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 
 ### 32. SVG
 
-#### (1) 基本图形
+#### a. 基本图形
 ```
 <rect>，x,y,width,height,rx,ry
 <circle>，cx, cy, r
@@ -1408,7 +1402,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 <polygon>，points="x1 y1 x2 y2 x3 y3"
 ```
 
-#### (2) 基本属性
+#### b. 基本属性
 - `fill`填充颜色
 - `stroke`描边颜色
 - `stroke-width` 
@@ -1421,7 +1415,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 
 
 
-#### (3) 基本操作API
+#### c. 基本操作API
 创建图形：`document.createElementNS(ns,tagName);`
 添加图形：`element.appendChild(childElement)`
 
@@ -1437,21 +1431,21 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 - 视窗：在 SVG 标签当中可以指定⼀个宽和⾼属性，来表⽰ SVG ⽂件渲染的区域⼤⼩。这个⼤⼩也可以使⽤样式表来定义。这个区域⼤⼩，就是视窗。
 
 
-#### (4) `preserveAspectRatio`
+#### d. `preserveAspectRatio`
 - meet: 让viewBox等比例的同时，viewBox完全在SVG中显示。viewBox大于SVG，等比例缩放。
 - slice: 保持viewBox比例，视野包含视窗，尽量填满SVG。viewBox大于SVG，不缩放，按SVG大小剪切。
 - 对齐方式：xMinYMin xMinYMid xMinYMax xMidYMin xMidYMid xMidYMax xMaxYMin xMaxYMid xMaxYMax
 - none: 不关心比例，viewBox直接拉伸到最大填满viewport.
 
 
-#### (5) SVG中的图形分组
+#### e. SVG中的图形分组
 - `<g>`标签用来创建分组
 - 属性继承
 
 
 
 
-#### (6) SVG四个坐标系
+#### f. SVG四个坐标系
 1. User Coordinate--用户坐标系；(SVG中用户视野坐标系，也被称为原始坐标系)
 2. Current Corrdinate--自身坐标系；(图形绘制后自身携带的坐标系，用户自身宽高等定义均基于自身坐标系)
 3. Previous Coordinate--前驱坐标系；(父容器的坐标系)
@@ -1460,7 +1454,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 图形变换：自身坐标系相对于前驱坐标系进行坐标变换；
 
 
-#### (7) 渐变
+#### g. 渐变
 在 SVG 中，有两种主要的渐变类型：
 - 线性渐变
 - 放射性渐变
@@ -1473,7 +1467,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 当 x1 和 x2 不同，且 y1 和 y2 不同时，可创建角形渐变
 
 
-#### (8) SVG 圆弧命令：
+#### h. SVG 圆弧命令：
 `A（a）rx ry x-axis-rotation large-arc-flag sweep-flag x y`
 命令解析如下：
 - .rx：规定圆弧在x轴方向的半径尺寸。
@@ -1485,7 +1479,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 - .y：规定圆弧终点的y轴坐标。
 
 
-#### (9) 线性(左标)变换
+#### i. 线性(左标)变换
 <img src='imgs/svg_linear_change.png' height='200'/>
 
 ```
@@ -1494,7 +1488,7 @@ X = aX + cY +e
 平移是e f，缩放是a d，旋转是b c
 
 
-#### (10) 颜色HSL
+#### j. 颜色HSL
 
 H：表示色环的度数（红：0deg，绿：120deg，蓝：240deg）
 S：表示色彩饱和度（100%颜色最艳，0%颜色退化为灰度）
@@ -1505,7 +1499,7 @@ L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
 
 
 
-#### (11) 笔刷
+#### k. 笔刷
 绘制纹理，`<pattern>`标签
 - `patternUnits="userSpaceOnUse"`，指定pattern标签本身的属性单位基于世界坐标系
   - patternUnits 笔刷使用单位
@@ -1518,7 +1512,7 @@ L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
 
 
 
-#### (12) path命令
+#### l. path命令
 参数之间可以⽤空格或逗号隔开，有⼀种情况例外，就是下⼀个数值是负数。
 如`<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">`
 <img src='imgs/svg_path.png' height='350'/>
@@ -1536,7 +1530,7 @@ path命令基本规律：
 
 
 
-#### (13) 弧线(`arc`)命令
+#### m. 弧线(`arc`)命令
 `A(rx, ry, xr, laf, sf, x, y)`  七个参数
 
 
@@ -1548,7 +1542,7 @@ path命令基本规律：
 - x,y = 弧的终点位置
 
 
-#### (14) 贝塞尔曲线命令 - 光滑曲线
+#### n. 贝塞尔曲线命令 - 光滑曲线
 - T:Q的光滑版本
   C1是上一段曲线的控制点关于当前曲线起始点的镜像位置
 - S:C的简化版本
@@ -1558,7 +1552,7 @@ path命令基本规律：
 
 
 
-#### (15) SVG文本
+#### o. SVG文本
 `<text x="" y="" dx="10 20 30 40 50 60" dy=""></text>`
 `dx`可对每个字体控制
 
@@ -1567,13 +1561,13 @@ path命令基本规律：
 
 
 
-##### (16) 垂直居中
+##### 垂直居中
 - 水平居中对齐 `text-anchor`
 - 垂直居中对齐 `dominant-baseline`  加上自己模拟
 
 
 
-##### (17) `<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等
+##### `<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等
 - 定位属性 `x y dx dy`
 - `dy` 影响法线方向的偏移量
 - `text-anchor`和`startOffSet` 设置文本偏移的方向和大小
@@ -1584,7 +1578,7 @@ path命令基本规律：
 
 
 
-#### (18) 图形的引用，裁切和蒙版
+#### p. 图形的引用，裁切和蒙版
 
 1. use 标签创建图形引用
 2. clip标签裁切图形
@@ -1610,7 +1604,7 @@ viewBox="-400 -300 800 600"  preserveAspectRatio="xMidYMid slice"
 
 
 
-#### (19) 字体抗锯齿
+#### q. 字体抗锯齿
 ```css
 -webkit-font-smothing: antialiased;
 ```

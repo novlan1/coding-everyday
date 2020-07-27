@@ -1,6 +1,8 @@
 const fs = require('fs')
 const alphabetList = [
-  'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+  'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+  'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+  'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
 ]
 let replaceMarkdown = []
 const getCate = function (str) {
@@ -48,7 +50,7 @@ const getCate = function (str) {
     }
     
   })
-  const totalRes = res2.join('\n') + '\n' + replaceMarkdown.join('\n')
+  const totalRes = res2.join('\n') + '\n\n' + replaceMarkdown.join('\n')
   fs.writeFileSync('newMarkdown.md', totalRes)
 }
 
