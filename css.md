@@ -25,9 +25,9 @@
 - [20. CSS `attr()` 函数](#20-css-attr-函数)
 - [21. text-shadow和box-shadow对比](#21-text-shadow和box-shadow对比)
 - [22. 关于`vw`、`vh`、`vmin`、`vmax`](#22-关于vwvhvminvmax)
-    - [a. 1. vw、vh、vmin、vmax 的含义](#a-1-vwvhvminvmax-的含义)
-    - [b. 2. vw、vh 与 % 百分比的区别](#b-2-vwvh-与--百分比的区别)
-    - [c. 3. vmin、vmax 用处](#c-3-vminvmax-用处)
+    - [a.  vw、vh、vmin、vmax 的含义](#a--vwvhvminvmax-的含义)
+    - [b.  vw、vh 与 % 百分比的区别](#b--vwvh-与--百分比的区别)
+    - [c. vmin、vmax 用处](#c-vminvmax-用处)
 - [23. 样式中困扰我们的offsetWidth、clientWidth、width、scrollWidth、clientX、screenX、offsetX、pageX](#23-样式中困扰我们的offsetwidthclientwidthwidthscrollwidthclientxscreenxoffsetxpagex)
 - [24. `input`的`placeholder`样式：](#24-input的placeholder样式)
 - [25. CSS Modules](#25-css-modules)
@@ -79,6 +79,7 @@
 - [60. 垂直水平居中](#60-垂直水平居中)
 - [61. input 自动填充颜色改变或透明](#61-input-自动填充颜色改变或透明)
 - [62. 如何实现圆角钝角？](#62-如何实现圆角钝角)
+
 ### 1. CSS优先级
 
 #### a. CSS选择器的优先级关系
@@ -432,7 +433,7 @@ linear-gradient(red 0%, orange 25%, yellow 50%, green 75%, blue 100%)
 
 ### 22. 关于`vw`、`vh`、`vmin`、`vmax`
 
-#### a. 1. vw、vh、vmin、vmax 的含义
+#### a.  vw、vh、vmin、vmax 的含义
 - vw：视窗宽度的百分比（1vw 代表视窗的宽度为 1%）
 - vh：视窗高度的百分比
 - vmin：当前 vw 和 vh 中较小的一个值
@@ -440,14 +441,14 @@ linear-gradient(red 0%, orange 25%, yellow 50%, green 75%, blue 100%)
 
 
 
-#### b. 2. vw、vh 与 % 百分比的区别
+#### b.  vw、vh 与 % 百分比的区别
 
 - % 是相**对于父元素**的大小设定的比率，vw、vh 是**视窗大小**决定的。
 - vw、vh 优势在于能够**直接获取高度**，而用 % 在没有设置 body 高度的情况下，是无法正确获得可视区域的高度的，所以这是挺不错的优势。
 
 
 
-#### c. 3. vmin、vmax 用处
+#### c. vmin、vmax 用处
 
 做**移动页面开发**时，如果使用 vw、wh 设置**字体大小**（比如 5vw），在**竖屏**和**横屏**状态下显示的字体大小是不一样的。
 由于 vmin 和 vmax 是当前较小的 vw 和 vh 和当前较大的 vw 和 vh。这里就可以用到 vmin 和 vmax。使得文字大小在横竖屏下保持一致。
@@ -1204,4 +1205,5 @@ input:-internal-autofill-selected {
 }
 
 ```
+
 

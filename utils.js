@@ -5,18 +5,22 @@ const alphabetList = [
 let replaceMarkdown = []
 const getCate = function (str) {
   const  _list = str.split('\n')
+
   let res = []
   let index = 1
   let idx = 0
+
   _list.map(item => {
     let newItem = item
-    if (item.startsWith('####')) {
-      newItem = item.replace(/(#+)\s+(.*)/g, `$1 ${alphabetList[idx]}. $2`)
+
+    if (item.startsWith('#####')) {
+    } else if (item.startsWith('####')) {
+      newItem = item.replace(/(#+)\s*(?:[a-z]+\.\s)?(.*)/g, `$1 ${alphabetList[idx]}. $2`)
       res.push(newItem)
       idx += 1
     } else if (item.startsWith('###')) {
-      newItem = item.replace(/(#+)\s+(.*)/g, `$1 ${index}. $2`)
-      res.push(newItem)
+      newItem = item.replace(/(#+)\s*(?:[0-9]+\.\s)?(.*)/g, `$1 ${index}. $2`)
+      res.push(newItem) 
       index += 1
       idx = 0
     }
@@ -29,14 +33,14 @@ const getCate = function (str) {
 
   res.map(item => {
     const firstStr = item.replace(/(#+\s+)/g, '')
-      // .replace(/¥{2}/g, '`')
 
     const lastStr = firstStr.replace(/\s/g, '-')
-      // .replace(/@{2}/g, '')
       .replace(/[?？.,，。\(\)（）！!、><=*&%\[\]：:`\}\{]/g, '')
       .toLowerCase()
 
-    if (item.startsWith('####')) {
+    if (item.startsWith('#####')) {
+
+    } else if (item.startsWith('####')) {
       res2.push(`    - [${firstStr}](#${lastStr})`)
 
     } else {
@@ -45,7 +49,6 @@ const getCate = function (str) {
     
   })
   const totalRes = res2.join('\n') + '\n' + replaceMarkdown.join('\n')
-  // fs.writeFileSync('category.txt', res2.join('\n'))
   fs.writeFileSync('newMarkdown.md', totalRes)
 }
 
