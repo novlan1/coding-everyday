@@ -1,130 +1,13 @@
-1. [从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)](#从浏览器地址栏输入-url-到显示页面的步骤以-http-为例)
-  1. [从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：](#从输入url到得到html的过程中浏览器做的工作大致分为以下几步：)
-  1. [浏览器**渲染**页面的过程：](#浏览器渲染页面的过程：)
-  1. [DOM树的构建是文档加载完成开始的？](#dom树的构建是文档加载完成开始的)
-  1. [Render树是DOM树和CSSOM树构建完毕才开始构建的吗？](#render树是dom树和cssom树构建完毕才开始构建的吗)
-  1. [CSS的解析是从右往左逆向解析的](#css的解析是从右往左逆向解析的)
-1. [`Winow.onload`和`DomContentLoaded`的区别](#winowonload和domcontentloaded的区别)
-1. [cache-control 属性有哪些？](#cache-control-属性有哪些)
-  1. [`immutable`](#immutable)
-1. [协商缓存触发条件](#协商缓存触发条件)
-1. [强缓存和协商缓存](#强缓存和协商缓存)
-1. [为什么要有etag？](#为什么要有etag)
-1. [常见的浏览器内核比较](#常见的浏览器内核比较)
-1. [常见浏览器所用内核](#常见浏览器所用内核)
-1. [事件处理程序](#事件处理程序)
-  1. [DOM0 级事件处理程序](#dom0-级事件处理程序)
-  1. [DOM2 级事件](#dom2-级事件)
-  1. [IE 事件处理程序](#ie-事件处理程序)
-  1. [事件对象](#事件对象)
-  1. [DOM事件级别：](#dom事件级别：)
-  1. [DOM事件模型：](#dom事件模型：)
-  1. [事件流三个阶段](#事件流三个阶段)
-  1. [描述DOM事件捕获到具体流程：](#描述dom事件捕获到具体流程：)
-  1. [event 对象的常见应用：](#event-对象的常见应用：)
-1. [onclick 与 addEventListener 区别？](#onclick-与-addeventlistener-区别)
-1. [`defer` 和 `async` 的区别](#defer-和-async-的区别)
-1. [懒加载与预加载的基本概念](#懒加载与预加载的基本概念)
-1. [浏览器内核的理解](#浏览器内核的理解)
-1. [HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？](#html-规范中为什么要求引用资源不加协议头http或者https)
-1. [`script`标签的`crossorigin`属性](#script标签的crossorigin属性)
-1. [DOS攻击](#dos攻击)
-  1. [DDOS](#ddos)
-1. [script标签的integrity属性](#script标签的integrity属性)
-  1. [如何开启 SRI 功能](#如何开启-sri-功能)
-1. [`cookie`和`session`](#cookie和session)
-  1. [cookie ](#cookie-)
-  1. [`cookie`属性](#cookie属性)
-  1. [session](#session)
-  1. [sesssion 与 cookie 的区别](#sesssion-与-cookie-的区别)
-1. [`session`和`token`](#session和token)
-  1. [`token`过程](#token过程)
-  1. [`session`和`token`的区别](#session和token的区别)
-1. [`token`可以抵抗CSRF，`cookie+session`不行](#token可以抵抗csrfcookie+session不行)
-1. [Viewport](#viewport)
-1. [HTML `<meta>` 标签](#html-meta-标签)
-  1. [`name`属性](#name属性)
-  1. [`http-equiv`属性](#http-equiv属性)
-  1. [`HTML 4.01` 与 `HTML5`之间的差异](#html-401-与-html5之间的差异)
-  1. [Content-Type 类型](#content-type-类型)
-  1. [`application/x-www-form-urlencoded` 主要用于如下:](#application/x-www-form-urlencoded-主要用于如下)
-  1. [`multipart/form-data`](#multipart/form-data)
-  1. [`application/json`](#application/json)
-1. [响应式开发](#响应式开发)
-1. [`class`和`id`命名规范](#class和id命名规范)
-1. [回流和重绘](#回流和重绘)
-  1. [针对回流和重绘的优化点：](#针对回流和重绘的优化点：)
-1. [HTML5的Audio](#html5的audio)
-  1. [当音频/视频处于加载过程中时，会依次发生以下事件](#当音频/视频处于加载过程中时会依次发生以下事件)
-  1. [元数据和数据的区别？](#元数据和数据的区别)
-  1. [动态的创建`<audio>`元素](#动态的创建audio元素)
-  1. [判断浏览器支持的编码方式](#判断浏览器支持的编码方式)
-1. [Doctype作用? 严格模式与混杂模式如何区分？它们有何意义?](#doctype作用-严格模式与混杂模式如何区分它们有何意义)
-1. [严格模式与混杂模式的语句解析不同点有哪些？](#严格模式与混杂模式的语句解析不同点有哪些)
-1. [Doctype作用?严格模式与混杂模式如何区分？它们有何意义? TODO](#doctype作用严格模式与混杂模式如何区分它们有何意义-todo)
-1. [两个标签页的sessionstorage共享吗](#两个标签页的sessionstorage共享吗)
-1. [Canvas](#canvas)
-  1. [若浏览器不支持canvas](#若浏览器不支持canvas)
-  1. [canvas方法](#canvas方法)
-  1. [canvas 是基于状态绘制的，即先定义状态，后绘制](#canvas-是基于状态绘制的即先定义状态后绘制)
-  1. [绘制一个数字，格子系统](#绘制一个数字格子系统)
-  1. [自动绘制矩形](#自动绘制矩形)
-  1. [`canvas`的`save`与`restore`方法的作用](#canvas的save与restore方法的作用)
-  1. [lineCap](#linecap)
-  1. [lineJoin](#linejoin)
-  1. [绘制五角星](#绘制五角星)
-  1. [图形变换](#图形变换)
-  1. [变换矩阵](#变换矩阵)
-  1. [线性渐变和径向渐变](#线性渐变和径向渐变)
-  1. [线性渐变](#线性渐变)
-  1. [径向渐变](#径向渐变)
-  1. [使用图片、画布或者video](#使用图片画布或者video)
-  1. [圆弧](#圆弧)
-  1. [贝塞尔曲线](#贝塞尔曲线)
-  1. [文字渲染](#文字渲染)
-  1. [设置canvas的阴影](#设置canvas的阴影)
-  1. [`globalAlpha`和`globalCompositeOperation`](#globalalpha和globalcompositeoperation)
-  1. [`clip`](#clip)
-  1. [非零环绕原则 - 判断图形内、外](#非零环绕原则---判断图形内外)
-  1. [`isPointInPath`判断点是否在路径内](#ispointinpath判断点是否在路径内)
-  1. [解决canvas浏览器兼容性](#解决canvas浏览器兼容性)
-  1. [Canvas图像](#canvas图像)
-  1. [凸多边形](#凸多边形)
-  1. [drawImage](#drawimage)
-  1. [html中添加滑竿控件](#html中添加滑竿控件)
-  1. [离屏canvas技术](#离屏canvas技术)
-  1. [获取图像像素](#获取图像像素)
-  1. [滤镜](#滤镜)
-  1. [通过`createImageData`创建一个对象](#通过createimagedata创建一个对象)
-1. [SVG](#svg)
-  1. [基本图形](#基本图形)
-  1. [基本属性](#基本属性)
-  1. [基本操作API](#基本操作api)
-  1. [`preserveAspectRatio`](#preserveaspectratio)
-  1. [SVG中的图形分组](#svg中的图形分组)
-  1. [SVG四个坐标系](#svg四个坐标系)
-  1. [渐变](#渐变)
-  1. [SVG 圆弧命令：](#svg-圆弧命令：)
-  1. [线性(左标)变换](#线性左标变换)
-  1. [颜色HSL](#颜色hsl)
-  1. [笔刷](#笔刷)
-  1. [path命令](#path命令)
-  1. [弧线(`arc`)命令](#弧线arc命令)
-  1. [贝塞尔曲线命令 - 光滑曲线](#贝塞尔曲线命令---光滑曲线)
-  1. [SVG文本](#svg文本)
-  1. [垂直居中](#垂直居中)
-  1. [`<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等](#textpath-路径文本可以让文本沿着路径排列比如：曲线等)
-  1. [图形的引用，裁切和蒙版](#图形的引用裁切和蒙版)
-  1. [字体抗锯齿](#字体抗锯齿)
+const { getCate } = require('./utils')
 
-### 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)
+const content = `### 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)
 
 1. 在浏览器地址栏输入 URL
 2. 浏览器查看缓存，如果请求资源在缓存中并且新鲜，跳转到转码步骤
 
    1. 如果资源未缓存，发起新请求
    2. 如果已缓存，检验是否足够新鲜，足够新鲜直接提供给客户端，否则与服务器进行验证。
-   3. 检验新鲜通常有两个 HTTP 头进行控制`Expires`和`Cache-Control`：
+   3. 检验新鲜通常有两个 HTTP 头进行控制¥¥Expires¥¥和¥¥Cache-Control¥¥：
       - HTTP1.0 提供 Expires，值为一个绝对时间表示缓存新鲜日期
       - HTTP1.1 增加了 Cache-Control: max-age=,值为以秒为单位的最大新鲜时间
 
@@ -178,7 +61,7 @@
     3. **CSSOM**：节点创建 CSSOM 树
 
 21. [根据 DOM 树和 CSSOM 树构建渲染树](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction):
-    1. 从 DOM 树的根节点遍历所有**可见节点**，不可见节点包括：(1) `script`,`meta`这样本身不可见的标签。(2) 被 css 隐藏的节点，如`display: none`
+    1. 从 DOM 树的根节点遍历所有**可见节点**，不可见节点包括：(1) ¥¥script¥¥,¥¥meta¥¥这样本身不可见的标签。(2) 被 css 隐藏的节点，如¥¥display: none¥¥
     2. 对每一个可见节点，找到恰当的 CSSOM 规则并应用
     3. 发布可视节点的内容和计算样式
 
@@ -225,59 +108,59 @@
 这三个过程在实际进行的时候又不是完全独立，而是会有交叉。会造成一边加载，一遍解析，一遍渲染的工作现象。
 
 ##### CSS的解析是从右往左逆向解析的
-从DOM树的`下－上`解析比`上－下`解析效率高)，嵌套标签越多，解析越慢。
+从DOM树的¥¥下－上¥¥解析比¥¥上－下¥¥解析效率高)，嵌套标签越多，解析越慢。
 
 
 
-### `Winow.onload`和`DomContentLoaded`的区别
-```javascript
+### ¥¥Winow.onload¥¥和¥¥DomContentLoaded¥¥的区别
+¥¥¥¥¥¥javascript
 window.addEventListener('load', function() {
   // 页面的全部资源加载完之后才会执行，包括图片、视频等。
 })
 window.addEventListener('DomContentLoaded', function() {
   // DOM渲染完即可执行，此时图片、视频等可能没加载完。
 })
-```
+¥¥¥¥¥¥
 
 
 
 ### cache-control 属性有哪些？
 
-1. `cache-control: max-age=xxxx，public`
+1. ¥¥cache-control: max-age=xxxx，public¥¥
 
 **客户端和代理服务器**都可以缓存该资源；
 客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存，statu code:200 ，如果用户做了刷新操作，就向服务器发起http请求
 
 
-2. `cache-control: max-age=xxxx，private`
+2. ¥¥cache-control: max-age=xxxx，private¥¥
 
 只让**客户端**可以缓存该资源；代理服务器不缓存
 客户端在xxx秒内直接读取缓存，statu code:200
 
-3. `cache-control: max-age=xxxx，immutable`
+3. ¥¥cache-control: max-age=xxxx，immutable¥¥
 
 客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存，statu code:200 ，即使用户做了刷新操作，也不向服务器发起http请求
 
-4. `cache-control: no-cache`
+4. ¥¥cache-control: no-cache¥¥
 
 **跳过设置强缓存**，但是不妨碍设置协商缓存；一般如果你做了强缓存，只有在强缓存失效了才走协商缓存的，设置了no-cache就不会走强缓存了，每次请求都回询问服务端。
 
 
-5. `cache-control: no-store`
+5. ¥¥cache-control: no-store¥¥
 
 不缓存，这个会让**客户端、服务器都不缓存**，也就没有所谓的强缓存、协商缓存了。
 
 
 
-#### `immutable`
+#### ¥¥immutable¥¥
 
-`immutable` 为了让用户在刷新页面的时候不要去请求服务器。
+¥¥immutable¥¥ 为了让用户在刷新页面的时候不要去请求服务器。
 
-`Cache-Control: max-age=3600, immutable`，表明该资源能存活一小时，在一小时之内，即便用户刷新也不要发送条件请求，不走协商缓存的流程。
+¥¥Cache-Control: max-age=3600, immutable¥¥，表明该资源能存活一小时，在一小时之内，即便用户刷新也不要发送条件请求，不走协商缓存的流程。
 
-在过期之后，浏览器会发送一个不带`If-Modified-Since`和`If-None-Match`的请求来更新资源。
+在过期之后，浏览器会发送一个不带¥¥If-Modified-Since¥¥和¥¥If-None-Match¥¥的请求来更新资源。
 
-这里需要注意，一旦被标志成 immutable，则这个资源不可能返回 304 响应了，只有 200（Chrome 开发者工具的network里面size会显示为`from memory cache/from disk cache`）。
+这里需要注意，一旦被标志成 immutable，则这个资源不可能返回 304 响应了，只有 200（Chrome 开发者工具的network里面size会显示为¥¥from memory cache/from disk cache¥¥）。
 
 
 
@@ -287,26 +170,26 @@ window.addEventListener('DomContentLoaded', function() {
 
 ### 协商缓存触发条件
 
-1. `Cache-Control`的值为`no-cache` （不强缓存）
-2. 或者`max-age`过期了 （强缓存，但总有过期的时候）
+1. ¥¥Cache-Control¥¥的值为¥¥no-cache¥¥ （不强缓存）
+2. 或者¥¥max-age¥¥过期了 （强缓存，但总有过期的时候）
 
 
 参考资料：[强缓存和协商缓存](https://www.cnblogs.com/everlose/p/12779864.html)，[浅谈http中的Cache-Control](https://blog.csdn.net/u012375924/article/details/82806617)
 
 ### 强缓存和协商缓存
 强缓存：
-- `cache-control`的单位是秒
-- `Expire`绝对时间，`cache-control`是相对时间，以后者为准
+- ¥¥cache-control¥¥的单位是秒
+- ¥¥Expire¥¥绝对时间，¥¥cache-control¥¥是相对时间，以后者为准
 
 协商缓存：
-- `Last-Modified`是服务器下发的，`If-Modified-Since`是浏览器发送到的，记录的时间，有可能时间变了，内容不变
-- `Etag`是变的是内容才会再次请求，对应的是`If-None-Match`
+- ¥¥Last-Modified¥¥是服务器下发的，¥¥If-Modified-Since¥¥是浏览器发送到的，记录的时间，有可能时间变了，内容不变
+- ¥¥Etag¥¥是变的是内容才会再次请求，对应的是¥¥If-None-Match¥¥
 
 <img src='imgs/b_s_cache.png' height='500'/>
 
 ### 为什么要有etag？
 
-你可能会觉得使用`last-modified`已经足以让浏览器知道本地的缓存副本是否足够新，为什么还需要`etag`呢？HTTP1.1中etag的出现（也就是说，etag是新增的，为了解决之前只有If-Modified的缺点）主要是为了解决几个last-modified比较难解决的问题：
+你可能会觉得使用¥¥last-modified¥¥已经足以让浏览器知道本地的缓存副本是否足够新，为什么还需要¥¥etag¥¥呢？HTTP1.1中etag的出现（也就是说，etag是新增的，为了解决之前只有If-Modified的缺点）主要是为了解决几个last-modified比较难解决的问题：
 
 1. 一些文件也许会**周期性的更改**，但是他的**内容并不改变(仅仅改变的修改时间)**，这个时候我们并不希望客户端认为这个文件被修改了，而重新get；
 2. 某些文件**修改非常频繁**，比如在**秒以下的时间内进行修改，(比方说1s内修改了N次)**，if-modified-since能检查到的粒度是秒级的，这种修改无法判断(或者说UNIX记录MTIME只能精确到秒)；
@@ -315,7 +198,7 @@ window.addEventListener('DomContentLoaded', function() {
  
 
 ### 常见的浏览器内核比较
-```
+¥¥¥¥¥¥
 Trident：这种浏览器内核是 IE 浏览器用的内核，因为在早期 IE 占有大量的市场份额，所以这种内核比较流行，以前有很多
 网页也是根据这个内核的标准来编写的，但是实际上这个内核对真正的网页标准支持不是很好。但是由于 IE 的高市场占有率，微
 软也很长时间没有更新 Trident 内核，就导致了 Trident 内核和 W3C 标准脱节。还有就是 Trident 内核的大量 Bug 等
@@ -335,11 +218,11 @@ Blink：谷歌在 Chromium Blog 上发表博客，称将与苹果的开源浏览
 link 渲染引擎（即浏览器核心），内置于 Chrome 浏览器之中。其实 Blink 引擎就是 Webkit 的一个分支，就像 webkit 是
 KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共同研发，上面提到过的，Opera 弃用了自己的 Presto 
 内核，加入 Google 阵营，跟随谷歌一起研发 Blink。
-```
+¥¥¥¥¥¥
 
 ### 常见浏览器所用内核
 
-```
+¥¥¥¥¥¥
  （1） IE 浏览器内核：Trident 内核，也是俗称的 IE 内核；
 
  （2） Chrome 浏览器内核：统称为 Chromium 内核或 Chrome 内核，以前是 Webkit 内核，现在是 Blink内核；
@@ -360,7 +243,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
  （10）UC 浏览器内核：这个众口不一，UC 说是他们自己研发的 U3 内核，但好像还是基于 Webkit 和 Trident ，还有说
       是基于火狐内核。
-```
+¥¥¥¥¥¥
 
 ### 事件处理程序
 
@@ -377,7 +260,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 2. 删除事件处理程序的操作：removeEventListener()
 
 接收三个参数：
-1. 要处理的事件名（**去掉前面的on**，比如直接写`click`或`mouseover`）
+1. 要处理的事件名（**去掉前面的on**，比如直接写¥¥click¥¥或¥¥mouseover¥¥）
 2. 作为事件处理程序的函数
 3. 布尔值（**false是事件冒泡，true是事件捕获，默认false**）
 
@@ -409,9 +292,9 @@ DOM 中的事件对象
 
 
 #### DOM事件级别：
-- DOM0：`element.onclick=function(){}`
-- DOM2：`element.addEventListener(‘click’, function(){}, false)`
-- DOM3：`element.addEventListener(‘keyup, function(){}, false)`
+- DOM0：¥¥element.onclick=function(){}¥¥
+- DOM2：¥¥element.addEventListener(‘click’, function(){}, false)¥¥
+- DOM3：¥¥element.addEventListener(‘keyup, function(){}, false)¥¥
 
 
 
@@ -454,14 +337,14 @@ DOM 中的事件对象
 
 
 
-### `defer` 和 `async` 的区别
+### ¥¥defer¥¥ 和 ¥¥async¥¥ 的区别
 ![difference between defer and async](imgs/deferAndAsyncDiff.png)
 
 1. defer和async在网络读取（下载）这块儿是一样的，都是异步的（相较于 HTML 解析）
 2. 它俩的差别在于**脚本下载完之后何时执行**，显然 defer 是最接近我们对于应用脚本加载和执行的要求的
 3. 关于defer，此图未尽之处在于它是**按照加载顺序执行脚本**的，这一点要善加利用
 4. async 则是一个**乱序执行**的主，反正对它来说脚本的加载和执行是紧紧挨着的，所以不管你声明的顺序如何，只要它加载完了就会立刻执行
-5. 仔细想想，async 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行），不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的，最典型的例子：`Google Analytics`
+5. 仔细想想，async 对于应用脚本的用处不大，因为它完全不考虑依赖（哪怕是最低级的顺序执行），不过它对于那些可以不依赖任何脚本或不被任何脚本依赖的脚本来说却是非常合适的，最典型的例子：¥¥Google Analytics¥¥
 
 
 
@@ -477,13 +360,13 @@ DOM 中的事件对象
 意义： 懒加载的主要目的是作为服务器前端的优化，减少请求数或延迟请求数。
 
 实现方式： 
-1. 第一种是**纯粹的延迟加载**，使用`setTimeOut或setInterval`进行加载延迟.
+1. 第一种是**纯粹的延迟加载**，使用¥¥setTimeOut或setInterval¥¥进行加载延迟.
 2. 第二种是**条件加载**，符合某些条件，或触发了某些事件才开始异步下载。
 3. 第三种是**可视区加载**，即仅加载用户可以看到的区域，这个主要由监控滚动条来实现，一般会在距用户看到某图片前一定距离遍开始加载，这样能保证用户拉下时正好能看到图片。
 
 预加载的意义及实现方式有：
 预加载可以说是牺牲服务器前端性能，换取更好的用户体验，这样可以使用户的操作得到最快的反映。
-实现预载的方法非常多，可以用`CSS(background)、JS(Image)、HTML(<img />)`都可以。常用的是`new Image()`，设置其`src`来实现预载，再使用`onload`方法回调预载完成事件。只要浏览器把图片下载到本地，同样的src就会使用缓存，这是最基本也是最实用的预载方法。当Image下载完图片头后，会得到宽和高，因此可以在预载前得到图片的大小(方法是用记时器轮循宽高变化)。
+实现预载的方法非常多，可以用¥¥CSS(background)、JS(Image)、HTML(<img />)¥¥都可以。常用的是¥¥new Image()¥¥，设置其¥¥src¥¥来实现预载，再使用¥¥onload¥¥方法回调预载完成事件。只要浏览器把图片下载到本地，同样的src就会使用缓存，这是最基本也是最实用的预载方法。当Image下载完图片头后，会得到宽和高，因此可以在预载前得到图片的大小(方法是用记时器轮循宽高变化)。
 
 
 
@@ -499,48 +382,48 @@ DOM 中的事件对象
 
 
 
-### HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？
+### HTML 规范中为什么要求引用资源不加协议头¥¥http¥¥或者¥¥https¥¥？
 
-如果用户当前访问的页面是通过 `HTTPS` 协议来浏览的，那么网页中的资源也只能通过 `HTTPS` 协议来引用，否则浏览器会出现警告信息，不同浏览器警告信息展现形式不同。
+如果用户当前访问的页面是通过 ¥¥HTTPS¥¥ 协议来浏览的，那么网页中的资源也只能通过 ¥¥HTTPS¥¥ 协议来引用，否则浏览器会出现警告信息，不同浏览器警告信息展现形式不同。
 
-为了解决这个问题，我们可以省略 `URL` 的协议声明，省略后浏览器照样可以正常引用相应的资源，这项解决方案称为`protocol-relative URL`，暂且可译作`协议相对 URL`。
+为了解决这个问题，我们可以省略 ¥¥URL¥¥ 的协议声明，省略后浏览器照样可以正常引用相应的资源，这项解决方案称为¥¥protocol-relative URL¥¥，暂且可译作¥¥协议相对 URL¥¥。
 
-如果使用协议相对 URL，无论是使用` HTTPS`，还是 `HTTP` 访问页面，浏览器都会以相同的协议请求页面中的资源，避免弹出类似的警告信息，同时还可以节省5字节的数据量。
-
-
+如果使用协议相对 URL，无论是使用¥¥ HTTPS¥¥，还是 ¥¥HTTP¥¥ 访问页面，浏览器都会以相同的协议请求页面中的资源，避免弹出类似的警告信息，同时还可以节省5字节的数据量。
 
 
-### `script`标签的`crossorigin`属性
 
-引入跨域的脚本（比如用了 `apis.google.com` 上的库文件），如果这个脚本有错误，因为浏览器的限制（根本原因是协议的规定），是拿不到错误信息的。当本地尝试使用 `window.onerror` 去记录脚本的错误时，跨域脚本的错误只会返回 `Script error`。
+
+### ¥¥script¥¥标签的¥¥crossorigin¥¥属性
+
+引入跨域的脚本（比如用了 ¥¥apis.google.com¥¥ 上的库文件），如果这个脚本有错误，因为浏览器的限制（根本原因是协议的规定），是拿不到错误信息的。当本地尝试使用 ¥¥window.onerror¥¥ 去记录脚本的错误时，跨域脚本的错误只会返回 ¥¥Script error¥¥。
 
 但 HTML5 新的规定，是可以**允许本地获取到跨域脚本的错误信息**，但有两个条件：
-1. 一是跨域脚本的服务器必须通过 `Access-Controll-Allow-Origin` 头信息允许当前域名可以获取错误信息
-2. 二是当前域名的 `script` 标签也必须指明 `src` 属性指定的地址是支持跨域的地址，也就是 `crossorigin` 属性。
+1. 一是跨域脚本的服务器必须通过 ¥¥Access-Controll-Allow-Origin¥¥ 头信息允许当前域名可以获取错误信息
+2. 二是当前域名的 ¥¥script¥¥ 标签也必须指明 ¥¥src¥¥ 属性指定的地址是支持跨域的地址，也就是 ¥¥crossorigin¥¥ 属性。
 
 
-`crossorigin`属性：
-- `anonymous`，对此元素的 CORS 请求将**不设置凭据标志**。
-- `use-credentials`，对此元素的CORS请求将设置凭证标志；这意味着**请求将提供凭据**。
-- `""`，设置一个空的值，如 `crossorigin` 或 `crossorigin=""`，和设置 `anonymous` 的效果一样。
+¥¥crossorigin¥¥属性：
+- ¥¥anonymous¥¥，对此元素的 CORS 请求将**不设置凭据标志**。
+- ¥¥use-credentials¥¥，对此元素的CORS请求将设置凭证标志；这意味着**请求将提供凭据**。
+- ¥¥""¥¥，设置一个空的值，如 ¥¥crossorigin¥¥ 或 ¥¥crossorigin=""¥¥，和设置 ¥¥anonymous¥¥ 的效果一样。
 
 
 
 ### DOS攻击
 
-拒绝服务（英文名称`denial of service;DoS`）是指通过向服务器发送大量垃圾信息或干扰信息的方式，导致服务器无法向正常用户提供服务的现象。
+拒绝服务（英文名称¥¥denial of service;DoS¥¥）是指通过向服务器发送大量垃圾信息或干扰信息的方式，导致服务器无法向正常用户提供服务的现象。
 拒绝服务攻击的类型按其攻击形式分为：
-- 导致异常型：利用软硬件实现上的编程缺陷，导致其出现异常，从而使其拒绝服务。如`ping of death`攻击等；
+- 导致异常型：利用软硬件实现上的编程缺陷，导致其出现异常，从而使其拒绝服务。如¥¥ping of death¥¥攻击等；
 - 资源耗尽型：通过大量消耗资源使得攻击目标由于资源耗尽不能提供正常服务，是资源类型的不同分为带宽耗尽和系统资源耗尽两类：
-  - 带宽耗尽攻击的本质是攻击者通过方法等技巧消耗掉目标网络的所有带宽，如`smurf攻击`等；
-  - 系统资源耗尽型攻击指对系统内存、cpu或程序中的其他资源进行消耗，使其无法满足正常提供服务的需求。如`syn flood` 攻击等；
-- 欺骗型：`arp`拒绝服务攻击。
+  - 带宽耗尽攻击的本质是攻击者通过方法等技巧消耗掉目标网络的所有带宽，如¥¥smurf攻击¥¥等；
+  - 系统资源耗尽型攻击指对系统内存、cpu或程序中的其他资源进行消耗，使其无法满足正常提供服务的需求。如¥¥syn flood¥¥ 攻击等；
+- 欺骗型：¥¥arp¥¥拒绝服务攻击。
 
 
 
 #### DDOS
 
-全称`Distributed Denial of Service`，中文意思为“分布式拒绝服务”，就是利用大量合法的**分布式服务器**对目标发送请求，从而导致正常合法用户无法获得服务。
+全称¥¥Distributed Denial of Service¥¥，中文意思为“分布式拒绝服务”，就是利用大量合法的**分布式服务器**对目标发送请求，从而导致正常合法用户无法获得服务。
 
 
 
@@ -548,12 +431,12 @@ DOM 中的事件对象
 
 CDN均表示以支持SRI为荣，不支持SRI功能为耻
 
-SRI 全称是 `Subresource Integrity`，是用来解决由于 CDN 资源被污染而导致的 XSS 漏洞的方案。当浏览器检测加载脚本签名与给定的签名不一致时，会拒绝执行该脚本。
+SRI 全称是 ¥¥Subresource Integrity¥¥，是用来解决由于 CDN 资源被污染而导致的 XSS 漏洞的方案。当浏览器检测加载脚本签名与给定的签名不一致时，会拒绝执行该脚本。
 
-为什么CDN主推SRI功能，因为XSS，可以牵扯出`DDoS`攻击(分布式拒绝服务攻击)，XSS比劫持肉鸡简单多了！
+为什么CDN主推SRI功能，因为XSS，可以牵扯出¥¥DDoS¥¥攻击(分布式拒绝服务攻击)，XSS比劫持肉鸡简单多了！
 
 现代网站的大部分交互都来自于JavaScript，一般我们为了优化JS的加载速度，一般会分好几个域名加载js，而众多公用库一般放在第三方CDN上。JavaScript可以发出HTTP(S)请求，实现网页内容异步加载，但它也能将浏览器变成攻击者的武器。例如，下面的代码可以向受攻击网站发出洪水般的请求：
-```javascript
+¥¥¥¥¥¥javascript
 function imgflood() {  
   var TARGET = 'victim-website.com'
   var URI = '/index.php?'
@@ -562,49 +445,49 @@ function imgflood() {
   pic.src = 'http://'+TARGET+URI+rand+'=val'
 }
 setInterval(imgflood, 10)
-```
-上述脚本每秒钟会在页面上创建10个`image`标签。该标签指向`“victim-website.com”`，并带有一个随机查询参数。如果用户访问了包含这段代码的恶意网站，那么他就会在不知情的情况下参与了对`“victim-website.com”`的DDoS攻击。
+¥¥¥¥¥¥
+上述脚本每秒钟会在页面上创建10个¥¥image¥¥标签。该标签指向¥¥“victim-website.com”¥¥，并带有一个随机查询参数。如果用户访问了包含这段代码的恶意网站，那么他就会在不知情的情况下参与了对¥¥“victim-website.com”¥¥的DDoS攻击。
 
-这种攻击之所以有效是因为HTTP中缺少一种机制使网站能够禁止被篡改的脚本运行。为了解决这一问题，W3C已经提议增加一个新特性子资源一致性。该特性允许网站告诉浏览器，只有在其下载的脚本与网站希望运行的脚本一致时才能运行脚本。这是通过密码散列实现的。这就是守门神：`integrity=文件指纹`
+这种攻击之所以有效是因为HTTP中缺少一种机制使网站能够禁止被篡改的脚本运行。为了解决这一问题，W3C已经提议增加一个新特性子资源一致性。该特性允许网站告诉浏览器，只有在其下载的脚本与网站希望运行的脚本一致时才能运行脚本。这是通过密码散列实现的。这就是守门神：¥¥integrity=文件指纹¥¥
 
-密码散列可以唯一标识一个数据块，任何两个文件的密码散列均不相同。属性`integrity`提供了**网站希望运行的脚本文件的密码散列**。浏览器在下载脚本后会计算它的散列，然后将得出的值与`integrity`提供的值进行比较。如果不匹配，则说明**目标脚本被篡改**，浏览器将不使用它。
+密码散列可以唯一标识一个数据块，任何两个文件的密码散列均不相同。属性¥¥integrity¥¥提供了**网站希望运行的脚本文件的密码散列**。浏览器在下载脚本后会计算它的散列，然后将得出的值与¥¥integrity¥¥提供的值进行比较。如果不匹配，则说明**目标脚本被篡改**，浏览器将不使用它。
 
 
 
 #### 如何开启 SRI 功能
 
-SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS` 设置，然后需要在`<script>`中提供**签名**以供校验。由于 SRI 在不匹配的时候就不执行脚本。
+SRI 开启需要有两个条件：首先需要资源为同域或者开启 ¥¥CORS¥¥ 设置，然后需要在¥¥<script>¥¥中提供**签名**以供校验。由于 SRI 在不匹配的时候就不执行脚本。
 
-```html
+¥¥¥¥¥¥html
 <script 
     crossorigin="anonymous" 
     integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" 
     src="http://lib.baomitu.com/jquery/3.2.1/jquery.min.js">
 <script>
-```
+¥¥¥¥¥¥
 
-### `cookie`和`session`
-本来`session`是一个**抽象概念**，开发者为了实现中断和继续等操作，将`user agent`和`server`之间一对一的交互，抽象为“会话”，进而衍生出“会话状态”，也就是`session`的概念。
- 而`cookie`是一个**实际存在**的东西，http 协议中定义在 `header` 中的字段。可以认为是 `session`的一种后端无状态实现。
+### ¥¥cookie¥¥和¥¥session¥¥
+本来¥¥session¥¥是一个**抽象概念**，开发者为了实现中断和继续等操作，将¥¥user agent¥¥和¥¥server¥¥之间一对一的交互，抽象为“会话”，进而衍生出“会话状态”，也就是¥¥session¥¥的概念。
+ 而¥¥cookie¥¥是一个**实际存在**的东西，http 协议中定义在 ¥¥header¥¥ 中的字段。可以认为是 ¥¥session¥¥的一种后端无状态实现。
 而我们今天常说的 “session”，是为了绕开 cookie 的各种限制，通常**借助 cookie 本身**和**后端存储**实现的，一种更高级的会话状态实现。
-所以 cookie 和 session，你可以认为是同一层次的概念，也可以认为是不同层次的概念。具体到实现，session 因为 `session id` 的存在，通常要借助 cookie 实现，但这并非必要，只能说是通用性较好的一种实现方案。
+所以 cookie 和 session，你可以认为是同一层次的概念，也可以认为是不同层次的概念。具体到实现，session 因为 ¥¥session id¥¥ 的存在，通常要借助 cookie 实现，但这并非必要，只能说是通用性较好的一种实现方案。
 
 
 #### cookie 
-服务器通过设置`set-cookie`这个响应头，将 cookie 信息返回给浏览器，浏览器将响应头中的 cookie 信息保存在本地，当下次向服务器发送 HTTP 请求时，浏览器会自动将保存的这些 cookie 信息添加到请求头中。
-`set-cookie`格式如下，
-`set-cookie: value[; expires=date][; domain=domain][; path=path][; secure]`
+服务器通过设置¥¥set-cookie¥¥这个响应头，将 cookie 信息返回给浏览器，浏览器将响应头中的 cookie 信息保存在本地，当下次向服务器发送 HTTP 请求时，浏览器会自动将保存的这些 cookie 信息添加到请求头中。
+¥¥set-cookie¥¥格式如下，
+¥¥set-cookie: value[; expires=date][; domain=domain][; path=path][; secure]¥¥
 
 通过 cookie，服务器就会识别出浏览器，从而保证返回的数据是这个用户的。
 重点：
 
-- 通过`set-cookie`设置
+- 通过¥¥set-cookie¥¥设置
 - 下次请求会自动带上
 - 键值对，可设置多个
 
 ![set cookie](imgs/set_cookie.jpg)
 
-#### `cookie`属性
+#### ¥¥cookie¥¥属性
 - max-age
   - 过期时间有多长
   - 默认在浏览器关闭时失效
@@ -627,7 +510,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
   - 一般这个值是有时间限制的，超时后销毁，默认 30min
 - 当用户在应用程序的 web 页面间挑转时，存储在 session 对象中的变量不会丢失而是在整个用户会话中一直存在下去。
 - session 依赖于 cookie，因为 sessionID 是存放在 cookie 中的。
-  - 如果浏览器禁用了 cookie ，同时 session 也会失效（但是可以通过其它方式实现，比如在 `url` 中传递 `sessionID`）
+  - 如果浏览器禁用了 cookie ，同时 session 也会失效（但是可以通过其它方式实现，比如在 ¥¥url¥¥ 中传递 ¥¥sessionID¥¥）
 
 
 
@@ -641,23 +524,23 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 
 
-### `session`和`token`
+### ¥¥session¥¥和¥¥token¥¥
 
-1. `session`是**有状态**的，一般存于服务器内存或硬盘中，当服务器采用**分布式或集群**时，`session`就会面对**负载均衡**问题。
-2. `token`是**无状态**的，`token`字符串里就**保存了所有的用户信息**。
-
-
-
-#### `token`过程
-
-- 客户端登陆传递信息给服务端，服务端收到后把用户信息加密（`token`）传给客户端，客户端将`token`存放于`localStroage`等容器中。
-- 客户端每次访问都传递token，服务端解密`token`，就知道这个用户是谁了。
-- 通过cpu加解密，服务端就不需要存储`session`占用存储空间，就很好的解决负载均衡多服务器的问题了。
-- 这个方法叫做`JWT(Json Web Token)`
+1. ¥¥session¥¥是**有状态**的，一般存于服务器内存或硬盘中，当服务器采用**分布式或集群**时，¥¥session¥¥就会面对**负载均衡**问题。
+2. ¥¥token¥¥是**无状态**的，¥¥token¥¥字符串里就**保存了所有的用户信息**。
 
 
 
-#### `session`和`token`的区别
+#### ¥¥token¥¥过程
+
+- 客户端登陆传递信息给服务端，服务端收到后把用户信息加密（¥¥token¥¥）传给客户端，客户端将¥¥token¥¥存放于¥¥localStroage¥¥等容器中。
+- 客户端每次访问都传递token，服务端解密¥¥token¥¥，就知道这个用户是谁了。
+- 通过cpu加解密，服务端就不需要存储¥¥session¥¥占用存储空间，就很好的解决负载均衡多服务器的问题了。
+- 这个方法叫做¥¥JWT(Json Web Token)¥¥
+
+
+
+#### ¥¥session¥¥和¥¥token¥¥的区别
 
 1. session存储于服务器，可以理解为一个状态列表，拥有一个唯一识别符号sessionId，通常存放于cookie中。服务器收到cookie后解析出sessionId，再去session列表中查找，才能找到相应session。依赖cookie。
 2. cookie类似一个令牌，装有sessionId，存储在客户端，浏览器通常会自动添加。
@@ -666,80 +549,80 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 
 
 
-### `token`可以抵抗CSRF，`cookie+session`不行
+### ¥¥token¥¥可以抵抗CSRF，¥¥cookie+session¥¥不行
 
-- 在post请求的瞬间，`cookie`会**被浏览器自动添加到请求头**中。
-- 但`token`不同，`token`是开发者为了防范csrf而特别设计的令牌，**浏览器不会自动添加到`headers`里**，**攻击者也无法访问用户的`token`**，所以提交的表单无法通过服务器过滤，也就无法形成攻击。
+- 在post请求的瞬间，¥¥cookie¥¥会**被浏览器自动添加到请求头**中。
+- 但¥¥token¥¥不同，¥¥token¥¥是开发者为了防范csrf而特别设计的令牌，**浏览器不会自动添加到¥¥headers¥¥里**，**攻击者也无法访问用户的¥¥token¥¥**，所以提交的表单无法通过服务器过滤，也就无法形成攻击。
 
 
 ### Viewport
 
-1. `iphone5`的分辨率是 `640dp * 1136 dp`（物理像素）
-    `dp,pt`： `device independent pixels` 设备无关的像素
-2. 开发中应该是`320px * 568px` （逻辑像素）
-    `px: css pixel` （逻辑像素），浏览器使用的抽象单位
-3. `dpr:devicePixelRatio` 设备像素缩放比
-    计算公式：`1px`等于`dpr的平方`乘`物理像素`
+1. ¥¥iphone5¥¥的分辨率是 ¥¥640dp * 1136 dp¥¥（物理像素）
+    ¥¥dp,pt¥¥： ¥¥device independent pixels¥¥ 设备无关的像素
+2. 开发中应该是¥¥320px * 568px¥¥ （逻辑像素）
+    ¥¥px: css pixel¥¥ （逻辑像素），浏览器使用的抽象单位
+3. ¥¥dpr:devicePixelRatio¥¥ 设备像素缩放比
+    计算公式：¥¥1px¥¥等于¥¥dpr的平方¥¥乘¥¥物理像素¥¥
 
 
-- `DPI`：打印机每英寸可以喷的墨汁点（印刷行业）
-- `PPI`：屏幕每英寸的像素数量，即单位英寸内的像素密度
+- ¥¥DPI¥¥：打印机每英寸可以喷的墨汁点（印刷行业）
+- ¥¥PPI¥¥：屏幕每英寸的像素数量，即单位英寸内的像素密度
 
 
 
-`viewport` 的构成：
+¥¥viewport¥¥ 的构成：
 
-1. `visual viewport`：视口视图（**设定缩放scale**）
-2. `layout viewport`：布局视图（**承载底层布局**）
+1. ¥¥visual viewport¥¥：视口视图（**设定缩放scale**）
+2. ¥¥layout viewport¥¥：布局视图（**承载底层布局**）
 
 
 
 手机浏览器对页面默认行为：
 
-1. 渲染在`viewport`（保证基本布局正确）
+1. 渲染在¥¥viewport¥¥（保证基本布局正确）
 2. 对页面进行缩放（保证页面显示完整）
 
 
 
 注意：
 
-- 苹果浏览器默认`layout viewport`是`980px`，所以一张`320px`或者`640px`的图片都是铺不满的。
-- `meta`标签设置的是`layout viewport`
+- 苹果浏览器默认¥¥layout viewport¥¥是¥¥980px¥¥，所以一张¥¥320px¥¥或者¥¥640px¥¥的图片都是铺不满的。
+- ¥¥meta¥¥标签设置的是¥¥layout viewport¥¥
 
 
 
-`layout viewport`和`visual viewport`对应的获取宽度API
+¥¥layout viewport¥¥和¥¥visual viewport¥¥对应的获取宽度API
 
-- 布局 viewport 宽度（meta 设置）：`document.body.clientWidth`
-- 度量 viewport 宽度（css 设置）：`window.innerWidth`
-- 缩放比：`window.innerWidth / document.body.clientWidth`
-
-
-
-设置`width=device-width`后, 如果页面中宽度小于`device-width`，比如`320px`，显示是没问题的， `document.body.clientWidth = window.innerWidth = 320`。
-
-但是，如果页面总宽度大于`device-width`，那么会自动缩小，比如`document.body.clientWidth = 320，window.innerWidth = 390`，默认缩放比就是`390/320`，这时就需要设置`initial-scale=1.0`，不让它自动缩放，这样`document.body.clientWidth` 和 `window.innerWidth` 都是`320`了
-
-
-总结：`width=device-width`，让`布局viewport`时刻等于设备宽度；`initial-scale=1`，让`布局viewport`时刻等于`度量viewport`。
+- 布局 viewport 宽度（meta 设置）：¥¥document.body.clientWidth¥¥
+- 度量 viewport 宽度（css 设置）：¥¥window.innerWidth¥¥
+- 缩放比：¥¥window.innerWidth / document.body.clientWidth¥¥
 
 
 
-移动web最佳`viewpoint`设置：
+设置¥¥width=device-width¥¥后, 如果页面中宽度小于¥¥device-width¥¥，比如¥¥320px¥¥，显示是没问题的， ¥¥document.body.clientWidth = window.innerWidth = 320¥¥。
 
-- `布局viewport` = 设备宽度 = `度量viewpoint`
+但是，如果页面总宽度大于¥¥device-width¥¥，那么会自动缩小，比如¥¥document.body.clientWidth = 320，window.innerWidth = 390¥¥，默认缩放比就是¥¥390/320¥¥，这时就需要设置¥¥initial-scale=1.0¥¥，不让它自动缩放，这样¥¥document.body.clientWidth¥¥ 和 ¥¥window.innerWidth¥¥ 都是¥¥320¥¥了
+
+
+总结：¥¥width=device-width¥¥，让¥¥布局viewport¥¥时刻等于设备宽度；¥¥initial-scale=1¥¥，让¥¥布局viewport¥¥时刻等于¥¥度量viewport¥¥。
+
+
+
+移动web最佳¥¥viewpoint¥¥设置：
+
+- ¥¥布局viewport¥¥ = 设备宽度 = ¥¥度量viewpoint¥¥
 
 
 
 最常用代码：
 
-```
+¥¥¥¥¥¥
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-```
+¥¥¥¥¥¥
 
-### HTML `<meta>` 标签
+### HTML ¥¥<meta>¥¥ 标签
 元数据（Metadata）是数据的数据信息。
-`<meta>` 标签提供了 HTML 文档的元数据。元数据不会显示在客户端，但是会被浏览器解析。
+¥¥<meta>¥¥ 标签提供了 HTML 文档的元数据。元数据不会显示在客户端，但是会被浏览器解析。
 META元素通常用于指定网页的描述，关键词，文件的最后修改时间，作者及其他元数据。
 元数据可以被使用浏览器（如何显示内容或重新加载页面），搜索引擎（关键词），或其他 Web 服务调用。
 
@@ -747,124 +630,124 @@ META元素通常用于指定网页的描述，关键词，文件的最后修改�
 
 HTML 与 XHTML 之间的差异
 
-- 在 HTML 中 `<meta>` 标签没有结束标签。
-- 在 XHTML 中 `<meta>` 标签必须包含结束标签。
+- 在 HTML 中 ¥¥<meta>¥¥ 标签没有结束标签。
+- 在 XHTML 中 ¥¥<meta>¥¥ 标签必须包含结束标签。
 
 
 
-#### `name`属性
+#### ¥¥name¥¥属性
 
-`name`属性主要用于**描述网页**，与之对应的属性值为`content`，`content`中的内容主要是便于搜索引擎机器人查找信息和分类信息用的。 
+¥¥name¥¥属性主要用于**描述网页**，与之对应的属性值为¥¥content¥¥，¥¥content¥¥中的内容主要是便于搜索引擎机器人查找信息和分类信息用的。 
 
 meta标签的name属性语法格式是：
-```
+¥¥¥¥¥¥
 <meta name="参数" content="具体的参数值">
-```
+¥¥¥¥¥¥
 
 
 
 其中name属性主要有以下几种参数：　
 
-- `Keywords`(关键字)　
-  - `keywords`用来告诉搜索引擎你网页的关键字是什么。
-- `description`(网站内容描述)
-  - `description`用来告诉搜索引擎你的网站主要内容。
-- `robots`(机器人向导)
-  - `robots`用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。
-  - `content`的参数有`all, none, index, noindex, follow, nofollow`。默认是all。
-- `author`(作者)
+- ¥¥Keywords¥¥(关键字)　
+  - ¥¥keywords¥¥用来告诉搜索引擎你网页的关键字是什么。
+- ¥¥description¥¥(网站内容描述)
+  - ¥¥description¥¥用来告诉搜索引擎你的网站主要内容。
+- ¥¥robots¥¥(机器人向导)
+  - ¥¥robots¥¥用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。
+  - ¥¥content¥¥的参数有¥¥all, none, index, noindex, follow, nofollow¥¥。默认是all。
+- ¥¥author¥¥(作者)
 
 
 
-#### `http-equiv`属性
+#### ¥¥http-equiv¥¥属性
 
-`http-equiv`顾名思义，**相当于http的文件头**作用，它可以向浏览器传回一些有用的信息，以帮助正确和精确地显示网页内容，与之对应的属性值为`content`，`content`中的内容其实就是各个参数的变量值。
+¥¥http-equiv¥¥顾名思义，**相当于http的文件头**作用，它可以向浏览器传回一些有用的信息，以帮助正确和精确地显示网页内容，与之对应的属性值为¥¥content¥¥，¥¥content¥¥中的内容其实就是各个参数的变量值。
 
-meta标签的`http-equiv`属性语法格式是：
+meta标签的¥¥http-equiv¥¥属性语法格式是：
 
-```
+¥¥¥¥¥¥
 <meta http-equiv="参数"content="参数变量值">；
-```
+¥¥¥¥¥¥
 
 
 
-其中`http-equiv`属性主要有以下几种参数：
+其中¥¥http-equiv¥¥属性主要有以下几种参数：
 
-- `Expires`(期限)
+- ¥¥Expires¥¥(期限)
   - 可以用于设定网页的到期时间。一旦网页过期，必须到服务器上重新传输。
 
 
-- `Pragma`(`cache`模式)
+- ¥¥Pragma¥¥(¥¥cache¥¥模式)
   - 禁止浏览器从本地计算机的缓存中访问页面内容。
 
 
-- `Refresh`(刷新)
+- ¥¥Refresh¥¥(刷新)
   - 自动刷新并指向新页面。
 
-- `Set-Cookie`(`cookie`设定)
-  - 如果网页过期，那么存盘的`cookie`将被删除。
+- ¥¥Set-Cookie¥¥(¥¥cookie¥¥设定)
+  - 如果网页过期，那么存盘的¥¥cookie¥¥将被删除。
 
 
-- `Window-target`(显示窗口的设定)
+- ¥¥Window-target¥¥(显示窗口的设定)
   - 强制页面在当前窗口以独立页面显示。
 
-- `content-Type`(显示字符集的设定)
+- ¥¥content-Type¥¥(显示字符集的设定)
   - 设定页面使用的字符集。
 
-- `content-Language`（显示语言的设定）
+- ¥¥content-Language¥¥（显示语言的设定）
 
 
 
 
-#### `HTML 4.01` 与 `HTML5`之间的差异
-使用 `http-equiv` 已经不是规定 HTML 文档的字符集的唯一方式：
+#### ¥¥HTML 4.01¥¥ 与 ¥¥HTML5¥¥之间的差异
+使用 ¥¥http-equiv¥¥ 已经不是规定 HTML 文档的字符集的唯一方式：
 
-`HTML 4.01`：
-```
+¥¥HTML 4.01¥¥：
+¥¥¥¥¥¥
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-```
-`HTML5`： 
-```
+¥¥¥¥¥¥
+¥¥HTML5¥¥： 
+¥¥¥¥¥¥
 <meta charset="UTF-8">
-```
+¥¥¥¥¥¥
 
 
 #### Content-Type 类型
 
-`application/x-www-form-urlencoded`, `multipart/form-data`, `application/json`, `application/xml` 这四个是ajax的请求，表单提交或上传文件的常用的资源类型。
-form表单中可以定义`enctype`属性，该属性的含义是在发送到服务器之前应该如何对表单数据进行编码。默认的情况下，表单数据会编码为 `"application/x-www-form-unlencoded"`
+¥¥application/x-www-form-urlencoded¥¥, ¥¥multipart/form-data¥¥, ¥¥application/json¥¥, ¥¥application/xml¥¥ 这四个是ajax的请求，表单提交或上传文件的常用的资源类型。
+form表单中可以定义¥¥enctype¥¥属性，该属性的含义是在发送到服务器之前应该如何对表单数据进行编码。默认的情况下，表单数据会编码为 ¥¥"application/x-www-form-unlencoded"¥¥
 enctype常用的属性值如下：
 
-- `application/x-www-form-unlencoded`： 在发送前编码所有字符(默认情况下)；
-- `multipart/form-data`, 不对字符编码。在使用文件上传时候，使用该值。
+- ¥¥application/x-www-form-unlencoded¥¥： 在发送前编码所有字符(默认情况下)；
+- ¥¥multipart/form-data¥¥, 不对字符编码。在使用文件上传时候，使用该值。
 
-##### `application/x-www-form-urlencoded` 主要用于如下:
+##### ¥¥application/x-www-form-urlencoded¥¥ 主要用于如下:
 1. 最常见的POST提交数据方式。
-2. 原生form默认的提交方式(可以使用`enctype`指定提交数据类型)。
+2. 原生form默认的提交方式(可以使用¥¥enctype¥¥指定提交数据类型)。
 3. jquery，zepto等默认post请求提交的方式。
 
-如上默认提交的 `contentType`为 `application/x-www-form-urlencoded`，此时提交的数据将会格式化成：`username=111&age=2;`
-- 如果请求类型type是GET的话，那么格式化的字符串将直接拼接在`url`后发送到服务端； 
-- 如果请求类型是POST, 那么格式化的字符串将放在`http body`的`Form Data`中发送。
+如上默认提交的 ¥¥contentType¥¥为 ¥¥application/x-www-form-urlencoded¥¥，此时提交的数据将会格式化成：¥¥username=111&age=2;¥¥
+- 如果请求类型type是GET的话，那么格式化的字符串将直接拼接在¥¥url¥¥后发送到服务端； 
+- 如果请求类型是POST, 那么格式化的字符串将放在¥¥http body¥¥的¥¥Form Data¥¥中发送。
 
 <img src='imgs/content_type_urlencoded.png' height='250' />
 
 
-##### `multipart/form-data`
-使用表单上传文件时，必须指定表单的 `enctype`属性值为 `multipart/form-data`. 请求体被分割成多部分，每部分使用 `--boundary`分割；
+##### ¥¥multipart/form-data¥¥
+使用表单上传文件时，必须指定表单的 ¥¥enctype¥¥属性值为 ¥¥multipart/form-data¥¥. 请求体被分割成多部分，每部分使用 ¥¥--boundary¥¥分割；
 
 <img src='imgs/content_type_multipart.png' height='250' />
 
 
 
-##### `application/json`
-在http请求中，`Content-Type`都是默认的值 `application/x-www-form-urlencoded`, 这种编码格式的特点是：`name/value`值对，每组之间使用`&`连接，而`name`与`value`之间是使用 `=` 连接，比如 `key=xxx&name=111&password=123456; `键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用`application/json`传递比较好，
+##### ¥¥application/json¥¥
+在http请求中，¥¥Content-Type¥¥都是默认的值 ¥¥application/x-www-form-urlencoded¥¥, 这种编码格式的特点是：¥¥name/value¥¥值对，每组之间使用¥¥&¥¥连接，而¥¥name¥¥与¥¥value¥¥之间是使用 ¥¥=¥¥ 连接，比如 ¥¥key=xxx&name=111&password=123456; ¥¥键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用¥¥application/json¥¥传递比较好，
 
 <img src='imgs/content_type_json.png' height='250' />
 
-如上我们可以看到json格式提交的数据会显示 `Request Payload;`
+如上我们可以看到json格式提交的数据会显示 ¥¥Request Payload;¥¥
 
-注意：请求头`Content-Type`的`Type`的T一定大写。
+注意：请求头¥¥Content-Type¥¥的¥¥Type¥¥的T一定大写。
 
 ### 响应式开发
 响应式开发：弹性网格布局+弹性图片+媒体查询
@@ -872,18 +755,18 @@ enctype常用的属性值如下：
 - 优点：**减少工作量**、节省时间
 - 缺点：会**加载更多的样式和脚本资源**、老版本浏览器兼容不好
 
-### `class`和`id`命名规范
-`class`一般都是**小写加横杠**的方式命名，如`first-button`，`id`一般是用**驼峰**的方式命名，如`firstButton`
+### ¥¥class¥¥和¥¥id¥¥命名规范
+¥¥class¥¥一般都是**小写加横杠**的方式命名，如¥¥first-button¥¥，¥¥id¥¥一般是用**驼峰**的方式命名，如¥¥firstButton¥¥
 
 
 ### 回流和重绘
-回流(`reflow`)
-- 当`render tree`中的一部分(或全部)因为元素的**规模尺寸，布局，隐藏**等改变而需要重新构建。这就称为回流(`reflow`)
+回流(¥¥reflow¥¥)
+- 当¥¥render tree¥¥中的一部分(或全部)因为元素的**规模尺寸，布局，隐藏**等改变而需要重新构建。这就称为回流(¥¥reflow¥¥)
 - 当页面布局和几何属性改变时就需要回流
 
 
-重绘(`repaint`)：
-- 当`render tree`中的一些元素需要更新属性，而这些属性只是影响元素的**外观、风格**，而不会影响布局的，比如`background-color`。则就叫称为重绘。
+重绘(¥¥repaint¥¥)：
+- 当¥¥render tree¥¥中的一些元素需要更新属性，而这些属性只是影响元素的**外观、风格**，而不会影响布局的，比如¥¥background-color¥¥。则就叫称为重绘。
 - 回流必将引起重绘，而重绘不一定会引起回流
 
 
@@ -894,12 +777,12 @@ enctype常用的属性值如下：
 
 #### 针对回流和重绘的优化点：
 
-1. 用`translate`替代`top`改变
-2. 用`opacity`替代`visibility`
-3. 不要一条一条地修改 DOM 的样式，预先定义好 class，然后修改 DOM 的 `className`
-4. 把 DOM 离线后修改，比如：先把 DOM 给 `display:none` (有一次 `reflow`)，然后你修改100次，然后再把它显示出来
+1. 用¥¥translate¥¥替代¥¥top¥¥改变
+2. 用¥¥opacity¥¥替代¥¥visibility¥¥
+3. 不要一条一条地修改 DOM 的样式，预先定义好 class，然后修改 DOM 的 ¥¥className¥¥
+4. 把 DOM 离线后修改，比如：先把 DOM 给 ¥¥display:none¥¥ (有一次 ¥¥reflow¥¥)，然后你修改100次，然后再把它显示出来
 5. 不要把 DOM 结点的属性值放在一个循环里当成循环里的变量
-6. 不要使用`table`布局，可能很小的一个小改动会造成整个`table`的重新布局（虚拟列表就是用的div）
+6. 不要使用¥¥table¥¥布局，可能很小的一个小改动会造成整个¥¥table¥¥的重新布局（虚拟列表就是用的div）
 7. 动画实现的速度的选择
 8. 对于动画新建图层
 9. 启用 GPU 硬件加速
@@ -909,16 +792,16 @@ enctype常用的属性值如下：
 ### HTML5的Audio
 
 Audio的使用：
-- `audio = new Audio()`，先设置`src`，后`play`或`pause`，自动支持断点续播
+- ¥¥audio = new Audio()¥¥，先设置¥¥src¥¥，后¥¥play¥¥或¥¥pause¥¥，自动支持断点续播
 
 Audio的属性：
 
-- `currentTime`：当前播放时间
-- `duration`：时长
+- ¥¥currentTime¥¥：当前播放时间
+- ¥¥duration¥¥：时长
 
 Audio的事件：
-- `timeupdate`，当播放位置更改时触发，播放的时候监听此事件。
-- `loadedmetadata`，加载完音频的元数据时，元数据包括：时长、尺寸（仅视频）以及文本轨道
+- ¥¥timeupdate¥¥，当播放位置更改时触发，播放的时候监听此事件。
+- ¥¥loadedmetadata¥¥，加载完音频的元数据时，元数据包括：时长、尺寸（仅视频）以及文本轨道
 
 
 
@@ -932,20 +815,20 @@ Audio的事件：
 - canplay
 - canplaythrough
 
-`loadeddata`在`loadedmetadata`之后，先知道元数据，后知道真正的数据
+¥¥loadeddata¥¥在¥¥loadedmetadata¥¥之后，先知道元数据，后知道真正的数据
 
 
 
 #### 元数据和数据的区别？
 
-- 元数据是用来**描述数据的数据**，比如“年龄"、"身高"、"相貌"、"性格”，数码照片的`EXIF`信息，何文件系统中的数据分为数据和元数据。
-- 数据是指普通文件中的实际数据，而元数据指用来描述一个文件的特征的系统数据，诸如访问权限、文件拥有者以及文件数据块的分布信息(`inode`...)等。
+- 元数据是用来**描述数据的数据**，比如“年龄"、"身高"、"相貌"、"性格”，数码照片的¥¥EXIF¥¥信息，何文件系统中的数据分为数据和元数据。
+- 数据是指普通文件中的实际数据，而元数据指用来描述一个文件的特征的系统数据，诸如访问权限、文件拥有者以及文件数据块的分布信息(¥¥inode¥¥...)等。
 
 
 
-#### 动态的创建`<audio>`元素
+#### 动态的创建¥¥<audio>¥¥元素
 
-```javascript
+¥¥¥¥¥¥javascript
 //方式1
 var audio = document.createElement("audio");
 audio.src = "hangge.mp3";
@@ -954,20 +837,20 @@ audio.play();
 //方式2
 var audio = new Audio("hangge.mp3");
 audio.play();
-```
+¥¥¥¥¥¥
 
 
 #### 判断浏览器支持的编码方式
 
-通过`canPlayType()`方法可以判断浏览器支持的编码方式，从而设置对应的音频文件。
+通过¥¥canPlayType()¥¥方法可以判断浏览器支持的编码方式，从而设置对应的音频文件。
 
-```javascript
+¥¥¥¥¥¥javascript
 if (audio.canPlayType("audio/mp3")) {
     audio.src = "hangge.mp3";
 }else if(audio.canPlayType("audio/ogg")) {
     audio.src = "hangge.ogg";
 }
-```
+¥¥¥¥¥¥
 
 ### Doctype作用? 严格模式与混杂模式如何区分？它们有何意义?
 <!DOCTYPE>声明叫做文件类型定义（DTD），声明的作用为了告诉浏览器该文件的类型。让浏览器解析器知道应该用哪个规范来解析文档。<!DOCTYPE>声明必须在 HTML 文档的第一行，这并不是一个 HTML 标签
@@ -1010,127 +893,127 @@ if (audio.canPlayType("audio/mp3")) {
 
 - 这取决于标签页如何打开。
 - 通过点击链接（或者用了 window.open）打开的新标签页之间是属于同一个 session 的，但新开一个标签页总是会初始化一个新的 session，即使网站是一样的，它们也不属于同一个 session。
-- 刷新当前页面，或者通过location.href、window.open、或者通过带`target="_blank"`的a标签打开新标签，之前的sessionStorage还在，但是如果你是主动打开一个新窗口或者新标签，对不起，打开F12你会发现，sessionStorage空空如也。
+- 刷新当前页面，或者通过location.href、window.open、或者通过带¥¥target="_blank"¥¥的a标签打开新标签，之前的sessionStorage还在，但是如果你是主动打开一个新窗口或者新标签，对不起，打开F12你会发现，sessionStorage空空如也。
 - 也就是说，sessionStorage的session仅限当前标签页或者当前标签页打开的新标签页，通过其它方式新开的窗口或标签不认为是同一个session。
 
 
 ### Canvas
 
 1. html:
-```html
+¥¥¥¥¥¥html
 <canvas id="canvas1" width="800" height="800"></canvas>
-```
+¥¥¥¥¥¥
 canvas的宽高只能写在行内，同时决定**画布分辨率的大小**。css里面设定canvas的宽高并不是真正的大小，而是**同比缩放**
 
 2. js:
-```js
+¥¥¥¥¥¥js
 var canvas = document.getElementById("canvas1");
 var context = canvas .getContext('2d');//绘图环境
-```
+¥¥¥¥¥¥
 #### 若浏览器不支持canvas
 1. html  
-    `<canvas>不支持canvas的内容</canvas>`（写在canvas标签的里面）
+    ¥¥<canvas>不支持canvas的内容</canvas>¥¥（写在canvas标签的里面）
 2. js     
-``` js
+¥¥¥¥¥¥ js
 if (canvas.getContext('2d')){//判断浏览器是否支持canvas
 //支持
 }else{
 //不支持
 alert("");
 }
-```
+¥¥¥¥¥¥
 #### canvas方法
-- `canvas.width`
-- `canvas.height`
-- `canvas.getContext('2d')`
+- ¥¥canvas.width¥¥
+- ¥¥canvas.height¥¥
+- ¥¥canvas.getContext('2d')¥¥
 
 
 #### canvas 是基于状态绘制的，即先定义状态，后绘制
-1. 起始 `context.moveTo(100,100)`
-2. 终止 `context.lineTo(700,700)`
-3. 线条 `context.stroke()`
-4. 线宽 `context.lineWidth=5`
-5. 线条颜色 `context.strokeStyle='orange'`
-6. 填充颜色 `context.fillStyle = 'rgba(2,2,2,0.3)'`
-7. 填充 `context.fill()`
+1. 起始 ¥¥context.moveTo(100,100)¥¥
+2. 终止 ¥¥context.lineTo(700,700)¥¥
+3. 线条 ¥¥context.stroke()¥¥
+4. 线宽 ¥¥context.lineWidth=5¥¥
+5. 线条颜色 ¥¥context.strokeStyle='orange'¥¥
+6. 填充颜色 ¥¥context.fillStyle = 'rgba(2,2,2,0.3)'¥¥
+7. 填充 ¥¥context.fill()¥¥
 8. 既可填充，又可描边
-9. 声明开始路径 `context.beginPath()`
-10. 声明结束路径 `context.closePath()`
+9. 声明开始路径 ¥¥context.beginPath()¥¥
+10. 声明结束路径 ¥¥context.closePath()¥¥
 
 
 
 
 #### 绘制一个数字，格子系统
 ![绘制一个数字](imgs/canvas_draw_one_number.png)
-设圆的半径为R，圆与圆之间的间距为2px，所以圆所在的正方形格子的边长为`2*（R+1）`。
+设圆的半径为R，圆与圆之间的间距为2px，所以圆所在的正方形格子的边长为¥¥2*（R+1）¥¥。
 其中x表示起始的横坐标，y表示起始的纵坐标，i表示行数，j表示列数，因此：
 第（i, j）个圆的圆心位置：
-```
+¥¥¥¥¥¥
 CenterX：x+j*2*(R+1)+(R+1)
 CenterY：y+i*2*(R+1)+(R+1)
-```
+¥¥¥¥¥¥
 
 
 
 #### 自动绘制矩形
 
-- `context.rect(x, y, width, height);`  自动绘制矩形，规划路径
-- `context.fillRect(x, y, width, height);`  绘制填充矩形 不但规划路径，还把矩形给画出来
-- `context.strokeRect(x, y, width, height);`  绘制矩形边框 不但规划路径，还把矩形给画出来
+- ¥¥context.rect(x, y, width, height);¥¥  自动绘制矩形，规划路径
+- ¥¥context.fillRect(x, y, width, height);¥¥  绘制填充矩形 不但规划路径，还把矩形给画出来
+- ¥¥context.strokeRect(x, y, width, height);¥¥  绘制矩形边框 不但规划路径，还把矩形给画出来
 
 
 
-#### `canvas`的`save`与`restore`方法的作用
+#### ¥¥canvas¥¥的¥¥save¥¥与¥¥restore¥¥方法的作用
 
-- `save`：用来保存`Canvas`的状态。`save`之后，可以调用`Canvas`的平移、放缩、旋转、错切、裁剪等操作。
-- `restore`：用来恢复`Canvas`之前保存的状态。防止`save`后对`Canvas`执行的操作对后续的绘制有影响。
-- 对`canvas`中特定元素的旋转平移等操作实际上是对整个画布进行了操作，所以如果不对`canvas`进行`save`以及`restore`，那么每一次绘图都会在上一次的基础上进行操作，最后导致错位。
-- 比如说你相对于起始点每次30度递增旋转，`30，60，90`.如果不使用save 以及 restore 就会变成`30, 90, 150`，每一次在前一次基础上进行了旋转。`save`是入栈，`restore`是出栈。
+- ¥¥save¥¥：用来保存¥¥Canvas¥¥的状态。¥¥save¥¥之后，可以调用¥¥Canvas¥¥的平移、放缩、旋转、错切、裁剪等操作。
+- ¥¥restore¥¥：用来恢复¥¥Canvas¥¥之前保存的状态。防止¥¥save¥¥后对¥¥Canvas¥¥执行的操作对后续的绘制有影响。
+- 对¥¥canvas¥¥中特定元素的旋转平移等操作实际上是对整个画布进行了操作，所以如果不对¥¥canvas¥¥进行¥¥save¥¥以及¥¥restore¥¥，那么每一次绘图都会在上一次的基础上进行操作，最后导致错位。
+- 比如说你相对于起始点每次30度递增旋转，¥¥30，60，90¥¥.如果不使用save 以及 restore 就会变成¥¥30, 90, 150¥¥，每一次在前一次基础上进行了旋转。¥¥save¥¥是入栈，¥¥restore¥¥是出栈。
 
 
 
 #### lineCap
-- `lineCap`设置线条的帽子：`butt`（默认）、`round`、`square`。后两者绘制出的线条都要长一些（戴上了帽子）。`lineCap`适用于线条的起始处和结尾处不适用于连接处。
-- 通常绘制一个封闭的多边形用`beginPath()`和`closePath()`（推荐），但也可以不用`closePath()`而用`lineCap = “square”`来实现
+- ¥¥lineCap¥¥设置线条的帽子：¥¥butt¥¥（默认）、¥¥round¥¥、¥¥square¥¥。后两者绘制出的线条都要长一些（戴上了帽子）。¥¥lineCap¥¥适用于线条的起始处和结尾处不适用于连接处。
+- 通常绘制一个封闭的多边形用¥¥beginPath()¥¥和¥¥closePath()¥¥（推荐），但也可以不用¥¥closePath()¥¥而用¥¥lineCap = “square”¥¥来实现
 
 #### lineJoin
 <img src='imgs/canvas_linejoin.png' height='200' />
 lineJoin： 线条与线条相交的形式
 
-- `miter(default)` 尖角；
-- `bevel` 方角、斜切；
-- `round` 圆角；
+- ¥¥miter(default)¥¥ 尖角；
+- ¥¥bevel¥¥ 方角、斜切；
+- ¥¥round¥¥ 圆角；
 
-`miterLimit`:内角与外角的距离。默认值是10，此属性只有在`lineJoin = "miter"`下才有效，意思是`miterLimit >10`，线条连接处自动斜切（`lineJoin ="bevel"`)
+¥¥miterLimit¥¥:内角与外角的距离。默认值是10，此属性只有在¥¥lineJoin = "miter"¥¥下才有效，意思是¥¥miterLimit >10¥¥，线条连接处自动斜切（¥¥lineJoin ="bevel"¥¥)
 
 
 #### 绘制五角星
 ![绘制五角星](imgs/canvas_five_angles_star.png)
 大圆坐标：
-```
+¥¥¥¥¥¥
 x: Math.cos((18 + i * 72 - rot) / 180 * Math.PI) * R + x
 y: -Math.sin((18 + i * 72 - rot) / 180 * Math.PI) * R + y
-```
+¥¥¥¥¥¥
 
 小圆坐标：
-```
+¥¥¥¥¥¥
 x: Math.cos((54 + i * 72 - rot) / 180 * Math.PI) * r + x
 y: -Math.sin((54 + i * 72 - rot) / 180 * Math.PI) * r + y)
-```
+¥¥¥¥¥¥
 
 
 对于任意多边形：
 大圆坐标：
 
-```
+¥¥¥¥¥¥
 Math.cos((angelStart + i * (360 / pol) - rot) / 180 * Math.PI) * R + x
 -Math.sin((angelStart + i * (360 / pol) - rot) / 180 * Math.PI) * R + y)
-```
+¥¥¥¥¥¥
 小圆坐标：
-```
+¥¥¥¥¥¥
 Math.cos((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI) * r + x
 -Math.sin((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI) * r + y)
-```
+¥¥¥¥¥¥
 其中，pol角数， rot旋转角度， angelStart起始角度
 
 
@@ -1140,20 +1023,20 @@ Math.cos((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI)
 
 #### 图形变换
 图形变换： 位移、旋转、缩放。
-`context.translate(x, y); `默认多个`translate`会叠加。
-`save();` ` restore();` 成对出现，中间绘图状态不会对后面造成影响。
+¥¥context.translate(x, y); ¥¥默认多个¥¥translate¥¥会叠加。
+¥¥save();¥¥ ¥¥ restore();¥¥ 成对出现，中间绘图状态不会对后面造成影响。
 
-`scale( sx, sy )`操作具有副作用，表现为不仅对图像的大小进行缩放操作，还对图像的其他数值属性（比如边框的宽度，左上角的坐标等等）进行相应的缩放操作。
+¥¥scale( sx, sy )¥¥操作具有副作用，表现为不仅对图像的大小进行缩放操作，还对图像的其他数值属性（比如边框的宽度，左上角的坐标等等）进行相应的缩放操作。
 
 
 
 #### 变换矩阵
-```
+¥¥¥¥¥¥
 |a c e|
 |b d f|
 |0 0 1|
-```
-```
+¥¥¥¥¥¥
+¥¥¥¥¥¥
 context.transform(a, b, c, d, e, f);
 /*
   a:水平缩放(默认值1)
@@ -1163,34 +1046,34 @@ context.transform(a, b, c, d, e, f);
   e:水平位移(默认值0)
   f:垂直位移(默认值0)
 */
-```
-`context.transform();`可以叠加使用，如果需要重新初始化矩阵变换的值，可以用:
-`context.setTransform(a, b, c, d, e, f);`//它会使得之前设置的`context.transform()`失效
+¥¥¥¥¥¥
+¥¥context.transform();¥¥可以叠加使用，如果需要重新初始化矩阵变换的值，可以用:
+¥¥context.setTransform(a, b, c, d, e, f);¥¥//它会使得之前设置的¥¥context.transform()¥¥失效
 
 
 
 #### 线性渐变和径向渐变
 #### 线性渐变
-```js
+¥¥¥¥¥¥js
 var linearGrad = context.createLinearGradient(Xstar,Ystar,Xend,Yend); // 创建线性渐变（起始位置X，Y，结束位置X，Y）；
 grd.addColorStop(stop,color); //stop是（开始填充）位置(0.0~1.0的数值)，color是要填充的颜色；这个.addColorStop()至少要2个；
 context.fillStyle = linearGrad;
 Context.fillRect(0,0,800,800); // 填充的形状，如现在，画布的长宽就是800,800的话，就是填充了整个画布
-```
+¥¥¥¥¥¥
 
 
 #### 径向渐变
 
-- `RadialGradient(x0,y0,r0,x1,y1,r1)`
+- ¥¥RadialGradient(x0,y0,r0,x1,y1,r1)¥¥
 - xy为原点坐标，r为半径
 
 
 #### 使用图片、画布或者video
-```
+¥¥¥¥¥¥
 createPattern(img, repeat-style);
 repeat-style: no-repeat  repeat-x  repeat-y repeat
-```
-```
+¥¥¥¥¥¥
+¥¥¥¥¥¥
 var backgroundImage = new Image()
 backgroundImage.src = '6.jpg'
 backgroundImage.onload = function() {
@@ -1198,77 +1081,77 @@ var pattern = context.createPattern(backgroundImage, 'repeat')
 context.fillStyle = pattern
 context.fillRect(0, 0, 800, 800)
 }
-```
+¥¥¥¥¥¥
 
 
 
 #### 圆弧
 
-`context.arc(centerx, centery, radius, startingAngle, endingAngle, anticlockwise = false)；`
+¥¥context.arc(centerx, centery, radius, startingAngle, endingAngle, anticlockwise = false)；¥¥
 
 (圆心x坐标，圆心y坐标，半径的值，从哪一个弧度值为开始，到哪一个弧度值结束，可选参数：默认顺时针方向绘制（false）， 逆时针方向绘制（true）)，
 
 
-- `beginPath()`和`closePath()`不必成对出现
-- 用了`fill()`即使沒有`context.closePath();`也会自动闭合
+- ¥¥beginPath()¥¥和¥¥closePath()¥¥不必成对出现
+- 用了¥¥fill()¥¥即使沒有¥¥context.closePath();¥¥也会自动闭合
 
  <img src='imgs/canvas_arc.png' height="200" />
 
-`arcTo(x1,y1,x2,y2,radius);` `arcTo()`另一种弧线绘制方法
+¥¥arcTo(x1,y1,x2,y2,radius);¥¥ ¥¥arcTo()¥¥另一种弧线绘制方法
 
--  `arcTo`函数将从`(x0,y0)`开始绘制之后绘制一条弧线，这条弧线和这两个线段所组成的折线相切并且其圆弧的半径为`radius`
+-  ¥¥arcTo¥¥函数将从¥¥(x0,y0)¥¥开始绘制之后绘制一条弧线，这条弧线和这两个线段所组成的折线相切并且其圆弧的半径为¥¥radius¥¥
 
-注意：起始点的坐标是`(x0 , y0`)此时圆弧还没有开始，终止点的坐标不一定是（x2 , y2）而是和（x1 , y1）（x2 , y2）这条线相切的地方
+注意：起始点的坐标是¥¥(x0 , y0¥¥)此时圆弧还没有开始，终止点的坐标不一定是（x2 , y2）而是和（x1 , y1）（x2 , y2）这条线相切的地方
 
 
 
 
 #### 贝塞尔曲线
-二次贝塞尔曲线 `QuadraticCurveTo` :
-- `context.moveTo( x0, y0 );` 指定初始点
-- `context.quadraticCurveTo( x1, y1, x2, y2 ); `指定控制点（x1, y1）和终止点（x2, y2）
+二次贝塞尔曲线 ¥¥QuadraticCurveTo¥¥ :
+- ¥¥context.moveTo( x0, y0 );¥¥ 指定初始点
+- ¥¥context.quadraticCurveTo( x1, y1, x2, y2 ); ¥¥指定控制点（x1, y1）和终止点（x2, y2）
 
 贝塞尔三次曲线
-- `context.moveTo(x0, y0);` 起始点
-- `context.bezierCurveTo(x1, y1, x2, y2, x3, y3);` 控制点，控制点，结束点
+- ¥¥context.moveTo(x0, y0);¥¥ 起始点
+- ¥¥context.bezierCurveTo(x1, y1, x2, y2, x3, y3);¥¥ 控制点，控制点，结束点
 
 
 
 #### 文字渲染
-- `context.font = "bold 40px Arial"`(粗框,40px大小,字体)
-- `context.fillStyle="#058"`颜色
-- `context.fillText(string,x,y,[maxlen](文字的最长宽度))`
-- `context.strokeText(string,x,y,[maxlen])`只有外边框的文字
+- ¥¥context.font = "bold 40px Arial"¥¥(粗框,40px大小,字体)
+- ¥¥context.fillStyle="#058"¥¥颜色
+- ¥¥context.fillText(string,x,y,[maxlen](文字的最长宽度))¥¥
+- ¥¥context.strokeText(string,x,y,[maxlen])¥¥只有外边框的文字
 
 
 
 文本水平方向对齐 :
-- `context.textAlign(left center right)`，以`fillText`或`strokeText`的X值为参考
+- ¥¥context.textAlign(left center right)¥¥，以¥¥fillText¥¥或¥¥strokeText¥¥的X值为参考
 
 文本垂直方向对齐 ：
-- `context.textBaseline(top middle bottom ideographic hanging alphabetic)`
-- `ideographic`中文、日文等，` alphabetic`拉丁字母，`hanging`印度文字
+- ¥¥context.textBaseline(top middle bottom ideographic hanging alphabetic)¥¥
+- ¥¥ideographic¥¥中文、日文等，¥¥ alphabetic¥¥拉丁字母，¥¥hanging¥¥印度文字
 
 度量文本：
-用`context.measureText(String).width`，需要提前确定font状态，目前只能获得宽度不能获得高
+用¥¥context.measureText(String).width¥¥，需要提前确定font状态，目前只能获得宽度不能获得高
 
 
 
 #### 设置canvas的阴影
 
-- `context.shadowColor="颜色值"；` 阴影颜色值，可以为任何颜色的表现形式
-- `context.shadowOffsetX=value1;` 水平方向的偏移，值可以为负值，负值则方向相反
-- `context.shadowOffsetY=value2;` 垂直方向的偏移，值可以为负值，负值则方向相反
-- `context.shadowBlur=value3;` 阴影模糊程度，正比例增加
+- ¥¥context.shadowColor="颜色值"；¥¥ 阴影颜色值，可以为任何颜色的表现形式
+- ¥¥context.shadowOffsetX=value1;¥¥ 水平方向的偏移，值可以为负值，负值则方向相反
+- ¥¥context.shadowOffsetY=value2;¥¥ 垂直方向的偏移，值可以为负值，负值则方向相反
+- ¥¥context.shadowBlur=value3;¥¥ 阴影模糊程度，正比例增加
 
 
-#### `globalAlpha`和`globalCompositeOperation`
-- `globalAlpha`设置全局的透明度
-- `ctx.globalCompositeOperation = "source-over"` (默认，后绘制的图形会压在先绘制的图形上) /` "destination-over"`(先绘制的图形压在后绘制的图形上
+#### ¥¥globalAlpha¥¥和¥¥globalCompositeOperation¥¥
+- ¥¥globalAlpha¥¥设置全局的透明度
+- ¥¥ctx.globalCompositeOperation = "source-over"¥¥ (默认，后绘制的图形会压在先绘制的图形上) /¥¥ "destination-over"¥¥(先绘制的图形压在后绘制的图形上
 
 
-#### `clip`
-- `context.clip()`使用刚才绘制的路径把它剪切为当前的绘制环境
+#### ¥¥clip¥¥
+- ¥¥context.clip()¥¥使用刚才绘制的路径把它剪切为当前的绘制环境
 
 
 
@@ -1284,12 +1167,12 @@ context.fillRect(0, 0, 800, 800)
 
 
 
-#### `isPointInPath`判断点是否在路径内
+#### ¥¥isPointInPath¥¥判断点是否在路径内
 
-```
+¥¥¥¥¥¥
 var x = event.clientX - canvas.getBoundingClientRect().left;//在当前画布上的位置
 var y = event.clientY - canvas.getBoundingClientRect().top;
-```
+¥¥¥¥¥¥
 
 - canvas标签不能当其他普通div标签用，里面不能内嵌其他元素。
 - canvas默认是白色的不是透明的。
@@ -1297,16 +1180,16 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 
 使用prototype来为context添加函数：
-- `CancasRenderingContext2D.prototype`
+- ¥¥CancasRenderingContext2D.prototype¥¥
 
 
 
 #### 解决canvas浏览器兼容性
-`explorecanvas`
+¥¥explorecanvas¥¥
 只要多引入这个js包就可以支持了 
-```html
+¥¥¥¥¥¥html
 <!--[if IE]><script type="text/javascript" src="../excanvas.js"></script><![end if]>
-```
+¥¥¥¥¥¥
 
 
 
@@ -1330,25 +1213,25 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 #### drawImage
 
-- `context.drawImage(image, dx, dy);`
-- `context.drawImage(image, dx, dy, dw, dh);`
+- ¥¥context.drawImage(image, dx, dy);¥¥
+- ¥¥context.drawImage(image, dx, dy, dw, dh);¥¥
   - image 图片
   - dx dy 坐标
   - dw dh 要绘制的宽高
-- `context.drawImage( image, sx, sy, sw, sh, dx, dy, dw, dh);`
+- ¥¥context.drawImage( image, sx, sy, sw, sh, dx, dy, dw, dh);¥¥
 <img src='imgs/canvas_drawImage.png'  height='300' />
 
 
 #### html中添加滑竿控件
-```html
+¥¥¥¥¥¥html
 <input type="range" name="hg" min="0.5" max="3.0"step="0.01" value="1.0" />
-```
+¥¥¥¥¥¥
 - min="0.5" 最小缩放为原大小的0.5
 - max="3.0" 最大缩放原来的三倍
 - step="0.01"步数0.01
 
 
-`onchange`事件只有在松开鼠标时才会触发，应该用`onmouseover`
+¥¥onchange¥¥事件只有在松开鼠标时才会触发，应该用¥¥onmouseover¥¥
 
 
 
@@ -1360,60 +1243,60 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
 
 #### 获取图像像素
 
-```js
+¥¥¥¥¥¥js
 imageData = context.getImageData（x，y，w，h）;
-```
-`imageData`对象属性：
+¥¥¥¥¥¥
+¥¥imageData¥¥对象属性：
 - width
 - height
 - data
 
-`putImageData`可以将`ImageData`放回canvas中
+¥¥putImageData¥¥可以将¥¥ImageData¥¥放回canvas中
 <img src='imgs/canvas_putImageData.png'  height='320' />
 
-`dirtyX`、`dirtyY`会在dx、dy的基础上累加
+¥¥dirtyX¥¥、¥¥dirtyY¥¥会在dx、dy的基础上累加
 <img src='imgs/canvas_imagedata.png'  height='300' />
 
 
 
 
-`imageData.data`是一个一维数组，每四个数字是一个像素点信息，四个数字分别是rgba四个信息
+¥¥imageData.data¥¥是一个一维数组，每四个数字是一个像素点信息，四个数字分别是rgba四个信息
 
 
 
 #### 滤镜
-- 灰色的计算公式 ：`r*0.3 + g*0.59 + b*0.11`
-- 反色滤镜：`rgb`取反
-- 黑白滤镜：获得`rgb`，得到灰度值，将得到的灰度值分类：或者黑或者白
-- 模糊滤镜，求每个点四周`3*3`像素点`rgb`和的平均值
+- 灰色的计算公式 ：¥¥r*0.3 + g*0.59 + b*0.11¥¥
+- 反色滤镜：¥¥rgb¥¥取反
+- 黑白滤镜：获得¥¥rgb¥¥，得到灰度值，将得到的灰度值分类：或者黑或者白
+- 模糊滤镜，求每个点四周¥¥3*3¥¥像素点¥¥rgb¥¥和的平均值
   - 马赛克即将某一个区域全部赋值为该区域的平均值
 
 
 
-#### 通过`createImageData`创建一个对象
-```js
+#### 通过¥¥createImageData¥¥创建一个对象
+¥¥¥¥¥¥js
 var imageData = context.createImageData(canvas.width, canvas.height)
-```
+¥¥¥¥¥¥
 
 
 
 ### SVG
 
 #### 基本图形
-```
+¥¥¥¥¥¥
 <rect>，x,y,width,height,rx,ry
 <circle>，cx, cy, r
 <ellipse>，cx, cy, rx ry
 <line>，x1,y1,x2,y2
 <polyline>，points="x1 y1 x2 y2 x3 y3"
 <polygon>，points="x1 y1 x2 y2 x3 y3"
-```
+¥¥¥¥¥¥
 
 #### 基本属性
-- `fill`填充颜色
-- `stroke`描边颜色
-- `stroke-width` 
-- `transform`
+- ¥¥fill¥¥填充颜色
+- ¥¥stroke¥¥描边颜色
+- ¥¥stroke-width¥¥ 
+- ¥¥transform¥¥
 
 注意：
 
@@ -1423,22 +1306,22 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 
 
 #### 基本操作API
-创建图形：`document.createElementNS(ns,tagName);`
-添加图形：`element.appendChild(childElement)`
+创建图形：¥¥document.createElementNS(ns,tagName);¥¥
+添加图形：¥¥element.appendChild(childElement)¥¥
 
 设置/获取属性：
-`element.setAttribute(name,value)`
-`element.getAttribute(name)`
+¥¥element.setAttribute(name,value)¥¥
+¥¥element.getAttribute(name)¥¥
 
-```html
+¥¥¥¥¥¥html
 <svg width="400" height="300" viewBox="0,0,40,30" preserveAspectRatio = "xMinYMin meet"></svg>
-```
+¥¥¥¥¥¥
 - 世界：SVG代码 无限大
-- 视野：`viewBox` (观察区域)、`preserveAspectRatio`，这两属性控制视野
+- 视野：¥¥viewBox¥¥ (观察区域)、¥¥preserveAspectRatio¥¥，这两属性控制视野
 - 视窗：在 SVG 标签当中可以指定⼀个宽和⾼属性，来表⽰ SVG ⽂件渲染的区域⼤⼩。这个⼤⼩也可以使⽤样式表来定义。这个区域⼤⼩，就是视窗。
 
 
-#### `preserveAspectRatio`
+#### ¥¥preserveAspectRatio¥¥
 - meet: 让viewBox等比例的同时，viewBox完全在SVG中显示。viewBox大于SVG，等比例缩放。
 - slice: 保持viewBox比例，视野包含视窗，尽量填满SVG。viewBox大于SVG，不缩放，按SVG大小剪切。
 - 对齐方式：xMinYMin xMinYMid xMinYMax xMidYMin xMidYMid xMidYMax xMaxYMin xMaxYMid xMaxYMax
@@ -1446,7 +1329,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 
 
 #### SVG中的图形分组
-- `<g>`标签用来创建分组
+- ¥¥<g>¥¥标签用来创建分组
 - 属性继承
 
 
@@ -1475,7 +1358,7 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 
 
 #### SVG 圆弧命令：
-`A（a）rx ry x-axis-rotation large-arc-flag sweep-flag x y`
+¥¥A（a）rx ry x-axis-rotation large-arc-flag sweep-flag x y¥¥
 命令解析如下：
 - .rx：规定圆弧在x轴方向的半径尺寸。
 - .ry ：规定元素在y轴方向的半径尺寸，如果与rx相等则正圆圆弧，否则是椭圆圆弧。
@@ -1489,9 +1372,9 @@ var imageData = context.createImageData(canvas.width, canvas.height)
 #### 线性(左标)变换
 <img src='imgs/svg_linear_change.png' height='200'/>
 
-```
+¥¥¥¥¥¥
 X = aX + cY +e
-```
+¥¥¥¥¥¥
 平移是e f，缩放是a d，旋转是b c
 
 
@@ -1507,24 +1390,24 @@ L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
 
 
 #### 笔刷
-绘制纹理，`<pattern>`标签
-- `patternUnits="userSpaceOnUse"`，指定pattern标签本身的属性单位基于世界坐标系
+绘制纹理，¥¥<pattern>¥¥标签
+- ¥¥patternUnits="userSpaceOnUse"¥¥，指定pattern标签本身的属性单位基于世界坐标系
   - patternUnits 笔刷使用单位
-- `patternContentUnits="objectBoundingBox"`，pattern里面的每一个元素的单位都是基于绘制图形的一个八维盒
+- ¥¥patternContentUnits="objectBoundingBox"¥¥，pattern里面的每一个元素的单位都是基于绘制图形的一个八维盒
   - patternContentUnits 笔刷内容（笔刷内部包含的图形单元）使用单位
 
 
-`objectBoundingBox` 模式下的比例均为相对于`boundingbox`。也就是不是根据父标签来定义比例。
+¥¥objectBoundingBox¥¥ 模式下的比例均为相对于¥¥boundingbox¥¥。也就是不是根据父标签来定义比例。
 
 
 
 
 #### path命令
 参数之间可以⽤空格或逗号隔开，有⼀种情况例外，就是下⼀个数值是负数。
-如`<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">`
+如¥¥<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">¥¥
 <img src='imgs/svg_path.png' height='350'/>
 
-`M(X,Y)` 移动画笔，后面如果有重复参数，会当做是`L`命令处理
+¥¥M(X,Y)¥¥ 移动画笔，后面如果有重复参数，会当做是¥¥L¥¥命令处理
 
 
 
@@ -1537,8 +1420,8 @@ path命令基本规律：
 
 
 
-#### 弧线(`arc`)命令
-`A(rx, ry, xr, laf, sf, x, y)`  七个参数
+#### 弧线(¥¥arc¥¥)命令
+¥¥A(rx, ry, xr, laf, sf, x, y)¥¥  七个参数
 
 
 - rx - (radius-x) 弧线所在椭圆的x半轴长
@@ -1560,28 +1443,28 @@ path命令基本规律：
 
 
 #### SVG文本
-`<text x="" y="" dx="10 20 30 40 50 60" dy=""></text>`
-`dx`可对每个字体控制
+¥¥<text x="" y="" dx="10 20 30 40 50 60" dy=""></text>¥¥
+¥¥dx¥¥可对每个字体控制
 
-`text`中的`dy`能被`tspan`中的`dy`覆盖
-`dy`具有向下传递的效果，`text`传递给下个字符，`tspan`传递给下个`tspan`(当无`tspan` 传递给字符)
+¥¥text¥¥中的¥¥dy¥¥能被¥¥tspan¥¥中的¥¥dy¥¥覆盖
+¥¥dy¥¥具有向下传递的效果，¥¥text¥¥传递给下个字符，¥¥tspan¥¥传递给下个¥¥tspan¥¥(当无¥¥tspan¥¥ 传递给字符)
 
 
 
 ##### 垂直居中
-- 水平居中对齐 `text-anchor`
-- 垂直居中对齐 `dominant-baseline`  加上自己模拟
+- 水平居中对齐 ¥¥text-anchor¥¥
+- 垂直居中对齐 ¥¥dominant-baseline¥¥  加上自己模拟
 
 
 
-##### `<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等
-- 定位属性 `x y dx dy`
-- `dy` 影响法线方向的偏移量
-- `text-anchor`和`startOffSet` 设置文本偏移的方向和大小
+##### ¥¥<textPath>¥¥ 路径文本，可以让文本沿着路径排列，比如：曲线等
+- 定位属性 ¥¥x y dx dy¥¥
+- ¥¥dy¥¥ 影响法线方向的偏移量
+- ¥¥text-anchor¥¥和¥¥startOffSet¥¥ 设置文本偏移的方向和大小
 
-使用`textpath` 属性` xlink:href="#path1"` 将包含的文本节点text设置到对应的id的path上,
+使用¥¥textpath¥¥ 属性¥¥ xlink:href="#path1"¥¥ 将包含的文本节点text设置到对应的id的path上,
 设置该属性需要使用
-`setAttributeNS(NS,attrName,attrValue);`
+¥¥setAttributeNS(NS,attrName,attrValue);¥¥
 
 
 
@@ -1590,28 +1473,33 @@ path命令基本规律：
 1. use 标签创建图形引用
 2. clip标签裁切图形
 3. mask标签创建蒙版
-```
+¥¥¥¥¥¥
 <use>
  xlink:href="#id"
 <clipPath>
  clip-path="url(#clip-id)"
 <mask>
  mask="url(#mask-id)
-```
+¥¥¥¥¥¥
 
-svg是内联元素,不将`font-size,line-height`设为0撑满之后会出现滚动条
-使用use标签,属性`xlink:href`通过ID引用一个绘制好的图形，`defs`标签内定义的图形不会被显示。
+svg是内联元素,不将¥¥font-size,line-height¥¥设为0撑满之后会出现滚动条
+使用use标签,属性¥¥xlink:href¥¥通过ID引用一个绘制好的图形，¥¥defs¥¥标签内定义的图形不会被显示。
 
-`xLink:href` 已经废除， 可用href 代替。
+¥¥xLink:href¥¥ 已经废除， 可用href 代替。
 
-```
+¥¥¥¥¥¥
 viewBox="-400 -300 800 600"  preserveAspectRatio="xMidYMid slice" 
-```
+¥¥¥¥¥¥
 指定SVG坐标系原点在屏幕中央，方便对齐
 
 
 
 #### 字体抗锯齿
-```css
+¥¥¥¥¥¥css
 -webkit-font-smothing: antialiased;
-```
+¥¥¥¥¥¥
+`
+
+
+
+getCate(content)
