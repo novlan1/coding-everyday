@@ -9,8 +9,9 @@ const getCate = function (str) {
   })
 
   const res2 = []
+  let idx = 1
 
-  res.map(item => {
+  res.map((item, index) => {
     const firstStr = item.replace(/(#+\s+)/g, '')
       .replace(/¥{2}/g, '`')
 
@@ -20,10 +21,12 @@ const getCate = function (str) {
       .toLowerCase()
 
     if (item.startsWith('####')) {
-      res2.push(`  1. [${firstStr}](#${lastStr})`)
+      res2.push(`    ${idx}. [${firstStr}](#${lastStr})`)
+      idx += 1
 
     } else {
-      res2.push(`1. [${firstStr}](#${lastStr})`)
+      res2.push(`${index+1}. [${firstStr}](#${lastStr})`)
+      idx = 1
     }
     
   })
