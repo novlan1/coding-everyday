@@ -432,16 +432,19 @@ const exportCSV = (data, name) => {
   // var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
   var downloadLink = document.createElement("a");
   // downloadLink.href = uri;
+  
   var blob = new Blob(["\ufeff" + data], {type: 'text/csv,charset=UTF-8'}); //解决大文件下载失败
+  
   downloadLink.setAttribute("href", URL.createObjectURL(blob));
   downloadLink.download = name ? (name+".csv"): "temp.csv";
+  
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
 }
 ```
 
-### 随机字符串
+### 生成随机字符串
 
 ```javascript
 /**
@@ -453,6 +456,24 @@ function getRandomString() {
   return Math.random()
     .toString(36)
     .substr(2);
+}
+```
+
+### 生成[n, m]的随机整数
+```js
+/**
+ * parseInt()和Math.floor()结果都是向下取整。
+ * 所以Math.random()*5生成的都是[0,4] 的随机整数。
+ * 所以生成[1,max]的随机数，公式如下：
+ */
+parseInt(Math.random()*max, 10) + 1;
+Math.floor(Math.random() * max) + 1;
+Math.ceil(Math.random() * max);
+```
+```js
+// 生成[min,max]的随机数
+function getRandInt(minNum, maxNum) {
+  return parseInt(Math.random() * (maxNum - minNum + 1))
 }
 ```
 

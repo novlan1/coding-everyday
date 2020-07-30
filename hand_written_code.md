@@ -107,6 +107,8 @@ emitter.once('b', cb)
 emitter.emit('b', 'y', 'g', 'w')
 emitter.emit('b', 'y', 'g', 'w')
 ```
+
+```
 基于一个主题/事件通道，订阅者subscriber通过自定义事件订阅主题，发布者publisher通过发布主题事件的方式发布。
 
 #### 观察者模式和发布订阅模式区别
@@ -114,13 +116,16 @@ emitter.emit('b', 'y', 'g', 'w')
 1. 在观察者模式中，观察者需要直接订阅目标事件。在目标发出内容改变的事件后，直接接收事件并作出响应。
 2. 发布订阅模式相比观察者模式多了个主题/事件通道，订阅者和发布者不是直接关联的。
 3. 观察者模式两个对象之间有很强的依赖关系；发布/订阅模式两个对象之间的耦合度低。
+```
 
 ### 函数柯里化
+```
 当我们没有重新定义toString与valueOf时，函数的隐式转换会调用默认的toString方法，它会将函数的定义内容作为字符串返回。
 
 而当我们主动定义了toString/vauleOf方法时，那么隐式转换的返回结果则由我们自己控制了。其中valueOf的优先级会toString高一点。
 
 柯里化好处：参数复用、延迟运行（返回函数，想什么时候运行什么时候运行）
+```
 
 ```js
 function currying() {
@@ -202,101 +207,314 @@ Function.prototype.myApply = function() {
   return res
 }
 ```
-### 实现bind
+### 实现 bind 方法
 ```js
 Function.prototype.myBind = function() {
   const [context, ...args] = [...arguments]
+  const fn = this
   
-  return 
+  return function() {
+    return fn.apply(context, args.concat(...arguments))
+  }
+}
+```
+### 实现 instanceof 方法
+```js
+// 思路：右边变量的原型存在于左边变量的原型链中。
+function myInstanceof(left, right) {
+  let leftVal = left.__proto__
+  let rightVal = right.__proto__
+  
+  while(true) {
+    if (leftVal === null) return false
+    if (leftVal === rightVal) return true
+    leftVal = leftVal.__proto__
+  }
+}
+```
+### new 的本质
+```
+1. 创建一个新对象且将其隐式原型指向构造函数原型
+2. 执行构造函数
+3. 返回该对象
+```
+```js
+function myNew(fn) {
+  const obj = {
+    __proto__: fn.prototype
+  }
+  fn.call(obj, ...arguments)
+  return obj
+}
+```
+
+### Object.create 的基本实现原理
+```
+1. 创建一个空的构造函数
+2. 将传入的对象作为其原型
+3. 用该构造函数创建新的对象，并返回
+```
+```js
+function myCreate(obj) {
+  function F(){}
+  F.prototype = obj
+  return new F()
+}
+```
+
+### 实现防抖和节流
+```
+所谓防抖，就是指触发事件后在 n 秒内函数只能执行一次，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
+
+所谓节流，就是指连续触发事件但是在 n 秒中只执行一次函数。
+
+区别：
+(1) 函数节流不管事件触发有多频繁，都会保证在规定时间内一定会执行一次真正的事件处理函数，
+    而函数防抖只是在最后一次事件后才触发一次函数。
+(2) 比如在页面的无限加载场景下，我们需要用户在滚动页面时，每隔一段时间发一次 Ajax 请求，
+    而不是在用户停下滚动页面操作时才去请求数据。这样的场景，就适合用节流技术来实现。
+
+应用： 进行窗口的resize、scroll，输入框内容校验或请求ajax时
+```
+
+```js
+function debounce(fn, time) {
+  let timeout
+  
+  return function() {
+    const _this = this
+    const args = [...arguments]
+    if(timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      fn.apply(_this, args)
+    }, time)
+  }
+}
+
+function throttle(tn, time) {
+  let timeout 
+  
+  return function() {
+    const _this = this
+    const args = [...arguments]
+    if (!timeout) {
+      setTimeout(() => {
+        timeout = null
+        fn.apply(_this, args)
+      }, time)
+    }
+  }
+}
+
+
+// 测试
+function count() {
+ console.log('xxxxx')
+}
+window.onscroll = debounce(count, 500)
+window.onscroll = throttle(count, 500)
+```
+### 用 for 和 reduce 实现 map 和 filter
+
+```js
+// for 实现 map
+Array.prototype.myMap = function() {
+  const arr = this
+  const [fn, thisArg] = [...arguments]
+  const res = []
+  
+  for (let i = 0; i < arr.length; i++) {
+    res.push(fn.call(thisArg, arr[i], i, arr))
+  }
+  return res
+}
+
+// for 实现 filter
+Array.prototype.myFilter = function() {
+  const arr = this
+  const [fn, thisArg] = [...arguments]
+  const res = []
+  
+  for (let i = 0; i < arr.length; i++) {
+    if (fn.call(thisArg, arr[i], i, arr)) {
+      res.push(arr[i])
+    }
+  }
+  return res
+}
+
+// reduce 实现 map
+Array.prototype.myMap = function() {
+  const arr = this
+  const [fn, thisArg] = [...arguments]
+  const res = []
+  
+  return arr.reduce((acc, item, index) => {
+    acc.push(fn.call(thisArg, item, index, arr))
+    return acc
+  }, [])
+}
+
+// reduce 实现 filter
+Array.prototype.myFilter = function() {
+  const arr = this
+  const [fn, thisArg] = [...arguments]
+  const res = []
+  
+  return arr.reduce((acc, item, index) => {
+    if (fn.call(thisArg, item, index, arr)) {
+      acc.push(item)
+    }
+    return acc
+  }, [])
+}
+```
+### 使用 for 循环打印1-10，每个数字间隔 100ms
+
+```js
+// 使用 let
+for (let i = 1; i < 11; i++) {
+  setTimeout(() => {
+    console.log(i)
+  }, 500 * i)
+}
+
+/**
+ * 使用闭包
+ * 整个 for 循环内部是一个闭包，注意将i传进去
+ */ 
+for (var i = 1; i < 11; i++) {
+  (function(i){
+    setTimeout(()=> {
+      console.log(i)
+    }, 500 * i)
+  })(i)
+}
+
+// 错误做法
+for (var i = 0; i < 11; i++) {
+  setTimeout(() => {
+    console.log(i)
+  }, 500 * i)
+}
+```
+
+### 使用 setTimeout 模拟 setInterval
+```js
+const time = 500 
+
+function fn() {
+  console.log('xxx')
+}
+setTimeout(function f() {
+  fn()
+  setTimeout(f, time)
+}, time)
+```
+### ES5 实现继承
+```js
+function Parent() {
+}
+function Child() {
+  Parent.call(this)
+}
+
+Child.prototype = Object.create(Parent.prototype)
+Child.prototype.constructor = Parent
+```
+### 实现 compose
+```js
+/**
+ * 实现以下功能：compose([a, b, c])('参数') => a(b(c('参数')))
+ */
+function compose(funcs) {
+  return funcs.reduce((a, b) => (...args) => a(b(...args)))
+}
+
+// 另一种
+function compose(funcs) {
+  let index = funcs.length - 1
+  
+  return function() {
+    let res = funcs[index].call(null, ...arguments)
+    while (--index >= 0) {
+      res = funcs[index].call(null, res)
+    }
+    return res
+  }
+}
+
+
+// 测试
+const a = x => x * 2
+const b = x => x + 5
+const c = x => x * 3
+compose([a, b, c])(123)
+```
+### 实现深拷贝
+```
+1. 使用JSON.stringify和JSON.parse实现深拷贝：JSON.stringify把对象转成字符串，再用JSON.parse把字符串转成
+   新的对象；
+
+   缺陷：它会抛弃对象的constructor，深拷贝之后，不管这个对象原来的构造函数是什么，在深拷贝之后都会变成Object；
+   这种方法能正确处理的对象只有 Number, String, Boolean, Array, 扁平对象，也就是说，只有可以转成JSON格式的
+   对象才可以这样用，像function没办法转成JSON；
+
+2. slice是否为深拷贝
+   slice()和concat()都并非深拷贝，而是只拷贝第一层。
+```
+```js
+function getEmpty(obj) {
+  const type = {}.toString.call(obj)
+  if (type === '[object Object]') {
+    retur {}
+  }
+  if (type === '[object Array]') {
+    return []
+  }
+  return obj
+}
+
+
+/** 
+ * 宽度优先遍历
+ * 换成栈，每次弹出最后的，就是深度优先遍历了
+ */
+function deepCopyBFS(origin) {
+  let queue = []
+  let map = new Map() // 记录出现过的对象，用于处理环
+  
+  let target = getEmpty(origin)
+  if (target !== origin) {
+    queue.push([origin, target])
+    map.set(origin, target)
+  }
+  
+  while (queue.length) {
+    let [ori, tar] = queue.shift()
+    
+    for (let key in ori) {
+      // 处理环状
+      if (map.get(ori[key])) {
+        tar[key] = map.get(ori[key])
+        continue
+      }
+      
+      tar[key] = getEmpty(ori[key])
+      if (tar[key] !== ori[key]) {
+        queue.push([ori[key], tar[key]])
+        map.set(ori[key], tar[key])
+      }
+    }
+  }
+  return target
 }
 
 
 ```
+参考资料：[深拷贝, 简书](https://www.jianshu.com/p/cf1e9d7e94fb)
 
-
-### 实现Promise.all、Promise.race、Promise.allSettled
-#### Promise.all
-Promise.all(iterable) 方法返回一个 Promise 实例，此实例在 iterable 参数内所有的 promise 都“完成（resolved）”或参数中不包含 promise 时回调完成（resolve）；如果参数中 promise 有一个失败（rejected），此实例回调失败（reject），失败原因的是第一个失败 promise 的结果。
-
-```js
-Promise.newAll = function (promiseArr) {
-  let results = [];
-  return new Promise((resolve, reject) => {
-    let i = 0, n = 0;
-    // 执行所有的 Promise 对象
-    while (n < promiseArr.length) {
-      promiseArr[n].then(res => {
-        results.push(res);
-        i++;
-        if (i === promiseArr.length) {
-          // 当所有 Promise 都 resolve 之后，统一 resolve
-          resolve(results);
-        }
-      }).catch(err => {
-        // 只要有任何 Promise 出现 reject， Promise.newAll 就直接 reject
-        reject(err);
-      });
-      n++;
-    }
-  })
-}
-
-```
-#### Promise.race
-Promise.race(iterable) 方法返回一个 promise，一旦迭代器中的某个 promise 解决或拒绝，返回的 promise 就会解决或拒绝。
-
-```js
-Promise.newRace = function (promiseArr) {
-  return new Promise((resolve, reject) => {
-    let i = 0, n = 0;
-    // 执行所有 Promise
-    while (n < promiseArr.length) {
-      promiseArr[n].then(res => {
-        // 出现第一个被 resolve 的直接 resolve
-        resolve(res);
-      }).catch(err => {
-        // 出现第一个被 reject 的直接 reject
-        reject(err);
-      });
-      n++;
-    }
-  })
-};
-```
-
-#### Promise.allSettled
-Promise.allSettled() 方法返回一个在所有给定的 promise 已被决议或被拒绝后决议的 promise，并带有一个对象数组，每个对象表示对应的promise 结果。
-
-```js
-Promise.newAllSettled = function (promiseArr) {
-  let results = [];
-  return new Promise((resolve, reject) => {
-    let i = 0, n = 0;
-    // 运行所有的 Promise
-    while (n < promiseArr.length) {
-      promiseArr[n].then(res => {
-        // 当有 Promise 被 resolve 之后，记录 resolve 值和状态，已决 Promise 计数加一
-        results.push({value: res, status: 'fulfilled'});
-        i++;
-        // 全部 Promise 已决，resolve
-        if (i === promiseArr.length) {
-          resolve(results);
-        }
-      }).catch(err => {
-        // 当有 Promise 被 reject 后，记录 reject 值和状态，并且已决的 Promise 计数加一
-        results.push({value: err, status: 'rejected'});
-        i++;
-        if (i === promiseArr.length) {
-          resolve(results);
-        }
-      });
-      n++;
-    }
-  })
-};
-```
-
-### 实现Promise
+### 实现 Promise
 ```js
 const PENDING = 'pending'
 const RESOLVED = 'resolved'
@@ -399,3 +617,91 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
 参考资料：[segmentfault](https://segmentfault.com/a/1190000016550260)
 
+### 实现 Promise.all、Promise.race、Promise.allSettled
+#### Promise.all
+```
+Promise.all(iterable) 方法返回一个 Promise 实例，此实例在 iterable 参数内所有的 
+promise 都“完成（resolved）”或参数中不包含 promise 时回调完成（resolve）；
+如果参数中 promise 有一个失败（rejected），此实例回调失败（reject），失败原因的是第一个失败 promise 的结果。
+```
+```js
+Promise.newAll = function (promiseArr) {
+  let results = [];
+  return new Promise((resolve, reject) => {
+    let i = 0, n = 0;
+    // 执行所有的 Promise 对象
+    while (n < promiseArr.length) {
+      promiseArr[n].then(res => {
+        results.push(res);
+        i++;
+        if (i === promiseArr.length) {
+          // 当所有 Promise 都 resolve 之后，统一 resolve
+          resolve(results);
+        }
+      }).catch(err => {
+        // 只要有任何 Promise 出现 reject， Promise.newAll 就直接 reject
+        reject(err);
+      });
+      n++;
+    }
+  })
+}
+
+```
+#### Promise.race
+```
+Promise.race(iterable) 方法返回一个 promise，一旦迭代器中的某个 promise 解决或拒绝，
+返回的 promise 就会解决或拒绝。
+```
+```js
+Promise.newRace = function (promiseArr) {
+  return new Promise((resolve, reject) => {
+    let i = 0, n = 0;
+    // 执行所有 Promise
+    while (n < promiseArr.length) {
+      promiseArr[n].then(res => {
+        // 出现第一个被 resolve 的直接 resolve
+        resolve(res);
+      }).catch(err => {
+        // 出现第一个被 reject 的直接 reject
+        reject(err);
+      });
+      n++;
+    }
+  })
+};
+```
+
+#### Promise.allSettled
+```
+Promise.allSettled() 方法返回一个在所有给定的 promise 已被决议或被拒绝后决议的 promise，
+并带有一个对象数组，每个对象表示对应的promise 结果。
+```
+```js
+Promise.newAllSettled = function (promiseArr) {
+  let results = [];
+  return new Promise((resolve, reject) => {
+    let i = 0, n = 0;
+    // 运行所有的 Promise
+    while (n < promiseArr.length) {
+      promiseArr[n].then(res => {
+        // 当有 Promise 被 resolve 之后，记录 resolve 值和状态，已决 Promise 计数加一
+        results.push({value: res, status: 'fulfilled'});
+        i++;
+        // 全部 Promise 已决，resolve
+        if (i === promiseArr.length) {
+          resolve(results);
+        }
+      }).catch(err => {
+        // 当有 Promise 被 reject 后，记录 reject 值和状态，并且已决的 Promise 计数加一
+        results.push({value: err, status: 'rejected'});
+        i++;
+        if (i === promiseArr.length) {
+          resolve(results);
+        }
+      });
+      n++;
+    }
+  })
+};
+```
