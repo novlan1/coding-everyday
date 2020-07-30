@@ -1206,4 +1206,37 @@ input:-internal-autofill-selected {
 
 ```
 
+### CSS 实现固定宽高比，比如 4 : 3
+```
+首先需要知道，一个元素的 padding，如果值是一个百分比，那这个百分比是相对于其父元素的宽度而言的，即使对
+于 padding-bottom 和 padding-top 也是如此。
+
+另外，在计算 Overflow 时，是将元素的内容区域（即 width & height 对应的区域）和 Padding 区域一起
+计算的。换句话说，即使将元素的 overflow 设置为 hidden，“溢出”到 Padding 区域的内容也会照常显示。
+
+综上两条所述，我们可以使用 padding-bottom 来代替 height 来实现高度与宽度成比例的效果。因为 item 元素
+的宽度是其父元素宽度的 100%，所以我们将 padding-bottom 设置为它的 3/4 倍，即 75%。同时将其 height 
+设置为 0 以使元素的“高度”等于 padding-bottom 的值，从而实现需要的效果。
+```
+```html
+<div class='container'>
+  <div class='box'></div>
+</div>
+```
+```css
+.container{
+  width: 100px; /*变化的*/
+}
+.box{
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%;
+}
+```
+
+```
+若父元素宽度是 100vw，则子元素可以为 75vw，也能实现 4:3
+```
+
 

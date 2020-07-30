@@ -306,4 +306,45 @@ Thunk 是一类函数的别名，主要特征是**对另外一个函数添加了
 </Switch>
 ```
 
+### setState 什么时候批量更新？
 
+```
+1. setState 会不会立刻更新 state 取决于调用 setState 时是不是已经处于批量更新事务中。
+
+2. 组件的生命周期函数和绑定的事件回调函数都是在批量更新事务中执行的。
+
+3. 而通过 JavaScript 原生 addEventListener 直接添加的事件处理函数，以及使
+   用 setTimeout/setInterval 等setState会以同步的方式执行。
+```
+下面是一个例子：
+```js
+class Example extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      val: 0
+    };
+  }
+  
+  componentDidMount() {
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 1 次 log->0
+
+    this.setState({val: this.state.val + 1});
+    console.log(this.state.val);    // 第 2 次 log->0
+
+    setTimeout(() => {
+      this.setState({val: this.state.val + 1});
+      console.log(this.state.val);  // 第 3 次 log->2
+
+      this.setState({val: this.state.val + 1});
+      console.log(this.state.val);  // 第 4 次 log->3
+    }, 0);
+  }
+
+  render() {
+    return null;
+  }
+};
+```
+参考资料：[setState, 知乎](https://zhuanlan.zhihu.com/p/57748690)
