@@ -425,5 +425,34 @@ scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
 
 
 
+### 下载CSV
 
+```javascript
+const exportCSV = (data, name) => {
+  // var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+  var downloadLink = document.createElement("a");
+  // downloadLink.href = uri;
+  var blob = new Blob(["\ufeff" + data], {type: 'text/csv,charset=UTF-8'}); //解决大文件下载失败
+  downloadLink.setAttribute("href", URL.createObjectURL(blob));
+  downloadLink.download = name ? (name+".csv"): "temp.csv";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}
+```
+
+### 随机字符串
+
+```javascript
+/**
+ * toString()方法可以根据所传递的参数把数值转换为对应进制的数字字符串。参数范围为 2~36 之间的任意整数。
+ * substr() 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
+ * e.g, 0.3288894104484157 => '0.agp1hbf0dko' => 'agp1hbf0dko'
+ */
+function getRandomString() {
+  return Math.random()
+    .toString(36)
+    .substr(2);
+}
+```
 

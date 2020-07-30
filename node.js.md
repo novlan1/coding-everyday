@@ -1102,4 +1102,43 @@ bodyparser 用来解析post的请求取代了原生的 req.on 的方式 但是�
 - bodyParser变量是对中间件的引用。请求体解析后，解析值都会被放到`req.body`属性，内容为空时是一个{}空对象。
 
 
+### 扫描所有视频文件
+```js
+const path = require('path')
+const fs = require('fs')
 
+// 要遍历的根目录
+// const firstPath = path.join(__dirname, '.')
+const firstPath = 'D:'
+const saveFileLocation = path.join(__dirname, 'video_list.txt')
+readDir(firstPath)
+
+let count = 1
+// 遍历目录
+function readDir(rootPath) {
+  fs.readdir(rootPath, {encoding: 'utf8'}, (err, files) => {
+    if(!files || !files.length) return
+    
+    files.forEach(file => {
+      const filePath = `${rootPath}/${file}`
+      
+      fs.stat(filePath, (err, info) => {
+        if (info && info.isDirectory()) {
+          readDir(filePath)
+        } else {
+          const extName = path.extname(filePath)
+          if (['.mp4', '.avi', '.mkv', '.rmvb'].includes(extName)){
+            writeToFile(saveFileLocation, `${count}. ${filePath}\n`)
+            count += 1
+          }
+        }
+      })
+    }) 
+  })
+}
+
+function writeToFile(file, data) {
+  fs.writeFile(file, data, {flag: 'a'}, (err,a,b) =>{
+  })
+}
+```

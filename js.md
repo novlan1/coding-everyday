@@ -1878,3 +1878,53 @@ for(var i = 0; i < 5; i++){
 }
 // 5 6 7 8 9
 ```
+
+### 45. ES6 中的 class 的 this 指向
+```js
+class Logger{
+    printName(name = 'there'){
+        this.print(`hello ${name}`);
+    }
+    print(text){
+        console.log(text);
+    }
+}
+ 
+const logger = new Logger();    //实例化
+
+const {printName } = logger;    //printName
+printName(); // 报错    VM77:3 Uncaught TypeError: Cannot read property 'print' of undefined
+
+logger.printName(); // 不报错  hello there
+```
+
+printName方法中的this ，默认指向Logger类的实例化对象，但如上单独使用的时候，this会指向该方法运行时指向的环境。ES6的class内部默认是严格模式，this指向undifined。
+
+
+解决方案：
+1. 在构造方法中绑定this，这样实例化时 this就会指向当前实例
+```
+class Logger{
+    constructor(){
+        this.printName = this.printName.bind(this);
+    }
+ 
+//...
+}
+```
+2. 使用箭头函数
+
+```js
+class Logger{
+    constructor(){
+        this.printName = (name = 'there') => {
+            this.print(name);
+        }
+    }
+}
+```
+3.使用 Proxy， 获取方法的时候，自动绑定this
+
+
+
+
