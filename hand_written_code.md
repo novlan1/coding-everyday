@@ -120,9 +120,9 @@ emitter.emit('b', 'y', 'g', 'w')
 
 ### 函数柯里化
 ```
-当我们没有重新定义toString与valueOf时，函数的隐式转换会调用默认的toString方法，它会将函数的定义内容作为字符串返回。
+当我们没有重新定义 toString 与 valueOf 时，函数的隐式转换会调用默认的 toString 方法，它会将函数的定义内容作为字符串返回。
 
-而当我们主动定义了toString/vauleOf方法时，那么隐式转换的返回结果则由我们自己控制了。其中valueOf的优先级会toString高一点。
+而当我们主动定义了 toString/vauleOf 方法时，那么隐式转换的返回结果则由我们自己控制了。其中 valueOf的优先级会比 toString 高一点。
 
 柯里化好处：参数复用、延迟运行（返回函数，想什么时候运行什么时候运行）
 ```
@@ -411,6 +411,16 @@ setTimeout(function f() {
   setTimeout(f, time)
 }, time)
 ```
+
+`setInterval`有两个缺点：
+- 使用`setInterval`时，某些间隔会被跳过
+- 可能多个定时器会连续执行
+
+
+`setTimeout`模拟`setInterval`好处：
+- 在前一个定时器执行完前，不会向队列插入新的定时器（解决缺点一）
+- 保证定时器间隔（解决缺点二）
+
 ### ES5 实现继承
 ```js
 function Parent() {
@@ -422,6 +432,87 @@ function Child() {
 Child.prototype = Object.create(Parent.prototype)
 Child.prototype.constructor = Parent
 ```
+这种方法称为寄生组合式继承。
+- 寄生式继承的思路：在创建对象的函数中直接吸收其他对象的功能，然后对其进行扩展并返回。
+- 构造函数的目的是为了复制属性，`Parent.call(this, name)`肯定不能少
+- `Child.prototype =new Parent()`的目的是为了获取到父类原型对象(`prototype`)上的方法，基于这个目的，有没有别的方法可以做到 在**不需要实例化父类构造函数**的情况下，也能**得到父类原型对象上的方法**呢？ 当然可以，我们可以采用寄生式继承来得到父类原型对象上的方法。
+- 那么使用`Object.create`的原型链是什么样的呢？其实很简单：
+  `SubType.prototype.__ proto __ = SuperType.protype`
+  也就是说，**子类的原型相当于是父类原型的一个实例**，这不就是实现了两者的链接了吗？
+
+
+其他方式的不足
+
+```js
+function Parent() {
+  this.name = 'parent'
+}
+Parent.prototype.say = function() {}
+function Child() {
+  Parent.call(this)
+  this.type = 'child'
+}
+console.log(new Child().say())
+```
+构造函数中的继承：
+只用`Parent.call(this)`的缺点是，**原型链上的属性并没被继承**。
+
+```js
+function Parent() {
+  this.name = 'parent'
+  this.play = [1, 2, 3]
+}
+function Child() {
+  this.type = 'child'
+}
+Child.prototype = new Parent()
+
+const s1 = new Child()
+const s2 = new Child()
+
+console.log(s1.play, s2.play)
+s1.play.push(4)
+console.log(s1.play, s2.play)
+```
+单纯的原型链继承：
+使用`Child.prototype = new Parent()`的缺点是，**子类实例的引用类型是公用的**，修改一个实例会引起另一个实例的改变。
+
+```js
+function Parent(){
+  console.log('____')
+  this.play = [1, 2, 3]
+}
+function Child() {
+  Parent.call(this)
+}
+
+Child.prototype = new Parent()
+const s1 = new Child()
+const s2 = new Child()
+console.log(s1.play, s2.play)
+s1.play.push(4)
+console.log(s1.play, s2.play)
+```
+简单的组合方式是，上述两种的相加。缺点是**父级构造函数执行了两次**。
+```js
+function Parent() {
+  
+}
+function Child() {
+  Parent.call(this)
+}
+
+Child.prototype = Parent.prototype
+
+const s = new Child()
+console.log(s.constructor)
+```
+`Child.prototype = Parent.prototype`的缺点是，无法区分一个实例是哪个原型对象创建的。若强行使用过`Child.prototype.constructor=Child`，会使得父类对象的`contructor`属性也是`Child`，显然错误。
+并且，当我们想要在子对象原型中扩展一些属性以便之后继续继承的话，父对象的原型也会被改写，因为这里的原型对象实例始终只有一个，这也是这种继承方式的缺点。
+
+
+
+
 ### 实现 compose
 ```js
 /**
@@ -629,15 +720,18 @@ Promise.newAll = function (promiseArr) {
   let results = [];
   return new Promise((resolve, reject) => {
     let i = 0, n = 0;
+      
     // 执行所有的 Promise 对象
     while (n < promiseArr.length) {
       promiseArr[n].then(res => {
         results.push(res);
         i++;
+          
         if (i === promiseArr.length) {
           // 当所有 Promise 都 resolve 之后，统一 resolve
           resolve(results);
         }
+          
       }).catch(err => {
         // 只要有任何 Promise 出现 reject， Promise.newAll 就直接 reject
         reject(err);
@@ -657,11 +751,13 @@ Promise.race(iterable) 方法返回一个 promise，一旦迭代器中的某个 
 Promise.newRace = function (promiseArr) {
   return new Promise((resolve, reject) => {
     let i = 0, n = 0;
+      
     // 执行所有 Promise
     while (n < promiseArr.length) {
       promiseArr[n].then(res => {
         // 出现第一个被 resolve 的直接 resolve
         resolve(res);
+          
       }).catch(err => {
         // 出现第一个被 reject 的直接 reject
         reject(err);
@@ -680,22 +776,27 @@ Promise.allSettled() 方法返回一个在所有给定的 promise 已被决议�
 ```js
 Promise.newAllSettled = function (promiseArr) {
   let results = [];
+    
   return new Promise((resolve, reject) => {
     let i = 0, n = 0;
-    // 运行所有的 Promise
+      
+    // 运行所有的 Promise 
     while (n < promiseArr.length) {
       promiseArr[n].then(res => {
         // 当有 Promise 被 resolve 之后，记录 resolve 值和状态，已决 Promise 计数加一
         results.push({value: res, status: 'fulfilled'});
         i++;
+          
         // 全部 Promise 已决，resolve
         if (i === promiseArr.length) {
           resolve(results);
         }
+          
       }).catch(err => {
         // 当有 Promise 被 reject 后，记录 reject 值和状态，并且已决的 Promise 计数加一
         results.push({value: err, status: 'rejected'});
         i++;
+          
         if (i === promiseArr.length) {
           resolve(results);
         }
@@ -705,3 +806,61 @@ Promise.newAllSettled = function (promiseArr) {
   })
 };
 ```
+
+### 双向数据绑定
+```html
+<input id="input"/>
+```
+```js
+const data = {};
+const input = document.getElementById('input');
+
+Object.defineProperty(data, 'text', {
+  set(value) {
+    input.value = value;
+    this.value = value;
+  }
+});
+
+input.onchange = function(e) {
+  data.text = e.target.value;
+}
+```
+`onkeyup`事件更明显
+
+- 单向绑定非常简单，就是把Model绑定到View，当我们用JavaScript代码更新Model时，View就会自动更新。
+- 有单向绑定，就有双向绑定。如果用户更新了View，Model的数据也自动被更新了，这种情况就是双向绑定。
+- 什么情况下用户可以更新View呢？填写表单就是一个最直接的例子。当用户填写表单时，View的状态就被更新了，如果此时MVVM框架可以自动更新Model的状态，那就相当于我们把Model和View做了双向绑定
+- 双向绑定最大的好处是我们不再需要用jQuery去查询表单的状态，而是直接获得了用JavaScript对象表示的Model。
+
+当用户提交表单时，传统的做法是响应onsubmit事件，用jQuery获取表单内容，检查输入是否有效，最后提交表单，或者用AJAX提交表单。
+
+现在，获取表单内容已经不需要了，因为双向绑定直接让我们获得了表单内容，并且获得了合适的数据类型。
+
+vue 双向数据绑定的原理：
+1.vue 双向数据绑定是通过 数据劫持 结合 发布订阅模式的方式来实现的， 也就是说数据和视图同步，数据发生变化，视图跟着变化，视图变化，数据也随之发生改变；
+
+2.核心：关于VUE双向数据绑定，其核心是 `Object.defineProperty()`方法；
+
+3.介绍一下`Object.defineProperty()`方法
+（1）`Object.defineProperty(obj, prop, descriptor)`，这个语法内有三个参数，分别为： `obj`（要定义其上属性的对象），`prop` （要定义或修改的属性），`descriptor` （具体的改变方法）。
+（2）简单地说，就是用这个方法来定义一个值。当调用时我们使用了它里面的get方法，当我们给这个属性赋值时，又用到了它里面的set方法。
+
+```js
+let obj = {}
+Object.defineProperty(obj, 'hello', {
+  set: function(val) {
+    console.log('setting')
+    obj['hello'] = val
+  },
+  get: function() {
+    console.log('getting')
+    return obj['hello']
+  }
+})
+obj.hello;
+obj.hello = 'hi'
+```
+
+
+![MVVM](imgs/vue_mvvm.png)

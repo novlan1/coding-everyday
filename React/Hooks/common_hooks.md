@@ -2,9 +2,9 @@
 
 ### useState()
 
-当给 setCount 传入一个与 count 相同的原始值时，组件不会重新渲染。当传递一个对象时，无论是否一样都会渲染。
+当给 setCount 传入一个与 count 相同的**原始值**时，组件不会重新渲染。当传递一个**对象**时，无论是否一样都会渲染。
 
-useState()方法可以传递值也可以传递函数，可延迟初始化，此函数在多次渲染时只运行一次。
+useState()方法可以传递值也可以传递**函数**，可延迟初始化，此函数在多次渲染时只运行一次。
 
 ```js
 function App(props) {
@@ -20,7 +20,7 @@ function App(props) {
 
 - 副作用调用时机
   - mount 后
-  - update 前
+  - update 后
   - unmount 前
 
 useEffect 返回函数的作用是清除上一次副作用遗留下来的状态。
@@ -93,6 +93,8 @@ function App() {
 
 更爽的使用 context，替代 Content.Consumer
 
+useContext 方法是在子组件中使用，也就是谁用 context 中的属性，谁调用 useContext。而根组件，用 Context 实例上的Provider，传递给子孙组件 value。
+
 ```js
 const CountContext = createContext();
 
@@ -114,6 +116,7 @@ function App() {
   );
 }
 ```
+
 
 ### useMemo
 
@@ -242,3 +245,46 @@ function App() {
   );
 }
 ```
+
+
+### useEffect 和 useLayoutEffect 区别
+1. `useEffect`
+
+基本上90%的情况下，都应该用这个。这个是在`render`结束后，你的callback函数执行，但是不会阻塞浏览器渲染，算是某种**异步**的方式吧。但是`class`的`componentDidMount` 和`componentDidUpdate`是**同步**的，在`render`结束后就运行，`useEffect`在大部分场景下都比`class`的方式性能更好。
+
+2. `useLayoutEffect`
+
+这个是用在处理DOM的时候，当你的`useEffect`里面的操作需要**处理DOM**，并且会**改变页面的样式**，就需要用这个，否则可能会出现出现**闪屏**问题。`useLayoutEffect`里面的 callback 函数会在**DOM更新完成**后立即执行，但是会在**浏览器进行任何绘制**之前运行完成，阻塞了浏览器的绘制。
+
+
+
+
+小结：
+- useEffect 在渲染时是异步执行，并且要等到**浏览器将所有变化渲染到屏幕**后才会被执行。
+- useLayoutEffect 在渲染时是同步执行，其执行时机与 componentDidMount，componentDidUpdate 一致
+
+
+
+#### 对于 useEffect 和 useLayoutEffect 哪一个与 componentDidMount，componentDidUpdate 的是等价的？
+
+`useLayoutEffect`，因为从源码中调用的位置来看，useLayoutEffect的 create 函数的调用位置、时机都和 componentDidMount，componentDidUpdate 一致，且都是被 React 同步调用，都会阻塞浏览器渲染。
+
+
+
+#### useEffect 和 useLayoutEffect 哪一个与 componentWillUnmount 的是等价的？
+
+同上，useLayoutEffect 的 detroy 函数的调用位置、时机与 `componentWillUnmount` 一致，且都是同步调用。
+useEffect 的 detroy 函数从调用时机上来看，更像是 `componentDidUnmount` (注意React 中并没有这个生命周期函数)。
+
+
+
+#### 为什么建议将修改 DOM 的操作里放到 useLayoutEffect 里，而不是 useEffect？
+
+- 通过 useLayoutEffect 可以拿到最新的 DOM 节点，并且在此时对 DOM 进行样式上的修改，假设修改了元素的 height，这些修改会和 react 做出的更改一起被一次性渲染到屏幕上，依旧只有一次回流、重绘的代价。
+- 如果放在 useEffect 里，useEffect 的函数会**在组件渲染到屏幕之后执行**，此时对 DOM 进行修改，会触发浏览器再次进行回流、重绘，增加了性能上的损耗。
+
+
+参考资料：[useEffect 和 useLayoutEffect 区别](https://www.jianshu.com/p/412c874c5add)，[深入理解 React useLayoutEffect 和 useEffect 的执行时机](https://www.cnblogs.com/iheyunfei/archive/2020/06/08/13065047.html)
+
+
+
