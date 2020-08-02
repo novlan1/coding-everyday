@@ -600,3 +600,12 @@ const rotate = new Promise(resolve => {
   })
 })
 ```
+
+### WebSocket 断开原因分析
+
+参考资料：[WebSocket 断开原因分析](https://blog.csdn.net/weixin_34168880/article/details/88859480?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)，[CloseEvent, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/CloseEvent)
+
+### 快速生成 Mac App icns 图标
+
+参考资料：[快速生成 Mac App icns 图标](https://www.jianshu.com/p/e74047f7cc91)
+

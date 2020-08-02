@@ -96,6 +96,39 @@ sudo chown -R liwz /Users/liwz/workspace/minicnypafe
 ### mac 电脑在控制台输入`open .`即可打开`finder`的当前文件夹
 用的工具是`iterm`
 
+### ifconfig 含义
+```
+lo0 = loopback
+
+gif0 = Software Network Interface
+
+stf0 = 6to4 tunnel interface
+
+en0 = Ethernet 0
+
+fw0 = Firewire
+
+en1 = Ethernet 1
+
+vmnet8 = Virtual Interface
+
+vmnet1 = Virtual Interface
+```
+```
+在较旧的Apple便携式設備上，en0是以太網，en1是機场（wiFi）。
+
+帶有以太網插孔的旧版Mac Pro將具有en3以及两个以太網NIC和機场（wiFi）。
+
+在没有以太網插孔的较新MacBook中，en0是機场（wiFi）。
+
+vmnet#通常由VM（Parallels / VMware）建立
+```
+- 可以通過執行 `networksetup -listallhardwareports`查看某些設備的"系統偏好設置"中使用的名稱。
+- `networksetup -listnetworkserviceorder`  产生類似的輸出，但它按照連線的順序顯示"網路服務列表"，或者以与系統偏好設備相同的順序顯示服務。
+- `networksetup`  不包括 `vmnet1`等設備 和 `vmnet8`等`VMware`使用的設備。
+
+
+参考资料：[有人可以在Mac OS X中解釋ifconfig輸出吗？](https://t.codebug.vip/questions-1079897.htm)
 
 ### windows 电脑查看mac地址 
 
@@ -284,13 +317,13 @@ mysql> set password for root@localhost = password('123');
 原因是因为 MySQL 有密码设置的规范，具体是与`validate_password_policy`的值有关：
 
 MySQL完整的初始密码规则可以通过如下命令查看：
-```
+```bash
 mysql> SHOW VARIABLES LIKE 'validate_password%';
 ```
 
 
 密码的长度是由`validate_password_length`决定的，而`validate_password_length`的计算公式是：
-```
+```bash
 validate_password_length = 
 validate_password_number_count + 
 validate_password_special_char_count + 
@@ -298,7 +331,7 @@ validate_password_special_char_count +
 ```
 
 我的是已经修改过的，初始情况下第一个的值是ON，`validate_password_length`是8。可以通过如下命令修改：
-```
+```bash
 mysql> set global validate_password_policy=0;
 
 mysql> set global validate_password_length=1;
@@ -307,6 +340,25 @@ mysql> set global validate_password_length=1;
 
 但此时还有一个问题，就是因为安装了`Yum Repository`，以后每次yum操作都会自动更新，需要把这个卸载掉：
 
-```
+```bash
 $ yum -y remove mysql57-community-release-el7-10.noarch
+```
+
+### 查看 crontab 任务是否执行以及执行日志
+1. 查看 crontab 的日志
+- 日志文件为`/var/log/cron`
+- 找到对应时间，是否执行指令
+- 这种方式只能看到是否执行，但是并无法确定是否执行成功
+
+2. 将定时任务的日志重定向
+
+日志重定向的时候要注意，要将标准错误日志一起重定向，才能获取到正常和错误的日志。
+例如：
+```
+27 10 * * * /usr/bin/sh /opt/lyy/checkES.sh >>/opt/lyy/checkES.log 2>&1
+```
+```
+2>&1, 表示将错误的日志（文件描述符为2）重定向到标准输出（文件描述符为1）中。
+
+>>/opt/lyy/checkES.log，表示将标准输出（文件描述符为1）的日志重定向到文件 /opt/lyy/checkES.log 中，相当于 1>>/opt/lyy/checkES.log。
 ```
