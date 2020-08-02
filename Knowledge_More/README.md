@@ -281,41 +281,6 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 
 
 
-### 13. Markdown语法
-
-1. 标题：`#`，一共有6级
-2. 无序列表：前面加`-`（短横杠）或`*`（星号）
-3. 有序列表：前面加1. 2. 3.等，列表嵌套：上一级和下一级之间敲**三个空格**即可
-4. 引用：>（行首才有效）
-5. 链接：`[]()`，`[百度](http://www.baidu.com)`，中括号内是链接的文字，小括号内是链接地址
-6. 图片：`![]()`，在中括号前加上感叹号就是图片。中括号内是图片的alt文字，如: `![百度LOGO](http://www.baidu.img)`
-8. 简单的文字格式：**两个星号**夹着的是**粗体**，**一个星号**夹着的是**斜体**，**三个星号**就是**粗体带斜体**。在标题里也是一样。如：
-```
-文字**粗体**文字
-文字*斜体*文字
-```
-删除线：要加删除线的文字左右分别用两个`~~`号包起来，如：`~~abcd~~`
-
-表格：`||||`，第一行是表头，第二行很关键，是分割，也是对齐方式的设置，**居中对齐**是**两边加冒号**，**右对齐**就是**去掉左边的冒号**，第二行竖线之间最好写三个横杠，因为有的编辑器写少了认不出来。第三行及以后是表格内容，如：
-```
-|Col1|Col2|Col3|
-|---|--:|---|
-|a|a|a|
-|b|c|d|
-```
-结果如下所示：
-|Col1|Col2|Col3|
-|---|--:|---|
-|a|a|a|
-|b|c|d|
-9. 行内代码：使用**反引号**包住代码即可
-10. 大段的代码：三个反引号包住，有的可以在上面的三个反引号后面加上文件格式，比如html，就可以用html格式高亮展示
-11. 分割线：三个或者以上的`-`(短横杠)或者`*`(星号)都可以
-12. 空格：`&emsp;` ， 空行：`&nbsp;`或者`<br/>`。
-
-`html:5` 可以快速生成代码
-`span.` 可以快速生成span标签
-
 
 
 ### 14. 谷歌浏览器页面提示翻译的原因
@@ -326,7 +291,10 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 
 ### 15. `ie=edge`的意思
 
-`<meta http-equiv="X-UA-Compatible" content="ie=edge">`中`ie=edge`表示**强制以最新的IE浏览器模式渲染页面**，IE11这个文档模式已经被弃用了
+```
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+```
+中`ie=edge`表示**强制以最新的IE浏览器模式渲染页面**，IE11这个文档模式已经被弃用了
 
 
 
@@ -451,8 +419,14 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 `{ ...this.props }`可以将父组件中的所有属性复制给子组件，比如Link组件改造下a标签，就可以获得父组件中的所有属性
 比如：
 
-- 定义Link组件：`<a {...this.props}>{this.props.name}</a>`
-- 使用Link组件：`<Link href = "http://www.lanou3g.com" name = "百度科技"/>`,
+- 定义Link组件：
+```
+<a {...this.props}>{this.props.name}</a>
+```
+- 使用Link组件：
+```
+<Link href = "http://www.lanou3g.com" name = "百度科技"/>
+```
 
 
 
@@ -489,8 +463,10 @@ Service Worker 最主要的特点是：在页面中注册并安装成功后，**
 
 #### c. 如何检测`chrome`开启了哪些`service worker`？
 
-`chrome://serviceworker-internals/`
-`chrome://inspect/#service-workers`
+```
+chrome://serviceworker-internals/
+chrome://inspect/#service-workers
+```
 
 参考资料：[Servive Worker, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API)， [Using Service Worker, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers)
 
@@ -520,7 +496,6 @@ Worker 线程一旦新建成功，就会**始终运行**，不会被主线程上
   },
   "include": ["src"]
 }
-
 ```
 
 
@@ -533,82 +508,6 @@ Worker 线程一旦新建成功，就会**始终运行**，不会被主线程上
 2. 按“`Esc`”，打开附加面板
 3. 点击选项按钮，打开选项菜单
 4. 选择“`Performance monitor`”
-
-
-
-### 24. 配置`https`以及`http`自动跳转到`https`
-![https配置](imgs/nginx_https_config.png)
-
-
-
-#### a. 常见规则
-
-- http：协议级别
-- server：服务器级别
-- location：请求级别
-```
-location [=|~|~*|^~] /uri/ { … }
-```
-
-`=`表示：必须与指定的模式精确匹配
-```
-server {
-server_name sish
-   location = /abc {
-   }
-}
-```
-那么，如下是对的：
-`http://baidu.com/abc`
-`http://baidu.com/abc?p1`
-
-如下是错的：
-`http://baidu.com/abc/`
-`http://baidu.com/abcde`
-
-
-
-`~` 表示：指定的正则表达式要区分大小写
-
-
-```
-server {
-server_name baidu.com;
-   location ~ ^/abc$ {
-   }
-}
-```
-那么，如下是对的：
-
-`http://baidu.com/abc`
-`http://baidu.com/abc?p1=11&p2=22`
-
-如下是错的：
-
-`http://baidu.com/ABC`
-`http://baidu.com/abc/`
-`http://baidu.com/abcde`
-
-
-
-`~*` 表示：指定的正则表达式不区分大小写
-
-
-```
-server {
-server_name baidu.com;
-location ~* ^/abc$ {
-   }
-}
-```
-那么，如下是对的：
-`http://baidu.com/abc`
-`http://baidu..com/ABC`
-`http://baidu..com/abc?p1=11&p2=22`
-
-如下是错的：
-`http://baidu..com/abc/`
-`http://baidu..com/abcde`
 
 
 
@@ -775,6 +674,17 @@ RN从上到下可以分为`Javascript`层、`C++`层和`Native`层。
 
 
 ### 40. 面试
+
+如何学习基础知识？
+- 学习途径：网络博客、视频教程、培训班
+- 自测：是不是能独立解决问题
+
+如何提升？
+- 目标：提升解决问题的能力
+- 方法：多看、多听、多做、多思考，不放过任何一个机会
+- 忌讳：自负、多问、懒散
+- 自测：是否能独立解决问题
+
 
 #### a. 面试注意事项
 

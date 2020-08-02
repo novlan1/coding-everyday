@@ -130,12 +130,12 @@
 2. 伪类：表示**已存在的某个元素处于某种状态**，但是通过dom树又无法表示这种状态，就可以通过伪类来为其添加样式。例如a元素的`:hover`, ` :active`等。
 
 伪元素：
-![伪元素](imgs/pseudo_elements.png)
+![伪元素](../imgs/pseudo_elements.png)
 
 
 
 伪类：
-![伪类](imgs/pseudo_classes.png)
+![伪类](../imgs/pseudo_classes.png)
 
 另外：
 
@@ -483,7 +483,7 @@ linear-gradient(red 0%, orange 25%, yellow 50%, green 75%, blue 100%)
 7. offsetX 鼠标相对于事件源左上角X轴的坐标
 8. offsetY 鼠标相对于事件源左上角Y轴的坐标
 
-![clientWidth和offsetWidth的区别](Imgs/clientWidth_offsetWidth_diff.png)
+![clientWidth和offsetWidth的区别](../imgs/clientWidth_offsetWidth_diff.png)
 
 
 
@@ -692,7 +692,8 @@ Sass 中的占位符 `%placeholder`可以取代以前 CSS 中的基类造成的�
 
 
 #### e. Sass中注释类型的区别
-`/* */`是多行注释,会被编译到css文件中，用`//`单行注释就不会了。
+- `/* */`是多行注释,会被编译到css文件中
+- 用`//`单行注释不会被编译到css文件中
 
 
 
@@ -870,10 +871,10 @@ em是相对于父元素的`font-size`，继承的特点，浏览器有默认(`16
 2. 低版本IE盒子模型：宽度=内容宽度（content+border+padding）+ margin
 
 标准盒子模型：
-![标准盒子模型](imgs/standard_box_model.png)
+![标准盒子模型](../imgs/standard_box_model.png)
 
 IE盒子模型：
-![IE盒子模型](imgs/ie_box_model.png)
+![IE盒子模型](../imgs/ie_box_model.png)
 
 在标准的盒子模型中，`width`指`content`部分的宽度，在IE盒子模型中，`width`表示`content+padding+border`这三个部分的宽度，故这使得在计算整个盒子的宽度时存在着差异：
 
@@ -943,12 +944,13 @@ transition{transition-property, transition-duration, transition-timing-function,
 - js触发：`toggleClass`
 
 3、以下情况下，属性值改变不能产生过渡效果
-- background-image，如`url(a.jpg)`到`url(b.jpg)`（与浏览器支持相关，有的浏览器不支持）等
-- float浮动元素
-- height或width使用auto值
-- display属性在none和其他值（block、inline-block、inline）之间变换
-- position在static和absolute之间变换
-
+```
+background-image，如`url(a.jpg)`到`url(b.jpg)`（与浏览器支持相关，有的浏览器不支持）等
+float 浮动元素
+height 或 width 使用 auto 值
+display 属性在 none 和其他值（block、inline-block、inline）之间变换
+position 在 static 和 absolute 之间变换
+```
 
 
 
@@ -985,7 +987,7 @@ animation{animation-name, animation-duration, animatino-timing-function, animati
 
 ### 55. `word-wrap/word-break/white-space`区别
 
-- `white-space`，**控制空白字符的显示**，同时还能控制**是否自动换行&&。它有五个值：`normal | nowrap | pre | pre-wrap | pre-line`
+- `white-space`，**控制空白字符的显示**，同时还能控制**是否自动换行**。它有五个值：`normal | nowrap | pre | pre-wrap | pre-line`
 - `word-break`，**控制单词如何被拆分换行**。它有三个值：`normal | break-all | keep-all`
 - `word-wrap`（overflow-wrap）**控制长度超过一行的单词是否被拆分换行**，是`word-break`的补充，它有两个值：`normal | break-word`
 
@@ -1164,7 +1166,7 @@ input:-internal-autofill-selected {
 
  
 
-### 62. 如何实现圆角钝角？
+### 62. 如何实现圆角钝角
 
 ```css
 .t{
@@ -1239,4 +1241,12 @@ input:-internal-autofill-selected {
 若父元素宽度是 100vw，则子元素可以为 75vw，也能实现 4:3
 ```
 
+
+### 画一条0.5px的线
+- 采用meta viewport的方式：  
+```
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+```
+- 采用`border-image`的方式
+- 采用`transform: scale()`的方式
 

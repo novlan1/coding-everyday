@@ -202,13 +202,13 @@
 
 #### b. 浏览器**渲染**页面的过程：
 
-![渲染过程](imgs/dom_render_process.png)
+![渲染过程](../imgs/dom_render_process.png)
 
-- 第一步，用HTML分析器，分析HTML元素，构建一颗DOM树(标记化和树构建)。
-- 第二步，用CSS分析器，分析CSS文件和元素上的inline样式，生成页面的样式表。
-- 第三步，将DOM树和样式表，关联起来，构建一颗Render树(这一过程又称为Attachment)。每个DOM节点都有attach方法，接受样式信息，返回一个render对象(又名renderer)。这些render对象最终会被构建成一颗Render树。
-- 第四步，有了Render树，浏览器开始布局，为每个Render树上的节点确定一个在显示屏上出现的精确坐标。
-- 第五步，Render树和节点显示坐标都有了，就调用每个节点paint方法，把它们绘制出来。 
+- 第一步，用 HTML 分析器，分析 HTML 元素，构建一颗 DOM 树(标记化和树构建)。
+- 第二步，用 CSS 分析器，分析CSS文件和元素上的inline样式，生成页面的样式表。
+- 第三步，将 DOM 树和样式表，关联起来，构建一颗`Render`树(这一过程又称为`Attachment`)。每个 DOM 节点都有`attach`方法，接受样式信息，返回一个`render`对象(又名`renderer`)。这些`render`对象最终会被构建成一颗`Render`树。
+- 第四步，有了`Render`树，浏览器开始布局，为每个`Render`树上的节点确定一个在显示屏上出现的精确坐标。
+- 第五步，`Render`树和节点显示坐标都有了，就调用每个节点`paint`方法，把它们绘制出来。 
 
 
 ##### DOM树的构建是文档加载完成开始的？
@@ -295,7 +295,7 @@ window.addEventListener('DomContentLoaded', function() {
 - `Last-Modified`是服务器下发的，`If-Modified-Since`是浏览器发送到的，记录的时间，有可能时间变了，内容不变
 - `Etag`是变的是内容才会再次请求，对应的是`If-None-Match`
 
-<img src='imgs/b_s_cache.png' height='500'/>
+<img src='../imgs/b_s_cache.png' height='500'/>
 
 ### 6. 为什么要有etag？
 
@@ -448,7 +448,7 @@ DOM 中的事件对象
 
 
 ### 11. `defer` 和 `async` 的区别
-![difference between defer and async](imgs/deferAndAsyncDiff.png)
+![difference between defer and async](../imgs/deferAndAsyncDiff.png)
 
 1. defer和async在网络读取（下载）这块儿是一样的，都是异步的（相较于 HTML 解析）
 2. 它俩的差别在于**脚本下载完之后何时执行**，显然 defer 是最接近我们对于应用脚本加载和执行的要求的
@@ -595,7 +595,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 - 下次请求会自动带上
 - 键值对，可设置多个
 
-![set cookie](imgs/set_cookie.jpg)
+![set cookie](../imgs/set_cookie.jpg)
 
 #### b. `cookie`属性
 - max-age
@@ -840,20 +840,20 @@ enctype常用的属性值如下：
 - 如果请求类型type是GET的话，那么格式化的字符串将直接拼接在`url`后发送到服务端； 
 - 如果请求类型是POST, 那么格式化的字符串将放在`http body`的`Form Data`中发送。
 
-<img src='imgs/content_type_urlencoded.png' height='250' />
+<img src='../imgs/content_type_urlencoded.png' height='250' />
 
 
 ##### `multipart/form-data`
 使用表单上传文件时，必须指定表单的 `enctype`属性值为 `multipart/form-data`. 请求体被分割成多部分，每部分使用 `--boundary`分割；
 
-<img src='imgs/content_type_multipart.png' height='250' />
+<img src='../imgs/content_type_multipart.png' height='250' />
 
 
 
 ##### `application/json`
 在http请求中，`Content-Type`都是默认的值 `application/x-www-form-urlencoded`, 这种编码格式的特点是：`name/value`值对，每组之间使用`&`连接，而`name`与`value`之间是使用 `=` 连接，比如 `key=xxx&name=111&password=123456; `键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用`application/json`传递比较好，
 
-<img src='imgs/content_type_json.png' height='250' />
+<img src='../imgs/content_type_json.png' height='250' />
 
 如上我们可以看到json格式提交的数据会显示 `Request Payload;`
 
@@ -1007,604 +1007,18 @@ if (audio.canPlayType("audio/mp3")) {
 - 也就是说，sessionStorage的session仅限当前标签页或者当前标签页打开的新标签页，通过其它方式新开的窗口或标签不认为是同一个session。
 
 
-### 31. Canvas
+### `iframe`的优缺点
+##### `iframe` 的优点：
+- iframe能够原封不动地把嵌入的网页展现出来。
+- 如果有多个网页调用iframe，只需要修改iframe的内容，就可以实现对调用iframe的每一个页面内容的更改，方便快捷。
+- 网页如果为了统一风格，头部和版本都是一样的，就可以写成一个页面，用iframe来嵌套，可以增加代码的可重用性。
+- 如果遇到加载缓慢的第三方内容，如图标和广告等，可以用iframe来解决。
+
+##### iframe 的缺点：
+- 会产生很多页面，不容易管理。
+- 在几个框架中都出现上下、左右滚动条时，这些滚动条除了会挤占已经非常有限的页面空间外，还会分散访问者的注意力。
+- 使用框架结构时，必须保证正确设置所有的导航链接，否则会给访问者带来很大的麻烦。比如被链接的页面出现在导航框架内，这种情况下会导致链接死循环。
+- 很多的移动设备（PDA手机）无法完全显示框架，设备兼容性差。
+- iframe框架页面会增加服务器的http请求，对于大型网站是不可取的。
 
-1. html:
-```html
-<canvas id="canvas1" width="800" height="800"></canvas>
-```
-canvas的宽高只能写在行内，同时决定**画布分辨率的大小**。css里面设定canvas的宽高并不是真正的大小，而是**同比缩放**
 
-2. js:
-```js
-var canvas = document.getElementById("canvas1");
-var context = canvas .getContext('2d');//绘图环境
-```
-#### a. 若浏览器不支持canvas
-1. html  
-    `<canvas>不支持canvas的内容</canvas>`（写在canvas标签的里面）
-2. js     
-``` js
-if (canvas.getContext('2d')){//判断浏览器是否支持canvas
-//支持
-}else{
-//不支持
-alert("");
-}
-```
-#### b. canvas方法
-- `canvas.width`
-- `canvas.height`
-- `canvas.getContext('2d')`
-
-
-#### c. canvas 是基于状态绘制的，即先定义状态，后绘制
-1. 起始 `context.moveTo(100,100)`
-2. 终止 `context.lineTo(700,700)`
-3. 线条 `context.stroke()`
-4. 线宽 `context.lineWidth=5`
-5. 线条颜色 `context.strokeStyle='orange'`
-6. 填充颜色 `context.fillStyle = 'rgba(2,2,2,0.3)'`
-7. 填充 `context.fill()`
-8. 既可填充，又可描边
-9. 声明开始路径 `context.beginPath()`
-10. 声明结束路径 `context.closePath()`
-
-
-
-
-#### d. 绘制一个数字，格子系统
-![绘制一个数字](imgs/canvas_draw_one_number.png)
-设圆的半径为R，圆与圆之间的间距为2px，所以圆所在的正方形格子的边长为`2*（R+1）`。
-其中x表示起始的横坐标，y表示起始的纵坐标，i表示行数，j表示列数，因此：
-第（i, j）个圆的圆心位置：
-```
-CenterX：x+j*2*(R+1)+(R+1)
-CenterY：y+i*2*(R+1)+(R+1)
-```
-
-
-
-#### e. 自动绘制矩形
-
-- `context.rect(x, y, width, height);`  自动绘制矩形，规划路径
-- `context.fillRect(x, y, width, height);`  绘制填充矩形 不但规划路径，还把矩形给画出来
-- `context.strokeRect(x, y, width, height);`  绘制矩形边框 不但规划路径，还把矩形给画出来
-
-
-
-#### f. `canvas`的`save`与`restore`方法的作用
-
-- `save`：用来保存`Canvas`的状态。`save`之后，可以调用`Canvas`的平移、放缩、旋转、错切、裁剪等操作。
-- `restore`：用来恢复`Canvas`之前保存的状态。防止`save`后对`Canvas`执行的操作对后续的绘制有影响。
-- 对`canvas`中特定元素的旋转平移等操作实际上是对整个画布进行了操作，所以如果不对`canvas`进行`save`以及`restore`，那么每一次绘图都会在上一次的基础上进行操作，最后导致错位。
-- 比如说你相对于起始点每次30度递增旋转，`30，60，90`.如果不使用save 以及 restore 就会变成`30, 90, 150`，每一次在前一次基础上进行了旋转。`save`是入栈，`restore`是出栈。
-
-
-
-#### g. lineCap
-- `lineCap`设置线条的帽子：`butt`（默认）、`round`、`square`。后两者绘制出的线条都要长一些（戴上了帽子）。`lineCap`适用于线条的起始处和结尾处不适用于连接处。
-- 通常绘制一个封闭的多边形用`beginPath()`和`closePath()`（推荐），但也可以不用`closePath()`而用`lineCap = “square”`来实现
-
-#### h. lineJoin
-<img src='imgs/canvas_linejoin.png' height='200' />
-lineJoin： 线条与线条相交的形式
-
-- `miter(default)` 尖角；
-- `bevel` 方角、斜切；
-- `round` 圆角；
-
-`miterLimit`:内角与外角的距离。默认值是10，此属性只有在`lineJoin = "miter"`下才有效，意思是`miterLimit >10`，线条连接处自动斜切（`lineJoin ="bevel"`)
-
-
-#### i. 绘制五角星
-![绘制五角星](imgs/canvas_five_angles_star.png)
-大圆坐标：
-```
-x: Math.cos((18 + i * 72 - rot) / 180 * Math.PI) * R + x
-y: -Math.sin((18 + i * 72 - rot) / 180 * Math.PI) * R + y
-```
-
-小圆坐标：
-```
-x: Math.cos((54 + i * 72 - rot) / 180 * Math.PI) * r + x
-y: -Math.sin((54 + i * 72 - rot) / 180 * Math.PI) * r + y)
-```
-
-
-对于任意多边形：
-大圆坐标：
-
-```
-Math.cos((angelStart + i * (360 / pol) - rot) / 180 * Math.PI) * R + x
--Math.sin((angelStart + i * (360 / pol) - rot) / 180 * Math.PI) * R + y)
-```
-小圆坐标：
-```
-Math.cos((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI) * r + x
--Math.sin((angelStart + 360 / (pol * 2) + i * (360 / pol) - rot) / 180 * Math.PI) * r + y)
-```
-其中，pol角数， rot旋转角度， angelStart起始角度
-
-
-
-
-
-
-#### j. 图形变换
-图形变换： 位移、旋转、缩放。
-`context.translate(x, y); `默认多个`translate`会叠加。
-`save();` ` restore();` 成对出现，中间绘图状态不会对后面造成影响。
-
-`scale( sx, sy )`操作具有副作用，表现为不仅对图像的大小进行缩放操作，还对图像的其他数值属性（比如边框的宽度，左上角的坐标等等）进行相应的缩放操作。
-
-
-
-#### k. 变换矩阵
-```
-|a c e|
-|b d f|
-|0 0 1|
-```
-```
-context.transform(a, b, c, d, e, f);
-/*
-  a:水平缩放(默认值1)
-  b:水平倾斜(默认值0)
-  c:垂直倾斜(默认值0)
-  d:垂直缩放(默认值1)
-  e:水平位移(默认值0)
-  f:垂直位移(默认值0)
-*/
-```
-`context.transform();`可以叠加使用，如果需要重新初始化矩阵变换的值，可以用:
-`context.setTransform(a, b, c, d, e, f);`//它会使得之前设置的`context.transform()`失效
-
-
-
-#### l. 线性渐变和径向渐变
-#### m. 线性渐变
-```js
-var linearGrad = context.createLinearGradient(Xstar,Ystar,Xend,Yend); // 创建线性渐变（起始位置X，Y，结束位置X，Y）；
-grd.addColorStop(stop,color); //stop是（开始填充）位置(0.0~1.0的数值)，color是要填充的颜色；这个.addColorStop()至少要2个；
-context.fillStyle = linearGrad;
-Context.fillRect(0,0,800,800); // 填充的形状，如现在，画布的长宽就是800,800的话，就是填充了整个画布
-```
-
-
-#### n. 径向渐变
-
-- `RadialGradient(x0,y0,r0,x1,y1,r1)`
-- xy为原点坐标，r为半径
-
-
-#### o. 使用图片、画布或者video
-```
-createPattern(img, repeat-style);
-repeat-style: no-repeat  repeat-x  repeat-y repeat
-```
-```
-var backgroundImage = new Image()
-backgroundImage.src = '6.jpg'
-backgroundImage.onload = function() {
-var pattern = context.createPattern(backgroundImage, 'repeat')
-context.fillStyle = pattern
-context.fillRect(0, 0, 800, 800)
-}
-```
-
-
-
-#### p. 圆弧
-
-`context.arc(centerx, centery, radius, startingAngle, endingAngle, anticlockwise = false)；`
-
-(圆心x坐标，圆心y坐标，半径的值，从哪一个弧度值为开始，到哪一个弧度值结束，可选参数：默认顺时针方向绘制（false）， 逆时针方向绘制（true）)，
-
-
-- `beginPath()`和`closePath()`不必成对出现
-- 用了`fill()`即使沒有`context.closePath();`也会自动闭合
-
- <img src='imgs/canvas_arc.png' height="200" />
-
-`arcTo(x1,y1,x2,y2,radius);` `arcTo()`另一种弧线绘制方法
-
--  `arcTo`函数将从`(x0,y0)`开始绘制之后绘制一条弧线，这条弧线和这两个线段所组成的折线相切并且其圆弧的半径为`radius`
-
-注意：起始点的坐标是`(x0 , y0`)此时圆弧还没有开始，终止点的坐标不一定是（x2 , y2）而是和（x1 , y1）（x2 , y2）这条线相切的地方
-
-
-
-
-#### q. 贝塞尔曲线
-二次贝塞尔曲线 `QuadraticCurveTo` :
-- `context.moveTo( x0, y0 );` 指定初始点
-- `context.quadraticCurveTo( x1, y1, x2, y2 ); `指定控制点（x1, y1）和终止点（x2, y2）
-
-贝塞尔三次曲线
-- `context.moveTo(x0, y0);` 起始点
-- `context.bezierCurveTo(x1, y1, x2, y2, x3, y3);` 控制点，控制点，结束点
-
-
-
-#### r. 文字渲染
-- `context.font = "bold 40px Arial"`(粗框,40px大小,字体)
-- `context.fillStyle="#058"`颜色
-- `context.fillText(string,x,y,[maxlen](文字的最长宽度))`
-- `context.strokeText(string,x,y,[maxlen])`只有外边框的文字
-
-
-
-文本水平方向对齐 :
-- `context.textAlign(left center right)`，以`fillText`或`strokeText`的X值为参考
-
-文本垂直方向对齐 ：
-- `context.textBaseline(top middle bottom ideographic hanging alphabetic)`
-- `ideographic`中文、日文等，` alphabetic`拉丁字母，`hanging`印度文字
-
-度量文本：
-用`context.measureText(String).width`，需要提前确定font状态，目前只能获得宽度不能获得高
-
-
-
-#### s. 设置canvas的阴影
-
-- `context.shadowColor="颜色值"；` 阴影颜色值，可以为任何颜色的表现形式
-- `context.shadowOffsetX=value1;` 水平方向的偏移，值可以为负值，负值则方向相反
-- `context.shadowOffsetY=value2;` 垂直方向的偏移，值可以为负值，负值则方向相反
-- `context.shadowBlur=value3;` 阴影模糊程度，正比例增加
-
-
-#### t. `globalAlpha`和`globalCompositeOperation`
-- `globalAlpha`设置全局的透明度
-- `ctx.globalCompositeOperation = "source-over"` (默认，后绘制的图形会压在先绘制的图形上) /` "destination-over"`(先绘制的图形压在后绘制的图形上
-
-
-#### u. `clip`
-- `context.clip()`使用刚才绘制的路径把它剪切为当前的绘制环境
-
-
-
-#### v. 非零环绕原则 - 判断图形内、外
-
-是用来判断哪些区域属于路径内( 计算结果非0，即为路径内 )。
-1. 在路径包围的区域中，随便找一点，向外发射一条射线，
-2. 和所有围绕它的边相交，
-3. 然后开启一个计数器，从0计数，
-4. 如果这个射线遇到顺时针围绕，那么+1，
-5. 如果遇到逆时针围绕，那么-1，
-6. 如果最终值非0，则这块区域在路径内。
-
-
-
-#### w. `isPointInPath`判断点是否在路径内
-
-```
-var x = event.clientX - canvas.getBoundingClientRect().left;//在当前画布上的位置
-var y = event.clientY - canvas.getBoundingClientRect().top;
-```
-
-- canvas标签不能当其他普通div标签用，里面不能内嵌其他元素。
-- canvas默认是白色的不是透明的。
-- canvas前面不能放元素，会被遮挡住，应该放在后面，通过绝对定位浮在canvas画布上
-
-
-使用prototype来为context添加函数：
-- `CancasRenderingContext2D.prototype`
-
-
-
-#### x. 解决canvas浏览器兼容性
-`explorecanvas`
-只要多引入这个js包就可以支持了 
-```html
-<!--[if IE]><script type="text/javascript" src="../excanvas.js"></script><![end if]>
-```
-
-
-
-#### y. Canvas图像
-
-图像VS图形<===>位图VS矢量图
-- 图像：是由像素点阵构成的位图
-- 图形：由外部轮廓线条构成的矢量图
-
-
-
-#### z. 凸多边形
-
-凸多边形（Convex Polygon）指如果把一个多边形的所有边中，任意一条边向两方无限延长成为一直线时，其他各边都在此直线的同旁，
-
-- 所有的正多边形都是凸多边形。 
-- 所有的三角形都是凸多边形。
-- 五角星 => 凹多边形
-
-
-
-#### a. drawImage
-
-- `context.drawImage(image, dx, dy);`
-- `context.drawImage(image, dx, dy, dw, dh);`
-  - image 图片
-  - dx dy 坐标
-  - dw dh 要绘制的宽高
-- `context.drawImage( image, sx, sy, sw, sh, dx, dy, dw, dh);`
-<img src='imgs/canvas_drawImage.png'  height='300' />
-
-
-#### b. html中添加滑竿控件
-```html
-<input type="range" name="hg" min="0.5" max="3.0"step="0.01" value="1.0" />
-```
-- min="0.5" 最小缩放为原大小的0.5
-- max="3.0" 最大缩放原来的三倍
-- step="0.01"步数0.01
-
-
-`onchange`事件只有在松开鼠标时才会触发，应该用`onmouseover`
-
-
-
-#### c. 离屏canvas技术
-
-将一个canvas内容加载到另一个canvas上
-
-
-
-#### d. 获取图像像素
-
-```js
-imageData = context.getImageData（x，y，w，h）;
-```
-`imageData`对象属性：
-- width
-- height
-- data
-
-`putImageData`可以将`ImageData`放回canvas中
-<img src='imgs/canvas_putImageData.png'  height='320' />
-
-`dirtyX`、`dirtyY`会在dx、dy的基础上累加
-<img src='imgs/canvas_imagedata.png'  height='300' />
-
-
-
-
-`imageData.data`是一个一维数组，每四个数字是一个像素点信息，四个数字分别是rgba四个信息
-
-
-
-#### e. 滤镜
-- 灰色的计算公式 ：`r*0.3 + g*0.59 + b*0.11`
-- 反色滤镜：`rgb`取反
-- 黑白滤镜：获得`rgb`，得到灰度值，将得到的灰度值分类：或者黑或者白
-- 模糊滤镜，求每个点四周`3*3`像素点`rgb`和的平均值
-  - 马赛克即将某一个区域全部赋值为该区域的平均值
-
-
-
-#### f. 通过`createImageData`创建一个对象
-```js
-var imageData = context.createImageData(canvas.width, canvas.height)
-```
-
-
-
-### 32. SVG
-
-#### a. 基本图形
-```
-<rect>，x,y,width,height,rx,ry
-<circle>，cx, cy, r
-<ellipse>，cx, cy, rx ry
-<line>，x1,y1,x2,y2
-<polyline>，points="x1 y1 x2 y2 x3 y3"
-<polygon>，points="x1 y1 x2 y2 x3 y3"
-```
-
-#### b. 基本属性
-- `fill`填充颜色
-- `stroke`描边颜色
-- `stroke-width` 
-- `transform`
-
-注意：
-
-- 圆的cx、cy是到圆心的位置
-- 矩形的x y 是到矩形左上角的位置
-
-
-
-#### c. 基本操作API
-创建图形：`document.createElementNS(ns,tagName);`
-添加图形：`element.appendChild(childElement)`
-
-设置/获取属性：
-`element.setAttribute(name,value)`
-`element.getAttribute(name)`
-
-```html
-<svg width="400" height="300" viewBox="0,0,40,30" preserveAspectRatio = "xMinYMin meet"></svg>
-```
-- 世界：SVG代码 无限大
-- 视野：`viewBox` (观察区域)、`preserveAspectRatio`，这两属性控制视野
-- 视窗：在 SVG 标签当中可以指定⼀个宽和⾼属性，来表⽰ SVG ⽂件渲染的区域⼤⼩。这个⼤⼩也可以使⽤样式表来定义。这个区域⼤⼩，就是视窗。
-
-
-#### d. `preserveAspectRatio`
-- meet: 让viewBox等比例的同时，viewBox完全在SVG中显示。viewBox大于SVG，等比例缩放。
-- slice: 保持viewBox比例，视野包含视窗，尽量填满SVG。viewBox大于SVG，不缩放，按SVG大小剪切。
-- 对齐方式：xMinYMin xMinYMid xMinYMax xMidYMin xMidYMid xMidYMax xMaxYMin xMaxYMid xMaxYMax
-- none: 不关心比例，viewBox直接拉伸到最大填满viewport.
-
-
-#### e. SVG中的图形分组
-- `<g>`标签用来创建分组
-- 属性继承
-
-
-
-
-#### f. SVG四个坐标系
-1. User Coordinate--用户坐标系；(SVG中用户视野坐标系，也被称为原始坐标系)
-2. Current Corrdinate--自身坐标系；(图形绘制后自身携带的坐标系，用户自身宽高等定义均基于自身坐标系)
-3. Previous Coordinate--前驱坐标系；(父容器的坐标系)
-4. Reference Coordinate--参考坐标系；（主要用于定义自身坐标系和前驱坐标系的关系）
-
-图形变换：自身坐标系相对于前驱坐标系进行坐标变换；
-
-
-#### g. 渐变
-在 SVG 中，有两种主要的渐变类型：
-- 线性渐变
-- 放射性渐变
-
-
-线性渐变可被定义为水平、垂直或角形的渐变：
-
-当 y1 和 y2 相等，而 x1 和 x2 不同时，可创建水平渐变
-当 x1 和 x2 相等，而 y1 和 y2 不同时，可创建垂直渐变
-当 x1 和 x2 不同，且 y1 和 y2 不同时，可创建角形渐变
-
-
-#### h. SVG 圆弧命令：
-`A（a）rx ry x-axis-rotation large-arc-flag sweep-flag x y`
-命令解析如下：
-- .rx：规定圆弧在x轴方向的半径尺寸。
-- .ry ：规定元素在y轴方向的半径尺寸，如果与rx相等则正圆圆弧，否则是椭圆圆弧。
-- .x-axis-rotation：规定圆弧的横轴与x轴的夹角，正数表示顺时针旋转，反之表示逆时针。
-- .large-arc-flag：规定绘制大圆弧还是小圆弧，1表示绘制大角度圆弧，0表示绘制小角度圆弧。
-- .sweep-flag：规定绘制顺时针方向绘制，还是逆时针方向绘制，1表示顺时针，0表示逆时针。
-- .x：规定圆弧终点的x轴坐标。
-- .y：规定圆弧终点的y轴坐标。
-
-
-#### i. 线性(左标)变换
-<img src='imgs/svg_linear_change.png' height='200'/>
-
-```
-X = aX + cY +e
-```
-平移是e f，缩放是a d，旋转是b c
-
-
-#### j. 颜色HSL
-
-H：表示色环的度数（红：0deg，绿：120deg，蓝：240deg）
-S：表示色彩饱和度（100%颜色最艳，0%颜色退化为灰度）
-L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
-
-
-配色的一个网站 http://paletton.com/
-
-
-
-#### k. 笔刷
-绘制纹理，`<pattern>`标签
-- `patternUnits="userSpaceOnUse"`，指定pattern标签本身的属性单位基于世界坐标系
-  - patternUnits 笔刷使用单位
-- `patternContentUnits="objectBoundingBox"`，pattern里面的每一个元素的单位都是基于绘制图形的一个八维盒
-  - patternContentUnits 笔刷内容（笔刷内部包含的图形单元）使用单位
-
-
-`objectBoundingBox` 模式下的比例均为相对于`boundingbox`。也就是不是根据父标签来定义比例。
-
-
-
-
-#### l. path命令
-参数之间可以⽤空格或逗号隔开，有⼀种情况例外，就是下⼀个数值是负数。
-如`<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">`
-<img src='imgs/svg_path.png' height='350'/>
-
-`M(X,Y)` 移动画笔，后面如果有重复参数，会当做是`L`命令处理
-
-
-
-path命令基本规律：
-1. 区分大小写：大写表示坐标参数为绝对位置，小写为相对位置
-2. 最后的参数表示最终要到达的位置
-3. 上一个命令结束的位置就是下一个命令开始的位置
-4. 命令可以重复参数表示重复执行同一条命令
-
-
-
-
-#### m. 弧线(`arc`)命令
-`A(rx, ry, xr, laf, sf, x, y)`  七个参数
-
-
-- rx - (radius-x) 弧线所在椭圆的x半轴长
-- ry - (radius-y) 弧线所在椭圆的y半轴长
-- xr - (xAxis-rotation) 弧线所在椭圆的长轴角度
-- laf - (large-arc-flag) 是否选择弧长较长的那一段弧
-- sf - (sweep-flag) 是否选择逆时针方向的那一段弧
-- x,y = 弧的终点位置
-
-
-#### n. 贝塞尔曲线命令 - 光滑曲线
-- T:Q的光滑版本
-  C1是上一段曲线的控制点关于当前曲线起始点的镜像位置
-- S:C的简化版本
-  C1是上一段曲线的控制点2关于当前曲线起始点的镜像位置
-
-<img src='imgs/svg_curve.png' height='200' />
-
-
-
-#### o. SVG文本
-`<text x="" y="" dx="10 20 30 40 50 60" dy=""></text>`
-`dx`可对每个字体控制
-
-`text`中的`dy`能被`tspan`中的`dy`覆盖
-`dy`具有向下传递的效果，`text`传递给下个字符，`tspan`传递给下个`tspan`(当无`tspan` 传递给字符)
-
-
-
-##### 垂直居中
-- 水平居中对齐 `text-anchor`
-- 垂直居中对齐 `dominant-baseline`  加上自己模拟
-
-
-
-##### `<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等
-- 定位属性 `x y dx dy`
-- `dy` 影响法线方向的偏移量
-- `text-anchor`和`startOffSet` 设置文本偏移的方向和大小
-
-使用`textpath` 属性` xlink:href="#path1"` 将包含的文本节点text设置到对应的id的path上,
-设置该属性需要使用
-`setAttributeNS(NS,attrName,attrValue);`
-
-
-
-#### p. 图形的引用，裁切和蒙版
-
-1. use 标签创建图形引用
-2. clip标签裁切图形
-3. mask标签创建蒙版
-```
-<use>
- xlink:href="#id"
-<clipPath>
- clip-path="url(#clip-id)"
-<mask>
- mask="url(#mask-id)
-```
-
-svg是内联元素,不将`font-size,line-height`设为0撑满之后会出现滚动条
-使用use标签,属性`xlink:href`通过ID引用一个绘制好的图形，`defs`标签内定义的图形不会被显示。
-
-`xLink:href` 已经废除， 可用href 代替。
-
-```
-viewBox="-400 -300 800 600"  preserveAspectRatio="xMidYMid slice" 
-```
-指定SVG坐标系原点在屏幕中央，方便对齐
-
-
-
-#### q. 字体抗锯齿
-```css
--webkit-font-smothing: antialiased;
-```

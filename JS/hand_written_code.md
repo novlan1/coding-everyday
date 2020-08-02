@@ -110,8 +110,10 @@ emitter.emit('b', 'y', 'g', 'w')
 
 ```
 基于一个主题/事件通道，订阅者subscriber通过自定义事件订阅主题，发布者publisher通过发布主题事件的方式发布。
-
-#### 观察者模式和发布订阅模式区别
+```
+![观察者模式和发布订阅模式区别](../imgs/event_emitter.png)
+```
+观察者模式和发布订阅模式区别：
 
 1. 在观察者模式中，观察者需要直接订阅目标事件。在目标发出内容改变的事件后，直接接收事件并作出响应。
 2. 发布订阅模式相比观察者模式多了个主题/事件通道，订阅者和发布者不是直接关联的。
@@ -299,7 +301,7 @@ function throttle(tn, time) {
     const args = [...arguments]
     if (!timeout) {
       setTimeout(() => {
-        timeout = null
+        timeout = null // 注意，一定要先置为null，再执行fn
         fn.apply(_this, args)
       }, time)
     }
@@ -863,4 +865,5 @@ obj.hello = 'hi'
 ```
 
 
-![MVVM](imgs/vue_mvvm.png)
+![MVVM](../imgs/vue_mvvm.png)
+

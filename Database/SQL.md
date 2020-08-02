@@ -46,6 +46,51 @@ update annis set date=replace(date, '/', '-')
 ### `datetime`类型导入不到`navicat`中
 在 excel 中将数据格式加上`s`（秒）
 
+
+### MySQL 最基本操作
+```sql
+mysql -uroot –p  --连接mysql，-u和root之间不加空格也可以
+
+show databases;
+
+create database <数据库名>
+
+drop database <数据库名>
+
+use mydatabase;
+
+desc <表名>;     --查看指定表结构
+
+drop table <表名>;    --删除表
+
+exit 或 quit（回车）   --退出MySQL
+
+set password for 用户名@localhost = password('新密码');   --修改密码
+```
+
+
+### On Delete属性
+
+On Delete属性，可能取值为：`No Action`，`Cascade`，`Set Null`，`Restrict`属性。
+
+- 当取值为`No Action`或者`Restrict`时，则当在父表（即外键的来源表）中删除对应记录时，首先检查该记录是否有对应外键，如果有则不允许删除。
+- 当取值为`Cascade`时，则当在父表（即外键的来源表）中删除对应记录时，首先检查该记录是否有对应外键，如果有则也删除外键在子表（即包含外键的表）中的记录。
+- 当取值为`Set Null`时，则当在父表（即外键的来源表）中删除对应记录时，首先检查该记录是否有对应外键，如果有则设置子表中该外键值为null（不过这就要求该外键允许取null）。
+
+### On update属性
+
+- 当取值为`No Action`或者`Restrict`时，则当在父表（即外键的来源表）中更新对应记录时，首先检查该记录是否有对应外键，如果有则不允许更新。
+- 当取值为`Cascade`时，则当在父表（即外键的来源表）中更新对应记录时，首先检查该记录是否有对应外键，如果有则也更新外键在子表（即包含外键的表）中的记录。
+- 当取值为`Set Null`时，则当在父表（即外键的来源表）中更新对应记录时，首先检查该记录是否有对应外键，如果有则设置子表中该外键值为null（不过这就要求该外键允许取null）。
+
+ 
+
+### MySQL如何支持emoji表情？
+
+mysql支持emoji表情，只需要将需要的字段由`utf8_general_ci`变为`utf8m64_general_ci`即可
+
+原因：UTF-8编码有可能是两个、三个、四个字节。`Emoji`表情是4个字节，而Mysql的`utf8`编码最多3个字节，所以数据插不进去。
+
  
 
  

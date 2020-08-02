@@ -1,4 +1,5 @@
-### MAC和IP地址正则匹配
+### 常见正则
+#### MAC和IP地址正则匹配
 1. MAC地址正则匹配：
 ```
 ([A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2}
@@ -12,7 +13,10 @@
 `2(5[0-5]|[0-4]\d)` 匹配：200 ~ 255
 `[0-1]?\d{1,2}` 匹配：0 ~ 199
 
-
+#### 正则匹配两位以内有效数字
+```js
+const pattern = /^\d+([.]{1}(\d){0,2}){0,1}$/
+```
 
 ### `flatten state`概念及代码
 `flatten state`就是把对象列表转成`hashMap`（对象），更方便的进行数据处理，省去map、filter、find等方法，直接`data[id]`获得
@@ -146,10 +150,7 @@ function parseTime(time) {
 }
 ```
 
-### 正则匹配两位以内有效数字
-```js
-const pattern = /^\d+([.]{1}(\d){0,2}){0,1}$/
-```
+
 ### 元素距离浏览器顶部距离
 ```js
 getElementTop = (elem) => {
@@ -319,7 +320,7 @@ wnidow.addEventListener('touchmove', func) // 效果和下面一句一样
 wnidow.addEventListener('touchmove', func, { passive: true })
 ```
 
-#### 如何不让控制台提示，而且 `preventDefault()` 有效果呢？
+##### 如何不让控制台提示，而且 `preventDefault()` 有效果呢？
 
 注册处理函数时，用如下方式，明确声明为不是被动的
 ```js
@@ -330,34 +331,34 @@ window.addEventListener(‘touchmove’, func, { passive: false })
 
 ### 代理
 ES5对象代理
-```
+```js
 var Person1 = {
-name: 'es5',
-age: 16
+  name: 'es5',
+  age: 16
 };
 
 Object.defineProperty(Person1, 'sex', {
-writable:false,
-value: 'male'
+  writable:false,
+  value: 'male'
 });
 ```
 ES6对象代理
-```
+```js
 let Person2 = {
-name: 'es6',
-sex: 'male',
-age: 17
+  name: 'es6',
+  sex: 'male',
+  age: 17
 };
 
 let person2 = new Proxy(Person2, {
-get(target, key) {
-return target[key];
-},
-set(target, key, value) {
-if(key !== 'sex') {
-return (target[key] = value);
- }
- }
+  get(target, key) { 
+    return target[key];
+  },
+  set(target, key, value) {
+    if(key !== 'sex') {
+      return (target[key] = value);
+    }
+  }
 });
 ```
 
@@ -390,8 +391,7 @@ step > max_step && (step = min_step)
 
 ### JS实现滚动条触底加载更多
 
-原理：
-通过监听滚动区域DOM的scroll事件, 计算出触底
+原理：通过监听滚动区域DOM的scroll事件, 计算出触底
 ```js
 // 滚动可视区域高度 + 当前滚动位置 === 整个滚动高度
 scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
@@ -477,3 +477,126 @@ function getRandInt(minNum, maxNum) {
 }
 ```
 
+### 弹出层设计
+
+弹出层与mark遮罩是同级，它们的上一级设置成`fixed`，并且`overflow：auto`，同时body是`height：100%，overflow：hidden`。滚动时`fixed`的那一层的`scrollTop`变化。
+
+### moment 一分钟前
+`moment(Date.now() - 60*1000).fromNow()`：一分钟前
+
+
+
+### `ios`图片上传服务器后被自动旋转
+
+EXIF（`Exchangeable Image File`）是“可交换图像文件”的缩写，当中包含了专门为数码相机的照片而定制的元数据，可以记录数码照片的拍摄参数、缩略图及其他属性信息。
+图像一旦被修改，Exif 信息可能会永久丢失，故编辑 Exif 必须使用专门的软件。
+
+可以理解成，用来记录照片属性和拍摄数据的。（可以附加于`jpeg`等文件中，但`png`图片中不会有。）
+
+EXIF中，有一个 `Orientation`参数，用于记录照片生成时的方向。 一共有8个值，分别是：`1、2、3、4、5、6、7、8`。
+正常情况下，拍照只会出现是`1、6、3、8`这几个值。`2、5、4、7`相当于镜像，照像时不会出现这几种情况。1、6、3、8的效果分别是：
+
+```
+1：0度
+6：逆时针90
+3：180度
+4：顺时针90
+```
+照片查看软件会将旋转的图片自动旋转过来，但html不会
+
+##### 获取图片选择角度
+```js
+import EXIF from 'exif-js'
+
+function getOrientation(file) {
+  return new Promise((resolve) => {
+    EXIF.getData(file, function() {
+      const orient = EXIF.getTag(this, 'Orientation')
+      resolve(orient)
+    })
+  })
+}
+```
+
+##### Canvas 对图像旋转 90 度
+```js
+function rotateImage(image, width, height) {
+  let canvas = document.createElement('canvas')
+  let ctx = canvas.getContext('2d')
+  ctx.save()
+  canvas.width = height
+  canvas.height = width
+  ctx.rotate(90 * Math.PI / 180)
+  ctx.draw(image, 0, -height)
+  ctx.restore()
+  return canvas.toDataURL('image/jpeg')
+}
+```
+##### Base64 转图片
+```js
+function base64ToBlob(urlData, type) {
+  let arr = urlData.split(',');
+  let mime = arr[0].match(/:(.*?);/)[1] || type;
+  // 去掉url的头，并转化为byte
+  let bytes = window.atob(arr[1]);
+  // 处理异常,将ascii码小于0的转换为大于0
+  let ab = new ArrayBuffer(bytes.length);
+  // 生成视图（直接针对内存）：8位无符号整数，长度1个字节
+  let ia = new Uint8Array(ab);
+  for (let i = 0; i < bytes.length; i++) {
+    ia[i] = bytes.charCodeAt(i);
+  }
+  return new Blob([ab], {
+    type: mime
+  });
+  // 或者返回 File
+  // return new File([ab], filename, { type: mime })
+ }
+```
+
+##### 图片转Base64
+```js
+function image2Base64(img) {
+  var canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, img.width, img.height);
+  var dataURL = canvas.toDataURL("image/png");
+  return dataURL;
+}
+
+function getImgBase64(){
+    var base64="";
+    var img = new Image();
+    img.src="img/test.jpg";
+    img.onload=function(){
+        base64 = image2Base64(img);
+        return base64;
+    }
+}
+```
+
+##### 调用 ElementUI 中的 Upload 组件时，`before-upload`中解决ios端上传图片旋转90度问题
+
+```js
+const rotate = new Promise(resolve => {
+  fileUtil.getOrientation(file).then(orient => {
+    if (orient === 6) {
+      let reader = new FileReader()
+      let img = new Image()
+      reader.onload = e => {
+        img.src = e.target.result
+        img.onload = function() {
+          const data = fileUtil.rotateImage(img, img.width, img.height)
+          const newFile = fileUtil.base64ToBlob(data, file.name) // 先转成File
+          resolve(newFile)  // 再旋转
+        }
+      }
+      reader.readAsDataURL(file) // 再转成Base64
+    } else {
+      resolve(file)
+    }
+  })
+})
+```

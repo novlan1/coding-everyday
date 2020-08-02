@@ -86,6 +86,12 @@ function App() {
   );
 }
 ```
+#### 闭包陷阱
+
+每隔一秒count增加1，`setCount(count+1)`不可以，因为第二个参数为[], 说明只执行一次，拿到的是初始化时候的值；`setCount(c=>c+1)`可以，拿到的始终是最新值。
+
+`useEffect`的第二个参数，官方建议是`useEffect`里面用到的任何hooks参数，都放到依赖里。
+
 
 ### useContext
 
@@ -153,6 +159,22 @@ useCallback(fn, []);
 
 ### Ref Hooks
 
+useRef，通过current属性保存上一次的值，原理是在dom节点上赋值、取值
+
+```js
+const node= useRef(null);
+const onButtonClick = () => {
+    node.current.focus();
+};
+```
+
+```html
+<input ref={node}/>
+```
+
+useRef除了ref属性外，还可以**“跨渲染周期”保存数据**，state的问题在于一旦修改了它就会造成组件的重新渲染。
+
+
 1. 使用 Ref 保存变量： 因为函数组件每一次都会重新执行，保存一些每一次都需要的使用的变量就需要 Ref Hook
 
 定时器，Ref Hooks 的最佳实践
@@ -213,6 +235,10 @@ function Counter() {
 ```
 
 ### 自定义 hooks
+
+1. 函数必须use开头
+2. 多处调用时，相互独立
+
 
 因为可以自定义 Hooks, 我们可以非常方便的复用状态逻辑。
 

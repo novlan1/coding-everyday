@@ -206,7 +206,7 @@ console.log(s)   // 3
 4. 所有的引用类型（数组、对象、函数），__proto__属性值指向它的构造函数的 prototype 属性值
 5. 当试图得到一个引用类型的某个属性时，如果这个对象本身没有这个属性，那么会去它的__proto__中（即它的构造函数的 prototype ）寻找
 
-![原型链](imgs/prototype.png)
+![原型链](../imgs/prototype.png)
 
 
 #### f. 描述new一个对象的过程？
@@ -309,7 +309,7 @@ function fn(name){
 可以看出，函数提升就可以执行，变量只是声明。
 再看几个例子：
 
-```
+```js
 fn('zhang');
 function fn(name){
     console.log(name, age); 
@@ -354,10 +354,10 @@ foobar();
 #### l. 什么是执行上下文栈？
 执行全局代码时，会产生一个执行上下文环境，每次调用函数都又会产生执行上下文环境。当函数调用完成时，这个上下文环境以及其中的数据都会被消除，再重新回到全局上下文环境。处于活动状态的执行上下文环境只有一个。
 其实这是一个压栈出栈的过程——执行上下文栈。
-![执行上下文栈](imgs/js_process_environment.png)
+![执行上下文栈](../imgs/js_process_environment.png)
 
 函数中调用其他函数：
-![执行上下文栈](imgs/js_process_environment_iter.png)
+![执行上下文栈](../imgs/js_process_environment_iter.png)
 
 #### m. this使用场景
 
@@ -460,6 +460,10 @@ MDN对闭包的定义是：闭包是指那些**能够访问自由变量的函数
 3. 封装私有变量
 
 单例模式，参见 [前端面试手写代码](https://uwayfly.com/detail/69)
+
+#### 为什么闭包函数能够访问其他函数的作用域?
+顺着作用域链一层一层往上找
+
 
 #### r. 写一个自执行函数
 ```
@@ -719,82 +723,6 @@ json不是最好加不加，而是必须加，而且加的是双引号。
 普通函数的this指向调用它的那个对象。
 
 
-#### v. 关于Event Loop
-##### 一、为什么`JavaScript`是单线程？
-JavaScript 语言的一大特点就是单线程，也就是说，**同一个时间只能做一件事**。那么，为什么JavaScript 不能有多个线程呢？这样能提高效率啊。
-
-JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，JavaScript的主要用途是与用户互动，以及操作DOM。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？
-
-所以，为了避免复杂性，从一诞生，JavaScript就是单线程，这已经成了这门语言的核心特征，将来也不会改变。
-
-为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。
-
-##### 二、任务队列
-单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。
-
-如果排队是因为计算量大，CPU忙不过来，倒也算了，但是很多时候CPU是闲着的，因为IO设备（输入输出设备）很慢（比如Ajax操作从网络读取数据），不得不等着结果出来，再往下执行。
-
-JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设备，挂起处于等待中的任务，先运行排在后面的任务**。等到IO设备返回了结果，再回过头，把挂起的任务继续执行下去。
-
-于是，所有任务可以分成两种，一种是**同步任务（synchronous）**，另一种是**异步任务（asynchronous）**。同步任务指的是，**在主线程上排队执行**的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，**不进入主线程、而进入"任务队列"（task queue）**的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。
-
-具体来说，异步执行的运行机制如下。（同步执行也是如此，因为它可以被视为没有异步任务的异步执行。）
-
-（1）所有同步任务都在主线程上执行，形成一个**执行栈（execution context stack）**。
-
-（2）主线程之外，还存在一个"任务队列"（task queue）。只要异步任务有了运行结果，就在"任务队列"之中放置一个事件。
-
-（3）一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。
-
-（4）主线程不断重复上面的第三步。
-
-
-下图就是主线程和任务队列的示意图。
-
-![任务队列](imgs/eventloop.jpg)
-
-只要主线程空了，就会去读取"任务队列"，这就是JavaScript的运行机制。这个过程会不断重复。
-
-参考资料：[Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
-
-
-##### 三、事件和回调函数
-"任务队列"是一个**事件的队列**（也可以理解成消息的队列），**IO设备完成一项任务，就在"任务队列"中添加一个事件**，表示相关的异步任务可以进入"执行栈"了。主线程读取"任务队列"，就是读取里面有哪些事件。
-
-"任务队列"中的事件，除了IO设备的事件以外，还包括一些**用户产生的事件（比如鼠标点击、页面滚动等等）**。只要指定过回调函数，这些事件发生时就会进入"任务队列"，等待主线程读取。
-
-所谓"回调函数"（callback），就是那些会**被主线程挂起来的代码**。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。
-
-"任务队列"是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，"任务队列"上第一位的事件就自动进入主线程。但是，由于存在后文提到的"定时器"功能，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。
-
-##### 四、Event Loop
-主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。
-
-![Event Loop](imgs/eventloop2.png)
-
-上图中，主线程运行的时候，产生堆（heap）和栈（stack），栈中的代码调用各种外部API，它们在"任务队列"中加入各种事件（click，load，done）。只要栈中的代码执行完毕，主线程就会去读取"任务队列"，依次执行那些事件所对应的回调函数。
-
-执行栈中的代码（同步任务），总是在读取"任务队列"（异步任务）之前执行。请看下面这个例子。
-
-```
-var req = new XMLHttpRequest();
-req.open('GET', url);    
-req.onload = function (){};    
-req.onerror = function (){};    
-req.send();
-```
-上面代码中的req.send方法是Ajax操作向服务器发送数据，它是一个异步任务，意味着只有当前脚本的所有代码执行完，系统才会去读取"任务队列"。所以，它与下面的写法等价。
-
-```
-var req = new XMLHttpRequest();
-req.open('GET', url);
-req.send();
-req.onload = function (){};    
-req.onerror = function (){};  
-```
-也就是说，指定回调函数的部分（onload和onerror），在send()方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取"任务队列"。
-
-
 #### w. XSS 和 CSRF
 
 - XSS：跨站脚本攻击（Cross-site scripting）
@@ -863,7 +791,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 3. `Array.prototype.concat.apply([], arguments)`
 4. ES6中的`Array.from`
 语法：`Array.from(arguments)`
-5. [...arguments]
+5. `[...arguments]`
 
 
 
@@ -890,7 +818,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 - 引用类型存放在堆中，变量实际上是一个**存放在栈内存的指针**，
 - 这个指针指向堆内存中的地址。每个空间大小不一样，根据情况进行特定的分配
 
-![图解基本数据和引用数据类型存放位置](imgs/stackAndheap.png)
+![图解基本数据和引用数据类型存放位置](../imgs/stackAndheap.png)
 
 
 #### c. 对称加密和非对称加密算法
@@ -1193,6 +1121,7 @@ document.addEventListener('DOMContentLoaded', recalc, false);
 ### 15. 双~的用法
 `~~`它代表双按位取反运算符，如果你想使用比`Math.floor()`更快的方法，那就是它了。
 需要注意：
+
 - 对于正数，它向下取整；
 - 对于负数，向上取整；
 - 非数字取值为0，它具体的表现形式为：
@@ -1286,58 +1215,6 @@ ECMAScript中有两种属性：数据属性和访问器属性，数据属性一�
 4. `[[Set]]`: 写入属性时调用的函数, 默认是undefined
 
 
-### 24. `async`函数、`setTimeOut`、`Promise`的打印顺序
-```js
-async function async1() {
-    console.log('async1 start')
-    await async2()
-    console.log('async1 end')
-} 
-
-async function async2() {
-    console.log('async2')
-} 
-console.log('script start')
-setTimeout(function() {
-    console.log('setTimeout')
-}, 0)
-async1()
-new Promise(resolve => {
-    console.log('promise1')
-    resolve()
-}).then(() => {
-    console.log('promise2')
-})
-console.log('script end')
-```
-
-打印顺序：
-
-```
-script start
-async1 start
-async2
-promise1
-script end
-async1 end
-promise2
-setTimeout
-```
-async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 await 就会先返回（让出线程），等到触发的异步操作完成，再接着执行函数体内后面的语句。
-
-
-当调用一个 async 函数时，会返回一个 Promise 对象。当这个 async 函数返回一个值时，Promise 的 resolve 方法会负责传递这个值；当 async 函数抛出异常时，Promise 的 reject 方法也会传递这个异常值。
-
-await
-- 后面跟表达式（express）：一个 Promise 对象或者任何要等待的值。
-- 返回值（return_value）：返回 Promise 对象的处理结果。如果等待的不是 Promise 对象，则返回该值本身。
-
-Promise是一个立即执行函数，但是他的成功（或失败：reject）的回调函数resolve却是一个异步执行的回调。当执行到resolve()时，这个任务会被放入到**回调队列**中，等待调用栈有空闲时事件循环再来取走它。
-
-
-
-
-
 ### 25. `eval`和`json.parse` 解析`json`的区别：
 1.	`eval`不会判断你的字符串**是否合法**，且`json`字符串中的**一些方法会被执行**。
 2.	`parse`要判断字符串是否合法，要是不合法报错。
@@ -1355,14 +1232,6 @@ console.log("b"+b); var b = 1; // bundefined
 - parseInt() 和 parseFloat() 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
 - 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
 - 如果字符串值能被完整地转换，Number() 将判断是调用 parseInt() 方法还是 parseFloat() 方法。
-
-
-### 28. ES5实现继承
-TODO
-```
-
-
-```
 
 
 
@@ -1398,8 +1267,8 @@ console.log(fn + 10);   //15
 console.log(fn + 'hello');   //5hello
 ```
 如果这个对象不是函数呢？ 
-经测试，如果这个对象是object/数组/，结果和上面的一样 ； 
-但如果这个对象是Date，则都调用toString();
+经测试，如果这个对象是object、数组，结果和上面的一样 
+但如果这个对象是Date，则都调用toString()
 
 
 
@@ -1415,63 +1284,6 @@ obj = {a: undefined, b: NaN, c: Infinity, d: new Date()}
 JSON.stringify(obj) // "{"b":null,"c":null,"d":"2020-07-26T09:11:16.677Z"}"
 ```
 
-
-### 31. jQuery
-#### a. jQuery自执行函数与普通自执行函数的区别
-JS自执行函数： 
-```
-(function(){
-	//这里为调用的其它代码
-})();
-```
-Jquery立即执行函数：
-```
-$(function(){
-	//这里为要调用的其它代码
-})
-```
-区别：
-- 第一个为顺序执行，即如果要调用其它的js方法，则需要置于代码末尾。否则无法调用。
-- 第二个可以为全部代码加载后再执行，因此，如果第一个放在代码末尾，两者功能一样。
-
-
-
-#### b. jQuery 中`$.fn`是什么意思
-`jQuery.fn = jQuery.prototype`
-
-
-
-#### c. jQuery中的ready与load
-jQuery有3种针对文档加载的方法，其中一个是ready一个是load，这两个到底有什么区别呢？
-
-ready与load谁先执行：
-- 答案是ready先执行，load后执行。
-
-ready与load的区别就在于资源文件的加载，ready构建了基本的DOM结构，所以对于代码来说应该越快加载越好。
-
-
-
-#### d. jQuery组件开发分类
-1. 类级别组件开发：
-```
-jQuery.myPlugin = function(){
-    // do sth
-};
-```
-例如 `$.Ajax(), $.extend()`
-
-2. 对象级别组件开发
-```
-$.fn.myPlugin = function(){
-    // do sth
-};
-```
-这里的`$.fn===$.prototype`
-例如 `addClass()`，`attr()`
-
-#### e. 使用$好处：
-1. 只有$会暴露在window全局变量
-2. 将插件扩展统一到$.fn.xxx这一个接口，方便使用
 
 
 ### 32. 生成数组`0-4`
@@ -1654,6 +1466,12 @@ class Logger{
 ```
 3.使用 Proxy， 获取方法的时候，自动绑定this
 
+### click 在 ios 上有300ms延迟，如何解决
 
-
+1. 粗暴型，禁用缩放
+```html
+<meta name="viewport" content="width=device-width, user-scalable=no">
+```
+2. 利用`FastClick`，其原理是：
+检测到`touchend`事件后，立刻出发模拟`click`事件，并且把浏览器300毫秒之后真正出发的事件给阻断掉
 
