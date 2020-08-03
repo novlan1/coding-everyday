@@ -1,194 +1,3 @@
-- [1. 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)](#1-从浏览器地址栏输入-url-到显示页面的步骤以-http-为例)
-    - [a. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：](#a-从输入url到得到html的过程中浏览器做的工作大致分为以下几步)
-    - [b. 浏览器**渲染**页面的过程：](#b-浏览器渲染页面的过程)
-- [2. `Winow.onload`和`DomContentLoaded`的区别](#2-winowonload和domcontentloaded的区别)
-- [3. cache-control 属性有哪些？](#3-cache-control-属性有哪些)
-    - [a. `immutable`](#a-immutable)
-- [4. 协商缓存触发条件](#4-协商缓存触发条件)
-- [5. 强缓存和协商缓存](#5-强缓存和协商缓存)
-- [6. 为什么要有etag？](#6-为什么要有etag)
-- [7. 常见的浏览器内核比较](#7-常见的浏览器内核比较)
-- [8. 常见浏览器所用内核](#8-常见浏览器所用内核)
-- [9. 事件处理程序](#9-事件处理程序)
-    - [a. DOM0 级事件处理程序](#a-dom0-级事件处理程序)
-    - [b. DOM2 级事件](#b-dom2-级事件)
-    - [c. IE 事件处理程序](#c-ie-事件处理程序)
-    - [d. 事件对象](#d-事件对象)
-    - [e. DOM事件级别：](#e-dom事件级别)
-    - [f. DOM事件模型：](#f-dom事件模型)
-    - [g. 事件流三个阶段](#g-事件流三个阶段)
-    - [h. 描述DOM事件捕获到具体流程：](#h-描述dom事件捕获到具体流程)
-    - [i. event 对象的常见应用：](#i-event-对象的常见应用)
-- [10. onclick 与 addEventListener 区别？](#10-onclick-与-addeventlistener-区别)
-- [11. `defer` 和 `async` 的区别](#11-defer-和-async-的区别)
-- [12. 懒加载与预加载的基本概念](#12-懒加载与预加载的基本概念)
-- [13. 浏览器内核的理解](#13-浏览器内核的理解)
-- [14. HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？](#14-html-规范中为什么要求引用资源不加协议头http或者https)
-- [15. `script`标签的`crossorigin`属性](#15-script标签的crossorigin属性)
-- [16. DOS攻击](#16-dos攻击)
-    - [a. DDOS](#a-ddos)
-- [17. script标签的integrity属性](#17-script标签的integrity属性)
-    - [a. 如何开启 SRI 功能](#a-如何开启-sri-功能)
-- [18. `cookie`和`session`](#18-cookie和session)
-    - [a. cookie ](#a-cookie-)
-    - [b. `cookie`属性](#b-cookie属性)
-    - [c. session](#c-session)
-    - [d. sesssion 与 cookie 的区别](#d-sesssion-与-cookie-的区别)
-- [19. `session`和`token`](#19-session和token)
-    - [a. `token`过程](#a-token过程)
-    - [b. `session`和`token`的区别](#b-session和token的区别)
-- [20. `token`可以抵抗CSRF，`cookie+session`不行](#20-token可以抵抗csrfcookie+session不行)
-- [21. Viewport](#21-viewport)
-- [22. HTML `<meta>` 标签](#22-html-meta-标签)
-    - [a. `name`属性](#a-name属性)
-    - [b. `http-equiv`属性](#b-http-equiv属性)
-    - [c. `HTML 4.01` 与 `HTML5`之间的差异](#c-html-401-与-html5之间的差异)
-    - [d. Content-Type 类型](#d-content-type-类型)
-- [23. 响应式开发](#23-响应式开发)
-- [24. `class`和`id`命名规范](#24-class和id命名规范)
-- [25. 回流和重绘](#25-回流和重绘)
-    - [a. 针对回流和重绘的优化点：](#a-针对回流和重绘的优化点)
-- [26. HTML5的Audio](#26-html5的audio)
-    - [a. 当音频/视频处于加载过程中时，会依次发生以下事件](#a-当音频/视频处于加载过程中时会依次发生以下事件)
-    - [b. 元数据和数据的区别？](#b-元数据和数据的区别)
-    - [c. 动态的创建`<audio>`元素](#c-动态的创建audio元素)
-    - [d. 判断浏览器支持的编码方式](#d-判断浏览器支持的编码方式)
-- [27. Doctype作用? 严格模式与混杂模式如何区分？它们有何意义?](#27-doctype作用-严格模式与混杂模式如何区分它们有何意义)
-- [28. 严格模式与混杂模式的语句解析不同点有哪些？](#28-严格模式与混杂模式的语句解析不同点有哪些)
-- [29. Doctype作用?严格模式与混杂模式如何区分？它们有何意义? TODO](#29-doctype作用严格模式与混杂模式如何区分它们有何意义-todo)
-- [30. 两个标签页的sessionstorage共享吗](#30-两个标签页的sessionstorage共享吗)
-- [31. Canvas](#31-canvas)
-    - [a. 若浏览器不支持canvas](#a-若浏览器不支持canvas)
-    - [b. canvas方法](#b-canvas方法)
-    - [c. canvas 是基于状态绘制的，即先定义状态，后绘制](#c-canvas-是基于状态绘制的即先定义状态后绘制)
-    - [d. 绘制一个数字，格子系统](#d-绘制一个数字格子系统)
-    - [e. 自动绘制矩形](#e-自动绘制矩形)
-    - [f. `canvas`的`save`与`restore`方法的作用](#f-canvas的save与restore方法的作用)
-    - [g. lineCap](#g-linecap)
-    - [h. lineJoin](#h-linejoin)
-    - [i. 绘制五角星](#i-绘制五角星)
-    - [j. 图形变换](#j-图形变换)
-    - [k. 变换矩阵](#k-变换矩阵)
-    - [l. 线性渐变和径向渐变](#l-线性渐变和径向渐变)
-    - [m. 线性渐变](#m-线性渐变)
-    - [n. 径向渐变](#n-径向渐变)
-    - [o. 使用图片、画布或者video](#o-使用图片画布或者video)
-    - [p. 圆弧](#p-圆弧)
-    - [q. 贝塞尔曲线](#q-贝塞尔曲线)
-    - [r. 文字渲染](#r-文字渲染)
-    - [s. 设置canvas的阴影](#s-设置canvas的阴影)
-    - [t. `globalAlpha`和`globalCompositeOperation`](#t-globalalpha和globalcompositeoperation)
-    - [u. `clip`](#u-clip)
-    - [v. 非零环绕原则 - 判断图形内、外](#v-非零环绕原则---判断图形内外)
-    - [w. `isPointInPath`判断点是否在路径内](#w-ispointinpath判断点是否在路径内)
-    - [x. 解决canvas浏览器兼容性](#x-解决canvas浏览器兼容性)
-    - [y. Canvas图像](#y-canvas图像)
-    - [z. 凸多边形](#z-凸多边形)
-    - [a. drawImage](#a-drawimage)
-    - [b. html中添加滑竿控件](#b-html中添加滑竿控件)
-    - [c. 离屏canvas技术](#c-离屏canvas技术)
-    - [d. 获取图像像素](#d-获取图像像素)
-    - [e. 滤镜](#e-滤镜)
-    - [f. 通过`createImageData`创建一个对象](#f-通过createimagedata创建一个对象)
-- [32. SVG](#32-svg)
-    - [a. 基本图形](#a-基本图形)
-    - [b. 基本属性](#b-基本属性)
-    - [c. 基本操作API](#c-基本操作api)
-    - [d. `preserveAspectRatio`](#d-preserveaspectratio)
-    - [e. SVG中的图形分组](#e-svg中的图形分组)
-    - [f. SVG四个坐标系](#f-svg四个坐标系)
-    - [g. 渐变](#g-渐变)
-    - [h. SVG 圆弧命令：](#h-svg-圆弧命令)
-    - [i. 线性(左标)变换](#i-线性左标变换)
-    - [j. 颜色HSL](#j-颜色hsl)
-    - [k. 笔刷](#k-笔刷)
-    - [l. path命令](#l-path命令)
-    - [m. 弧线(`arc`)命令](#m-弧线arc命令)
-    - [n. 贝塞尔曲线命令 - 光滑曲线](#n-贝塞尔曲线命令---光滑曲线)
-    - [o. SVG文本](#o-svg文本)
-    - [p. 图形的引用，裁切和蒙版](#p-图形的引用裁切和蒙版)
-    - [q. 字体抗锯齿](#q-字体抗锯齿)
-
-
-### 1. 从浏览器地址栏输入 url 到显示页面的步骤(以 HTTP 为例)
-
-1. 在浏览器地址栏输入 URL
-2. 浏览器查看缓存，如果请求资源在缓存中并且新鲜，跳转到转码步骤
-
-   1. 如果资源未缓存，发起新请求
-   2. 如果已缓存，检验是否足够新鲜，足够新鲜直接提供给客户端，否则与服务器进行验证。
-   3. 检验新鲜通常有两个 HTTP 头进行控制`Expires`和`Cache-Control`：
-      - HTTP1.0 提供 Expires，值为一个绝对时间表示缓存新鲜日期
-      - HTTP1.1 增加了 Cache-Control: max-age=,值为以秒为单位的最大新鲜时间
-
-3. 浏览器**解析 URL**获取协议，主机，端口，path
-4. 浏览器**组装一个 HTTP（GET）请求报文**
-5. 浏览器获取主机 ip 地址，过程如下：
-   1. 浏览器缓存
-   2. 本机缓存
-   3. hosts 文件
-   4. 路由器缓存
-   5. ISP DNS 缓存
-   6. DNS 递归查询（可能存在负载均衡导致每次 IP 不一样）
-
-6. 打开一个 socket 与目标 IP 地址，端口建立 TCP 链接，三次握手如下：
-
-   1. 客户端发送一个 TCP 的**SYN=1，Seq=X**的包到服务器端口
-   2. 服务器发回**SYN=1， ACK=X+1， Seq=Y**的响应包
-   3. 客户端发送**ACK=Y+1， Seq=Z**
-
-7. TCP 链接建立后**发送 HTTP 请求**
-
-8. 服务器接受请求并解析，将请求转发到服务程序，如虚拟主机使用 HTTP Host 头部判断请求的服务程序
-
-9. 服务器检查**HTTP 请求头是否包含缓存验证信息**如果验证缓存新鲜，返回**304**等对应状态码
-
-10. 处理程序读取完整请求并准备 HTTP 响应，可能需要查询数据库等操作
-
-11. 服务器将**响应报文通过 TCP 连接发送回浏览器**
-
-12. 浏览器接收 HTTP 响应，然后根据情况选择关闭 TCP 连接或者保留重用，关闭 TCP 连接的四次握手如下：
-    1. 主动方发送**Fin=1， Ack=Z， Seq= X**报文
-    2. 被动方发送**ACK=X+1， Seq=Z**报文
-    3. 被动方发送**Fin=1， ACK=X， Seq=Y**报文
-    4. 主动方发送**ACK=Y， Seq=X**报文
-
-13. 浏览器检查响应状态吗：是否为 1XX，3XX， 4XX， 5XX，这些情况处理与 2XX 不同
-14. 如果资源可缓存，**进行缓存**
-15. 对响应进行**解码**（例如 gzip 压缩）
-16. 根据资源类型决定如何处理（假设资源为 HTML 文档）
-17. **解析 HTML 文档，构件 DOM 树，下载资源，构造 CSSOM 树，执行 js 脚本**，这些操作没有严格的先后顺序，以下分别解释
-
-18. 构建 DOM 树：
-    1. **Tokenizing**：根据 HTML 规范将字符流解析为标记
-    2. **Lexing**：词法分析将标记转换为对象并定义属性和规则
-    3. **DOM construction**：根据 HTML 标记关系将对象组成 DOM 树
-
-19. 解析过程中遇到图片、样式表、js 文件，**启动下载**
-20. 构建CSSOM 树：
-    1. **Tokenizing**：字符流转换为标记流
-    2. **Node**：根据标记创建节点
-    3. **CSSOM**：节点创建 CSSOM 树
-
-21. [根据 DOM 树和 CSSOM 树构建渲染树](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction):
-    1. 从 DOM 树的根节点遍历所有**可见节点**，不可见节点包括：(1) `script`,`meta`这样本身不可见的标签。(2) 被 css 隐藏的节点，如`display: none`
-    2. 对每一个可见节点，找到恰当的 CSSOM 规则并应用
-    3. 发布可视节点的内容和计算样式
-
-22. js 解析如下：
-    1. 浏览器创建 Document 对象并解析 HTML，将解析到的元素和文本节点添加到文档中，此时**document.readystate 为 loading**
-    2. HTML 解析器遇到**没有 async 和 defer 的 script 时**，将他们添加到文档中，然后执行行内或外部脚本。这些脚本会同步执行，并且在脚本下载和执行时解析器会暂停。这样就可以用 document.write()把文本插入到输入流中。**同步脚本经常简单定义函数和注册事件处理程序，他们可以遍历和操作 script 和他们之前的文档内容**
-    3. 当解析器遇到设置了**async**属性的 script 时，开始下载脚本并继续解析文档。脚本会在它**下载完成后尽快执行**，但是**解析器不会停下来等它下载**。异步脚本**禁止使用 document.write()**，它们可以访问自己 script 和之前的文档元素
-    4. 当文档完成解析，document.readState 变成 interactive
-    5. 所有**defer**脚本会**按照在文档出现的顺序执行**，延迟脚本**能访问完整文档树**，禁止使用 document.write()
-    6. 浏览器**在 Document 对象上触发 DOMContentLoaded 事件**
-    7. 此时文档完全解析完成，浏览器可能还在等待如图片等内容加载，等这些**内容完成载入并且所有异步脚本完成载入和执行**，document.readState 变为 complete,window 触发 load 事件
-
-23. **显示页面**（HTML 解析过程中会逐步显示页面）
-
-![输入URL过程](imgs/visit_url.svg)
-
-
 
 #### a. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
 
@@ -202,7 +11,7 @@
 
 #### b. 浏览器**渲染**页面的过程：
 
-![渲染过程](../imgs/dom_render_process.png)
+![渲染过程](../../imgs/dom_render_process.png)
 
 - 第一步，用 HTML 分析器，分析 HTML 元素，构建一颗 DOM 树(标记化和树构建)。
 - 第二步，用 CSS 分析器，分析CSS文件和元素上的inline样式，生成页面的样式表。
@@ -295,7 +104,7 @@ window.addEventListener('DomContentLoaded', function() {
 - `Last-Modified`是服务器下发的，`If-Modified-Since`是浏览器发送到的，记录的时间，有可能时间变了，内容不变
 - `Etag`是变的是内容才会再次请求，对应的是`If-None-Match`
 
-<img src='../imgs/b_s_cache.png' height='500'/>
+<img src='../../imgs/b_s_cache.png' height='500'/>
 
 ### 6. 为什么要有etag？
 
@@ -448,7 +257,7 @@ DOM 中的事件对象
 
 
 ### 11. `defer` 和 `async` 的区别
-![difference between defer and async](../imgs/deferAndAsyncDiff.png)
+![difference between defer and async](../../imgs/deferAndAsyncDiff.png)
 
 1. defer和async在网络读取（下载）这块儿是一样的，都是异步的（相较于 HTML 解析）
 2. 它俩的差别在于**脚本下载完之后何时执行**，显然 defer 是最接近我们对于应用脚本加载和执行的要求的
@@ -575,95 +384,6 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
     src="http://lib.baomitu.com/jquery/3.2.1/jquery.min.js">
 <script>
 ```
-
-### 18. `cookie`和`session`
-本来`session`是一个**抽象概念**，开发者为了实现中断和继续等操作，将`user agent`和`server`之间一对一的交互，抽象为“会话”，进而衍生出“会话状态”，也就是`session`的概念。
- 而`cookie`是一个**实际存在**的东西，http 协议中定义在 `header` 中的字段。可以认为是 `session`的一种后端无状态实现。
-而我们今天常说的 “session”，是为了绕开 cookie 的各种限制，通常**借助 cookie 本身**和**后端存储**实现的，一种更高级的会话状态实现。
-所以 cookie 和 session，你可以认为是同一层次的概念，也可以认为是不同层次的概念。具体到实现，session 因为 `session id` 的存在，通常要借助 cookie 实现，但这并非必要，只能说是通用性较好的一种实现方案。
-
-
-#### a. cookie 
-服务器通过设置`set-cookie`这个响应头，将 cookie 信息返回给浏览器，浏览器将响应头中的 cookie 信息保存在本地，当下次向服务器发送 HTTP 请求时，浏览器会自动将保存的这些 cookie 信息添加到请求头中。
-`set-cookie`格式如下，
-`set-cookie: value[; expires=date][; domain=domain][; path=path][; secure]`
-
-通过 cookie，服务器就会识别出浏览器，从而保证返回的数据是这个用户的。
-重点：
-
-- 通过`set-cookie`设置
-- 下次请求会自动带上
-- 键值对，可设置多个
-
-![set cookie](../imgs/set_cookie.jpg)
-
-#### b. `cookie`属性
-- max-age
-  - 过期时间有多长
-  - 默认在浏览器关闭时失效
-- expires
-  - 到哪个时间点过期
-- secure
-  - 表示这个 cookie 只会在 https 的时候才会发送
-- HttpOnly
-  - 设置后无法通过在 js 中使用 document.cookie 访问
-  - 保障安全，防止攻击者盗用用户 cookie
-- domain
-  - 表示该 cookie 对于哪个域是有效的。
-
-
-
-#### c. session
-
-- 存放在服务器的一种用来存放用户数据的类似 HashTable 的结构
-- 浏览器第一次发送请求时，服务器自动生成了 HashTable 和 SessionID 来唯一标识这个 hash 表，并将 sessionID 存放在 cookie 中通过响应发送到浏览器。浏览器第二次发送请求会将前一次服务器响应中的 sessionID 随着 cookie 发送到服务器上，服务器从请求中提取 sessionID，并和保存的所有 sessionID 进行对比，找到这个用户对应的 hash 表。
-  - 一般这个值是有时间限制的，超时后销毁，默认 30min
-- 当用户在应用程序的 web 页面间挑转时，存储在 session 对象中的变量不会丢失而是在整个用户会话中一直存在下去。
-- session 依赖于 cookie，因为 sessionID 是存放在 cookie 中的。
-  - 如果浏览器禁用了 cookie ，同时 session 也会失效（但是可以通过其它方式实现，比如在 `url` 中传递 `sessionID`）
-
-
-
-#### d. sesssion 与 cookie 的区别
-
-- cookie 存在客户端，session 存在于服务端。
-- cookie 在客户端中存放，容易伪造，不如 session 安全
-- session 会消耗大量服务器资源，cookie 在每次 HTTP 请求中都会带上，影响网络性能
-
-参考资料：[github](https://github.com/huyaocode/webKnowledge/blob/master/%E7%BD%91%E7%BB%9C/cookie%E5%92%8Csession.md)
-
-
-
-### 19. `session`和`token`
-
-1. `session`是**有状态**的，一般存于服务器内存或硬盘中，当服务器采用**分布式或集群**时，`session`就会面对**负载均衡**问题。
-2. `token`是**无状态**的，`token`字符串里就**保存了所有的用户信息**。
-
-
-
-#### a. `token`过程
-
-- 客户端登陆传递信息给服务端，服务端收到后把用户信息加密（`token`）传给客户端，客户端将`token`存放于`localStroage`等容器中。
-- 客户端每次访问都传递token，服务端解密`token`，就知道这个用户是谁了。
-- 通过cpu加解密，服务端就不需要存储`session`占用存储空间，就很好的解决负载均衡多服务器的问题了。
-- 这个方法叫做`JWT(Json Web Token)`
-
-
-
-#### b. `session`和`token`的区别
-
-1. session存储于服务器，可以理解为一个状态列表，拥有一个唯一识别符号sessionId，通常存放于cookie中。服务器收到cookie后解析出sessionId，再去session列表中查找，才能找到相应session。依赖cookie。
-2. cookie类似一个令牌，装有sessionId，存储在客户端，浏览器通常会自动添加。
-3. token也类似一个令牌，无状态，用户信息都被加密到token中，服务器收到token后解密就可知道是哪个用户。需要开发者手动添加。
-4. jwt只是一个**跨域认证**的方案
-
-
-
-### 20. `token`可以抵抗CSRF，`cookie+session`不行
-
-- 在post请求的瞬间，`cookie`会**被浏览器自动添加到请求头**中。
-- 但`token`不同，`token`是开发者为了防范csrf而特别设计的令牌，**浏览器不会自动添加到`headers`里**，**攻击者也无法访问用户的`token`**，所以提交的表单无法通过服务器过滤，也就无法形成攻击。
-
 
 ### 21. Viewport
 
@@ -840,20 +560,20 @@ enctype常用的属性值如下：
 - 如果请求类型type是GET的话，那么格式化的字符串将直接拼接在`url`后发送到服务端； 
 - 如果请求类型是POST, 那么格式化的字符串将放在`http body`的`Form Data`中发送。
 
-<img src='../imgs/content_type_urlencoded.png' height='250' />
+<img src='../../imgs/content_type_urlencoded.png' height='250' />
 
 
 ##### `multipart/form-data`
 使用表单上传文件时，必须指定表单的 `enctype`属性值为 `multipart/form-data`. 请求体被分割成多部分，每部分使用 `--boundary`分割；
 
-<img src='../imgs/content_type_multipart.png' height='250' />
+<img src='../../imgs/content_type_multipart.png' height='250' />
 
 
 
 ##### `application/json`
 在http请求中，`Content-Type`都是默认的值 `application/x-www-form-urlencoded`, 这种编码格式的特点是：`name/value`值对，每组之间使用`&`连接，而`name`与`value`之间是使用 `=` 连接，比如 `key=xxx&name=111&password=123456; `键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用`application/json`传递比较好，
 
-<img src='../imgs/content_type_json.png' height='250' />
+<img src='../../imgs/content_type_json.png' height='250' />
 
 如上我们可以看到json格式提交的数据会显示 `Request Payload;`
 

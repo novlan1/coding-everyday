@@ -405,7 +405,7 @@ scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
 
 
 
-### 判断浏览器版本是否ie8,ie9,ie10,ie11并提示升级
+### 判断浏览器版本是否ie8, ie9, ie10, ie11并提示升级
 ```html
 <!--[if lte IE8]>
 <p class=''>您的浏览器太旧了，请到<a href='http://browserhappy.com'>这里</a>更新</p>
