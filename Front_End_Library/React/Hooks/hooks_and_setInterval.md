@@ -1,8 +1,8 @@
-# hooks 与定时器
+## hooks 与定时器
 
 在 hooks 中使用了定时器对于新手来说往往会出错，本文将介绍并剖析。
 
-## 错误的定时器用法
+### 错误的定时器用法
 
 ```
 function Counter() {
@@ -45,7 +45,7 @@ function Counter() {
 
 所以数字在闪烁。
 
-## 正确的定时器设置
+### 正确的定时器设置
 
 ```
 function Counter() {
@@ -83,7 +83,7 @@ function Counter() {
 }
 ```
 
-## 思考这样能不能实现定时器效果？
+### 思考这样能不能实现定时器效果？
 
 ```
 function Counter() {

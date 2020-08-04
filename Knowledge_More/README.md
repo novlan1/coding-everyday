@@ -73,8 +73,9 @@
 -  nginx常用做**静态内容服务**和**代理服务器**，直接外来请求转发给后面的应用服务器（tomcat，Django等），tomcat更多用来做一个**应用容器**，让java web app泡在里面的东西。
 -  严格意义上来讲，`Apache`和`nginx`应该叫做**`HTTP Server`**，而`tomcat`是一个**`Application Server`**是一个`Servlet/JSO`应用的容器。
 -  客户端通过`HTTP Server`访问服务器上存储的资源（HTML文件，图片文件等），**`HTTP Server`只是把服务器上的文件如实通过HTTP协议传输给客户端**。
--  应用服务器往往是运行在`HTTP Server`的背后，执行应用，**将动态的内容转化为静态的内容**之后，通过`HTTP Server`分发到客户端
--  注意：`nginx`只是把请求做了分发，不做处理！！！
+-  应用服务器往往是运行在`HTTP Server`的背后，执行应用，**将动态的内容转化为静态的内容**之后，通过`HTTP Server`分发到客户端。
+
+注意：`nginx`只是把请求做了分发，不做处理！！！
 
 2. `nginx` 和 `Apache` 的区别
 
@@ -281,8 +282,6 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 
 
 
-
-
 ### 14. 谷歌浏览器页面提示翻译的原因
 
 `<html lang="zh-CN">`，由en改为zh-CN（中文简体），或者是zh（中文）。如果为en的话，谷歌浏览器会显示翻译功能，
@@ -329,7 +328,10 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 3. CSR：首屏时间问题、SEO问题
 4. SSR：消耗服务端性能
 
+
+
 注意：在`webpack.server.js`中：
+
 - `target: ‘node’`，告诉webpack打包的是服务器端的代码，因为`require(‘path’)`这类在服务器端不会打包到`bundle.js`中，而在客户端会被打包到bundle.js中。
 - 需要安装`webpack-node-externals`，添加`externals:[nodeExternals()]`
 - 默认是`’web’`
@@ -339,7 +341,7 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 #### d. Js解析：
 
 1. `Babel-loader`和`babel-core`一起安装，就像`webpack`和`webpack-cli`一起安装一样
-2. 要解析react代码，需要安装`babel-preset-react`包，并且添加`option`的`preset`选项 ‘react’
+2. 要解析react代码，需要安装`babel-preset-react`包，并且添加`option`的`preset`选项 `‘react’`
 3. 要支持最新es语法，需要安装`babel-preset-stage-0`包，并且添加`option`的`preset`选项`stage-0`
 
 
@@ -391,6 +393,7 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 3. 架一个`nginx`根据`user-agent`或者`ip`，判断是普通用户还是爬虫
 
 
+
 注意：
 `Meta`中`title`和`description`主要作用是提升转化率，就是用户搜到了某个网站，想点进入的欲望。现在是搜索引擎是**全文搜索**，所以只靠写`title`和`description`不管用
 
@@ -401,6 +404,8 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 1. 文字
 2. 链接
 3. 多媒体（图片、视频等）
+
+
 
 对应的SEO策略：
 
@@ -686,6 +691,7 @@ RN从上到下可以分为`Javascript`层、`C++`层和`Native`层。
 - 自测：是否能独立解决问题
 
 
+
 #### a. 面试注意事项
 
 1. 面试的时候一定要展现出基础、能力、潜力
@@ -712,7 +718,9 @@ RN从上到下可以分为`Javascript`层、`C++`层和`Native`层。
 答：工作内容 、业务、技术栈、当前的团队、项目
 
 
+
 ### 41. 用户、角色、权限
+
 - 页面鉴权的正确方式是引入角色。
 - 用户属于某一个角色，他属于这个角色了，就拥有这个角色的权限了。
 

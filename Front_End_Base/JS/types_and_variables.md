@@ -1,6 +1,6 @@
 ## 类型和变量
 
-### a. javascript 有哪几种数据类型
+### javascript 有哪几种数据类型
 六种基本数据类型(值类型)
 - undefined
 - null
@@ -14,12 +14,12 @@
 - Function
 - Array
 
-### b. javascript 按照存储方式区分变量类型？
+### javascript 按照存储方式区分变量类型？
 - 值类型 
 - 引用类型
 
 
-### c. 引用类型的特点？
+### 引用类型的特点？
 引用类型无限制扩展属性，内存很大，在内存中公用空间
 
 ```js
@@ -35,7 +35,7 @@ b.age=21
 console.log(a)       // {age: 21}
 ```
 
-### d. typeof 能区分哪些类型？
+### typeof 能区分哪些类型？
 typeof只能区分**值类型**和**函数**。
 
 ```js
@@ -52,7 +52,7 @@ typeof undefined  ==>undefined
 typeof NaN==>number
 ```
 
-### e. 如何强制类型转换？
+### 如何强制类型转换？
 
 通过String()，Number()，Boolean()函数强制转换
 
@@ -66,7 +66,7 @@ console.log(typeof String(str)); // string
 console.log(typeof Number(str1)); //number
 ```
 
-### f. 什么情况下会发生隐式类型转换？
+### 什么情况下会发生隐式类型转换？
 
 ```js
 // 1. 字符串拼接
@@ -91,7 +91,7 @@ if(‘’){} // false
 
 
 
-### g. 隐式类型转换的常见应用？
+### 隐式类型转换的常见应用？
 巧用隐式类型转换，当要把一个字符串转为数字时，把它减去0，把一个数字转为字符串，加上空字符串。
 ```js
 ‘32’ – 0   //32 
@@ -101,7 +101,7 @@ if(‘’){} // false
 
 
 
-### h. 如何判断一个变量会被当做true或者false？
+### 如何判断一个变量会被当做true或者false？
 
 通过`!![变量]`的方式。
 ```js
@@ -109,7 +109,7 @@ var a =10;
 console.log(!!a) // true
 ```
 
-### i. 说一下引用类型的比较规则，并回答下列结果
+### 说一下引用类型的比较规则，并回答下列结果
 
 对象的比较是比较的引用，就是内存是否一样。
 ```js
@@ -121,26 +121,26 @@ console.log == console.log  // fase
 NaN == NaN    // false, NaN不是引用类型，不过它恒不等于自己。
 ```
 
-### j. 引用类型比较，何时返回true？
+### 引用类型比较，何时返回true？
 除非定义x，然后让x和x比较才为true。
 ```js
 console === console // true
 ```
 
 
-### l. 何时使用===和==？
+### 何时使用===和==？
 ```js
 if (obj.a == null){} // 这里相当于obj.a === null || obj.a ===defined,简写形式
 ```
 除了这种情况，其他全用 ===
 
 
-### m. JS内置函数有哪些？
+### JS内置函数有哪些？
 Object, Array, Function, Boolean, Number, String, Date, RegExp, Error，内置函数就这么少。
 Math 是对象，不是函数
 
 
-### n. 如何理解 JSON？
+### 如何理解 JSON？
 - 不过是JS中一个对象而已，Math也是JS内置对象
 - 一种数据格式
 ```js
@@ -148,7 +148,7 @@ JSON.parse(‘{‘a’: 10, ’b’: 23}’)
 JSON.stringify({a: 10, b: 23})
 ```
 
-### o. 函数和数组可以有属性吗？
+### 函数和数组可以有属性吗？
 不仅对象可以有属性，函数和数组也有属性
 ```js
 var a=[12,3,4]
@@ -157,11 +157,11 @@ function fn(){}
 fn.age=12
 ```
 
-### p. `!!()`是false的情况有哪几种？ 
+### `!!()`是false的情况有哪几种？ 
 0,NaN, ’’, undefined,null,false   6个
 
 
-### q. ===运算符判断相等的流程是怎样的
+### ===运算符判断相等的流程是怎样的
 
 1. 如果两个值不是相同类型，它们不相等
 2. 如果两个值都是 null 或者都是 undefined，它们相等
@@ -171,7 +171,7 @@ fn.age=12
 6. 如果他们都是字符串并且在相同位置包含相同的 16 位值，他它们相等；如果在长度或者内容上不等，它们不相等；两个字符串显示结果相同但是编码不同==和===都认为他们不相等
 7. 如果他们指向相同对象、数组、函数，它们相等；如果指向不同对象，他们不相等
 
-### r. ==运算符判断相等的流程是怎样的
+### ==运算符判断相等的流程是怎样的
 
 1. 如果两个值类型相同，按照===比较方法进行比较
 2. 如果类型不同，使用如下规则进行比较
@@ -206,13 +206,13 @@ Boolean([])是true，Boolean({})是true
 ```
 
 
-### s. 对象到字符串的转换步骤
+### 对象到字符串的转换步骤
 
 1. 如果对象有 toString()方法，javascript 调用它。如果返回一个原始值（primitive value 如：string number boolean）,将这个值转换为字符串作为结果
 2. 如果对象没有 toString()方法或者返回值不是原始值，javascript 寻找对象的 valueOf()方法，如果存在就调用它，返回结果是原始值则转为字符串作为结果
 3. 否则，javascript 不能从 toString()或者 valueOf()获得一个原始值，此时 throws a TypeError
 
-### t. 对象到数字的转换步骤
+### 对象到数字的转换步骤
 
 ```
 1. 如果对象有valueOf()方法并且返回元素值，javascript将返回值转换为数字作为结果
@@ -220,22 +220,22 @@ Boolean([])是true，Boolean({})是true
 3. 否则，throws a TypeError
 ```
 
-### u. 判断`[] == false`的输出是什么？
+### 判断`[] == false`的输出是什么？
 ```js
 [] == false   // true 
 [] == true    // false
 ```
-因为[].toString()为‘’，‘’和 false 比较时都化为数字0，所以相等。
+因为`[].toString()`为‘’，‘’和 false 比较时都化为数字0，所以相等。
 
-### v. 判断`{} == false`的输出是什么？
+### 判断`{} == false`的输出是什么？
 ```js
 {} == false   // false 
 {} == true    // false
 ```
-因为{}.toString()为`[object Object]`，`[object Object]`和`false`比较时，`false`化为数字0，`[object Object]`化为数字`NaN`，所以不相等。同理，也不等于`true`
+因为`{}.toString()`为`[object Object]`，`[object Object]`和`false`比较时，`false`化为数字0，`[object Object]`化为数字`NaN`，所以不相等。同理，也不等于`true`
 
 
-### w. 判断`[] == ![]`的输出是什么？
+### 判断`[] == ![]`的输出是什么？
 ```js
 [] == ! []   // true
 ```
@@ -248,15 +248,15 @@ Boolean([])是true，Boolean({})是true
 
 综上：[] == ![] -> [] == false -> [] == 0 -> '' == 0 -> 0 == 0 -> true
 
-### x. 判断`{} == !{}`的输出是什么？
+### 判断`{} == !{}`的输出是什么？
 ```js
 {} == !{} // false 
 ```
-1. 因为 {}.toString() -> NaN（[object Object]）
+1. 因为 `{}.toString()` -> `NaN`（`[object Object]`）
 2. 总结：{} == ! {} -> {} == false -> {} == 0 -> NaN == 0 -> false
 
 
-### y. 判断`console.log( [] ? true : false)`的输出是什么？
+### 判断`console.log( [] ? true : false)`的输出是什么？
 由上面可知，三元运算符会发生**隐式类型转换**，而 !![] 为true，所以结果为true
 ```js
 console.log( [] ? true : false) // true
@@ -510,7 +510,7 @@ console.log(cc == '10'); // true valueOf
 
 参考资料：[博客园](https://www.cnblogs.com/liutianzeng/p/10859000.html)
 
-### k. 值类型的添加属性、获取属性是如何实现的，比如获取 str.length ？
+### 值类型的添加属性、获取属性是如何实现的，比如获取 str.length ？
 把原始类型当作对象方式使用的本质，例如访问length属性，或者增加属性。js都会智能转换成包装类型对象，相当于new了一个原始类型对象。当访问完成后，会把这个包装的对象销毁
 
 例子：

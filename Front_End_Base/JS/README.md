@@ -1,150 +1,10 @@
-- [1. 类型和变量](#1-类型和变量)
-    - [a. javascript 有哪几种数据类型](#a-javascript-有哪几种数据类型)
-    - [b. javascript 按照存储方式区分变量类型？](#b-javascript-按照存储方式区分变量类型)
-    - [c. 引用类型的特点？](#c-引用类型的特点)
-    - [d. typeof 能区分哪些类型？](#d-typeof-能区分哪些类型)
-    - [e. 如何强制类型转换？](#e-如何强制类型转换)
-    - [f. 什么情况下会发生隐式类型转换？](#f-什么情况下会发生隐式类型转换)
-    - [g. 隐式类型转换的常见应用？](#g-隐式类型转换的常见应用)
-    - [h. 如何判断一个变量会被当做true或者false？](#h-如何判断一个变量会被当做true或者false)
-    - [i. 说一下引用类型的比较规则，并回答下列结果](#i-说一下引用类型的比较规则并回答下列结果)
-    - [j. 引用类型比较，何时返回true？](#j-引用类型比较何时返回true)
-    - [k. 值类型的添加属性、获取属性是如何实现的，如获取 str.length ？](#k-值类型的添加属性获取属性是如何实现的如获取-strlength-)
-    - [l. 何时使用===和==？](#l-何时使用和)
-    - [m. JS内置函数有哪些？](#m-js内置函数有哪些)
-    - [n. 如何理解 JSON？](#n-如何理解-json)
-    - [o. 函数和数组可以有属性吗？](#o-函数和数组可以有属性吗)
-    - [p. `!!()`是false的情况有哪几种？ ](#p-是false的情况有哪几种-)
-    - [q. ===运算符判断相等的流程是怎样的](#q-运算符判断相等的流程是怎样的)
-    - [r. ==运算符判断相等的流程是怎样的](#r-运算符判断相等的流程是怎样的)
-    - [s. 对象到字符串的转换步骤](#s-对象到字符串的转换步骤)
-    - [t. 对象到数字的转换步骤](#t-对象到数字的转换步骤)
-    - [u. 判断`[] == false`的输出是什么？](#u-判断--false的输出是什么)
-    - [v. 判断`{} == false`的输出是什么？](#v-判断--false的输出是什么)
-    - [w. 判断`[] == ![]`的输出是什么？](#w-判断--的输出是什么)
-    - [x. 判断`{} == !{}`的输出是什么？](#x-判断--的输出是什么)
-    - [y. 判断`console.log( [] ? true : false)`的输出是什么？](#y-判断consolelog---true--false的输出是什么)
-- [2. 原型和原型链](#2-原型和原型链)
-    - [a. 构造函数的特点](#a-构造函数的特点)
-    - [b. 只有对象都有构造函数吗？](#b-只有对象都有构造函数吗)
-    - [c. 如何判断一个函数是否为一个变量的构造函数？](#c-如何判断一个函数是否为一个变量的构造函数)
-    - [d. 逗号运算符的规则](#d-逗号运算符的规则)
-    - [e. 说一下原型链](#e-说一下原型链)
-    - [f. 描述new一个对象的过程？](#f-描述new一个对象的过程)
-    - [g. 如何判断一个变量是数组类型？](#g-如何判断一个变量是数组类型)
-    - [h. 写一个原型链继承的例子](#h-写一个原型链继承的例子)
-    - [i. 函数表达式会变量提升吗？](#i-函数表达式会变量提升吗)
-    - [j. 什么是执行上下文？](#j-什么是执行上下文)
-    - [k. 执行上下文特点](#k-执行上下文特点)
-    - [l. 什么是执行上下文栈？](#l-什么是执行上下文栈)
-    - [m. this使用场景](#m-this使用场景)
-    - [n. this的特点](#n-this的特点)
-    - [o. js 的作用域有哪些？](#o-js-的作用域有哪些)
-    - [p. 什么是自由变量和作用域链？](#p-什么是自由变量和作用域链)
-    - [q. 什么是js的闭包？有什么作用，用闭包写个单例模式](#q-什么是js的闭包有什么作用用闭包写个单例模式)
-    - [r. 写一个自执行函数](#r-写一个自执行函数)
-- [3. 异步和单线程](#3-异步和单线程)
-    - [a. 前端使用异步的场景？](#a-前端使用异步的场景)
-    - [b. 同步和异步的区别是什么？分别举一个同步和异步的例子](#b-同步和异步的区别是什么分别举一个同步和异步的例子)
-    - [c. css 是同步执行还是异步的？](#c-css-是同步执行还是异步的)
-    - [d. 函数方法中，forEach 和 map 的区别？](#d-函数方法中foreach-和-map-的区别)
-- [4. 日期 Math 数组 对象](#4-日期-math-数组-对象)
-    - [a. 获取随机数，要求是长度一致的字符串格式](#a-获取随机数要求是长度一致的字符串格式)
-- [5. JS Web API](#5-js-web-api)
-    - [a. DOM是哪种基本数据结构](#a-dom是哪种基本数据结构)
-    - [b. DOM节点的Attribute和property有何区别？](#b-dom节点的attribute和property有何区别)
-    - [c. 什么是BOM？](#c-什么是bom)
-    - [d. BOM 通用的API](#d-bom-通用的api)
-    - [e. 如何检测浏览器的类型？](#e-如何检测浏览器的类型)
-    - [f. 拆解URL的各部分](#f-拆解url的各部分)
-    - [g. 对于一个无限下拉加载图片的页面，如何给每个图片绑定事件？](#g-对于一个无限下拉加载图片的页面如何给每个图片绑定事件)
-    - [h. 事件委托](#h-事件委托)
-    - [i. 事件代理的好处](#i-事件代理的好处)
-    - [j. 什么时候用事件委托？](#j-什么时候用事件委托)
-    - [k. 手动编写一个ajax，不依赖第三方库](#k-手动编写一个ajax不依赖第三方库)
-    - [l. xhr.readyState 有几种状态？](#l-xhrreadystate-有几种状态)
-    - [m. 什么是跨域？](#m-什么是跨域)
-    - [n. 可以跨域的三个标签](#n-可以跨域的三个标签)
-    - [o. 三个标签的使用场景](#o-三个标签的使用场景)
-    - [p. 跨域注意事项](#p-跨域注意事项)
-    - [q. 前端优化](#q-前端优化)
-    - [r. JS实现异步的几种方式](#r-js实现异步的几种方式)
-    - [s. 构造json参数时key需要加引号吗？](#s-构造json参数时key需要加引号吗)
-    - [t. 数组去重的方法](#t-数组去重的方法)
-    - [u. 箭头函数与普通函数的区别](#u-箭头函数与普通函数的区别)
-    - [v. 关于Event Loop](#v-关于event-loop)
-    - [w. XSS 和 CSRF](#w-xss-和-csrf)
-    - [x. 同源策略](#x-同源策略)
-    - [y. JSONP实现跨域的原理](#y-jsonp实现跨域的原理)
-    - [z. 将一个类数组对象转化为数组的几种方法](#z-将一个类数组对象转化为数组的几种方法)
-    - [a. 什么是JS Engine（JS引擎）？](#a-什么是js-enginejs引擎)
-    - [b. JS引擎中栈和堆](#b-js引擎中栈和堆)
-    - [c. 对称加密和非对称加密算法](#c-对称加密和非对称加密算法)
-    - [d. 最快合并两个数组](#d-最快合并两个数组)
-    - [e. 简述js中 for in 与 for of 区别](#e-简述js中-for-in-与-for-of-区别)
-    - [f. ES6 模块与 CommonJS 模块的差异](#f-es6-模块与-commonjs-模块的差异)
-    - [g. 如何在选择图片后，不经后端而显示预览图片？](#g-如何在选择图片后不经后端而显示预览图片)
-    - [h. Blob 和 ArrayBuffer](#h-blob-和-arraybuffer)
-    - [i. 使用blob和URL.createObjectURL生成一个url](#i-使用blob和urlcreateobjecturl生成一个url)
-    - [j. URL.createObjectURL()](#j-urlcreateobjecturl)
-    - [k. `URL.createObjectURL(blob)`和`FileReader.readAsDataURL(file)`的异同：](#k-urlcreateobjecturlblob和filereaderreadasdataurlfile的异同)
-    - [l. 文件和二进制数据对象](#l-文件和二进制数据对象)
-    - [m. 实现promise时需要注意的点](#m-实现promise时需要注意的点)
-- [6. fetch发送2次请求的原因](#6-fetch发送2次请求的原因)
-- [7. 正则中的`()`和`[]`有本质的区别](#7-正则中的和有本质的区别)
-    - [a. 圆括号()是组，主要应用在限制多选结构的范围/分组/捕获文本/环视/特殊模式处理](#a-圆括号是组主要应用在限制多选结构的范围/分组/捕获文本/环视/特殊模式处理)
-    - [b. 方括号是单个匹配，字符集/排除字符集/命名字符集](#b-方括号是单个匹配字符集/排除字符集/命名字符集)
-- [8. `clothes.length=0, clothes[0]` 的值是什么](#8-clotheslength0-clothes0-的值是什么)
-- [9. 空语句](#9-空语句)
-- [10. 自动插入分号](#10-自动插入分号)
-- [11. 让坐标变化的2种方式](#11-让坐标变化的2种方式)
-- [12. 自适应字体大小](#12-自适应字体大小)
-- [13. `requestAnimFrame`](#13-requestanimframe)
-- [14. 正则断言](#14-正则断言)
-- [15. 双~的用法](#15-双~的用法)
-- [16. `|` 的用法，通常用来取整](#16-|-的用法通常用来取整)
-- [17. `Promise.resolve([123])`，借用promise的形式，统一代码](#17-promiseresolve123借用promise的形式统一代码)
-- [18. 如果两个方法处理错误的方式相同，如何用Promise封装？](#18-如果两个方法处理错误的方式相同如何用promise封装)
-- [19. 原生JS获取dom中的id](#19-原生js获取dom中的id)
-- [20. 对比`forEach`、`for in`、`for of`](#20-对比foreachfor-infor-of)
-    - [a. `forEach`](#a-foreach)
-    - [b. `for in`](#b-for-in)
-- [21. `for of`](#21-for-of)
-- [22. `onmouseenter`和`onmouseover`对比](#22-onmouseenter和onmouseover对比)
-- [23. 数据属性和访问器属性](#23-数据属性和访问器属性)
-- [24. `async`函数、`setTimeOut`、`Promise`的打印顺序](#24-async函数settimeoutpromise的打印顺序)
-- [25. `eval`和`json.parse` 解析`json`的区别：](#25-eval和jsonparse-解析json的区别)
-- [26. `undefined`和字符串相加](#26-undefined和字符串相加)
-- [27. parseInt()和Number()的区别](#27-parseint和number的区别)
-- [28. ES5实现继承](#28-es5实现继承)
-- [29. `toSring`和`valueOf`对比](#29-tosring和valueof对比)
-- [30. 序列化的坑](#30-序列化的坑)
-- [31. jQuery](#31-jquery)
-    - [a. jQuery自执行函数与普通自执行函数的区别](#a-jquery自执行函数与普通自执行函数的区别)
-    - [b. jQuery 中`$.fn`是什么意思](#b-jquery-中$fn是什么意思)
-    - [c. jQuery中的ready与load](#c-jquery中的ready与load)
-    - [d. jQuery组件开发分类](#d-jquery组件开发分类)
-    - [e. 使用$好处：](#e-使用$好处)
-- [32. 生成数组`0-4`](#32-生成数组0-4)
-- [33. 在 js 中不同进制数字的表示方式](#33-在-js-中不同进制数字的表示方式)
-- [34. js 中整数的安全范围是多少？](#34-js-中整数的安全范围是多少)
-- [35. isNaN 和 Number.isNaN 函数的区别？](#35-isnan-和-numberisnan-函数的区别)
-- [36. 其他值到字符串的转换规则？](#36-其他值到字符串的转换规则)
-- [37. 其他值到数字值的转换规则？](#37-其他值到数字值的转换规则)
-- [38. 其他值到布尔类型的值的转换规则？](#38-其他值到布尔类型的值的转换规则)
-- [39. {} 和 [] 的 valueOf 和 toString 的结果是什么？](#39--和--的-valueof-和-tostring-的结果是什么)
-- [40. 什么是假值对象？](#40-什么是假值对象)
-- [41. 解析字符串中的数字和将字符串强制类型转换为数字的返回结果都是数字，它们之间的区别是什么？](#41-解析字符串中的数字和将字符串强制类型转换为数字的返回结果都是数字它们之间的区别是什么)
-- [42. || 和 && 操作符的返回值？](#42-||-和--操作符的返回值)
-- [43. JS为数字添加千位分隔符](#43-js为数字添加千位分隔符)
 
-
-### 2. 原型和原型链
+### 原型和原型链
 #### a. 构造函数的特点
 1. 构造函数名称大写。
-2. 默认 return this，写不写无所谓
+2. 默认 `return this`，写不写无所谓
 
-```
+```js
 function Foo(name,age){
     this.name=name;
     this.age = age;
@@ -167,14 +27,14 @@ console.log(f)  // Foo {name: "za", age: 23, class: 1}
 #### c. 如何判断一个函数是否为一个变量的构造函数？
 应使用 instanceof，typeof 不可以
 
-```
+```js
 var a = {}
 a instanceof Object // true
 ```
 
 判断引用类型还可以用 Object.prototype.toString.apply()：
 
-```
+```js
 Object.prototype.toString.call(null)  // "[object Null]"
 Object.prototype.toString.call(undefined)  // "[object Undefined]"
 
@@ -192,7 +52,7 @@ Object.prototype.toString.apply(null)  // [Object Object]
 #### d. 逗号运算符的规则
 
 逗号运算符，会从左到右依次计算表达式的值，最后取最右边的（每个都需要计算）
-```
+```js
 var s = (1,2,3)  
 console.log(s)   // 3
 ```
@@ -206,7 +66,7 @@ console.log(s)   // 3
 4. 所有的引用类型（数组、对象、函数），__proto__属性值指向它的构造函数的 prototype 属性值
 5. 当试图得到一个引用类型的某个属性时，如果这个对象本身没有这个属性，那么会去它的__proto__中（即它的构造函数的 prototype ）寻找
 
-![原型链](../imgs/prototype.png)
+![原型链](../../imgs/prototype.png)
 
 
 #### f. 描述new一个对象的过程？
@@ -217,7 +77,7 @@ console.log(s)   // 3
 
 
 #### g. 如何判断一个变量是数组类型？
-```
+```js
 var arr = []
 arr instanceof Array;  // true
 ```
@@ -225,7 +85,7 @@ arr instanceof Array;  // true
 
 #### h. 写一个原型链继承的例子
 
-```
+```js
 // 动物类
 function Animal(){
     this.eat = function(){
@@ -245,7 +105,7 @@ var hashiqi = new Dog()
 hashiqi.eat() // animal eat
 ```
 另一个例子：
-```
+```js
 // 获取元素的构造函数
 function Elem(id){
     this.elem = document.getElementById(id)
@@ -281,7 +141,7 @@ div1.html('<h1>gogo</h1>').on('click',function({alert('clicked')}).html('<h1>non
 
 #### i. 函数表达式会变量提升吗？
 
-```
+```js
 fn1(); 
 var fn1=function(){} // 报错(fn1 is not a function)，函数表达式
 
@@ -290,7 +150,8 @@ function fn2(){} // undefined，函数声明
 ```
 可见，函数声明才会出现变量提升，函数表达式不会。
 变量提升的其他例子：
-```
+
+```js
 console.log(a);
 var a=9;         			 //undefined
 
@@ -354,10 +215,12 @@ foobar();
 #### l. 什么是执行上下文栈？
 执行全局代码时，会产生一个执行上下文环境，每次调用函数都又会产生执行上下文环境。当函数调用完成时，这个上下文环境以及其中的数据都会被消除，再重新回到全局上下文环境。处于活动状态的执行上下文环境只有一个。
 其实这是一个压栈出栈的过程——执行上下文栈。
-![执行上下文栈](../imgs/js_process_environment.png)
+
+![执行上下文栈](../../imgs/js_process_environment.png)
 
 函数中调用其他函数：
-![执行上下文栈](../imgs/js_process_environment_iter.png)
+
+![执行上下文栈](../../imgs/js_process_environment_iter.png)
 
 #### m. this使用场景
 
@@ -370,7 +233,7 @@ foobar();
 
 #### n. this的特点
 this要在执行时才能确认值，定义时无法确认：
-```
+```js
 var a = {
     name : 'A',
     fn: function() {
@@ -391,14 +254,14 @@ fn1() // 此时 this 等于 window
 #### o. js 的作用域有哪些？
 
 js没有块级作用域，只有函数和局部作用域：
-```
+```js
 // 无块级作用域
 if (true) {
     var name = 'ZhangSan'
 }
 console.log(name) // 'ZhangSan'
 ```
-```
+```js
 // 函数和全局作用域
 var a = 'LiBai'
 function fn() {
@@ -418,7 +281,7 @@ fn() // 'DuFu'
 1. 当前作用域（函数或全局）没有定义的变量，就是自由变量。
 2. 当前函数没有定义a，就一层一层去父级作用域寻找，形成链式结构，成为作用域链。
 
-```
+```js
 var a = 100
 function fn() {
     var b = 200
@@ -429,7 +292,7 @@ function fn() {
 fn()
 ```
 再看一个例子：
-```
+```js
 var a = 100
 function fn1() {
     var b = 200
@@ -466,7 +329,7 @@ MDN对闭包的定义是：闭包是指那些**能够访问自由变量的函数
 
 
 #### r. 写一个自执行函数
-```
+```js
 ( function(i){ console.log(i)} ) (2)    // 2
 ```
 
@@ -493,7 +356,7 @@ css没有同步和异步一说，弄清楚这个问题需要知道浏览器的�
 
 ### 4. 日期 Math 数组 对象
 #### a. 获取随机数，要求是长度一致的字符串格式
-```
+```js
 function getRandomNums(len = 10) {
     var random = Math.random()
     for (let i = 0; i < len; i ++) random += '*'
@@ -521,7 +384,7 @@ function getRandomString() {
 2. attribute是对 **html标签属性**的修改
 
 以下是property：
-```
+```js
 var pList = document.querySelectAll('p')
 var p = pList[0]
 console.log(p.style.width) // 获取样式
@@ -535,7 +398,7 @@ console.log(p.nodeName)
 console.log(p.nodeType)
 ```
 以下是attribute：
-```
+```js
 var pList = document.querySelectAll('p')
 var p = pList[0]
 p.getAttribute('data-name')
@@ -565,7 +428,7 @@ attribute：
 
 #### d. BOM 通用的API
 - window对象——BOM核心
-```
+```js
 window.alert('提示信息')
 window.confirm('确认信息')
 window.prompt('弹出输入框')
@@ -577,7 +440,7 @@ setInterval(函数，时间)     // 定时器，无限执行
 clearInterval()      // 停止执行 setInterval()
 ```
 - location对象
-```
+```js
 localtion.href = 'url地址';           // 跳转到这个url地址
 localtion.hostname         // 返回 web 主机名
 localtion.pathname            // 返回当前页面的路径和文件名
@@ -585,7 +448,7 @@ localtion.port             // 返回 web 主机的端口
 localtion.protocol      // 返回页面使用的web协议，http||https
 ```
 - navigator对象 —— 获取浏览器的所有信息
-```
+```js
 navigator.appCodeName   // 返回浏览器的代码名
 navigator.appMinorVersion      // 返回浏览器的次级版本
 navigator.appName    // 返回浏览器的名称
@@ -594,28 +457,28 @@ navigator.browserLanguage      // 返回当前浏览器的语言
 navigator.userAgent       // 返回由客户机发送服务器的 user-agent 头部的值。
 ```
 - screen对象
-```
+```js
 screen.height     // 获取整个屏幕的高
 screen.width        // 获取整个屏幕的宽
 screen.availiHeight         // 整个屏幕的高减去系统部件的高（可用的屏幕高度）
 screen.availWidth         // 整个屏幕的宽减去系统部件的宽（可用的屏幕宽度）
 ```
 - history对象 包含浏览器的历史
-```
+```js
 history.back();         // 返回上一页
 history.forward()      // 前进下一页
 history.go('参数');     // -1 表示上一页，1表示下一页
 ```
 参考资料：[BOM](https://www.cnblogs.com/pingzi-wq/p/11525058.html)
 #### e. 如何检测浏览器的类型？
-```
+```js
 var ua = navigator.userAgent // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36"
 var isChrome = ua.includes('Chrome') // true
 ```
 从 userAgent 的输出可以看出，前端可以判断系统类型，`Mac/Windows`，这是很多软件下载网站需要做的事情。
 
 #### f. 拆解URL的各部分
-```
+```js
 const { href, hash, search, host, port, protocol } = location
 ```
 
@@ -641,7 +504,7 @@ const { href, hash, search, host, port, protocol } = location
 当子元素有很多，需要对子元素的事件进行监听的时候。
 
 #### k. 手动编写一个ajax，不依赖第三方库
-```
+```js
 function ajax() {
     var xhr = new XMLHttpRequest()
     xhr.open('GET', '/api', false)
@@ -796,10 +659,6 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 
 
 
-
-
-
-
 #### a. 什么是JS Engine（JS引擎）？
 **处理并执行js代码的运行环境**， 也就是专门处理Js脚本的虚拟机。
 
@@ -818,7 +677,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 - 引用类型存放在堆中，变量实际上是一个**存放在栈内存的指针**，
 - 这个指针指向堆内存中的地址。每个空间大小不一样，根据情况进行特定的分配
 
-![图解基本数据和引用数据类型存放位置](../imgs/stackAndheap.png)
+![图解基本数据和引用数据类型存放位置](../../imgs/stackAndheap.png)
 
 
 #### c. 对称加密和非对称加密算法
@@ -833,7 +692,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 
 
 #### d. 最快合并两个数组
-```
+```js
 let arr1=[1,3]
 let arr2=[4,6]
 arr1.concat(arr2) // [1, 3, 4, 6] 
@@ -850,23 +709,9 @@ arr1.concat(arr2) // [1, 3, 4, 6]
 
 
 
-#### f. ES6 模块与 CommonJS 模块的差异
-1. CommonJS 模块输出的是一个**值的拷贝**，ES6 模块输出的是**值的引用**。
-2. CommonJS 模块是**运行时加载**，ES6 模块是**编译时输出接口**。
-
-
-
- 
-
- 
-
 #### g. 如何在选择图片后，不经后端而显示预览图片？
 1. 监听`input`的`change`事件，从`e.target.files[0]`获取file对象。
 2. `window.URL`获取URL对象，利用`URL.createObjectURL(file)`生成目标`url`，设置`img`的`src`属性为生成的`url`。 或者`new一个FileReader()`得到`reader`....
-
- 
-
- 
 
 
 
@@ -875,7 +720,7 @@ arr1.concat(arr2) // [1, 3, 4, 6]
 ##### Blob
 `Blob(binary large object)`，**二进制类文件大对象**，是一个可以**存储二进制文件的“容器”**，HTML5中的Blob对象除了存放二进制数据外还可以设置这个数据的MIME类型。File接口基于Blob，继承了 blob 的功能并将其扩展使其支持用户系统上的文件。
 
-```
+```js
 new Blob([data], {type: "application/octet-binary"})
 ```
 Blob构造函数接受两个参数，第一个参数是一个包含实际数据的数组，第二个参数是数据的MIME类型。
@@ -883,7 +728,7 @@ Blob构造函数接受两个参数，第一个参数是一个包含实际数据�
 ##### ArrayBuffer
 `ArrayBuffer`对象表示内存中一段原始的二进制数据容器（**缓冲区**）
 
-```
+```js
 const buffer = new ArrayBuffer(8); // create an ArrayBuffer with a size in bytes
 
 console.log(buffer.byteLength); // 8
@@ -898,7 +743,7 @@ console.log(buffer.byteLength); // 8
 3. ArrayBuffer是**原始的二进制数据缓冲区**，**不能设置MIME类型**；Blob可以储存大量的二进制编码格式的数据，可以设置对象的MIME类型。
 
 二者可以相互转换：
-```
+```js
 // Blob => ArrayBuffer：
 let blob = new Blob([1,2,3,4])
 let reader = new FileReader();
@@ -913,7 +758,7 @@ let blob = new Blob([buffer])
 
 #### i. 使用blob和URL.createObjectURL生成一个url
 
-```
+```js
 var blob = new Blob("保存为blob形式的数据");
 var url = new URL.createObjectURL(blob);
 ```
@@ -1014,7 +859,7 @@ clothes[0]; // => ???
 
 
 ### 9. 空语句
-```
+```js
 const length = 4;
 const numbers = [];
 for (var i = 0; i < length; i++);{
@@ -1030,7 +875,7 @@ numbers; // => ???
 
 
 ### 10. 自动插入分号
-```
+```js
 function arrayFromValue(item) {
   return
     [item];
@@ -1126,7 +971,7 @@ document.addEventListener('DOMContentLoaded', recalc, false);
 - 对于负数，向上取整；
 - 非数字取值为0，它具体的表现形式为：
 
-```
+```js
 ~~null;      // => 0
 ~~undefined; // => 0
 ~~Infinity;  // => 0
@@ -1155,7 +1000,7 @@ document.addEventListener('DOMContentLoaded', recalc, false);
 ### 18. 如果两个方法处理错误的方式相同，如何用Promise封装？
 高阶函数，接收resove和reject两个参数，返回一个函数，函数的参数是err、body、statuCode三个参数。
 调用的时候就只用传两个参数了，否则还要传5个参数。代码清爽
-```
+```js
 _handleCallBack(resolve, reject) {
   return (err, body, statusCode) {
     if (err)  { reject(err) }
@@ -1439,12 +1284,12 @@ printName(); // 报错    VM77:3 Uncaught TypeError: Cannot read property 'p
 logger.printName(); // 不报错  hello there
 ```
 
-printName方法中的this ，默认指向Logger类的实例化对象，但如上单独使用的时候，this会指向该方法运行时指向的环境。ES6的class内部默认是严格模式，this指向undifined。
+`printName`方法中的`this` ，默认指向`Logger`类的实例化对象，但如上单独使用的时候，`this`会指向该方法运行时指向的环境。ES6的class内部默认是严格模式，`this`指向`undifined`。
 
 
 解决方案：
 1. 在构造方法中绑定this，这样实例化时 this就会指向当前实例
-```
+```js
 class Logger{
     constructor(){
         this.printName = this.printName.bind(this);

@@ -130,12 +130,12 @@
 2. 伪类：表示**已存在的某个元素处于某种状态**，但是通过dom树又无法表示这种状态，就可以通过伪类来为其添加样式。例如a元素的`:hover`, ` :active`等。
 
 伪元素：
-![伪元素](../imgs/pseudo_elements.png)
 
-
+![伪元素](../../imgs/pseudo_elements.png)
 
 伪类：
-![伪类](../imgs/pseudo_classes.png)
+
+![伪类](../../imgs/pseudo_classes.png)
 
 另外：
 
@@ -483,7 +483,7 @@ linear-gradient(red 0%, orange 25%, yellow 50%, green 75%, blue 100%)
 7. offsetX 鼠标相对于事件源左上角X轴的坐标
 8. offsetY 鼠标相对于事件源左上角Y轴的坐标
 
-![clientWidth和offsetWidth的区别](../imgs/clientWidth_offsetWidth_diff.png)
+![clientWidth和offsetWidth的区别](../../imgs/clientWidth_offsetWidth_diff.png)
 
 
 
@@ -551,24 +551,6 @@ li + li {
 }
 ```
 
-
-
-### 32. `stroke-dasharray` 和 `stroke-dashoffset`
-
-`stroke-dasharray`
-- 用于创建虚线:
-
-- 一个参数时： 表示**一段虚线长度**和每段虚线之间的**间距**
-
-- 两个参数或者多个参数时：一个表示**长度**，一个表示**间距**
-
-  
-
-`stroke-dashoffset`
-定义一条线，文本或元素距离（相当于基于position：relative；设置left值。只是不像left单纯的基于x方向设置， stroke-dashoffset是基于svg路径设置的）
-
-
-
 ### 33. `nth-child`和`nth-of-type`的区别
 
 1. `p:nth-child(2)`是**先找到第2个元素**，然后看看它是否是p，**是p才渲染**
@@ -617,15 +599,14 @@ input{
 
 
 ### 38. 唱片旋转CSS
-
+```
 1. `animation: linear infinite`
 2. `keyframes`中`0%`时`transform:rotate(0deg)`，`100%`时 `360deg`
 
+JS控制唱片暂停时，如果用 this.setAttribute(‘class’, ‘play’) 会跳到初始位置，可以用this.style.annimationPalyState(webkitAni…) = ‘running’ 或者’paused’
+```
 
 
-JS控制唱片暂停时，如果用`this.setAttribute(‘class’, ‘play’)`会跳到初始位置，可以用`this.style.annimationPalyState(webkitAni…) = ‘running’ `或者`’paused’`
-
- 
 
 ### 39. `animation`中的`steps()`逐帧动画
 

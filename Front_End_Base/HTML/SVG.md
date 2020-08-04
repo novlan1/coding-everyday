@@ -1,6 +1,6 @@
 ## SVG
 
-### a. 基本图形
+### 基本图形
 ```html
 <rect>，x,y,width,height,rx,ry
 
@@ -14,7 +14,7 @@
 <polygon>，points="x1 y1 x2 y2 x3 y3"
 ```
 
-### b. 基本属性
+### 基本属性
 - `fill`填充颜色
 - `stroke`描边颜色
 - `stroke-width` 
@@ -27,7 +27,7 @@
 
 
 
-### c. 基本操作API
+### 基本操作API
 创建图形：`document.createElementNS(ns,tagName);`
 添加图形：`element.appendChild(childElement)`
 
@@ -43,21 +43,21 @@
 - 视窗：在 SVG 标签当中可以指定⼀个宽和⾼属性，来表⽰ SVG ⽂件渲染的区域⼤⼩。这个⼤⼩也可以使⽤样式表来定义。这个区域⼤⼩，就是视窗。
 
 
-### d. `preserveAspectRatio`
+### `preserveAspectRatio`
 - meet: 让viewBox等比例的同时，viewBox完全在SVG中显示。viewBox大于SVG，等比例缩放。
 - slice: 保持viewBox比例，视野包含视窗，尽量填满SVG。viewBox大于SVG，不缩放，按SVG大小剪切。
 - 对齐方式：xMinYMin xMinYMid xMinYMax xMidYMin xMidYMid xMidYMax xMaxYMin xMaxYMid xMaxYMax
 - none: 不关心比例，viewBox直接拉伸到最大填满viewport.
 
 
-### e. SVG中的图形分组
+### SVG中的图形分组
 - `<g>`标签用来创建分组
 - 属性继承
 
 
 
 
-### f. SVG四个坐标系
+### SVG四个坐标系
 1. User Coordinate--用户坐标系；(SVG中用户视野坐标系，也被称为原始坐标系)
 2. Current Corrdinate--自身坐标系；(图形绘制后自身携带的坐标系，用户自身宽高等定义均基于自身坐标系)
 3. Previous Coordinate--前驱坐标系；(父容器的坐标系)
@@ -66,7 +66,7 @@
 图形变换：自身坐标系相对于前驱坐标系进行坐标变换；
 
 
-### g. 渐变
+### 渐变
 在 SVG 中，有两种主要的渐变类型：
 - 线性渐变
 - 放射性渐变
@@ -79,7 +79,7 @@
 当 x1 和 x2 不同，且 y1 和 y2 不同时，可创建角形渐变
 
 
-### h. SVG 圆弧命令：
+### SVG 圆弧命令：
 `A（a）rx ry x-axis-rotation large-arc-flag sweep-flag x y`
 命令解析如下：
 - .rx：规定圆弧在x轴方向的半径尺寸。
@@ -91,8 +91,8 @@
 - .y：规定圆弧终点的y轴坐标。
 
 
-### i. 线性(左标)变换
-<img src='../imgs/svg_linear_change.png' height='200'/>
+### 线性(左标)变换
+<img src='../../imgs/svg_linear_change.png' height='200'/>
 
 ```
 X = aX + cY +e
@@ -100,7 +100,7 @@ X = aX + cY +e
 平移是`e f`，缩放是`a d`，旋转是`b c`
 
 
-### j. 颜色HSL
+### 颜色HSL
 
 H：表示色环的度数（红：0deg，绿：120deg，蓝：240deg）
 S：表示色彩饱和度（100%颜色最艳，0%颜色退化为灰度）
@@ -111,7 +111,7 @@ L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
 
 
 
-### k. 笔刷
+### 笔刷
 绘制纹理，`<pattern>`标签
 - `patternUnits="userSpaceOnUse"`，指定pattern标签本身的属性单位基于世界坐标系
   - patternUnits 笔刷使用单位
@@ -124,17 +124,18 @@ L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
 
 
 
-### l. path命令
+### path命令
 参数之间可以⽤空格或逗号隔开，有⼀种情况例外，就是下⼀个数值是负数。
 如`<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">`
-<img src='../imgs/svg_path.png' height='350'/>
+
+<img src='../../imgs/svg_path.png' height='350'/>
 
 `M(X,Y)` 移动画笔，后面如果有重复参数，会当做是`L`命令处理
 
 
 
 path命令基本规律：
-1. 区分大小写：大写表示坐标参数为绝对位置，小写为相对位置
+1. 区分大小写：**大写**表示坐标参数为**绝对位置**，小写为相对位置
 2. 最后的参数表示最终要到达的位置
 3. 上一个命令结束的位置就是下一个命令开始的位置
 4. 命令可以重复参数表示重复执行同一条命令
@@ -142,29 +143,29 @@ path命令基本规律：
 
 
 
-### m. 弧线(`arc`)命令
+### 弧线(`arc`)命令
 `A(rx, ry, xr, laf, sf, x, y)`  七个参数
 
 
-- rx - (radius-x) 弧线所在椭圆的x半轴长
-- ry - (radius-y) 弧线所在椭圆的y半轴长
-- xr - (xAxis-rotation) 弧线所在椭圆的长轴角度
-- laf - (large-arc-flag) 是否选择弧长较长的那一段弧
-- sf - (sweep-flag) 是否选择逆时针方向的那一段弧
+- rx - (`radius-x`) 弧线所在椭圆的x半轴长
+- ry - (`radius-y`) 弧线所在椭圆的y半轴长
+- xr - (`xAxis-rotation`) 弧线所在椭圆的长轴角度
+- laf - (`large-arc-flag`) 是否选择弧长较长的那一段弧
+- sf - (`sweep-flag`) 是否选择逆时针方向的那一段弧
 - x,y = 弧的终点位置
 
 
-### n. 贝塞尔曲线命令 - 光滑曲线
+### 贝塞尔曲线命令 - 光滑曲线
 - T:Q的光滑版本
   C1是上一段曲线的控制点关于当前曲线起始点的镜像位置
 - S:C的简化版本
   C1是上一段曲线的控制点2关于当前曲线起始点的镜像位置
 
-<img src='../imgs/svg_curve.png' height='200' />
+<img src='../../imgs/svg_curve.png' height='200' />
 
 
 
-### o. SVG文本
+### SVG文本
 `<text x="" y="" dx="10 20 30 40 50 60" dy=""></text>`
 `dx`可对每个字体控制
 
@@ -173,7 +174,7 @@ path命令基本规律：
 
 
 
-#### 垂直居中
+#### 文本垂直居中
 - 水平居中对齐 `text-anchor`
 - 垂直居中对齐 `dominant-baseline`  加上自己模拟
 
@@ -190,7 +191,7 @@ path命令基本规律：
 
 
 
-### p. 图形的引用，裁切和蒙版
+### 图形的引用，裁切和蒙版
 
 1. use 标签创建图形引用
 2. clip标签裁切图形
@@ -216,7 +217,27 @@ viewBox="-400 -300 800 600"  preserveAspectRatio="xMidYMid slice"
 
 
 
-### q. 字体抗锯齿
+### 字体抗锯齿
 ```css
 -webkit-font-smothing: antialiased;
 ```
+
+
+
+### `stroke-dasharray` 和 `stroke-dashoffset`
+
+`stroke-dasharray`
+
+- 用于创建虚线:
+
+- 一个参数时： 表示**一段虚线长度**和每段虚线之间的**间距**
+
+- 两个参数或者多个参数时：一个表示**长度**，一个表示**间距**
+
+  
+
+`stroke-dashoffset`
+定义一条线，文本或元素距离（相当于基于position：relative；设置left值。只是不像left单纯的基于x方向设置， stroke-dashoffset是基于svg路径设置的）
+
+
+

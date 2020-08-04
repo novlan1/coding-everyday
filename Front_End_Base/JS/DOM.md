@@ -17,7 +17,7 @@
   - eventUtil 是自定义对象，textInput 是 DOM3 级事件
 
 ### DOM 事件模型
-![DOM 事件模型](imgs/dom_event_model.jpg)
+![DOM 事件模型](../../imgs/dom_event_model.jpg)
 
 捕获从上到下， 冒泡从下到上。 先捕获，再到目标，再冒泡 
 
@@ -215,3 +215,14 @@ document
 
 - W3C: e.stopPropagation()
 - IE: window.event.cancelBubble = true
+
+
+
+### onclick 与 addEventListener 区别？
+
+1. onclick事件在同一时间**只能指向唯一对象**。就算对于一个对象**绑定了多次**，但是仍然只会**执行最后的一次绑定**。
+2. addEventListener 给一个事件**注册多个listener**
+3. addEventListener 对任何DOM都是有效的，而 onclick 仅限于HTML
+4. addEventListener 可以控制 listener 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 removeEventListener 清除
+5. IE9使用 attachEvent 和 detachEvent
+

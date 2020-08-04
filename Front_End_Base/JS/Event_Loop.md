@@ -54,7 +54,7 @@ JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设
 
 执行栈中的代码（同步任务），总是在读取"任务队列"（异步任务）之前执行。请看下面这个例子。
 
-```
+```js
 var req = new XMLHttpRequest();
 req.open('GET', url);    
 req.onload = function (){};    
@@ -63,7 +63,7 @@ req.send();
 ```
 上面代码中的req.send方法是Ajax操作向服务器发送数据，它是一个异步任务，意味着只有当前脚本的所有代码执行完，系统才会去读取"任务队列"。所以，它与下面的写法等价。
 
-```
+```js
 var req = new XMLHttpRequest();
 req.open('GET', url);
 req.send();
@@ -241,8 +241,6 @@ await
 - 返回值（`return_value`）：返回 `Promise` 对象的处理结果。如果等待的不是 `Promise` 对象，则返回该值本身。
 
 Promise是一个立即执行函数，但是他的成功（或失败：`reject`）的回调函数`resolve`却是一个异步执行的回调。当执行到`resolve()`时，这个任务会被放入到**回调队列**中，等待调用栈有空闲时事件循环再来取走它。
-
-
 
 
 

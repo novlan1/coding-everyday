@@ -30,7 +30,9 @@ pid /run/nginx.pid; # 指定进程ID存储文件位置
 
 ### 事件配置events
 
-`#use [ kqueue | rtsig | epoll | /dev/poll | select | poll ];` 
+```
+use [ kqueue | rtsig | epoll | /dev/poll | select | poll ];
+```
 `epoll`模型是`Linux 2.6`以上版本内核中的高性能网络`I/O`模型，如果跑在`FreeBSD`上面，就用`kqueue`模型。
 
 ```bash

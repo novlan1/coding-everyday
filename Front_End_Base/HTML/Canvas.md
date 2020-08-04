@@ -45,7 +45,7 @@ alert("");
 
 
 ### d. 绘制一个数字，格子系统
-![绘制一个数字](../imgs/canvas_draw_one_number.png)
+![绘制一个数字](../../imgs/canvas_draw_one_number.png)
 设圆的半径为R，圆与圆之间的间距为2px，所以圆所在的正方形格子的边长为`2*（R+1）`。
 其中x表示起始的横坐标，y表示起始的纵坐标，i表示行数，j表示列数，因此：
 第（i, j）个圆的圆心位置：
@@ -79,7 +79,8 @@ CenterY：y+i*2*(R+1)+(R+1)
 - 通常绘制一个封闭的多边形用`beginPath()`和`closePath()`（推荐），但也可以不用`closePath()`而用`lineCap = “square”`来实现
 
 ### h. lineJoin
-<img src='../imgs/canvas_linejoin.png' height='200' />
+<img src='../../imgs/canvas_linejoin.png' height='200' />
+
 lineJoin： 线条与线条相交的形式
 
 - `miter(default)` 尖角；
@@ -90,7 +91,9 @@ lineJoin： 线条与线条相交的形式
 
 
 ### i. 绘制五角星
-![绘制五角星](../imgs/canvas_five_angles_star.png)
+
+![绘制五角星](../../imgs/canvas_five_angles_star.png)
+
 大圆坐标：
 
 ```
@@ -322,7 +325,8 @@ var y = event.clientY - canvas.getBoundingClientRect().top;
   - dx dy 坐标
   - dw dh 要绘制的宽高
 - `context.drawImage( image, sx, sy, sw, sh, dx, dy, dw, dh);`
-<img src='../imgs/canvas_drawImage.png'  height='300' />
+
+<img src='../../imgs/canvas_drawImage.png'  height='300' />
 
 
 ### b. html中添加滑竿控件
@@ -355,10 +359,12 @@ imageData = context.getImageData（x，y，w，h）;
 - data
 
 `putImageData`可以将`ImageData`放回canvas中
-<img src='../imgs/canvas_putImageData.png'  height='320' />
+
+<img src='../../imgs/canvas_putImageData.png'  height='320' />
 
 `dirtyX`、`dirtyY`会在dx、dy的基础上累加
-<img src='../imgs/canvas_imagedata.png'  height='300' />
+
+<img src='../../imgs/canvas_imagedata.png'  height='300' />
 
 
 

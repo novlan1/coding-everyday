@@ -118,7 +118,8 @@ function getPointsOfEllipse(startX, startY, R1, R2, angle) {
 ```
 
 效果图：
-![SVG 数值指示器](../imgs/svg_numerical_indicator.png)
+
+![SVG 数值指示器](../../imgs/svg_numerical_indicator.png)
 
 
 

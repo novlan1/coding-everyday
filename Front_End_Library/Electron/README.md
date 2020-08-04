@@ -122,15 +122,12 @@ windows: %LOCALAPPDATA\electron-builder\cache
 ```
 
 ### 打包中的坑
-1. `electron-builder`中把`react build`后的文件夹当成静态文件，不给打包，所以在配置的files字段中手动写入要打包的文件。 （提示错误为找不到`build/index.html`）
-- `glob pattern`, 比如`build/**/*`，两个星号匹配所有子文件夹的文件，一个星号匹配当前文件夹下的所有文件。`**/*`就是当前目录下的所有文件。
-- 只要一设置`files`字段，默认配置就不生效了，所以必须全部写进去，包括`main.js`以及它依赖的文件和包。
-
-
+1. `electron-builder`中把`react build`后的文件夹当成静态文件，不给打包，所以在配置的**`files`**字段中手动写入要打包的文件。 （提示错误为找不到`build/index.html`）
+    1.1 `glob pattern`, 比如`build/**/*`，两个星号匹配所有子文件夹的文件，一个星号匹配当前文件夹下的所有文件。`**/*`就是当前目录下的所有文件。
+    1.2 只要一设置`files`字段，默认配置就不生效了，所以必须全部写进去，包括`main.js`以及它依赖的文件和包。
 2. 修改`extends`属性为`null`，禁掉自动修改打包入口文件（应始终是`main.js`）（提示错误为找不到入口文件`build/electron.js`）。
 3. 在`package.json`中添加`homepage`为`'./'`，改为相对路径（提示错误为静态文件路径不对，`/static/css`、`/static/js`等）。
 4. 把所有在`main.js`中引用的插件，放到`dependencies`中去，否则会报错。
-
 
 ### 打包体积优化
 1. electron打包时要把需要的包名称写到`package.jason`的`dependencies`中，`electron-builder`不会打包`devDependencies`中的包。

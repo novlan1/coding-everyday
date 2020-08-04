@@ -48,7 +48,7 @@ Favor.findAll({
 求数目总和是count，求字段总和如分数用sum，第二个参数是字段名称
 
 #### Sequelize 实现事务
-```
+```js
 return db.transaction(async t => {
   await Favor.create({
     art_id,

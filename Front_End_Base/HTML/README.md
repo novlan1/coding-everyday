@@ -31,7 +31,7 @@
 
 
 
-### 2. `Winow.onload`和`DomContentLoaded`的区别
+### 2. `window.onload`和`DomContentLoaded`的区别
 ```javascript
 window.addEventListener('load', function() {
   // 页面的全部资源加载完之后才会执行，包括图片、视频等。
@@ -164,98 +164,6 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
       是基于火狐内核。
 ```
 
-### 9. 事件处理程序
-
-#### a. DOM0 级事件处理程序
-1. 先把元素取出来，然后为其属性添加一个事件的方法叫DOM0级处理程序。
-2. 它是一种较传统的方式：把一个函数赋值给一个事件处理程序的属性。
-3. 优点：简单，跨浏览器的优势
-
-
-
-#### b. DOM2 级事件
-两个方法：
-1. 处理指定事件处理程序的操作：addEventListener()
-2. 删除事件处理程序的操作：removeEventListener()
-
-接收三个参数：
-1. 要处理的事件名（**去掉前面的on**，比如直接写`click`或`mouseover`）
-2. 作为事件处理程序的函数
-3. 布尔值（**false是事件冒泡，true是事件捕获，默认false**）
-
-
-注意：
-1. 通过addEventListener添加的事件只能通过removeEventListener去掉
-2. addEventListener可以添加多个事件。
-
-
-
-#### c. IE 事件处理程序
-1. attachEvent() 添加事件 （它又加上on了，即onclick等）
-2. detachEvent() 删除事件
-3. 接收相同的两个参数：事件处理程序的名称和事件处理程序的函数
-4. **不使用第三参数**的原因：IE8 以及更早的浏览器版本**只支持事件冒泡**！
-
-
-
-
-#### d. 事件对象
-事件对象（event）：在触发 DOM 上的事件时都会产生一个对象。
-DOM 中的事件对象
-1. type 属性：用于获取事件类型
-2. target 属性：用于获取事件目标
-3. stopPropagation() 方法，阻止时间冒泡
-4. preventDefault() 方法，阻止事件的默认行为（比如a标签默认跳转）
-
-
-
-
-#### e. DOM事件级别：
-- DOM0：`element.onclick=function(){}`
-- DOM2：`element.addEventListener(‘click’, function(){}, false)`
-- DOM3：`element.addEventListener(‘keyup, function(){}, false)`
-
-
-
-#### f. DOM事件模型：
-
-- 捕获（从上往下）
-- 冒泡（从下往上）
-
-
-
-#### g. 事件流三个阶段
-
-捕获、目标阶段、冒泡
-
-
-
-#### h. 描述DOM事件捕获到具体流程：
-
-- window => document => html => body => ....=> 目标元素
-
-
-
-#### i. event 对象的常见应用：
-
-- event.preventDefault()
-- event.stopPropagation()
-- event.stopImmediatePropagation() 
-- event.currentTarget
-- event.target
-
-
-
-### 10. onclick 与 addEventListener 区别？
-1. onclick事件在同一时间**只能指向唯一对象**。就算对于一个对象**绑定了多次**，但是仍然只会**执行最后的一次绑定**。
-2. addEventListener 给一个事件**注册多个listener**
-3. addEventListener 对任何DOM都是有效的，而 onclick 仅限于HTML
-4. addEventListener 可以控制 listener 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 removeEventListener 清除
-5. IE9使用 attachEvent 和 detachEvent
-
-
-
-
 ### 11. `defer` 和 `async` 的区别
 ![difference between defer and async](../../imgs/deferAndAsyncDiff.png)
 
@@ -269,29 +177,32 @@ DOM 中的事件对象
 
 ### 12. 懒加载与预加载的基本概念
 
-懒加载也叫延迟加载： 延迟加载图片或符合某些条件时才加载某些图片。
-预加载：提前加载图片，当用户需要查看时可直接从本地缓存中渲染。
+- 懒加载也叫延迟加载： 延迟加载图片或符合某些条件时才加载某些图片。
+- 预加载：提前加载图片，当用户需要查看时可直接从本地缓存中渲染。
 
 
 两种技术的本质：两者的行为是相反的，一个是提前加载，一个是迟缓甚至不加载。**懒加载对服务器前端有一定的缓解压力作用，预加载则会增加服务器前端压力**。
 
-懒加载的意义及实现方式有：
-意义： 懒加载的主要目的是作为服务器前端的优化，减少请求数或延迟请求数。
+懒加载的意义：
+- 懒加载的主要目的是作为服务器前端的优化，减少请求数或延迟请求数。
 
-实现方式： 
+懒加载的实现方式： 
 1. 第一种是**纯粹的延迟加载**，使用`setTimeOut或setInterval`进行加载延迟.
 2. 第二种是**条件加载**，符合某些条件，或触发了某些事件才开始异步下载。
 3. 第三种是**可视区加载**，即仅加载用户可以看到的区域，这个主要由监控滚动条来实现，一般会在距用户看到某图片前一定距离遍开始加载，这样能保证用户拉下时正好能看到图片。
 
-预加载的意义及实现方式有：
-预加载可以说是牺牲服务器前端性能，换取更好的用户体验，这样可以使用户的操作得到最快的反映。
-实现预载的方法非常多，可以用`CSS(background)、JS(Image)、HTML(<img />)`都可以。常用的是`new Image()`，设置其`src`来实现预载，再使用`onload`方法回调预载完成事件。只要浏览器把图片下载到本地，同样的src就会使用缓存，这是最基本也是最实用的预载方法。当Image下载完图片头后，会得到宽和高，因此可以在预载前得到图片的大小(方法是用记时器轮循宽高变化)。
+预加载的意义：
+- 预加载可以说是牺牲服务器前端性能，换取更好的用户体验，这样可以使用户的操作得到最快的反映。
+
+预加载的实现方式：
+- 实现预载的方法非常多，可以用`CSS(background)、JS(Image)、HTML(<img />)`都可以。
+- 常用的是`new Image()`，设置其`src`来实现预载，再使用`onload`方法回调预载完成事件。只要浏览器把图片下载到本地，同样的src就会使用缓存，这是最基本也是最实用的预载方法。当Image下载完图片头后，会得到宽和高，因此可以在预载前得到图片的大小(方法是用记时器轮循宽高变化)。
 
 
 
 ### 13. 浏览器内核的理解
 
-主要分成两部分：**渲染引擎(layout engineer 或 Rendering Engine) **和** JS 引擎**。
+主要分成两部分：**渲染引擎(layout engineer 或 Rendering Engine) **和 **JS 引擎**。
 
 - 渲染引擎：**负责取得网页的内容（HTML、 XML 、图像等等）、整理讯息（例如加入 CSS 等），以及计算网页的显示方式，然后会输出至显示器或打印机**。
 浏览器的内核的不同对于网页的语法解释会有不同，所以渲染的效果也不相同。所有网页浏览器、电子邮件客户端以及其它需要编辑、显示网络内容的应用程序都需要内核。
@@ -714,7 +625,7 @@ if (audio.canPlayType("audio/mp3")) {
 
 
 
-### 29. Doctype作用?严格模式与混杂模式如何区分？它们有何意义? TODO
+### 29. Doctype作用?严格模式与混杂模式如何区分？它们有何意义? 
 - Doctype声明于文档最前面，告诉浏览器以何种方式来渲染页面，这里有两种模式，严格模式和混杂模式。
 - 严格模式的排版和JS 运作模式是 以该浏览器支持的最高标准运行。
 - 混杂模式，向后兼容，模拟老式浏览器，防止浏览器无法兼容页面。
