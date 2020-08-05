@@ -154,3 +154,67 @@ Screen 对象包含有关客户端显示屏幕的信息。 每个 Window 对象�
 - clientWidth/clientHeight 返回值只包含 content + padding，如果有滚动条，也不包含滚动条
 - scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺寸
 
+
+#### 什么是BOM？
+
+1. BOM 是 Broswer Object Model 的缩写，中文为**浏览器对象模型**。
+2. BOM 提供了独立于内容而与浏览器窗口进行交互的对象。
+3. 由于 BOM 主要用于管理窗口与窗口之间的通讯，因此其核心对象是**` window`**。
+4. BOM 缺乏标准，所以你会发现 MDN 上面搜寻不了，JavaScript语法的标准化组织是 ECMA，DOM 的标准化组织是 W3C。
+
+
+#### BOM 通用的API
+- window对象——BOM核心
+```js
+window.alert('提示信息')
+window.confirm('确认信息')
+window.prompt('弹出输入框')
+window.open('url地址', '_blank或_self', '新窗口大小')；     // _blank：新开一个空白的窗口打开链接，_self在当前框架中打开链接
+window.close()   // 关闭当前页
+setTimeout(函数， 时间)    // 定时器，只执行一次
+clearTimeout(定时器名称)  // 清除计时器
+setInterval(函数，时间)     // 定时器，无限执行
+clearInterval()      // 停止执行 setInterval()
+```
+- location对象
+```js
+localtion.href = 'url地址';           // 跳转到这个url地址
+localtion.hostname         // 返回 web 主机名
+localtion.pathname            // 返回当前页面的路径和文件名
+localtion.port             // 返回 web 主机的端口
+localtion.protocol      // 返回页面使用的web协议，http||https
+```
+- navigator对象 —— 获取浏览器的所有信息
+```js
+navigator.appCodeName   // 返回浏览器的代码名
+navigator.appMinorVersion      // 返回浏览器的次级版本
+navigator.appName    // 返回浏览器的名称
+navigator.appVersion   // 返回浏览器的平台和版本信息
+navigator.browserLanguage      // 返回当前浏览器的语言
+navigator.userAgent       // 返回由客户机发送服务器的 user-agent 头部的值。
+```
+- screen对象
+```js
+screen.height     // 获取整个屏幕的高
+screen.width        // 获取整个屏幕的宽
+screen.availiHeight         // 整个屏幕的高减去系统部件的高（可用的屏幕高度）
+screen.availWidth         // 整个屏幕的宽减去系统部件的宽（可用的屏幕宽度）
+```
+- history对象 包含浏览器的历史
+```js
+history.back();         // 返回上一页
+history.forward()      // 前进下一页
+history.go('参数');     // -1 表示上一页，1表示下一页
+```
+参考资料：[BOM](https://www.cnblogs.com/pingzi-wq/p/11525058.html)
+#### 如何检测浏览器的类型？
+```js
+var ua = navigator.userAgent // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36"
+var isChrome = ua.includes('Chrome') // true
+```
+从 userAgent 的输出可以看出，前端可以判断系统类型，`Mac/Windows`，这是很多软件下载网站需要做的事情。
+
+#### 拆解URL的各部分
+```js
+const { href, hash, search, host, port, protocol } = location
+```

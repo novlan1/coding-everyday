@@ -524,3 +524,204 @@ str.t =10      // 定义属性
 console.log(str.t)    // undefined
 ```
 
+
+
+### 23. 数据属性和访问器属性
+
+ECMAScript中有两种属性：数据属性和访问器属性，数据属性一般用于存储数据数值，访问器属性对应的是set/get操作，不能直接存储数据值，每种属性下面又都含有四个特性.下面介绍一下:
+
+数据属性
+1. `[[Configurable]]`: 表示**能否通过delete将属性删除**，**能否把属性修改为访问器属性**, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
+2. `[[Enumerable]]`: 表示属性**可否被枚举**(即是否可以通过for in循环返回)，默认false
+3. `[[Writable]]`: 表示属性**是否可写**(即是否可以修改属性的值)，默认false
+4. `[[Value]]`: 该属性的数据值, 默认是undefined
+
+
+访问器属性
+1. `[[Configurable]]`: 表示能否通过delete将属性删除，能否把属性修改为数据属性, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
+2. `[[Enumerable]]`: 表示属性可否被枚举(即是否可以通过for in循环返回)，默认false
+3. `[[Get]]`: 读取属性时调用的函数, 默认为undefined
+4. `[[Set]]`: 写入属性时调用的函数, 默认是undefined
+
+
+### 25. `eval`和`json.parse` 解析`json`的区别：
+1.	`eval`不会判断你的字符串**是否合法**，且`json`字符串中的**一些方法会被执行**。
+2.	`parse`要判断字符串是否合法，要是不合法报错。
+3.	使用`parse`相对于`eval`比较安全，要是调用第三方数据，数据中存在恶意代码，使用`eval`就会被执行。
+
+
+
+### 26. `undefined`和字符串相加
+```js
+console.log("a"+a); var a = 1; // aundefined
+console.log("b"+b); var b = 1; // bundefined
+```
+
+### 27. parseInt()和Number()的区别
+- parseInt() 和 parseFloat() 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
+- 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
+- 如果字符串值能被完整地转换，Number() 将判断是调用 parseInt() 方法还是 parseFloat() 方法。
+
+
+
+### 29. `toSring`和`valueOf`对比
+1. toString() 方法返回一个**表示该对象的字符串**。
+对于对象x，toString() 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，toString() 返回x应有的文本值(不是单纯的加”“)
+
+2. valueOf() 方法返回**指定对象的原始值**
+每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，valueOf() 就会返回对象自身
+
+对比：
+- 当函数fn用+连接一个字符串或者是数字的时候，如果我们没有重新定义valueOf和toString，其隐式转换会调用默认的toString()方法，将函数本身内容作为字符串返回； 
+- 如果我们自己重新定义toString/valueOf方法，那么其转换会按照我们的定义来，其中valueOf比toString优先级更高（不鸣则已，一鸣惊人）
+```js
+// 这个对象是一个函数
+function fn() {
+    return 20;
+} 
+console.log(fn + 10);  // function fn(){return 20}10
+console.log(fn + 'hello'); // function fn(){return 20}hello
+
+fn.toString = function() {
+    return 10;
+}
+console.log(fn + 10);  // 20
+console.log(fn + 'hello');  //10hello
+
+fn.valueOf = function() {
+    return 5;
+}
+
+console.log(fn + 10);   //15
+console.log(fn + 'hello');   //5hello
+```
+如果这个对象不是函数呢？ 
+经测试，如果这个对象是object、数组，结果和上面的一样 
+但如果这个对象是Date，则都调用toString()
+
+
+
+### 30. 序列化的坑
+- `undeifined`属性不会出现在序列化后的字符串中
+- `NaN`和`nfinity`都会转出`null`，`New Date() `会转成时间
+```js
+var obj = {x: 1, y: true, z: [1,2,3], nullVal: null}
+
+JSON.stringify(obj) // "{"x":1,"y":true,"z":[1,2,3],"nullVal":null}"
+
+obj = {a: undefined, b: NaN, c: Infinity, d: new Date()}
+JSON.stringify(obj) // "{"b":null,"c":null,"d":"2020-07-26T09:11:16.677Z"}"
+```
+
+
+
+### 32. 生成数组`0-4`
+```
+Array.from({length: 5}, (v, i) => i);     // [0, 1, 2, 3, 4]
+```
+
+### 33. 在 js 中不同进制数字的表示方式
+- 以 0X、0x 开头的表示为十六进制。
+- 以 0、0O、0o 开头的表示为八进制。
+- 以 0B、0b 开头的表示为二进制格式。
+
+### 34. js 中整数的安全范围是多少？
+安全整数指的是，在这个范围内的整数转化为二进制存储的时候不会出现精度丢失，能够被“安全”呈现的最大整数是 **2^53 - 1**，
+即9007199254740991，在 ES6 中被定义为 `Number.MAX_SAFE_INTEGER`。最小整数是-9007199254740991，在 ES6 中
+被定义为 `Number.MIN_SAFE_INTEGER`。
+
+如果某次计算的结果得到了一个超过 JavaScript 数值范围的值，那么这个值会被自动转换为特殊的 Infinity 值。如果某次
+计算返回了正或负的 `Infinity` 值，那么**该值将无法参与下一次的计算**。判断一个数是不是有穷的，可以使用 `isFinite` 函数
+来判断。
+
+### 35. isNaN 和 Number.isNaN 函数的区别？
+函数 isNaN 接收参数后，会**尝试将这个参数转换为数值**，**任何不能被转换为数值的的值都会返回 true**，比如`undefined`、对象(`{}`)、函数、不能被转成数字的字符串(如‘string’)，因此非数字值传入也会返回 true ，会影响 NaN 的判断。
+
+函数 Number.isNaN 会**首先判断传入参数是否为数字**，如果是数字再继续判断是否为 NaN ，这种方法对于 NaN 的判断更为**准确**。
+
+参考资料：[isNaN](https://uwayfly.com/detail/201)
+
+### 36. 其他值到字符串的转换规则？
+```
+规范的 9.8 节中定义了抽象操作 ToString ，它负责处理非字符串到字符串的强制类型转换。
+
+（1）Null 和 Undefined 类型 ，null 转换为 "null"，undefined 转换为 "undefined"，
+
+（2）Boolean 类型，true 转换为 "true"，false 转换为 "false"。
+
+（3）Number 类型的值直接转换，不过那些极小和极大的数字会使用指数形式。
+
+（4）Symbol 类型的值直接转换，但是只允许显式强制类型转换，使用隐式强制类型转换会产生错误。
+
+（3）对普通对象来说，除非自行定义 toString() 方法，否则会调用 toString()（Object.prototype.toString()）
+    来返回内部属性 [[Class]] 的值，如"[object Object]"。如果对象有自己的 toString() 方法，字符串化时就会
+    调用该方法并使用其返回值。
+```
+
+### 37. 其他值到数字值的转换规则？
+```
+有时我们需要将非数字值当作数字来使用，比如数学运算。为此 ES5 规范在 9.3 节定义了抽象操作 ToNumber。
+
+（1）Undefined 类型的值转换为 NaN。
+
+（2）Null 类型的值转换为 0。
+
+（3）Boolean 类型的值，true 转换为 1，false 转换为 0。
+
+（4）String 类型的值转换如同使用 Number() 函数进行转换，如果包含非数字值则转换为 NaN，空字符串为 0。
+
+（5）Symbol 类型的值不能转换为数字，会报错。
+
+（6）对象（包括数组）会首先被转换为相应的基本类型值，如果返回的是非数字的基本类型值，则再遵循以上规则将其强制转换为数字。
+
+为了将值转换为相应的基本类型值，抽象操作 ToPrimitive 会首先（通过内部操作 DefaultValue）检查该值是否有valueOf() 方法。
+如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用 toString() 的返回值（如果存在）来进行强制类型转换。
+
+如果 valueOf() 和 toString() 均不返回基本类型值，会产生 TypeError 错误。
+```
+
+### 38. 其他值到布尔类型的值的转换规则？
+```
+ES5 规范 9.2 节中定义了抽象操作 ToBoolean，列举了布尔强制类型转换所有可能出现的结果。
+
+以下这些是假值：
+• undefined
+• null
+• false
+• +0、-0 和 NaN
+• ""
+
+假值的布尔强制类型转换结果为 false。从逻辑上说，假值列表以外的都应该是真值。
+```
+
+### 39. {} 和 [] 的 valueOf 和 toString 的结果是什么？
+```
+{} 的 valueOf 结果为 {} ，toString 的结果为 "[object Object]"
+
+[] 的 valueOf 结果为 [] ，toString 的结果为 ""
+```
+
+### 40. 什么是假值对象？
+```
+浏览器在某些特定情况下，在常规 JavaScript 语法基础上自己创建了一些外来值，这些就是“假值对象”。假值对象看起来和
+普通对象并无二致（都有属性，等等），但将它们强制类型转换为布尔值时结果为 false 最常见的例子是 document.all，它
+是一个类数组对象，包含了页面上的所有元素，由 DOM（而不是 JavaScript 引擎）提供给 JavaScript 程序使用。
+```
+
+### 41. 解析字符串中的数字和将字符串强制类型转换为数字的返回结果都是数字，它们之间的区别是什么？
+```
+解析允许字符串（如 parseInt() ）中含有非数字字符，解析按从左到右的顺序，如果遇到非数字字符就停止。而转换（如
+Number ()）不允许出现非数字字符，否则会失败并返回 NaN。
+```
+
+### 42. || 和 && 操作符的返回值？
+```
+|| 和 && 首先会对第一个操作数执行条件判断，如果其不是布尔值就先进行 ToBoolean 强制类型转换，然后再执行条件
+判断。
+
+对于 || 来说，如果条件判断结果为 true 就返回第一个操作数的值，如果为 false 就返回第二个操作数的值。
+
+&& 则相反，如果条件判断结果为 true 就返回第二个操作数的值，如果为 false 就返回第一个操作数的值。
+
+|| 和 && 返回它们其中一个操作数的值，而非条件判断的结果
+```

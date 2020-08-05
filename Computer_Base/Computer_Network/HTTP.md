@@ -269,3 +269,7 @@ HTTP1.x 中，并发多个请求需要多个 TCP 连接，浏览器为了控制�
 | Content-Type     | 内容的媒体类型                   |
 | Expires          | 内容的过期时间                   |
 | Last_modified    | 内容的最后修改时间               |
+
+### 请求报文和响应报文
+参考资料：[HTTP请求报文](https://uwayfly.com/detail/210)
+

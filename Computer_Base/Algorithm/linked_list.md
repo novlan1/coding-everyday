@@ -1,4 +1,25 @@
 ## 链表
+### 链表的实现
+```python
+class Node:
+  def __init__(self, val):
+    self.val = val
+    self.next = None
+
+class LinkedList:
+  def __init__(self):
+    self.head = None
+  
+  def add(self, val):
+    node = Node(val)
+    if not self.head:
+      self.head = node
+    else:
+      head = self.head
+      while head.next:
+        head = head.next
+      head.next = node
+```
 ### 翻转链表
 ```
 输入一个链表，翻转链表后，输出新链表的表头。

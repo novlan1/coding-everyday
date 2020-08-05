@@ -87,3 +87,53 @@ def exchange(penny, aim):
       j += 1
   return dp[-1]
 ```
+
+### 字符串全排列
+```
+比如，'abc' => ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+```
+```python
+def perm(s):
+  n = len(s)
+  if n<=1: return [s]
+  res = []
+  
+  for i in range(n):
+    for j in perm(s[:i] + s[i+1:]):
+      res.append(s[i] + j)
+  return res
+```
+
+### 集合的所有子集
+
+```python
+def subset(s):
+  if not s: return
+  n = len(s)
+  res = []
+  
+  for i in range(2**n):
+    temp = []
+    for j in range(n):
+      if (i>>j)&1:
+        temp.append(s[j])
+    res.append(temp)
+  return res
+```
+```
+0 []        --> 0000
+1 [1]       --> 0001
+2 [2]       --> 0010
+3 [1, 2]    --> 0011
+4 [3]       --> 0100
+5 [1, 3]    --> 0101
+6 [2, 3]    --> 0110
+7 [1, 2, 3] --> 0111
+
+算上空集的话一共2^n个，从0到2^n，将其转为二进制，与原始数组位置相对应，二进制位上为
+1的位置，是数组中留下来的数。
+```
+
+### 
+
+

@@ -1,5 +1,97 @@
+### doctype 是什么，举例常见 doctype 及特点
 
-#### a. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
+1. `<!doctype>`声明必须处于 HTML 文档的头部，在`<html>`标签之前，HTML5 中不区分大小写
+2. `<!doctype>`声明不是一个 HTML 标签，是一个用于告诉浏览器当前 HTMl 版本的指令
+3. 现代浏览器的 html 布局引擎通过检查 doctype 决定使用兼容模式还是标准模式对文档进行渲染，一些浏览器有一个接近标准模型。
+4. 在 HTML4.01 中`<!doctype>`声明指向一个 DTD，由于 HTML4.01 基于 SGML，所以 DTD 指定了标记规则以保证浏览器正确渲染内容
+5. HTML5 不基于 SGML，所以不用指定 DTD
+
+常见 dotype：
+
+1. **HTML4.01 strict**：不允许使用表现性、废弃元素（如 font）以及 frameset。声明：`<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">`
+2. **HTML4.01 Transitional**:允许使用表现性、废弃元素（如 font），不允许使用 frameset。声明：`<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">`
+3. **HTML4.01 Frameset**:允许表现性元素，废气元素以及 frameset。声明：`<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">`
+4. **XHTML1.0 Strict**:不使用允许表现性、废弃元素以及 frameset。文档必须是结构良好的 XML 文档。声明：`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">`
+5. **XHTML1.0 Transitional**:允许使用表现性、废弃元素，不允许 frameset，文档必须是结构良好的 XMl 文档。声明： `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">`
+6. **XHTML 1.0 Frameset**:允许使用表现性、废弃元素以及 frameset，文档必须是结构良好的 XML 文档。声明：`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">`
+7. **HTML 5**: `<!doctype html>`
+
+### 标准模式与兼容模式各有什么区别？
+
+```
+标准模式的渲染方式和 JS 引擎的解析方式都是以该浏览器支持的最高标准运行。在兼容模式中，页面以宽松的向后兼容的方式显示
+，模拟老式浏览器的行为以防止站点无法工作。
+```
+
+### HTML5 为什么只需要写 `<!DOCTYPE HTML>`，而不需要引入 DTD？
+
+```
+HTML5 不基于 SGML，因此不需要对 DTD 进行引用，但是需要 DOCTYPE 来规范浏览器的行为（让浏览器按照它们应该的方式来运
+行）。
+
+而 HTML4.01 基于 SGML ，所以需要对 DTD 进行引用，才能告知浏览器文档所使用的文档类型。
+```
+
+### SGML 、 HTML 、XML 和 XHTML 的区别？
+
+```
+SGML 是标准通用标记语言，是一种定义电子文档结构和描述其内容的国际标准语言，是所有电子文档标记语言的起源。
+
+HTML 是超文本标记语言，主要是用于规定怎么显示网页。
+
+XML 是可扩展标记语言是未来网页语言的发展方向，XML 和 HTML 的最大区别就在于 XML 的标签是可以自己创建的，数量无限多，
+而 HTML 的标签都是固定的而且数量有限。
+
+XHTML 也是现在基本上所有网页都在用的标记语言，他其实和 HTML 没什么本质的区别，标签都一样，用法也都一样，就是比 HTML 
+更严格，比如标签必须都用小写，标签都必须有闭合标签等。
+```
+
+### DTD 介绍
+
+```
+DTD（ Document Type Definition 文档类型定义）是一组机器可读的规则，它们定义 XML 或 HTML 的特定版本中所有允许元
+素及它们的属性和层次关系的定义。在解析网页时，浏览器将使用这些规则检查页面的有效性并且采取相应的措施。
+
+DTD 是对 HTML 文档的声明，还会影响浏览器的渲染模式（工作模式）。
+```
+
+### HTML 全局属性(global attribute)有哪些
+
+参考资料：[MDN: html global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)或者[W3C HTML global-attributes](http://www.w3.org/TR/html-markup/global-attributes.html#common.attrs.core)
+
+- `accesskey`:设置快捷键，提供快速访问元素如`aaa`在 windows 下的 firefox 中按`alt + shift + a`可激活元素
+- `class`:为元素设置类标识，多个类名用空格分开，CSS 和 javascript 可通过 class 属性获取元素
+- `contenteditable`: 指定元素内容是否可编辑
+- `contextmenu`: 自定义鼠标右键弹出菜单内容
+- `data-*`: 为元素增加自定义属性
+- `dir`: 设置元素文本方向
+- `draggable`: 设置元素是否可拖拽
+- `dropzone`: 设置元素拖放类型： copy, move, link
+- `hidden`: 表示一个元素是否与文档。样式上会导致元素不显示，但是不能用这个属性实现样式效果
+- `id`: 元素 id，文档内唯一
+- `lang`: 元素内容的的语言
+- `spellcheck`: 是否启动拼写和语法检查
+- `style`: 行内 css 样式
+- `tabindex`: 设置元素可以获得焦点，通过 tab 可以导航
+- `title`: 元素相关的建议信息
+- `translate`: 元素和子孙节点内容是否需要本地化
+
+### 什么是 web 语义化，有什么好处
+
+web 语义化是指通过 HTML 标记表示页面包含的信息，包含了 HTML 标签的语义化和 css 命名的语义化。 
+
+HTML 标签的语义化是指：通过使用包含语义的标签（如 h1-h6）恰当地表示文档结构。
+
+css 命名的语义化是指：为 html 标签添加有意义的 class，id 补充未表达的语义，如[Microformat](http://en.wikipedia.org/wiki/Microformats)通过添加符合规则的 class 描述信息。 
+
+为什么需要语义化：
+
+- 去掉样式后页面呈现清晰的结构
+- 盲人使用读屏器更好地阅读
+- 搜索引擎更好地理解页面，有利于收录
+- 便团队项目的可持续运作及维护
+
+### 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
 
 - 加载：根据请求的URL进行域名解析，向服务器发起请求，接收文件（HTML、JS、CSS、图象等）。
 - 解析：对加载到的资源（HTML、JS、CSS等）进行语法解析，建议相应的内部数据结构（比如HTML的DOM树，JS的（对象）属性表，CSS的样式规则等等）
@@ -9,7 +101,7 @@
 
 
 
-#### b. 浏览器**渲染**页面的过程：
+#### 浏览器**渲染**页面的过程：
 
 ![渲染过程](../../imgs/dom_render_process.png)
 
@@ -31,7 +123,62 @@
 
 
 
-### 2. `window.onload`和`DomContentLoaded`的区别
+#### 空元素定义
+
+```
+标签内没有内容的 HTML 标签被称为空元素。空元素是在开始标签中关闭的。
+
+常见的空元素有：br hr img input link meta
+```
+
+#### 渲染过程中遇到 JS 文件怎么处理？（浏览器解析过程）
+
+```
+ JavaScript 的加载、解析与执行会阻塞文档的解析，也就是说，在构建 DOM 时，HTML 解析器若遇到了 JavaScript，那么
+ 它会暂停文档的解析，将控制权移交给 JavaScript 引擎，等 JavaScript 引擎运行完毕，浏览器再从中断的地方恢复继续解
+ 析文档。
+
+ 也就是说，如果你想首屏渲染的越快，就越不应该在首屏就加载 JS 文件，这也是都建议将 script 标签放在 body 标签底部的
+ 原因。当然在当下，并不是说 script 标签必须放在底部，因为你可以给 script 标签添加 defer 或者 async 属性。
+```
+
+#### async 和 defer 的作用是什么？有什么区别？（浏览器解析过程）
+
+```
+ （1）脚本没有 defer 或 async，浏览器会立即加载并执行指定的脚本，也就是说不等待后续载入的文档元素，读到就加载并执
+     行。
+
+ （2）defer 属性表示延迟执行引入的 JavaScript，即这段 JavaScript 加载时 HTML 并未停止解析，这两个过程是并行的。
+     当整个 document 解析完毕后再执行脚本文件，在 DOMContentLoaded 事件触发之前完成。多个脚本按顺序执行。
+
+ （3）async 属性表示异步执行引入的 JavaScript，与 defer 的区别在于，如果已经加载好，就会开始执行，也就是说它的执
+     行仍然会阻塞文档的解析，只是它的加载过程不会阻塞。多个脚本的执行顺序无法保证。
+```
+
+详细资料可以参考： [《defer 和 async 的区别》](https://segmentfault.com/q/1010000000640869)
+
+#### 什么是文档的预解析？（浏览器解析过程）
+
+```
+ Webkit 和 Firefox 都做了这个优化，当执行 JavaScript 脚本时，另一个线程解析剩下的文档，并加载后面需要通过网络加
+ 载的资源。这种方式可以使资源并行加载从而使整体速度更快。需要注意的是，预解析并不改变 DOM 树，它将这个工作留给主解析
+ 过程，自己只解析外部资源的引用，比如外部脚本、样式表及图片。
+```
+
+#### CSS 如何阻塞文档解析？（浏览器解析过程）
+
+理论上，既然样式表不改变 DOM 树，也就没有必要停下文档的解析等待它们，然而，存在一个问题，JavaScript 脚本执行时可能在文档的解析过程中请求样式信息，如果样式还没有加载和解析，脚本将得到错误的值，显然这将会导致很多问题。
+
+所以如果浏览器尚未完成 CSSOM 的下载和构建，而我们却想在此时运行脚本，那么浏览器将延迟 JavaScript 脚本执行和文档的解析，直至其完成 CSSOM 的下载和构建。也就是说，在这种情况下，浏览器会先下载和构建 CSSOM，然后再执行 JavaScript，最后再继续文档的解析。
+
+#### 渲染页面时常见哪些不良现象？（浏览器渲染过程）
+
+FOUC：
+主要指的是样式闪烁的问题，由于浏览器渲染机制（比如firefox），在 CSS 加载之前，先呈现了 HTML，就会导致展示出无样式内容，然后样式突然呈现的现象。会出现这个问题的原因主要是 css 加载时间过长，或者 css 被放在了文档底部。
+
+白屏：有些浏览器渲染机制（比如chrome）要先构建 DOM 树和 CSSOM 树，构建完成后再进行渲染，如果 CSS 部分放在 HTML 尾部，由于 CSS 未加载完成，浏览器迟迟未渲染，从而导致白屏；也可能是把 js 文件放在头部，脚本的加载会阻塞后面文档内容的解析，从而页面迟迟未渲染出来，出现白屏问题。
+
+### `window.onload`和`DomContentLoaded`的区别
 ```javascript
 window.addEventListener('load', function() {
   // 页面的全部资源加载完之后才会执行，包括图片、视频等。
@@ -593,43 +740,6 @@ if (audio.canPlayType("audio/mp3")) {
 }
 ```
 
-### 27. Doctype作用? 严格模式与混杂模式如何区分？它们有何意义?
-<!DOCTYPE>声明叫做文件类型定义（DTD），声明的作用为了告诉浏览器该文件的类型。让浏览器解析器知道应该用哪个规范来解析文档。<!DOCTYPE>声明必须在 HTML 文档的第一行，这并不是一个 HTML 标签
-
-- 严格模式：又称标准模式，是指浏览器按照 W3C 标准解析代码。
-- 混杂模式：又称怪异模式或兼容模式，是指浏览器用自己的方式解析代码。
-
-如何区分：浏览器解析时到底使用严格模式还是混杂模式，与网页中的 DTD 直接相关。
-
-1、如果文档包含严格的 DOCTYPE ，那么它一般以严格模式呈现。（严格 DTD ——严格模式）
-2、包含过渡 DTD 和 URI 的 DOCTYPE ，也以严格模式呈现，但有过渡 DTD 而没有 URI （统一资源标识符，就是声明最后的地址）会导致页面以混杂模式呈现。（有 URI 的过渡 DTD ——严格模式；没有 URI 的过渡 DTD ——混杂模式）
-3、DOCTYPE 不存在或形式不正确会导致文档以混杂模式呈现。（DTD不存在或者格式不正确——混杂模式）
-4、HTML5 没有 DTD ，因此也就没有严格模式与混杂模式的区别，HTML5 有相对宽松的语法，实现时，已经尽可能大的实现了向后兼容。（ HTML5 没有严格和混杂之分）
-
-意义：严格模式与混杂模式存在的意义与其来源密切相关，如果说只存在严格模式，那么许多旧网站必然受到影响，如果只存在混杂模式，那么会回到当时浏览器大战时的混乱，每个浏览器都有自己的解析模式。
-
-
-### 28. 严格模式与混杂模式的语句解析不同点有哪些？
-1）盒模型的高宽包含内边距padding和边框border
-  在W3C标准中，如果设置一个元素的宽度和高度，指的是元素内容的宽度和高度，而在IE5.5及以下的浏览器及其他版本的Quirks模式下，IE的宽度和高度还包含了padding和border。
-2）可以设置行内元素的高宽
-   在Standards模式下，给span等行内元素设置wdith和height都不会生效，而在quirks模式下，则会生效。
-3）可设置百分比的高度
-   在standards模式下，一个元素的高度是由其包含的内容来决定的，如果父元素没有设置高度，子元素设置一个百分比的高度是无效的。
-4）用margin:0 auto设置水平居中在IE下会失效
-   使用margin:0 auto在standards模式下可以使元素水平居中，但在quirks模式下却会失效,quirk模式下的解决办法，用text-align属性:
-   body{text-align:center};#content{text-align:left}
-5）quirk模式下设置图片的padding会失效
-6）quirk模式下Table中的字体属性不能继承上层的设置
-7）quirk模式下white-space:pre会失效
-
-
-
-### 29. Doctype作用?严格模式与混杂模式如何区分？它们有何意义? 
-- Doctype声明于文档最前面，告诉浏览器以何种方式来渲染页面，这里有两种模式，严格模式和混杂模式。
-- 严格模式的排版和JS 运作模式是 以该浏览器支持的最高标准运行。
-- 混杂模式，向后兼容，模拟老式浏览器，防止浏览器无法兼容页面。
-
 ### 30. 两个标签页的sessionstorage共享吗
 
 - 这取决于标签页如何打开。
@@ -653,3 +763,57 @@ if (audio.canPlayType("audio/mp3")) {
 - iframe框架页面会增加服务器的http请求，对于大型网站是不可取的。
 
 
+### `img`标签的`title`与`alt`区别
+1. title属性规定关于元素的额外信息。这些信息通常会在**鼠标移到元素上**时显示一段工具**提示文本（tooltip text）**。在显示的内容被省略的时候，可以加一个title属性，快速实现提示文本。
+2. alt属性alt定义有关图形的短的描述。在**图片加载失败了**的时候，会显示该描述。
+
+####  b 与 strong 的区别和 i 与 em 的区别？
+
+```
+ 从页面显示效果来看，被 <b> 和 <strong> 包围的文字将会被加粗，而被 <i> 和 <em> 包围的文字将以斜体的形式呈现。
+
+ 但是 <b> <i> 是自然样式标签，分别表示无意义的加粗，无意义的斜体，表现样式为 { font-weight: bolder}，仅仅表示「这
+ 里应该用粗体显示」或者「这里应该用斜体显示」，此两个标签在 HTML4.01 中并不被推荐使用。
+
+ 而 <em> 和 <strong> 是语义样式标签。 <em> 表示一般的强调文本，而 <strong> 表示比 <em> 语义更强的强调文本。
+ 
+ 使用阅读设备阅读网页时：<strong> 会重读，而 <b> 是展示强调内容。
+```
+
+详细资料可以参考： [《HTML5 中的 b/strong，i/em 有什么区别？》](https://www.zhihu.com/question/19551271)
+
+#### 前端性能优化？
+
+```
+ 前端性能优化主要是为了提高页面的加载速度，优化用户的访问体验。我认为可以从这些方面来进行优化。
+
+ 第一个方面是页面的内容方面
+
+ （1）通过文件合并、css 雪碧图、使用 base64 等方式来减少 HTTP 请求数，避免过多的请求造成等待的情况。
+
+ （2）通过 DNS 缓存等机制来减少 DNS 的查询次数。
+
+ （3）通过设置缓存策略，对常用不变的资源进行缓存。
+
+ （4）使用延迟加载的方式，来减少页面首屏加载时需要请求的资源。延迟加载的资源当用户需要访问时，再去请求加载。
+
+ （5）通过用户行为，对某些资源使用预加载的方式，来提高用户需要访问资源时的响应速度。
+
+ 第二个方面是服务器方面
+
+ （1）使用 CDN 服务，来提高用户对于资源请求时的响应速度。
+
+ （2）服务器端启用 Gzip、Deflate 等方式对于传输的资源进行压缩，减小文件的体积。
+
+ （3）尽可能减小 cookie 的大小，并且通过将静态资源分配到其他域名下，来避免对静态资源请求时携带不必要的 cookie
+
+ 第三个方面是 CSS 和 JavaScript 方面
+
+ （1）把样式表放在页面的 head 标签中，减少页面的首次渲染的时间。
+
+ （2）避免使用 @import 标签。
+
+ （3）尽量把 js 脚本放在页面底部或者使用 defer 或 async 属性，避免脚本的加载和执行阻塞页面的渲染。
+
+ （4）通过对 JavaScript 和 CSS 的文件进行压缩，来减小文件的体积。
+```

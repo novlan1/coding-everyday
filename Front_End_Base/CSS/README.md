@@ -224,10 +224,6 @@ span:hover::before{
 
 
 
-### 8. img标签的title与alt区别
-1. title属性规定关于元素的额外信息。这些信息通常会在**鼠标移到元素上**时显示一段工具**提示文本（tooltip text）**。在显示的内容被省略的时候，可以加一个title属性，快速实现提示文本。
-2. alt属性alt定义有关图形的短的描述。在**图片加载失败了**的时候，会显示该描述。
-
 
 
 另外，注意`onerror`属性：
@@ -1317,3 +1313,77 @@ div {
 
 
 参考资料：[移动端 1px 像素问题及解决办法](https://www.jianshu.com/p/31f8907637a6)
+
+### 什么是 FOUC？如何避免
+
+Flash Of Unstyled Content：用户定义样式表加载之前浏览器使用默认样式显示文档，用户样式加载渲染之后再从新显示文档，造成页面闪烁。
+
+**解决方法**：把样式表放到文档的`head`
+
+
+
+### margin 叠加几种情况
+
+margin 叠加的意思是：当两个或者更多的垂直外边距 相遇时，它们将形成一个外边距，这个外边距的高度等于两个发生叠加的外边距中高度较大者。
+
+1. 当一个元素出现在另一个元素上面时，第一个元素的底边外边距与第二个元素的顶边外边距发生叠加。如图： ![叠加](../../imgs/marginSuperposition1.png)
+2. 当一个元素在另一个元素中时，它们的顶边距和底边距也会发生叠加 ![叠加](../../imgs/marginSuperposition2.png) 
+3. 如果一个元素是空元素（即一个元素没有内容，内边距和边框），这种情况外边距的顶边距和底边距碰在一起也会发生叠加 ![叠加](../../imgs/marginSuperposition3.png) 
+4. 在上面那种空元素的情况，如果该空元素与另一个元素的外边距碰在一起，也会发生叠加。 
+ ![叠加](../../imgs/marginSuperposition4.png) 
+以上 4 种外边距叠加情况**只会发生在普通文档流的垂直方向**。行内框、浮动框、绝对定位框之间的外边距不会发生叠加，同样水平方向也不会发生叠加。
+
+### 单行文本溢出显示省略号
+
+```css
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: no-wrap;
+```
+
+### 多行文本溢出显示省略号
+
+```css
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+```
+
+### inline-block 的间隙
+
+两个并列的 inline-block 中间会有一条裂缝，这个的原因是两个标签之间有空格，浏览器把这些空格当成文字中空格，所以这两个块中间多少有间隙。
+
+解决办法：
+
+1. 删除两个标签间的空格，但是这样 html 排版不好
+2. 容器元素 font-size: 0 然后再在里面再重新设置字体大小
+
+### 你对 line-height 是如何理解的？
+
+- line-height 指一行字的高度，包含了字间距，实际上是下一行基线到上一行基线距离
+- 如果一个标签没有定义 height 属性，那么其最终表现的高度是由 line-height 决定的
+- 一个容器没有设置高度，那么撑开容器高度的是 line-height 而不是容器内的文字内容
+- 把 line-height 值设置为 height 一样大小的值可以实现单行文字的垂直居中
+- line-height 和 height 都能撑开一个高度，height 会触发 haslayout（一个低版本 IE 的东西），而 line-height 不会
+
+### line-height 三种赋值方式有何区别？（带单位、纯数字、百分比）
+
+- 带单位：px 是固定值，而 em 会参考父元素 font-size 值计算自身的行高
+- 纯数字：会把比例传递给后代。例如，父级行高为 1.5，子元素字体为 18px，则子元素行高为 1.5 * 18 = 27px
+- 百分比：将计算后的值传递给后代
+
+### 图片下面有一个缝隙是因为什么
+
+![fenxi](../../imgs/imgbottom.png)
+
+因为 img 也相当于一个 inline 的元素， inline 就要遵守行高的构成，它会按照 base 基线对齐，基线对齐的话那么它就会和底线间有一个缝隙。
+
+如何解决： 因为它会遵守文字对齐方案，那么就把图片的对齐方式修改为 `vertical-align: bottom`。或者让他`display: block`，这样图片虽然会换行，但是没有间隙了。
+
+### target、currentTarget的区别？
+
+currentTarget当前所绑定事件的元素
+
+target当前被点击的元素

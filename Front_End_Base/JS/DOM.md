@@ -226,3 +226,47 @@ document
 4. addEventListener 可以控制 listener 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 removeEventListener 清除
 5. IE9使用 attachEvent 和 detachEvent
 
+#### DOM是哪种基本数据结构
+1. DOM，Document Object Model，文档对象模型 
+2. DOM 的本质 => 树结构
+3.  DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
+
+
+#### DOM节点的Attribute和property有何区别？
+1. property只是一个**JS对象的属性**的修改（如`nodeType/nodeName/classList`）
+2. attribute是对 **html标签属性**的修改
+
+以下是property：
+```js
+var pList = document.querySelectAll('p')
+var p = pList[0]
+console.log(p.style.width) // 获取样式
+p.style.width = '100px' // 修改样式
+
+console.log(p.className) // 获取class
+p.className = 'p1' // 修改class
+
+// 获取nodeName和nodeType
+console.log(p.nodeName)
+console.log(p.nodeType)
+```
+以下是attribute：
+```js
+var pList = document.querySelectAll('p')
+var p = pList[0]
+p.getAttribute('data-name')
+p.setAttribute('data-name', 'mike')
+
+p.getAttribute('style')
+p.setAttribute('style', 'font-size: 30px;')
+```
+
+attribute：
+```
+<li class='item'>
+  <a href='' class='mock-link'>
+    <img src='img/mock.png' alt='mock' style='' />
+  </a>
+</li>
+```
+

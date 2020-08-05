@@ -373,114 +373,8 @@ function getRandomString() {
 ```
 
 ### 5. JS Web API
-#### a. DOM是哪种基本数据结构
-1. DOM，Document Object Model，文档对象模型 
-2. DOM 的本质 => 树结构
-3.  DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
 
 
-#### b. DOM节点的Attribute和property有何区别？
-1. property只是一个**JS对象的属性**的修改（如`nodeType/nodeName/classList`）
-2. attribute是对 **html标签属性**的修改
-
-以下是property：
-```js
-var pList = document.querySelectAll('p')
-var p = pList[0]
-console.log(p.style.width) // 获取样式
-p.style.width = '100px' // 修改样式
-
-console.log(p.className) // 获取class
-p.className = 'p1' // 修改class
-
-// 获取nodeName和nodeType
-console.log(p.nodeName)
-console.log(p.nodeType)
-```
-以下是attribute：
-```js
-var pList = document.querySelectAll('p')
-var p = pList[0]
-p.getAttribute('data-name')
-p.setAttribute('data-name', 'mike')
-
-p.getAttribute('style')
-p.setAttribute('style', 'font-size: 30px;')
-```
-
-attribute：
-```
-<li class='item'>
-  <a href='' class='mock-link'>
-    <img src='img/mock.png' alt='mock' style='' />
-  </a>
-</li>
-```
-
-
-#### c. 什么是BOM？
-
-1. BOM 是 Broswer Object Model 的缩写，中文为**浏览器对象模型**。
-2. BOM 提供了独立于内容而与浏览器窗口进行交互的对象。
-3. 由于 BOM 主要用于管理窗口与窗口之间的通讯，因此其核心对象是**` window`**。
-4. BOM 缺乏标准，所以你会发现 MDN 上面搜寻不了，JavaScript语法的标准化组织是 ECMA，DOM 的标准化组织是 W3C。
-
-
-#### d. BOM 通用的API
-- window对象——BOM核心
-```js
-window.alert('提示信息')
-window.confirm('确认信息')
-window.prompt('弹出输入框')
-window.open('url地址', '_blank或_self', '新窗口大小')；     // _blank：新开一个空白的窗口打开链接，_self在当前框架中打开链接
-window.close()   // 关闭当前页
-setTimeout(函数， 时间)    // 定时器，只执行一次
-clearTimeout(定时器名称)  // 清除计时器
-setInterval(函数，时间)     // 定时器，无限执行
-clearInterval()      // 停止执行 setInterval()
-```
-- location对象
-```js
-localtion.href = 'url地址';           // 跳转到这个url地址
-localtion.hostname         // 返回 web 主机名
-localtion.pathname            // 返回当前页面的路径和文件名
-localtion.port             // 返回 web 主机的端口
-localtion.protocol      // 返回页面使用的web协议，http||https
-```
-- navigator对象 —— 获取浏览器的所有信息
-```js
-navigator.appCodeName   // 返回浏览器的代码名
-navigator.appMinorVersion      // 返回浏览器的次级版本
-navigator.appName    // 返回浏览器的名称
-navigator.appVersion   // 返回浏览器的平台和版本信息
-navigator.browserLanguage      // 返回当前浏览器的语言
-navigator.userAgent       // 返回由客户机发送服务器的 user-agent 头部的值。
-```
-- screen对象
-```js
-screen.height     // 获取整个屏幕的高
-screen.width        // 获取整个屏幕的宽
-screen.availiHeight         // 整个屏幕的高减去系统部件的高（可用的屏幕高度）
-screen.availWidth         // 整个屏幕的宽减去系统部件的宽（可用的屏幕宽度）
-```
-- history对象 包含浏览器的历史
-```js
-history.back();         // 返回上一页
-history.forward()      // 前进下一页
-history.go('参数');     // -1 表示上一页，1表示下一页
-```
-参考资料：[BOM](https://www.cnblogs.com/pingzi-wq/p/11525058.html)
-#### e. 如何检测浏览器的类型？
-```js
-var ua = navigator.userAgent // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36"
-var isChrome = ua.includes('Chrome') // true
-```
-从 userAgent 的输出可以看出，前端可以判断系统类型，`Mac/Windows`，这是很多软件下载网站需要做的事情。
-
-#### f. 拆解URL的各部分
-```js
-const { href, hash, search, host, port, protocol } = location
-```
 
 #### g. 对于一个无限下拉加载图片的页面，如何给每个图片绑定事件？
 采用事件代理，给父容器绑定事件，然后通过 event.target 判断是否是图片类型，是的话，执行事件逻辑。
@@ -584,51 +478,6 @@ json不是最好加不加，而是必须加，而且加的是双引号。
 
 箭头函数的 this 永远指向其上下文的 this ，任何方法都改变不了其指向，如 call() , bind() , apply()。
 普通函数的this指向调用它的那个对象。
-
-
-#### w. XSS 和 CSRF
-
-- XSS：跨站脚本攻击（Cross-site scripting）
-- CSRF：跨站请求伪造（Cross-site request forgery）
-
-
-##### XSS攻击
-1. 比如在新浪博客中写一篇文章，同时偷偷插入一段`<script>`
-2. 攻击代码中，获取cookie，发送到服务器
-3. 发布博客，有人查看博客内容
-4. 会把查看者到cookie发送到攻击者到服务器
-
-
-##### XSS防范
-- 将`<`和`>`替换
-
-
-
-##### CSRF攻击
-
-CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站发送恶意请求。 CRSF能做的事情包括利用你的身份发邮件、发短信、进行交易转账等，甚至盗取你的账号。
-
-
-1. 首先用户C浏览并登录了受信任站点A；
-2. 登录信息验证通过以后，站点A会在返回给浏览器的信息中带上已登录的cookie，cookie信息会在浏览器端保存一定时间（根据服务端设置而定）；
-3. 完成这一步以后，用户在没有登出（清除站点A的cookie）站点A的情况下，访问恶意站点B；
-4. 这时恶意站点 B的某个页面向站点A发起请求，而这个请求会带上浏览器端所保存的站点A的cookie；
-5. 站点A根据请求所带的cookie，判断此请求为用户C所发送的。
-
-
-受害者只需要做下面两件事情，攻击者就能够完成CSRF攻击：
-1. 登录受信任站点 A，并在本地**生成cookie**；
-2. 在**不登出站点A（清除站点A的cookie）**的情况下，访问**恶意站点B**。
-
-
-##### CSRF的防御
-1. 尽量使用`POST`，限制`GET`
-2. 将`cookie`设置为`HttpOnly`
-3. 增加`token` (在请求中放入攻击者所不能伪造的信息，并且该信息不存在于cookie之中)
-4. 通过`Referer`识别
-5. 在 HTTP 头中自定义属性并验证
-
-
 
 
 
@@ -1042,206 +891,6 @@ _handleCallBack(resolve, reject) {
 
 
 
-### 23. 数据属性和访问器属性
-
-ECMAScript中有两种属性：数据属性和访问器属性，数据属性一般用于存储数据数值，访问器属性对应的是set/get操作，不能直接存储数据值，每种属性下面又都含有四个特性.下面介绍一下:
-
-数据属性
-1. `[[Configurable]]`: 表示**能否通过delete将属性删除**，**能否把属性修改为访问器属性**, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
-2. `[[Enumerable]]`: 表示属性**可否被枚举**(即是否可以通过for in循环返回)，默认false
-3. `[[Writable]]`: 表示属性**是否可写**(即是否可以修改属性的值)，默认false
-4. `[[Value]]`: 该属性的数据值, 默认是undefined
-
-
-访问器属性
-1. `[[Configurable]]`: 表示能否通过delete将属性删除，能否把属性修改为数据属性, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
-2. `[[Enumerable]]`: 表示属性可否被枚举(即是否可以通过for in循环返回)，默认false
-3. `[[Get]]`: 读取属性时调用的函数, 默认为undefined
-4. `[[Set]]`: 写入属性时调用的函数, 默认是undefined
-
-
-### 25. `eval`和`json.parse` 解析`json`的区别：
-1.	`eval`不会判断你的字符串**是否合法**，且`json`字符串中的**一些方法会被执行**。
-2.	`parse`要判断字符串是否合法，要是不合法报错。
-3.	使用`parse`相对于`eval`比较安全，要是调用第三方数据，数据中存在恶意代码，使用`eval`就会被执行。
-
-
-
-### 26. `undefined`和字符串相加
-```js
-console.log("a"+a); var a = 1; // aundefined
-console.log("b"+b); var b = 1; // bundefined
-```
-
-### 27. parseInt()和Number()的区别
-- parseInt() 和 parseFloat() 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
-- 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
-- 如果字符串值能被完整地转换，Number() 将判断是调用 parseInt() 方法还是 parseFloat() 方法。
-
-
-
-### 29. `toSring`和`valueOf`对比
-1. toString() 方法返回一个**表示该对象的字符串**。
-对于对象x，toString() 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，toString() 返回x应有的文本值(不是单纯的加”“)
-
-2. valueOf() 方法返回**指定对象的原始值**
-每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，valueOf() 就会返回对象自身
-
-对比：
-- 当函数fn用+连接一个字符串或者是数字的时候，如果我们没有重新定义valueOf和toString，其隐式转换会调用默认的toString()方法，将函数本身内容作为字符串返回； 
-- 如果我们自己重新定义toString/valueOf方法，那么其转换会按照我们的定义来，其中valueOf比toString优先级更高（不鸣则已，一鸣惊人）
-```js
-// 这个对象是一个函数
-function fn() {
-    return 20;
-} 
-console.log(fn + 10);  // function fn(){return 20}10
-console.log(fn + 'hello'); // function fn(){return 20}hello
-
-fn.toString = function() {
-    return 10;
-}
-console.log(fn + 10);  // 20
-console.log(fn + 'hello');  //10hello
-
-fn.valueOf = function() {
-    return 5;
-}
-
-console.log(fn + 10);   //15
-console.log(fn + 'hello');   //5hello
-```
-如果这个对象不是函数呢？ 
-经测试，如果这个对象是object、数组，结果和上面的一样 
-但如果这个对象是Date，则都调用toString()
-
-
-
-### 30. 序列化的坑
-- `undeifined`属性不会出现在序列化后的字符串中
-- `NaN`和`nfinity`都会转出`null`，`New Date() `会转成时间
-```js
-var obj = {x: 1, y: true, z: [1,2,3], nullVal: null}
-
-JSON.stringify(obj) // "{"x":1,"y":true,"z":[1,2,3],"nullVal":null}"
-
-obj = {a: undefined, b: NaN, c: Infinity, d: new Date()}
-JSON.stringify(obj) // "{"b":null,"c":null,"d":"2020-07-26T09:11:16.677Z"}"
-```
-
-
-
-### 32. 生成数组`0-4`
-```
-Array.from({length: 5}, (v, i) => i);     // [0, 1, 2, 3, 4]
-```
-
-### 33. 在 js 中不同进制数字的表示方式
-- 以 0X、0x 开头的表示为十六进制。
-- 以 0、0O、0o 开头的表示为八进制。
-- 以 0B、0b 开头的表示为二进制格式。
-
-### 34. js 中整数的安全范围是多少？
-安全整数指的是，在这个范围内的整数转化为二进制存储的时候不会出现精度丢失，能够被“安全”呈现的最大整数是 **2^53 - 1**，
-即9007199254740991，在 ES6 中被定义为 `Number.MAX_SAFE_INTEGER`。最小整数是-9007199254740991，在 ES6 中
-被定义为 `Number.MIN_SAFE_INTEGER`。
-
-如果某次计算的结果得到了一个超过 JavaScript 数值范围的值，那么这个值会被自动转换为特殊的 Infinity 值。如果某次
-计算返回了正或负的 `Infinity` 值，那么**该值将无法参与下一次的计算**。判断一个数是不是有穷的，可以使用 `isFinite` 函数
-来判断。
-
-### 35. isNaN 和 Number.isNaN 函数的区别？
-函数 isNaN 接收参数后，会**尝试将这个参数转换为数值**，**任何不能被转换为数值的的值都会返回 true**，比如`undefined`、对象(`{}`)、函数、不能被转成数字的字符串(如‘string’)，因此非数字值传入也会返回 true ，会影响 NaN 的判断。
-
-函数 Number.isNaN 会**首先判断传入参数是否为数字**，如果是数字再继续判断是否为 NaN ，这种方法对于 NaN 的判断更为**准确**。
-
-参考资料：[isNaN](https://uwayfly.com/detail/201)
-
-### 36. 其他值到字符串的转换规则？
-```
-规范的 9.8 节中定义了抽象操作 ToString ，它负责处理非字符串到字符串的强制类型转换。
-
-（1）Null 和 Undefined 类型 ，null 转换为 "null"，undefined 转换为 "undefined"，
-
-（2）Boolean 类型，true 转换为 "true"，false 转换为 "false"。
-
-（3）Number 类型的值直接转换，不过那些极小和极大的数字会使用指数形式。
-
-（4）Symbol 类型的值直接转换，但是只允许显式强制类型转换，使用隐式强制类型转换会产生错误。
-
-（3）对普通对象来说，除非自行定义 toString() 方法，否则会调用 toString()（Object.prototype.toString()）
-    来返回内部属性 [[Class]] 的值，如"[object Object]"。如果对象有自己的 toString() 方法，字符串化时就会
-    调用该方法并使用其返回值。
-```
-
-### 37. 其他值到数字值的转换规则？
-```
-有时我们需要将非数字值当作数字来使用，比如数学运算。为此 ES5 规范在 9.3 节定义了抽象操作 ToNumber。
-
-（1）Undefined 类型的值转换为 NaN。
-
-（2）Null 类型的值转换为 0。
-
-（3）Boolean 类型的值，true 转换为 1，false 转换为 0。
-
-（4）String 类型的值转换如同使用 Number() 函数进行转换，如果包含非数字值则转换为 NaN，空字符串为 0。
-
-（5）Symbol 类型的值不能转换为数字，会报错。
-
-（6）对象（包括数组）会首先被转换为相应的基本类型值，如果返回的是非数字的基本类型值，则再遵循以上规则将其强制转换为数字。
-
-为了将值转换为相应的基本类型值，抽象操作 ToPrimitive 会首先（通过内部操作 DefaultValue）检查该值是否有valueOf() 方法。
-如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用 toString() 的返回值（如果存在）来进行强制类型转换。
-
-如果 valueOf() 和 toString() 均不返回基本类型值，会产生 TypeError 错误。
-```
-
-### 38. 其他值到布尔类型的值的转换规则？
-```
-ES5 规范 9.2 节中定义了抽象操作 ToBoolean，列举了布尔强制类型转换所有可能出现的结果。
-
-以下这些是假值：
-• undefined
-• null
-• false
-• +0、-0 和 NaN
-• ""
-
-假值的布尔强制类型转换结果为 false。从逻辑上说，假值列表以外的都应该是真值。
-```
-
-### 39. {} 和 [] 的 valueOf 和 toString 的结果是什么？
-```
-{} 的 valueOf 结果为 {} ，toString 的结果为 "[object Object]"
-
-[] 的 valueOf 结果为 [] ，toString 的结果为 ""
-```
-
-### 40. 什么是假值对象？
-```
-浏览器在某些特定情况下，在常规 JavaScript 语法基础上自己创建了一些外来值，这些就是“假值对象”。假值对象看起来和
-普通对象并无二致（都有属性，等等），但将它们强制类型转换为布尔值时结果为 false 最常见的例子是 document.all，它
-是一个类数组对象，包含了页面上的所有元素，由 DOM（而不是 JavaScript 引擎）提供给 JavaScript 程序使用。
-```
-
-### 41. 解析字符串中的数字和将字符串强制类型转换为数字的返回结果都是数字，它们之间的区别是什么？
-```
-解析允许字符串（如 parseInt() ）中含有非数字字符，解析按从左到右的顺序，如果遇到非数字字符就停止。而转换（如
-Number ()）不允许出现非数字字符，否则会失败并返回 NaN。
-```
-
-### 42. || 和 && 操作符的返回值？
-```
-|| 和 && 首先会对第一个操作数执行条件判断，如果其不是布尔值就先进行 ToBoolean 强制类型转换，然后再执行条件
-判断。
-
-对于 || 来说，如果条件判断结果为 true 就返回第一个操作数的值，如果为 false 就返回第二个操作数的值。
-
-&& 则相反，如果条件判断结果为 true 就返回第二个操作数的值，如果为 false 就返回第一个操作数的值。
-
-|| 和 && 返回它们其中一个操作数的值，而非条件判断的结果
-```
-
 
 ### 43. JS为数字添加千位分隔符
 ```js
@@ -1319,4 +968,46 @@ class Logger{
 ```
 2. 利用`FastClick`，其原理是：
 检测到`touchend`事件后，立刻出发模拟`click`事件，并且把浏览器300毫秒之后真正出发的事件给阻断掉
+
+
+
+### PNG,GIF,JPG 的区别及如何选
+
+参考资料： [选择正确的图片格式](http://www.yuiblog.com/blog/2008/11/04/imageopt-2/) 
+**GIF**:
+
+1. 8 位像素，256 色
+2. 无损压缩
+3. 支持简单动画
+4. 支持 boolean 透明
+5. 适合简单动画
+
+**JPEG**：
+
+1. 颜色限于 256
+2. 有损压缩
+3. 可控制压缩质量
+4. 不支持透明
+5. 适合照片
+
+**PNG**：
+
+1. 有 PNG8 和 truecolor PNG
+2. PNG8 类似 GIF 颜色上限为 256，文件小，支持 alpha 透明度，无动画
+3. 适合图标、背景、按钮
+
+### [,,,] 的长度？
+有几个逗号，长度就是几，最后一个逗号后面的`undefined`不算。
+
+#### 如何判断当前脚本运行在浏览器还是 node 环境中？
+
+```
+this === window ? 'browser' : 'node';
+
+通过判断 Global 对象是否为 window，如果不为 window，当前脚本没有运行在浏览器中。
+```
+
+### 如何中断ajax请求？
+
+一种是设置超时时间让ajax自动断开，另一种是手动停止ajax请求，其核心是调用XML对象的abort方法，ajax.abort()
 
