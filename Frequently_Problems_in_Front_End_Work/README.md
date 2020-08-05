@@ -646,3 +646,11 @@ const rotate = new Promise(resolve => {
 
 demo：[原生JS实现](./demos/virtuallized.html)
 
+### 微前端
+
+参考资料：[实施前端微服务化的六七种方式](https://zhuanlan.zhihu.com/p/39102712)
+
+
+
+
+
