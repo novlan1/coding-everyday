@@ -52,6 +52,20 @@ typeof undefined  ==>undefined
 typeof NaN==>number
 ```
 
+### null 和 undefined 的区别
+
+1. `null`表示**"没有对象"，即该处不应该有值**。典型用法是：
+（1） 作为函数的参数，表示**该函数的参数不是对象**。
+（2） 作为**对象原型链的终点**。
+2. `undefined`表示"缺少值"，就是**此处应该有一个值，但是还没有定义**。典型用法是：
+（1）**变量被声明了，但没有赋值**时，就等于`undefined`。
+（2）调用函数时，**应该提供的参数没有提供**，该参数等于`undefined`。
+（3）**对象没有赋值的属性**，该属性的值为`undefined`。
+（4）**函数没有返回值**时，默认返回`undefined`。
+
+3. `typeof(null)` 为 `'object'`，`typeof(undefined)` 为 `'undefined'`
+4. 转为数值时，`null` 转为 0，`undefined` 转为 `NaN`。
+
 ### 如何强制类型转换？
 
 通过String()，Number()，Boolean()函数强制转换

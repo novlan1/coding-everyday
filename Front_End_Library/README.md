@@ -6,4 +6,5 @@
 4. [NextJs](./NextJs/README.md)
 5. [Electron](./Electron/README.md)
 6. [Typescript](./Typescript/README.md)
+7. [Babel](./Babel/README.md)
 

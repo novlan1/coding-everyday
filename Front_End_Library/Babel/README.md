@@ -104,7 +104,7 @@ Babel 大概分为三大部分:
 
 而Presets可能理解起来更为简单，翻译过来是预设的意思，他几乎就是一个`Plugins`数组和配置的集合。
 
-`@babel/preset-env` 重点讲一下，他是以前es2015、es2016和es2017的集合。需要注意的是`@babel/preset-env`不支持所有在stage-x的plugin。[browserslist](https://github.com/browserslist/browserslist) 会和`caniuse`数据结合来判断当前语法是否需要转换。target属性完全按照 browserslist 规则实现。
+`@babel/preset-env` 重点讲一下，他是以前es2015、es2016和es2017的集合。需要注意的是`@babel/preset-env`不支持所有在`stage-x`的plugin。[browserslist](https://github.com/browserslist/browserslist) 会和`caniuse`数据结合来判断当前语法是否需要转换。target属性完全按照 browserslist 规则实现。
 
 ```js
 {
@@ -135,7 +135,7 @@ Babel 大概分为三大部分:
 }
 ```
 
-useBuiltIns: 'usage' 实验性
+useBuiltIns: 'usage' 按需加载，实验性
 
 ```jsx
 /// input

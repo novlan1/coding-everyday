@@ -111,7 +111,7 @@ emitter.emit('b', 'y', 'g', 'w')
 ```
 基于一个主题/事件通道，订阅者subscriber通过自定义事件订阅主题，发布者publisher通过发布主题事件的方式发布。
 ```
-![观察者模式和发布订阅模式区别](../imgs/event_emitter.png)
+![观察者模式和发布订阅模式区别](../../imgs/event_emitter.png)
 ```
 观察者模式和发布订阅模式区别：
 
@@ -418,10 +418,52 @@ setTimeout(function f() {
 - 使用`setInterval`时，某些间隔会被跳过
 - 可能多个定时器会连续执行
 
+setInterval 的回调函数并不是到时后立即执行，而是**等系统计算资源空闲下来后才会执行**。而下一次触发时间则是在 setInterval 回调函数执行完毕之后才开始计时，所以如果 setInterval 内执行的计算过于耗时，或者有其他耗时任务在执行，setInterval 的计时会越来越不准，延迟很厉害。
+
+```js
+var startTime = new Date().getTime();
+var count = 0;
+//耗时任务
+setInterval(function(){
+    var i = 0;
+    while(i++ < 100000000);
+}, 0);
+setInterval(function(){
+    count++;
+    console.log(new Date().getTime() - (startTime + count * 1000));
+}, 1000);
+```
+代码里输出了setInterval触发时间和应该正确触发时间的延迟毫秒数
+```
+176
+340
+495
+652
+807
+961
+1114
+1268
+1425
+1579
+1734
+1888
+2048
+2201
+2357
+2521
+2679
+2834
+2996
+......
+```
 
 `setTimeout`模拟`setInterval`好处：
 - 在前一个定时器执行完前，不会向队列插入新的定时器（解决缺点一）
 - 保证定时器间隔（解决缺点二）
+
+
+
+参考资料：[解决 setInterval 计时器不准的问题](https://www.cnblogs.com/flash3d/archive/2014/05/08/3715600.html)
 
 ### ES5 实现继承
 ```js
