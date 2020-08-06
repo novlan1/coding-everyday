@@ -20,3 +20,10 @@ plugins: [
 
 帮助打包时先清空 dist 目录
 
+### 3. CommonsChunkPlugin
+
+提取 chunks 之间共享的通用模块
+
+### 4. DllPlugin
+
+为了极大减少构建时间，进行分离打包

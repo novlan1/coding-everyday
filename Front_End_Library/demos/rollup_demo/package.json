@@ -1,0 +1,27 @@
+{
+  "name": "rollup_demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-json": "^4.1.0",
+    "rollup": "^2.2.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-watch": "^4.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup index.js -o dist.js",
+    "build:config": "rollup -c",
+    "dev": "rollup -c -w",
+    "build:amd": "rollup index.js -f amd -o ./dist/dist.amd.js",
+    "build:cjs": "rollup index.js -f cjs -o ./dist/dist.cjs.js",
+    "build:es": "rollup index.js -f es -o ./dist/dist.es.js",
+    "build:iife": "rollup index.js -f iife -n result -o ./dist/dist.iife.js",
+    "build:umd": "rollup index.js -f umd -n result -o ./dist/dist.umd.js",
+    "build:all": "npm run build:amd && npm run build:cjs && npm run build:es && npm run build:iife && npm run build:umd"
+  },
+  "author": "",
+  "license": "ISC"
+}

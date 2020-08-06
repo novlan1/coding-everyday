@@ -817,3 +817,6 @@ if (audio.canPlayType("audio/mp3")) {
 
  （4）通过对 JavaScript 和 CSS 的文件进行压缩，来减小文件的体积。
 ```
+
+### 如何检测页面是否有卡顿
+每秒中计算一次网页的 FPS 值，获得一列数据，然后分析。通俗地解释就是，通过 requestAnimationFrame API 来定时执行一些 JS 代码，如果浏览器卡顿，无法很好地保证渲染的频率，1s 中 frame 无法达到 60 帧，即可间接地反映浏览器的渲染帧率。

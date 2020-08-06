@@ -1387,3 +1387,19 @@ display: -webkit-box;
 currentTarget当前所绑定事件的元素
 
 target当前被点击的元素
+
+### `-webkit-overflow-scrolling: touch`
+
+1. 作用
+
+可控制元素在移动设备有滚动回弹效果，可惯性滚动
+
+2. 适应场景
+
+在ios移动端上，设置容器overflow-y:scroll;使容器内元素滚动时，滑动会很卡顿，使用-webkit-overflow-scrolling:touch;可以解决该问题。 
+
+原理：该属性开启了硬件加速
+
+缺点：耗内存
+
+参考资料：[-webkit-overflow-scrolling:touch介绍和碰到的坑](https://www.cnblogs.com/luoyanan/p/11095643.html)

@@ -444,8 +444,59 @@ export let bar = 'bar';
 由于 ES6 模块是**编译时加载**（静态加载），使得**静态分析**成为可能。有了它，就能进一步拓宽 JavaScript 的语法，比如引入宏（macro）和类型检验（type system）这些只能靠静态分析实现的功能。
 
 
+#### ES6 的 export default 
 
-参考资料：[博客园](https://www.cnblogs.com/unclekeith/p/7679503.html)，[阮一峰](https://uwayfly.com/static/docs/index.html#es6/module-loader#CommonJS-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%8A%A0%E8%BD%BD)
+`export default`命令用于指定模块的默认输出。显然，一个模块只能有一个默认输出，因此`export default`命令只能使用一次。所以，import命令后面才不用加大括号，因为只可能唯一对应`export default`命令。
+
+本质上，`export default`就是输出一个叫做`default`的变量或方法，然后系统允许你为它取任意名字。所以，下面的写法是有效的。
+
+```javascript
+// modules.js
+function add(x, y) {
+  return x * y;
+}
+export {add as default};
+// 等同于
+// export default add;
+
+// app.js
+import { default as foo } from 'modules';
+// 等同于
+// import foo from 'modules';
+```
+
+正是因为`export default`命令其实只是输出一个叫做`default`的变量，所以它后面不能跟变量声明语句。
+
+```javascript
+// 正确
+export var a = 1;
+
+// 正确
+var a = 1;
+export default a;
+
+// 错误
+export default var a = 1;
+```
+
+上面代码中，`export default a`的含义是将变量`a`的值赋给变量`default`。所以，最后一种写法会报错。
+
+同样地，因为`export default`命令的本质是将后面的值，赋给`default`变量，所以可以直接将一个值写在`export default`之后。
+
+```javascript
+// 正确
+export default 42;
+
+// 报错
+export 42;
+```
+
+上面代码中，后一句报错是因为没有指定对外的接口，而前一句指定对外接口为`default`。
+
+
+
+
+参考资料：[CommonJS模块与ES6模块的区别](https://www.cnblogs.com/unclekeith/p/7679503.html)，[阮一峰](https://uwayfly.com/static/docs/index.html#es6/module-loader#CommonJS-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%8A%A0%E8%BD%BD)，[module.exports与exports，export与export default之间的关系和区别](https://www.cnblogs.com/fayin/p/6831071.html)
 
 
 
