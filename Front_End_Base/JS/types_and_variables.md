@@ -739,3 +739,32 @@ Number ()）不允许出现非数字字符，否则会失败并返回 NaN。
 
 || 和 && 返回它们其中一个操作数的值，而非条件判断的结果
 ```
+
+### 注意 Array.length
+
+直接给`Array`的`length`赋一个新的值会导致`Array`大小的变化：
+
+```js
+var arr = [1, 2, 3];
+arr.length; // 3
+arr.length = 6;
+arr; // arr变为[1, 2, 3, undefined, undefined, undefined]
+arr.length = 2;
+arr; // arr变为[1, 2]
+```
+
+请注意，如果通过索引赋值时，索引超过了范围，同样会引起`Array`大小的变化：
+
+```js
+var arr = [1, 2, 3];
+arr[5] = 'x';
+arr; // arr变为[1, 2, 3, undefined, undefined, 'x']
+```
+
+将`Array`的长度设为0，将会清空`Array`：
+```js
+var arr = [1, 2, 3];
+arr.length = 0;
+arr; // []
+```
+
