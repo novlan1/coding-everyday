@@ -671,28 +671,6 @@ fetch发送post请求的时候，总是发送2次，第一次状态码是204，�
 
 
 
-### 7. 正则中的`()`和`[]`有本质的区别
-- ()内的内容表示的是一个子表达式，()本身不匹配任何东西，也不限制匹配任何东西，只是把括号内的内容作为同一个表达式来处理，例如(ab){1,3}，就表示ab一起连续出现最少1次，最多3次。如果没有括号的话，ab{1,3},就表示a，后面紧跟的b出现最少1次，最多3次。另外，括号在匹配模式中也很重要。
-- []表示匹配的字符在[]中，并且只能出现一次，并且特殊字符写在[]会被当成普通字符来匹配。例如[(a)]，会匹配(、a、)、这三个字符。
-
-所以() [] 无论是作用还是表示的含义，都有天壤之别，没什么联系
-
-#### a. 圆括号()是组，主要应用在限制多选结构的范围/分组/捕获文本/环视/特殊模式处理
-示例：
-
-1. `(abc|bcd|cde)`，表示这一段是abc、bcd、cde三者之一均可，顺序也必须一致
-2. `(abc)?`，表示这一组要么一起出现，要么不出现，出现则按此组内的顺序出现
-3. `(?:abc)`表示找到这样abc这样一组，但不记录，不保存到$变量中，否则可以通过$x取第几个括号所匹配到的项，比如：`(aaa)(bbb)(ccc)(?:ddd)(eee)`，可以用`$1`获取`(aaa)`匹配到的内容，而`$3`则获取到了`(ccc)`匹配到的内容，而`$4`则获取的是由`(eee)`匹配到的内容，因为前一对括号没有保存变量
-4. `a(?=bbb)` 顺序环视 表示a后面必须紧跟3个连续的b
-5. `(?i:xxxx)` 不区分大小写 (?s:.*) 跨行匹配.可以匹配回车符
-
-#### b. 方括号是单个匹配，字符集/排除字符集/命名字符集
-示例：
-
-1. `[0-3]`，表示找到这一个位置上的字符只能是0到3这四个数字，与(abc|bcd|cde)的作用比较类似，但圆括号可以匹配多个连续的字符，而一对方括号只能匹配单个字符
-2. `[^0-3]`，表示找到这一个位置上的字符只能是除了0到3之外的所有字符
-3. `[:digit:]`：0-9，`[:alnum:]` ：A-Za-z0-9
-
 
 ### 8. `clothes.length=0, clothes[0]` 的值是什么
 ```
@@ -771,45 +749,6 @@ document.addEventListener('DOMContentLoaded', recalc, false);
 `requestAnimFrame`的原理就是：当前绘制完成之后，去根据你**机器的性能**来确定**间隔多长时间绘制下一帧**，所以它是一个智能计算的过程。而`setInterval`和`setTimeout`会有一个固定的时间，比如我们指定给它每过60ms就绘制一帧，万一你绘制的内容非常大，以至于60ms之内不能完成，而`requestAnimFrame`会是一个科学的方法，
 但是也有一个问题：`fps`————`frame per second`(每秒多少帧).
 使用`requestAnimFrame`会导致帧与帧之间的时间间隔是不固定的，所以有一个动态的时间间隔。
-
-
-
-### 14. 正则断言
-- `(?=)`这个语法结构在正则里表示“设定后面是”的意思。
-- `(?=.*[a-zA-Z])`  这句的意思就是后面必须有一位大写或小写字母
-- `(?=.*[1-9])` 这句的意思是后面必须有一位数字
-
-正则表达式从文本头部向尾部开始解析，文本尾部方向为“前”，头部方向为“后”
-前瞻：正则表达式匹配到规则的时候，向前检查是否符合断言，后顾/后瞻方向相反（javascript不支持）
-
-- `reg(?=exp)`，零宽度正先行断言，reg匹配的内容后面内容满足exp规则
-- `reg(?!exp)`，零宽度负先行断言，reg匹配的内容后面内容不满足exp规则
-- `(?<=exp)reg`，零宽度正后发断言，reg匹配的内容前面内容满足exp规则
-- `(?<!exp)reg`，零宽度负后发断言，reg匹配的内容前面内容不满足exp规则
-
-"先行"表示待校验的位置在前，即校验的位置在exp匹配的内容之前
-"正"表示exp描述的规则，匹配校验位置后面的内容
-
-
-
-例如：
-
-- `(?=exp)`  匹配exp前面的位置
-  如 `"How are you doing"` 正则`"(.+(?=ing))"` 这里取ing前所有的字符，值为`"How are you do";`
-
-- `(?<=exp)`  匹配exp后面的位置
-如 `"How are you doing"` 正则`"((?<=How).+)"` 这里取`"How"`之后所有的字符，值为`" are you doing";`
-
-- `(?!exp)`  匹配后面跟的不是exp的位置
-  如`"123abc"` 正则 `"\d{3}(?!\d)"`匹配3位数字后非数字的结果
-
-- `(?<!exp)`  匹配前面不是exp的位置
-  如 `"abc123 "` 正则`"(?<![0-9])123"` 匹配"123"前面是非数字的结果也可写成`"(?!<\d)123"`
-
-
-
-另外，`?:` 非获取匹配
-- `(?:x)`匹配x但是不会捕获，不会 $n 获取到（与()有区别），但是可以被替换
 
 
 
@@ -1011,4 +950,96 @@ this === window ? 'browser' : 'node';
 ### 如何中断ajax请求？
 
 一种是设置超时时间让ajax自动断开，另一种是手动停止ajax请求，其核心是调用XML对象的abort方法，ajax.abort()
+
+### Object.getOwnPropertyNames 和 Object.keys 的区别
+
+对于一般的对象来说，`Object.keys()`和`Object.getOwnPropertyNames()`返回的结果是一样的。只有涉及不可枚举属性时，才会有不一样的结果。`Object.keys`方法只返回可枚举的属性，`Object.getOwnPropertyNames`方法还返回不可枚举的属性名。
+
+```javascript
+var a = ['Hello', 'World'];
+
+Object.keys(a) // ["0", "1"]
+Object.getOwnPropertyNames(a) // ["0", "1", "length"]
+```
+
+上面代码中，数组的`length`属性是不可枚举的属性，所以只出现在`Object.getOwnPropertyNames`方法的返回结果中。
+
+又一例子：
+
+```javascript
+var obj = Object.defineProperties({}, {
+  p1: { value: 1, enumerable: true },
+  p2: { value: 2, enumerable: false }
+});
+
+Object.getOwnPropertyNames(obj)
+// ["p1", "p2"]
+```
+
+
+
+### 属性描述对象
+
+下面是属性描述对象的一个例子。
+
+```javascript
+{
+  value: 123,
+  writable: false,
+  enumerable: true,
+  configurable: false,
+  get: undefined,
+  set: undefined
+}
+```
+
+属性描述对象提供6个元属性。
+
+- `value`
+  - `value`是该属性的属性值，默认为`undefined`。
+  - 只要`writable`和`configurable`有一个为`true`，就允许改动。
+  - 另外，`writable`为`false`时，直接目标属性赋值，不报错，但不会成功，如果用`Object.defineProperty`的方式修改，则会成功。
+- `writable`
+  - `writable`是一个布尔值，表示属性值（value）是否可改变（即是否可写），默认为`true`。
+
+- `enumerable`
+
+  - `enumerable`是一个布尔值，表示该属性是否可遍历，默认为`true`。如果设为`false`，会使得某些操作（比如`for...in`循环、`Object.keys()`、`JSON.stringify`）跳过该属性。
+
+- `configurable`
+
+  - `configurable`是一个布尔值，表示可配置性，默认为`true`。
+  - 如果设为`false`，将阻止某些操作改写该属性，比如无法删除该属性，也不得改变该属性的属性描述对象（`value`属性除外）。也就是说，`configurable`属性控制了属性描述对象的可写性。
+
+- `get`
+
+  - `get`是一个函数，表示该属性的取值函数（getter），默认为`undefined`。
+  - 注意，一旦定义了取值函数`get`（或存值函数`set`），就不能将`writable`属性设为`true`，或者同时定义`value`属性，否则会报错。
+```javascript
+var obj = {};
+
+Object.defineProperty(obj, 'p', {
+  value: 123,
+  get: function() { return 456; }
+});
+// TypeError: Invalid property.
+// A property cannot both have accessors and be writable or have a value
+
+Object.defineProperty(obj, 'p', {
+  writable: true,
+  get: function() { return 456; }
+});
+// TypeError: Invalid property descriptor.
+// Cannot both specify accessors and a value or writable attribute
+```
+
+- `set`
+
+  - `set`是一个函数，表示该属性的存值函数（setter），默认为`undefined`。
+
+`Object.defineProperty()`和`Object.defineProperties()`参数里面的属性描述对象，`writable`、`configurable`、`enumerable`这三个属性的默认值都为`false`。
+
+要冻结对象的读写状态，防止对象被改变，有三种方法，最弱的一种是`Object.preventExtensions`，其次是`Object.seal`，最强的是`Object.freeze`。
+
+
 

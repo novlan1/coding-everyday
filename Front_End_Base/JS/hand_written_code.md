@@ -221,11 +221,14 @@ Function.prototype.myBind = function() {
 }
 ```
 ### 实现 instanceof 方法
+
+`instanceof`运算符用来验证，一个对象是否为指定的构造函数的实例。`obj instanceof Object`返回`true`，就表示`obj`对象是`Object`的实例。
+
 ```js
 // 思路：右边变量的原型存在于左边变量的原型链中。
 function myInstanceof(left, right) {
   let leftVal = left.__proto__
-  let rightVal = right.__proto__
+  let rightVal = right.prototype
   
   while(true) {
     if (leftVal === null) return false
