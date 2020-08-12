@@ -17,3 +17,12 @@ class Person {
     console.log(this.name);
   }
 }
+
+Array.prototype.map3 = function () {
+  const [fn, thisArg] = [...arguments]
+  const arr = this;
+  return arr.reduce((acc, arr[i], i, arr) => {
+    acc.push(fn.call(thisArg, arr[i], i, arr))
+    return acc;
+  }, [])
+}

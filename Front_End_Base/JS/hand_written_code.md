@@ -223,6 +223,7 @@ Function.prototype.myBind = function() {
 ### 实现 instanceof 方法
 
 `instanceof`运算符用来验证，一个对象是否为指定的构造函数的实例。`obj instanceof Object`返回`true`，就表示`obj`对象是`Object`的实例。
+`instanceof`的原理是检查右边构造函数的`prototype`属性，是否在左边对象的原型链上。
 
 ```js
 // 思路：右边变量的原型存在于左边变量的原型链中。
@@ -244,11 +245,12 @@ function myInstanceof(left, right) {
 3. 返回该对象
 ```
 ```js
-function myNew(fn) {
+function myNew() {
+  const [fn, ...args] = [...arguments]
   const obj = {
     __proto__: fn.prototype
   }
-  fn.call(obj, ...arguments)
+  fn.call(obj, ...args)
   return obj
 }
 ```
@@ -267,7 +269,30 @@ function myCreate(obj) {
 }
 ```
 
+生成实例对象的常用方法是，使用`new`命令让构造函数返回一个实例。但是很多时候，只能拿到一个实例对象，它可能根本不是由构建函数生成的，那么能不能从一个实例对象，生成另一个实例对象呢？
+
+JavaScript 提供了`Object.create`方法，用来满足这种需求。该方法接受一个对象作为参数，然后以它为原型，返回一个实例对象。该实例完全继承原型对象的属性。
+
+```javascript
+// 原型对象
+var A = {
+  print: function () {
+    console.log('hello');
+  }
+};
+
+// 实例对象
+var B = Object.create(A);
+
+Object.getPrototypeOf(B) === A // true
+B.print() // hello
+B.print === A.print // true
+```
+
+上面代码中，`Object.create`方法以`A`对象为原型，生成了`B`对象。`B`继承了`A`的所有属性和方法。
+
 ### 实现防抖和节流
+
 ```
 所谓防抖，就是指触发事件后在 n 秒内函数只能执行一次，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
 
@@ -352,7 +377,6 @@ Array.prototype.myFilter = function() {
 Array.prototype.myMap = function() {
   const arr = this
   const [fn, thisArg] = [...arguments]
-  const res = []
   
   return arr.reduce((acc, item, index) => {
     acc.push(fn.call(thisArg, item, index, arr))
@@ -364,7 +388,6 @@ Array.prototype.myMap = function() {
 Array.prototype.myFilter = function() {
   const arr = this
   const [fn, thisArg] = [...arguments]
-  const res = []
   
   return arr.reduce((acc, item, index) => {
     if (fn.call(thisArg, item, index, arr)) {
