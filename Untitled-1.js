@@ -1,76 +1,56 @@
 /**
- * @param {object|array|number|string} val - 待format的数据
- * @return nothing
+ * @typedef Commit
+ * @property {string} id - commit id
+ * @property {Commit} parent - parent reference
  */
-function format(val) {
+
+/**
+ * @param {Commit} head
+ * @param {Commit} mergeHead
+ * @return {Commit}
+ */
+function getBestCommonAncestor(head, mergeHead) {
   // TODO
-  const thisType = typeof(val)
-  if (thisType  === 'number') {
-    return String(val)
-  }
-  if (thisType  === 'string') {
-    return `"${val}"`
-  }
-  if (Array.isArray(val)) {
-    let res = '['
-    for (let item of val) {
-      res += format(item)
-      res += ','
+  let headList = getList(head, [])
+  let mergeHeadList = getList(mergeHead, [])
+
+  const res = {}
+  const totalList= [...headList, ...mergeHeadList]
+  for (let item of totalList) {
+    
+    if (res[item]) {
+      console.log(item)
+      return item
+    } else {
+      res[item] = 1
     }
-    // // if (val.length === 1) {
-    //   return `[${val.toString()}]`
-    // // }
-    res += ']'
-    return res;
-   }
-
-  let res = '{'
-  for (let item in val) {
-    res += `"${item}":`
-    res += format(val[item])
-
   }
-  res += '}'
+
+  for (let i = 0, len = headList.length; i < len; i++) {
+    if (mergeHeadList.includes(headList[i])) {
+      console.log(headList[i])
+      return headList[i]
+    }
+  }
+  return null
+}
+
+
+function getList(head, res) {
+  while (head && head.id) {
+    res.push(head.id)
+    head = head.parent
+  }
   return res
 }
 
-// test case
-const data = {
-  a: 1,
-  b: [
-    2,
-    3,
-    {
-      c: 4
-    }
-  ],
-  d: {
-    e: 5,
-    f: {
-      g: '6'
-    },
-  }
-}
- 
-const res = format(data)
-console.log(res)
-/*
-将在控制台中打印出
-{
-  "a": 1,
-  "b": [
-    2,
-    3,
-    {
-      "c": 4
-    }
-  ],
-  "d": {
-    "e": 5,
-    "f": {
-      "g": "6"
-    },
-  }
-}
-*/
 
+// test case
+const A = { id: 'A', parent: [] };
+const B = { id: 'B', parent: [A] };
+const C = { id: 'C', parent: [B] };
+const D = { id: 'D', parent: [B, A] };
+const E = { id: 'E', parent: [C, B] };
+
+getBestCommonAncestor(A, B); // A
+getBestCommonAncestor(D, E); // B
