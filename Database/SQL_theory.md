@@ -268,7 +268,7 @@ B+Tree示例：
 
 非聚集索引：
 
- ![非聚集索引](../imgs/sql_nonclustered_index.pngs)
+ ![非聚集索引](../imgs/sql_nonclustered_index.png)
 
 
 聚集索引:
@@ -280,7 +280,7 @@ InnoDB中的辅助索引，先找到主键以后再根据主键找到数据
 
 聚集索引与辅助索引：
 
-![聚集索引与辅助索引](.../imgs/sql_clustered_index_and_help_index.png)
+![聚集索引与辅助索引](../imgs/sql_clustered_index_and_help_index.png)
 
 
 
@@ -461,7 +461,7 @@ show engines;
 
 
 ### Oracle和MySQL的区别
-1. Oracle是大型数据库而Mysql是中小型数据库，Oracle市场占有率达40%，Mysql只有20%左右，同时Mysql是开源的而Oracle价格非常高。
+1. Oracle是大型数据库而Mysql是中小型数据库，Oracle市场占有率达40%，Mysql只有 20% 左右，同时Mysql是开源的而 Oracle 价格非常高。
 
 2. Oracle支持大并发，大访问量，是OLTP最好的工具。
 
