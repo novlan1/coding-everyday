@@ -922,3 +922,128 @@ false + 'a' // "falsea"
 '2' > '11' // true
 ```
 
+### [js中Math.round、parseInt、Math.floor和Math.ceil小数取整总结](https://www.cnblogs.com/naokr/p/5235624.html)
+
+Math.round、parseInt、Math.floor和Math.ceil 都可以返回一个整数，具体的区别请看下面的总结。
+
+**一、Math.round**
+
+作用：四舍五入，返回参数+0.5后，向下取整。
+
+如：
+```
+Math.round(5.57)　　//返回6
+
+Math.round(2.4) 　　//返回2
+
+Math.round(-1.5)　　//返回-1
+
+Math.round(-5.8)　　//返回-6
+```
+**二、parseInt**
+
+作用：解析一个字符串，并返回一个整数，这里可以简单理解成返回舍去参数的小数部分后的整数。
+
+如：
+```
+parseInt(5.57)　　//返回5
+
+parseInt(2.4)　　//返回2
+
+parseInt(-1.5)　　//返回-1
+
+parseInt(-5.8)　　//返回-5
+```
+**三、Math.floor**
+
+作用：返回小于等于参数的最大整数。
+
+如：
+```
+Math.floor(5.57)　　//返回5
+
+Math.floor(2.4)　　//返回2
+
+Math.floor(-1.5)　　//返回-2
+
+Math.floor(-5.8)　　//返回-6
+```
+**四、Math.ceil**
+
+作用：返回大于等于参数的最小整数
+```
+Math.ceil(5.57)　　//返回6
+
+Math.ceil(2.4)　　//返回3
+
+Math.ceil(-1.5)　　//返回-1
+
+Math.ceil(-5.8)　　//返回-5
+```
+
+### [js属性对象的hasOwnProperty方法](https://www.cnblogs.com/weiqinl/p/8683207.html)
+
+Object的`hasOwnProperty()`方法返回一个布尔值，判断对象是否包含特定的自身（非继承）属性。
+
+#### 判断自身属性是否存在
+
+```js
+var o = new Object();
+o.prop = 'exists';
+
+function changeO() {
+  o.newprop = o.prop;
+  delete o.prop;
+}
+
+o.hasOwnProperty('prop');  // true
+changeO();
+o.hasOwnProperty('prop');  // false
+```
+
+#### 遍历一个对象的所有自身属性
+
+在看开源项目的过程中，经常会看到类似如下的源码。`for...in`循环对象的所有枚举属性，然后再使用`hasOwnProperty()`方法来忽略继承属性。
+
+```ks
+var buz = {
+    fog: 'stack'
+};
+
+for (var name in buz) {
+    if (buz.hasOwnProperty(name)) {
+        alert("this is fog (" + name + ") for sure. Value: " + buz[name]);
+    }
+    else {
+        alert(name); // toString or something else
+    }
+}
+  
+```
+
+#### 注意 `hasOwnProperty` 作为属性名
+
+JavaScript 并没有保护 `hasOwnProperty` 属性名，因此，可能存在于一个包含此属性名的对象，有必要使用一个可扩展的`hasOwnProperty`方法来获取正确的结果：
+
+```js
+var foo = {
+    hasOwnProperty: function() {
+        return false;
+    },
+    bar: 'Here be dragons'
+};
+
+foo.hasOwnProperty('bar'); // 始终返回 false
+
+// 如果担心这种情况，可以直接使用原型链上真正的 hasOwnProperty 方法
+// 使用另一个对象的`hasOwnProperty` 并且call
+({}).hasOwnProperty.call(foo, 'bar'); // true
+
+// 也可以使用 Object 原型上的 hasOwnProperty 属性
+Object.prototype.hasOwnProperty.call(foo, 'bar'); // true
+```
+
+
+
+
+

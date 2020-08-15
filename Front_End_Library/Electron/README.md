@@ -222,3 +222,7 @@ mirrorOptions:{
 ```
 这个方案在其他文章中也有所提及，只是版本不同，修改的参数不同了
 
+### Electron 镜像地址
+
+https://npm.taobao.org/mirrors/electron/
+
