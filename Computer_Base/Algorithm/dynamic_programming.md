@@ -80,11 +80,13 @@ def exchange(penny, aim):
   n = len(penny)
   dp = [0 for i in range(aim + 1)]
   dp[0] = 1
+
   for i in range(n):
     j = penny[i]
     while j <= aim:
       dp[j] += dp[j - penny[i]]
       j += 1
+        
   return dp[-1]
 ```
 
@@ -114,10 +116,12 @@ def subset(s):
   
   for i in range(2**n):
     temp = []
+    
     for j in range(n):
       if (i>>j)&1:
         temp.append(s[j])
     res.append(temp)
+    
   return res
 ```
 ```
@@ -133,7 +137,5 @@ def subset(s):
 算上空集的话一共2^n个，从0到2^n，将其转为二进制，与原始数组位置相对应，二进制位上为
 1的位置，是数组中留下来的数。
 ```
-
-### 
 
 

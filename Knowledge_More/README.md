@@ -187,11 +187,13 @@ CSR文件是您的公钥证书原始文件，包含了您的服务器信息和�
 
 #### b. 工程架构：
 
+设计到的是模块化、工程化、自动化、规范化。
+
 1. 解放生产力（webpack）
 2. 围绕解决方案搭建环境
 3. 保证项目质量（代码规范，eslint）
 
-
+参考资料：[浅谈前端工程化](https://www.cnblogs.com/onebox/p/9570518.html)
 
 #### c. 项目架构
 
@@ -209,7 +211,7 @@ CSR文件是您的公钥证书原始文件，包含了您的服务器信息和�
 
 ### 8. 微服务架构
 
-将单个应用程序作为一套小型服务开发的方法，这些服务都是围绕业务构建的，可以独立部署，可以用不同编程语言编写，并使用不同的数据存储技术。
+将**单个应用程序**作为一套小型服务开发的方法，这些服务都是围绕业务构建的，可以**独立部署**，可以用**不同编程语言**编写，并使用**不同的数据存储技术**。
 
 目的：有效的拆分应用，实现敏捷开发和部署
 
@@ -724,7 +726,20 @@ RN从上到下可以分为`Javascript`层、`C++`层和`Native`层。
 - 页面鉴权的正确方式是引入角色。
 - 用户属于某一个角色，他属于这个角色了，就拥有这个角色的权限了。
 
-
-
 ### 抽象语法树
 抽象语法树（abstract syntax code，AST）是源代码的抽象语法结构的树状表示，树上的每个节点都表示源代码中的一种结构。
+
+### 什么是WebAssembly
+
+WebAssembly的名字带个汇编Assembly，所以我们从其名字上就能知道其意思是给Web使用的汇编语言，是通过Web执行低级二进制语法。
+
+但是WebAssembly并不是直接用汇编语言，而提供了转换机制（LLVM IR），把高级别的语言（C，C++和Rust）编译为WebAssembly，以便有机会在浏览器中运行。主要是解决目前JS语言的效率问题，设计立足点为快速，内存安全和开放。
+
+所以它其实是一种运行机制，一种新的字节码格式(.wasm)，而不是新的语言。 
+
+参考资料：[WebAssembly, MDN](https://developer.mozilla.org/zh-CN/docs/WebAssembly)，[WebAssembly 系列（二）：JavaScript Just-in-time (JIT) 工作原理](https://blog.csdn.net/chenqiuge1984/article/details/80128715)，[图说 WebAssembly](https://www.zcfy.cc/article/an-abridged-cartoon-introduction-to-webassembly-ndash-smashing-magazine)
+
+
+
+
+
