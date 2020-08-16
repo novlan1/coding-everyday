@@ -27,6 +27,20 @@ app.use((ctx, next) => {
   next() // 在第一个中间件函数中调用下一个中间件函数
 })
 ```
+### 什么是中间件？
+```js
+const logger = (ctx, next) => {
+  console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
+  next();
+}
+app.use(logger);
+```
+
+像上面代码中的`logger`函数就叫做"中间件"（`middleware`），因为它处在 `HTTP Request` 和 `HTTP Response` 中间，用来实现某种中间功能。`app.use()`用来加载中间件。
+
+基本上，Koa 所有的功能都是通过中间件实现的，前面例子里面的`main`也是中间件。每个中间件默认接受两个参数，第一个参数是 `Context` 对象，第二个参数是`next`函数。只要调用`next`函数，就可以把执行权转交给下一个中间件。
+
+
 
 ### 洋葱模型
 
@@ -313,6 +327,7 @@ router.get('/v1/:id/book/latest', (ctx, next) => {
 `bodyParser`变量是对中间件的引用。请求体解析后，解析值都会被放到`req.body`属性，内容为空时是一个`{}`空对象。
 
 ### koa-body作用
+Web 应用离不开处理表单。本质上，表单就是 POST 方法发送到服务器的键值对。`koa-body`模块可以用来从 POST 请求的数据体里面提取键值对。
 
 - 不使用的话，`this.request.body`是`undefined`;
 - 使用的话，`this.request.body`是`{}`。
