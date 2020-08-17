@@ -1,21 +1,20 @@
-- [1. 常用 hooks](#1-常用-hooks)
-  - [1.1. useState()](#11-usestate)
-  - [1.2. useEffect](#12-useeffect)
-    - [1.2.1. 闭包陷阱](#121-闭包陷阱)
-  - [1.3. useContext](#13-usecontext)
-  - [1.4. useMemo](#14-usememo)
-  - [1.5. useCallback](#15-usecallback)
-  - [1.6. Ref Hooks](#16-ref-hooks)
-  - [1.7. 自定义 hooks](#17-自定义-hooks)
-  - [1.8. useEffect 和 useLayoutEffect 区别](#18-useeffect-和-uselayouteffect-区别)
-    - [1.8.1. 对于 useEffect 和 useLayoutEffect 哪一个与 componentDidMount，componentDidUpdate 的是等价的？](#181-对于-useeffect-和-uselayouteffect-哪一个与-componentdidmountcomponentdidupdate-的是等价的)
-    - [1.8.2. useEffect 和 useLayoutEffect 哪一个与 componentWillUnmount 的是等价的？](#182-useeffect-和-uselayouteffect-哪一个与-componentwillunmount-的是等价的)
-    - [1.8.3. 为什么建议将修改 DOM 的操作里放到 useLayoutEffect 里，而不是 useEffect？](#183-为什么建议将修改-dom-的操作里放到-uselayouteffect-里而不是-useeffect)
-  
+- [1. useState](#1-usestate)
+- [2. useEffect](#2-useeffect)
+  - [2.1. 闭包陷阱](#21-闭包陷阱)
+- [3. useContext](#3-usecontext)
+- [4. useMemo](#4-usememo)
+- [5. useCallback](#5-usecallback)
+- [6. Ref Hooks](#6-ref-hooks)
+- [7. 自定义 hooks](#7-自定义-hooks)
+- [8. useEffect 和 useLayoutEffect 区别](#8-useeffect-和-uselayouteffect-区别)
+  - [8.1. 对于 useEffect 和 useLayoutEffect 哪一个与 componentDidMount，componentDidUpdate 的是等价的？](#81-对于-useeffect-和-uselayouteffect-哪一个与-componentdidmountcomponentdidupdate-的是等价的)
+  - [8.2. useEffect 和 useLayoutEffect 哪一个与 componentWillUnmount 的是等价的？](#82-useeffect-和-uselayouteffect-哪一个与-componentwillunmount-的是等价的)
+  - [8.3. 为什么建议将修改 DOM 的操作里放到 useLayoutEffect 里，而不是 useEffect？](#83-为什么建议将修改-dom-的操作里放到-uselayouteffect-里而不是-useeffect)
+- [使用 hooks 时，父组件如何调用子组件的方法？](#使用-hooks-时父组件如何调用子组件的方法)
 
-## 1. 常用 hooks
+## 1. 常用 hooks  <!-- omit in toc -->
 
-### 1.1. useState()
+### 1. useState
 
 当给 setCount 传入一个与 count 相同的**原始值**时，组件不会重新渲染。当传递一个**对象**时，无论是否一样都会渲染。
 
@@ -31,7 +30,7 @@ function App(props) {
 }
 ```
 
-### 1.2. useEffect
+### 2. useEffect
 
 - 副作用调用时机
   - mount 后
@@ -101,14 +100,14 @@ function App() {
   );
 }
 ```
-#### 1.2.1. 闭包陷阱
+#### 2.1. 闭包陷阱
 
 每隔一秒count增加1，`setCount(count+1)`不可以，因为第二个参数为[], 说明只执行一次，拿到的是初始化时候的值；`setCount(c=>c+1)`可以，拿到的始终是最新值。
 
 `useEffect`的第二个参数，官方建议是`useEffect`里面用到的任何hooks参数，都放到依赖里。
 
 
-### 1.3. useContext
+### 3. useContext
 
 用来向所有后代组件传递 props
 
@@ -139,7 +138,7 @@ function App() {
 ```
 
 
-### 1.4. useMemo
+### 4. useMemo
 
 useCallback 和 useMemo 的参数跟 useEffect 一致，他们之间最大的区别有是 useEffect 会用于处理副作用，这两个 hooks 不能。
 
@@ -156,7 +155,7 @@ const otherName = useMemo(() => {
 ```
 参考资料：[React Hooks ---useMemo](https://segmentfault.com/a/1190000018697490?utm_source=tag-newest)
 
-### 1.5. useCallback
+### 5. useCallback
 
 如果 usememo 返回的是一个函数，那么可以使用 useCallback 替代
 
@@ -172,7 +171,7 @@ useCallback(fn, []);
 
 参考资料：[你不知道的 useCallback](https://segmentfault.com/a/1190000020108840)
 
-### 1.6. Ref Hooks
+### 6. Ref Hooks
 
 useRef，通过current属性保存上一次的值，原理是在dom节点上赋值、取值
 
@@ -249,7 +248,7 @@ function Counter() {
 }
 ```
 
-### 1.7. 自定义 hooks
+### 7. 自定义 hooks
 
 1. 函数必须use开头
 2. 多处调用时，相互独立
@@ -288,7 +287,7 @@ function App() {
 ```
 
 
-### 1.8. useEffect 和 useLayoutEffect 区别
+### 8. useEffect 和 useLayoutEffect 区别
 1. `useEffect`
 
 基本上90%的情况下，都应该用这个。这个是在`render`结束后，你的callback函数执行，但是不会阻塞浏览器渲染，算是某种**异步**的方式吧。但是`class`的`componentDidMount` 和`componentDidUpdate`是**同步**的，在`render`结束后就运行，`useEffect`在大部分场景下都比`class`的方式性能更好。
@@ -306,28 +305,79 @@ function App() {
 
 
 
-#### 1.8.1. 对于 useEffect 和 useLayoutEffect 哪一个与 componentDidMount，componentDidUpdate 的是等价的？
+#### 8.1. 对于 useEffect 和 useLayoutEffect 哪一个与 componentDidMount，componentDidUpdate 的是等价的？
 
 `useLayoutEffect`，因为从源码中调用的位置来看，useLayoutEffect的 create 函数的调用位置、时机都和 componentDidMount，componentDidUpdate 一致，且都是被 React 同步调用，都会阻塞浏览器渲染。
 
 
 
-#### 1.8.2. useEffect 和 useLayoutEffect 哪一个与 componentWillUnmount 的是等价的？
+#### 8.2. useEffect 和 useLayoutEffect 哪一个与 componentWillUnmount 的是等价的？
 
 同上，useLayoutEffect 的 detroy 函数的调用位置、时机与 `componentWillUnmount` 一致，且都是同步调用。
 useEffect 的 detroy 函数从调用时机上来看，更像是 `componentDidUnmount` (注意React 中并没有这个生命周期函数)。
 
 
 
-#### 1.8.3. 为什么建议将修改 DOM 的操作里放到 useLayoutEffect 里，而不是 useEffect？
+#### 8.3. 为什么建议将修改 DOM 的操作里放到 useLayoutEffect 里，而不是 useEffect？
 
-- 通过 useLayoutEffect 可以拿到最新的 DOM 节点，并且在此时对 DOM 进行样式上的修改，假设修改了元素的 height，这些修改会和 react 做出的更改一起被一次性渲染到屏幕上，依旧只有一次回流、重绘的代价。
-- 如果放在 useEffect 里，useEffect 的函数会**在组件渲染到屏幕之后执行**，此时对 DOM 进行修改，会触发浏览器再次进行回流、重绘，增加了性能上的损耗。
+- 通过 `useLayoutEffect` 可以拿到最新的 `DOM` 节点，并且在此时对 `DOM` 进行样式上的修改，假设修改了元素的 `height`，这些修改会和 `react` 做出的更改一起被一次性渲染到屏幕上，依旧只有一次回流、重绘的代价。
+- 如果放在 `useEffect` 里，`useEffect` 的函数会**在组件渲染到屏幕之后执行**，此时对 DOM 进行修改，会触发浏览器再次进行回流、重绘，增加了性能上的损耗。
 
 
 参考资料：
 1. [useEffect 和 useLayoutEffect 区别](https://www.jianshu.com/p/412c874c5add)
 2. [深入理解 React useLayoutEffect 和 useEffect 的执行时机](https://www.cnblogs.com/iheyunfei/archive/2020/06/08/13065047.html)
 
+### 使用 hooks 时，父组件如何调用子组件的方法？
+
+可以使用`useImperativeHandle`这个`hook`：
+```js
+useImperativeHandle(ref, createHandle, [deps])
+```
+`useImperativeHandle` 可以让你在使用 `ref` 时自定义暴露给父组件的实例值。在大多数情况下，应当避免使用 `ref` `这样的命令式代码。useImperativeHandle` 应当与 `forwardRef` 一起使用。
+
+例子：
+```jsx
+import {useState, useImperativeHandle,forwardRef} from 'react';
+
+// props子组件中需要接受ref
+let ChildComp = (props,ref) => {
+    // 此处注意useImperativeHandle方法的的第一个参数是目标元素的ref引用
+    useImperativeHandle(ref, () => ({
+        // changeVal 就是暴露给父组件的方法
+        changeVal: (newVal) => {
+           
+        }
+    }));
+    return (
+        <div>{val}</div>
+    )
+}
+
+ChildComp = forwardRef(ChildComp)
+```
+
+```jsx
+/* FComp 父组件 */
+import {useRef} from 'react';
+
+const FComp = () => {
+    const childRef = useRef();
+    const updateChildState = () => {
+        // changeVal就是子组件暴露给父组件的方法
+        childRef.current.changeVal(99);
+    }
+    
+    return (
+        <>
+          <ChildComp ref={childRef} />
+          <button onClick={updateChildState}>触发子组件方法</button>
+        </>
+    )
+}
+```
 
 
+
+参考资料：
+1. [React Hooks中父组件中调用子组件方法](https://www.cnblogs.com/muamaker/p/11647626.html)
