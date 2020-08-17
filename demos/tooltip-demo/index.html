@@ -1,0 +1,170 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>tooltip</title>
+  <script type="text/javascript">
+    var Common = {
+      getItself: function (id) {
+        return "string" == typeof id ? document.getElementById(id) : id;
+      },
+      getEvent: function () {//ie/ff
+        if (document.all) {
+          return window.event;
+        }
+        func = getEvent.caller;
+        while (func != null) {
+          var arg0 = func.arguments[0];
+          if (arg0) {
+            if ((arg0.constructor == Event || arg0.constructor == MouseEvent) || (typeof (arg0) == "object" && arg0.preventDefault && arg0.stopPropagation)) {
+              return arg0;
+            }
+          }
+          func = func.caller;
+        }
+        return null;
+      },
+      getMousePos: function (ev) {
+        if (!ev) {
+          ev = this.getEvent();
+        }
+        if (ev.pageX || ev.pageY) {
+          return {
+            x: ev.pageX,
+            y: ev.pageY
+          };
+        }
+
+        if (document.documentElement 00; ">&& document.documentElement.scrollTop) {
+        return {
+          x: ev.clientX + document.documentElement.scrollLeft - document.documentElement.clientLeft,
+          y: ev.clientY + document.documentElement.scrollTop - document.documentElement.clientTop
+        };
+      }
+                else if(document.body) {
+        return {
+          x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+            y: ev.clientY + document.body.scrollTop - document.body.clientTop
+                    };
+                }
+            },
+    getElementPos: function(el) {
+      el = this.getItself(el);
+      var _x = 0, _y = 0;
+      do {
+        _x += el.offsetLeft;
+        _y += el.offsetTop;
+      } while (el = el.offsetParent);
+      return { x: _x, y: _y };
+    },
+    getTextSize: function(text) {
+      var span = document.createElement("span");
+      var result = {};
+      result.width = span.offsetWidth;
+      result.height = span.offsetWidth;
+      span.style.visibility = "hidden";
+      document.body.appendChild(span);
+      if (typeof span.textContent != "undefined")
+        span.textContent = text;
+      else span.innerText = text;
+      result.width = span.offsetWidth - result.width;
+      result.height = span.offsetHeight - result.height;
+      span.parentNode.removeChild(span);
+      return result;
+    }
+        }
+    //-----------------------------------------------------------------------------------------------------------
+    var ToolTip = {
+      showToolTip: function (param, linkObj, e) {
+        var ev = e || window.event;
+        var mosPos = Common.getMousePos(ev);
+        var elPos = Common.getElementPos(linkObj);
+        var upMouseLeft = 8, downMouseLeft = 13; //div水平方向在上面/下面偏移鼠标位置
+        var div;
+        if (document.getElementById("toolTipDiv")) {
+          document.body.removeChild(document.getElementById("toolTipDiv"));
+        }
+        div = document.createElement("div");
+        div.id = "toolTipDiv";
+        div.style.cssText = "position:absolute;border:solid 1px black;display:none;background-color:White;";
+        div.innerHTML = linkObj.tip;
+        document.body.appendChild(div);
+        if (param && param.width) {//如未设置，默认一行显示
+          if (Common.getTextSize(div.innerHTML).width < param.width) {
+            div.style.maxWidth = param.width + "px";
+          } else {
+            div.style.width = param.width + "px";
+          }
+
+        }
+
+        div.style.display = ""; //must before set opr to get offsetHeight...
+        ///set tooltip position
+        if (elPos.y - div.offsetHeight < document.documentElement.scrollTop) {
+          div.style.top = elPos.y + linkObj.offsetHeight + "px";
+          if (mosPos.x + div.offsetWidth + document.documentElement.clientLeft > Common.getViewportSize.w - 20) {
+            div.style.left = mosPos.x - downMouseLeft - div.offsetWidth + "px";
+          } else {
+            div.style.left = mosPos.x + downMouseLeft + "px";
+          }
+        }
+        else {
+          div.style.top = elPos.y - div.offsetHeight + "px";
+          if (mosPos.x + div.offsetWidth + document.documentElement.clientLeft > Common.getViewportSize.w - 20) {
+            div.style.left = mosPos.x - upMouseLeft - div.offsetWidth + "px";
+          } else {
+            div.style.left = mosPos.x + upMouseLeft + "px";
+          }
+        }
+
+        ///hide tooltip after some time
+        if (param && param.time) {
+          setTimeout(this.hidToolTip, param.time);
+        }
+      },
+      hidToolTip: function () {
+        if (document.getElementById("toolTipDiv")) {
+          document.getElementById("toolTipDiv").style.display = "none";
+        }
+      },
+      addTips: function (param) {
+        var linkArr = document.getElementsByTagName("a");
+        if (!linkArr) { return false; }
+        for (i = 0; i < linkArr.length; i++) {
+          if (linkArr[i].className == "toolTip") {
+            linkArr[i].tip = linkArr[i].title;
+            var tipObj = this;
+            linkArr[i].onmouseover = function (e) { tipObj.showToolTip(param, this, e); }
+            linkArr[i].onmouseout = tipObj.hidToolTip;
+            if (param && param.moveable == true) {//默认不滚动
+              linkArr[i].onmousemove = function (e) { tipObj.showToolTip(param, this, e); }
+            }
+            linkArr[i].title = "";
+          }
+        }
+      }
+    }
+
+    window.onload = function () {
+      ToolTip.addTips({ width: 200 }); // time:5000, moveable: true 
+    }
+  </script>
+</head>
+
+<body style="min-width:700px; ">
+  <script type="text/javascript">
+    Common.getViewportSize = { w: (window.innerWidth) ? window.innerWidth : (document.documentElement && document.documentElement.clientWidth) ? document.documentElement.clientWidth : (document.body ? document.body.offsetWidth : 0), h: (window.innerHeight) ? window.innerHeight : (document.documentElement && document.documentElement.clientHeight) ? document.documentElement.clientHeight : (document.body ? document.body.offsetHeight : 0) };            
+  </script>
+  <a href="#" class="toolTip" title="Top Value, display below">Host name</a>
+  <div style="height:200px;"></div>
+  <a style="float:right" href="#" class="toolTip"
+    title="BI Scorecard , Exclusion Rules - Host name , Omniture Active has been updated ">Omniture Host name Active
+    has been updated</a>
+  <div style="height:200px;"></div>
+  <a href="#" class="toolTip" title="BI Scpdated orecard , Exclusion Rul niture Ac">Exclusion Rules - Host name</a>
+  <br /><br /><br />
+  <a href="#" class="toolTip" title="BI Scp">Host name</a>
+</body>
+
+</html>
