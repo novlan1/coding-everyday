@@ -1,6 +1,15 @@
+- [1. 泛型](#1-泛型)
+- [2. 使用泛型](#2-使用泛型)
+- [3. 编写泛型](#3-编写泛型)
+- [4. 擦拭法](#4-擦拭法)
+- [5. 泛型 extends 通配符](#5-泛型-extends-通配符)
+  - [5.1. extends通配符的作用](#51-extends通配符的作用)
+- [6. 泛型 super 通配符](#6-泛型-super-通配符)
+    - [6.0.1. PECS 原则](#601-pecs-原则)
+    - [6.0.2. 无限定通配符`<?>`](#602-无限定通配符)
+- [7. 泛型和反射](#7-泛型和反射)
 
-
-### 泛型
+### 1. 泛型
 
 泛型就是编写模板代码来适应任意类型；
 
@@ -19,7 +28,7 @@ ArrayList<Person> personList = new ArrayList<Person>();
 
 
 
-### 使用泛型
+### 2. 使用泛型
 
 1. 使用泛型时，把泛型参数`<T>`替换为需要的class类型，例如：`ArrayList<String>`，`ArrayList<Number>`等；
 2. 可以省略编译器能自动推断出的类型，例如：`List<String> list = new ArrayList<>();`；
@@ -46,7 +55,7 @@ class Person implements Comparable<Person> {
 }
 ```
 
-### 编写泛型
+### 3. 编写泛型
 
 ```java
 public class Pair<T>{
@@ -101,7 +110,7 @@ Pair<String, Integer> p = new Pair<>("test", 123);
 
 
 
-### 擦拭法
+### 4. 擦拭法
 
 擦拭法是指，虚拟机对泛型其实一无所知，所有的工作都是编译器做的。
 
@@ -133,9 +142,9 @@ Java泛型的局限：
 
 泛型方法要防止重复定义方法，例如：`public boolean equals(T obj)`；
 
-### 泛型 extends 通配符
+### 5. 泛型 extends 通配符
 
-#### extends通配符的作用
+#### 5.1. extends通配符的作用
 
 如果我们考察Java标准库的`java.util.List<T>`接口，它实现的是一个类似“可变数组”的列表，主要功能包括：
 
@@ -183,7 +192,7 @@ int sumOfList(List<? extends Integer> list) {
 
 
 
-### 泛型 super 通配符
+### 6. 泛型 super 通配符
 
 使用`<? super Integer>`通配符表示：
 
@@ -194,7 +203,7 @@ int sumOfList(List<? extends Integer> list) {
 
 即使用`super`通配符表示只能写不能读。
 
-##### PECS 原则
+##### 6.0.1. PECS 原则
 
 使用`extends`和`super`通配符要遵循PECS原则，`Producer Extends Consumer Super`。
 
@@ -215,7 +224,7 @@ public class Collections {
 
 需要返回`T`的`src`是生产者，因此声明为`List<? extends T>`，需要写入`T`的`dest`是消费者，因此声明为`List<? super T>`。
 
-##### 无限定通配符`<?>`
+##### 6.0.2. 无限定通配符`<?>`
 
 无限定通配符`<?>`很少使用，可以用`<T>`替换，同时它是所有`<T>`类型的超类。
 
@@ -232,7 +241,7 @@ static boolean isNull(Pair<?> p) {
 }
 ```
 
-### 泛型和反射
+### 7. 泛型和反射
 
 Java的部分反射API也是泛型。例如：`Class<T>`就是泛型：
 

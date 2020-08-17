@@ -1,4 +1,15 @@
-### `--save` 和 `--save-dev` 的区别
+- [1. `--save` 和 `--save-dev` 的区别](#1---save-和---save-dev-的区别)
+- [2. 关于`cnpm`](#2-关于cnpm)
+- [3. `cnpm`和`npm`的区别](#3-cnpm和npm的区别)
+- [4. 设置 npm 的 registry 的几种方法](#4-设置-npm-的-registry-的几种方法)
+- [5. `prepack：“npm run build"`的作用](#5-prepacknpm-run-build的作用)
+- [6. `package-lock.json`的作用](#6-package-lockjson的作用)
+- [7. npx常见用处](#7-npx常见用处)
+- [8. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`](#8-错误处理npm-warn-checkpermissions-missing-write-access-to-usrlocallibnode_modules)
+
+
+
+### 1. `--save` 和 `--save-dev` 的区别
 
 以`msbuild`包为例
 
@@ -19,7 +30,7 @@
 `--save`和`--save-dev`的区别在于，`--save`安装的包，会被**引入到我们最终输入的代码中**，也就是最终会在用户浏览器执行的包，比如（**`jquery`**，**`vue`**）。 `--save-dev`安装的包**只会在开发者的开发环境上执行**，用于协助开发者的开发的，比如(**`webpack`，`babel`**)。
 
 
-### 关于`cnpm`
+### 2. 关于`cnpm`
 
 因为`npm`安装插件是从国外服务器下载，受网络影响大，可能出现异常，如果`npm`的服务器在中国就好了，所以我们乐于分享的淘宝团队干了这事。来自官网：“这是一个完整`npmjs.org`镜像，你可以用此代替官方版本(只读)，同步频率目前为 10分钟 一次以保证尽量与官方服务同步。”
 
@@ -31,7 +42,7 @@
 
 
 
-### `cnpm`和`npm`的区别
+### 3. `cnpm`和`npm`的区别
 
 - cnpm是扁平化结构，把依赖都展开
 - npm是树形结构，一层一层。
@@ -39,7 +50,7 @@
 
 
 
-### 设置 npm 的 registry 的几种方法
+### 4. 设置 npm 的 registry 的几种方法
 
 1. 临时使用
 
@@ -67,13 +78,13 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 
 
-### `prepack：“npm run build"`的作用
+### 5. `prepack：“npm run build"`的作用
 
 `package.json`中的命令，加上`pre`就可以在该条命令前执行，比如`prepack：“npm run build"`。同理，加上`post`就可以在该条命令之后执行。
 
 
 
-### `package-lock.json`的作用
+### 6. `package-lock.json`的作用
 
 `package-lock`就是**锁定安装时的包版本号**，需要上传到`git`上，以保证其他人在`install`时候，大家的依赖版本相同。
 
@@ -102,7 +113,7 @@ npm install XXX@x.x.x
 
 
 
-### npx常见用处
+### 7. npx常见用处
 
 1. 调用项目内部安装的模块
    npx 的原理很简单，就是运行的时候，会到`node_modules/.bin`路径和环境变量`$PATH`里面，检查命令是否存在。
@@ -112,7 +123,7 @@ npm install XXX@x.x.x
 
 
 
-### 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`
+### 8. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`
 
 这个问题的出现并不是管理员权限的问题，而是之前安装失败了，这个文件已经存在了，再次安装无法覆盖写入的问题。
 

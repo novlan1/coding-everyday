@@ -1,6 +1,15 @@
-## Nginx
+- [1. Nginx](#1-nginx)
+  - [1.1. 日志变量](#11-日志变量)
+  - [1.2. 全局变量](#12-全局变量)
+  - [1.3. 事件配置events](#13-事件配置events)
+  - [1.4. `proxy_buffering`](#14-proxy_buffering)
+  - [1.5. Nginx 代理](#15-nginx-代理)
+  - [1.6. 配置`https`以及`http`自动跳转到`https`](#16-配置https以及http自动跳转到https)
+    - [1.6.1. 常见规则](#161-常见规则)
 
-### 日志变量
+## 1. Nginx
+
+### 1.1. 日志变量
 
 ```bash
 $remote_addr 与 $http_x_forwarded_for  # 用以记录客户端的ip地址； 
@@ -20,7 +29,7 @@ $http_referer # 用来记录从那个页面链接访问过来的；
 $http_user_agent # 记录客户端浏览器的相关信息；
 ```
 
-### 全局变量
+### 1.2. 全局变量
 
 ```bash
 worker_processes auto; # nginx开启的进程数
@@ -28,7 +37,7 @@ worker_processes auto; # nginx开启的进程数
 pid /run/nginx.pid; # 指定进程ID存储文件位置
 ```
 
-### 事件配置events
+### 1.3. 事件配置events
 
 ```
 use [ kqueue | rtsig | epoll | /dev/poll | select | poll ];
@@ -69,7 +78,7 @@ client_body_timeout 10;
 ```bash
 send_timeout 10;
 ```
-### `proxy_buffering`
+### 1.4. `proxy_buffering`
 `proxy_buffering`主要是实现被代理服务器的数据和客户端的请求异步。
 
 为了方便理解，我们定义三个角色，A为客户端，B为代理服务器，C为被代理服务器。
@@ -78,20 +87,20 @@ send_timeout 10;
 - 在此过程中，如果所有的`buffer`被写满，数据将会写入到`temp_file`中。
 - 相反，如果`proxy_buffering`关闭，C反馈的数据实时地通过B传输给A。
 
-### Nginx 代理
+### 1.5. Nginx 代理
 
 - `node`和`nginx`配置的时候，不能在根目录`/`下配置代理，那是`react`或者`vue`放的真实的地址。
 - 而应该再添加一个`location`，代理`/api`，这也是为什么很多项目代码里请求地址前面都是`/api`开头。
 
 
 
-### 配置`https`以及`http`自动跳转到`https`
+### 1.6. 配置`https`以及`http`自动跳转到`https`
 
 ![https配置](../imgs/nginx_https_config.png)
 
 
 
-#### a. 常见规则
+#### 1.6.1. 常见规则
 
 - http：协议级别
 - server：服务器级别

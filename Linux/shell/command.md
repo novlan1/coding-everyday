@@ -1,6 +1,22 @@
-# Shell 的命令
+- [1. Shell 的命令](#1-shell-的命令)
+  - [1.1. 命令的类别](#11-命令的类别)
+  - [1.2. type, whatis](#12-type-whatis)
+  - [1.3. apropos](#13-apropos)
+  - [1.4. alias, unalias](#14-alias-unalias)
+  - [1.5. which](#15-which)
+  - [1.6. whereis](#16-whereis)
+  - [1.7. help，man](#17-helpman)
+    - [1.7.1. info](#171-info)
+  - [1.8. script](#18-script)
+  - [1.9. export](#19-export)
+  - [1.10. 命令的连续执行](#110-命令的连续执行)
+  - [1.11. clear](#111-clear)
+  - [1.12. 关机和重启](#112-关机和重启)
+    - [1.12.1. `init 数字` 改变运行级别](#1121-init-数字-改变运行级别)
 
-## 命令的类别
+# 1. Shell 的命令
+
+## 1.1. 命令的类别
 
 Bash可以使用的命令分成四类。
 
@@ -9,7 +25,7 @@ Bash可以使用的命令分成四类。
 - Shell 函数
 - 前三类命令的别名
 
-## type, whatis
+## 1.2. type, whatis
 
 `type`命令可以显示命令类型。
 
@@ -37,7 +53,7 @@ $ whatis ls
 ls (1) - list directory contents
 ```
 
-## apropos
+## 1.3. apropos
 
 `apropos`命令返回符合搜索条件的命令列表。
 
@@ -51,7 +67,7 @@ mbadblocks (1) - tests a floppy disk, and marks the bad
 mformat (1) - add an MSDOS filesystem to a low-level
 ```
 
-## alias, unalias
+## 1.4. alias, unalias
 
 `alias`命令用来为命令起别名。
 
@@ -83,7 +99,7 @@ $ type foo
 bash: type: foo: not found
 ```
 
-## which
+## 1.5. which
 
 `which`命令显示可执行程序的路径。
 
@@ -104,7 +120,7 @@ alias ls='ls --color=auto'
 ```
 
 
-## whereis
+## 1.6. whereis
 
 `whereis`用来显示某个命令的位置。如果有多个程序符合条件，会全部列出。
 
@@ -113,7 +129,7 @@ $ whereis node
 /usr/bin/node /usr/sbin/node
 ```
 
-## help，man
+## 1.7. help，man
 
 `help`命令用于查看Shell内置命令的帮助信息，`man`命令用于查看可执行命令的帮助信息。
 
@@ -142,7 +158,7 @@ man的级别：
 - man -f 命令 相当于 whatis 命令
 - man -k 命令 相当于 apropos 命令 搜索含有关键词“命令”的帮助文档，相关就能搜索到
 
-### info 
+### 1.7.1. info 
 info里面内容十分繁琐，是关于命令的一个巨大的帮助文档，里面有各个版本对于此命令
 的说明。
 - -回车：进入带*号的说明
@@ -151,7 +167,7 @@ info里面内容十分繁琐，是关于命令的一个巨大的帮助文档，�
 - -p: 进入上一个帮助小节
 - -q: 退出
 
-## script
+## 1.8. script
 
 `script`命令会将输入的命令和它的输出，都保存进一个文件。
 
@@ -161,7 +177,7 @@ $ script [file]
 
 如果没有指定文件名，则所有结果会保存进当前目录下`typescript`文件。结束录制的时候，可以按下`Ctrl + d`。
 
-## export
+## 1.9. export
 
 `export`命令用于将当前进程的变量，输出到所有子进程。
 
@@ -196,7 +212,7 @@ $ echo $SHELL
 /usr/bin/zsh
 ```
 
-## 命令的连续执行
+## 1.10. 命令的连续执行
 
 多个命令可以写在一起。
 
@@ -294,7 +310,7 @@ echo $REPLY
 
 
 
-## clear
+## 1.11. clear
 
 `clear`命令用来清除当前屏幕的显示，运行后会只留下一个提示符。
 
@@ -303,7 +319,7 @@ $ clear
 ```
 
 
-## 关机和重启
+## 1.12. 关机和重启
 格式：
 ```
 shutdown [选项] 时间
@@ -321,7 +337,7 @@ $ shutdown -r now # 立马重启
 `halt poweroff inti 0` 也都可以关机 但不安全，不会保存，相当于突然断电
 `reboot    init 6` 也可以重启
 
-#### `init 数字` 改变运行级别
+### 1.12.1. `init 数字` 改变运行级别
 `init 5`, 启动图形界面，没安装的话会报错
 `runlevel` 查看运行级别 前级别 当前级别  ( 结果：N  3) N是 null 空，是之前级别，3是当前级别，在进入3之前是空级别。
 

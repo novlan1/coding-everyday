@@ -1,6 +1,12 @@
-## Redis
+- [1. Redis](#1-redis)
+  - [1.1. Redis运行](#11-redis运行)
+  - [1.2. mac使用：](#12-mac使用)
+  - [1.3. Redis命令](#13-redis命令)
+  - [1.4. `ioredis`库](#14-ioredis库)
 
-### Redis运行
+## 1. Redis
+
+### 1.1. Redis运行
 
 1. 服务
 2. 不以服务的方式运行（CMD启动）
@@ -9,7 +15,7 @@
 - `redis-server redis.windows.conf`，出现下图显示表示启动成功了
 - redis-cli，进入redis环境
 
-### mac使用：
+### 1.2. mac使用：
 
 1. 下载
 2. make
@@ -24,7 +30,7 @@
 
  
 
-### Redis命令
+### 1.3. Redis命令
 ```js
 set a 123
 
@@ -37,7 +43,7 @@ keys * // 查看存储的所有key
 del a // 删除a这个key
 ```
 
-### `ioredis`库
+### 1.4. `ioredis`库
 `ioredis`库是NodeJS 操作`Redis`的库
 
  

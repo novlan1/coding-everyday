@@ -1,6 +1,19 @@
-## 排序
+- [1. 排序](#1-排序)
+  - [1.1. 选择排序](#11-选择排序)
+  - [1.2. 冒泡排序](#12-冒泡排序)
+  - [1.3. 插入排序](#13-插入排序)
+  - [1.4. 快排](#14-快排)
+  - [1.5. 堆排序](#15-堆排序)
+  - [1.6. 希尔排序](#16-希尔排序)
+  - [1.7. 归并排序](#17-归并排序)
+  - [1.8. 计数排序](#18-计数排序)
+  - [1.9. 基数排序](#19-基数排序)
+  - [1.10. 有序数组合并](#110-有序数组合并)
+  - [1.11. 三色排序问题](#111-三色排序问题)
 
-### 选择排序
+## 1. 排序
+
+### 1.1. 选择排序
 
 ```python
 def selectionSort(A):
@@ -18,7 +31,7 @@ def selectionSort(A):
 ```
 
 
-### 冒泡排序
+### 1.2. 冒泡排序
 
 ```python
 def bubbleSort(A):
@@ -32,7 +45,7 @@ def bubbleSort(A):
   return A
 ```
 
-### 插入排序
+### 1.3. 插入排序
 
 ```python
 def insertSort(A):
@@ -44,7 +57,7 @@ def insertSort(A):
   return A
 ```
 
-### 快排
+### 1.4. 快排
 
 ```python
 def quick(A):
@@ -58,7 +71,7 @@ def quick(A):
 
 ```
 
-### 堆排序
+### 1.5. 堆排序
 
 ```python
 def heap(A, i, n):
@@ -83,7 +96,7 @@ def heapSort(A):
   return A
 ```
 
-### 希尔排序
+### 1.6. 希尔排序
 
 ```python
 def shellSort(A):
@@ -103,7 +116,7 @@ def shellSort(A):
     step -= 1
   return A
 ```
-### 归并排序
+### 1.7. 归并排序
 
 ```python
 def mergeSort(A):
@@ -130,7 +143,7 @@ def mergeSort(A):
   return res
 ```
 
-### 计数排序
+### 1.8. 计数排序
 
 ```python
 def countingSort(A):
@@ -148,7 +161,7 @@ def countingSort(A):
   return res
 ```
 
-### 基数排序
+### 1.9. 基数排序
 
 ```python
 def radixSort(A):
@@ -164,7 +177,7 @@ def radixSort(A):
   return A
 ```
 
-### 有序数组合并
+### 1.10. 有序数组合并
 
 ```python
 def mergeAB(A, B):
@@ -188,7 +201,7 @@ def mergeAB(A, B):
   return A
 ```
 
-### 三色排序问题
+### 1.11. 三色排序问题
 ```
 1. 用三个指针，指针p指向开始，指针q指向末尾，指针i表示当前。
 2. 开始时，p向后遍历到不为0的地方，并让 i=p，同时，q向前遍历到不为2的地方。

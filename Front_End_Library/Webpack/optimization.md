@@ -1,15 +1,28 @@
-# webpack 优化
+- [1. webpack 优化](#1-webpack-优化)
+  - [1.1. 减小打包后文件体积](#11-减小打包后文件体积)
+    - [1.1.1. 按需加载](#111-按需加载)
+    - [1.1.2. Tree Shaking](#112-tree-shaking)
+    - [1.1.3. Scope Hoisting](#113-scope-hoisting)
+  - [1.2. 加快打包速度](#12-加快打包速度)
+    - [1.2.1. 优化 Loader](#121-优化-loader)
+    - [1.2.2. HappyPack](#122-happypack)
+    - [1.2.3. DllPlugin](#123-dllplugin)
+    - [1.2.4. 代码压缩](#124-代码压缩)
+    - [1.2.5. 一些小的优化点](#125-一些小的优化点)
+
+
+# 1. webpack 优化
 
 - 有哪些方式可以减少 Webpack 的打包时间
 - 有哪些方式可以让 Webpack 打出来的包更小
 
-## 减小打包后文件体积
+## 1.1. 减小打包后文件体积
 
-### 按需加载
+### 1.1.1. 按需加载
 
 如果我们将页面全部打包进一个 JS 文件的话，虽然将多个请求合并了，但是同样也加载了很多并不需要的代码，耗费了更长的时间。那么为了首页能更快地呈现给用户，我们肯定是希望首页能加载的文件体积越小越好，这时候我们就可以使用按需加载，将每个路由页面单独打包为一个文件。
 
-### Tree Shaking
+### 1.1.2. Tree Shaking
 
 Tree Shaking 可以实现删除项目中未被引用的代码，比如
 
@@ -25,7 +38,7 @@ import { a } from "./test.js";
 
 如果你使用 Webpack 4 的话，开启生产环境就会自动启动这个优化功能。
 
-### Scope Hoisting
+### 1.1.3. Scope Hoisting
 
 Scope Hoisting 会分析出模块之间的依赖关系，尽可能的把打包出来的模块合并到一个函数中去。 比如我们希望打包两个文件
 
@@ -51,7 +64,7 @@ import { a } from "./test.js";
 ];
 ```
 
-但是如果我们使用 Scope Hoisting 的话，代码就会尽可能的合并到一个函数中去，也就变成了这样的类似代码
+但是如果我们使用 `Scope Hoisting` 的话，代码就会尽可能的合并到一个函数中去，也就变成了这样的类似代码
 
 ```js
 [
@@ -62,7 +75,7 @@ import { a } from "./test.js";
 ];
 ```
 
-样的打包方式生成的代码明显比之前的少多了。如果在 Webpack4 中你希望开启这个功能，只需要启用 optimization.concatenateModules 就可以了。
+样的打包方式生成的代码明显比之前的少多了。如果在 Webpack4 中你希望开启这个功能，只需要启用 `optimization.concatenateModules` 就可以了。
 
 ```js
 module.exports = {
@@ -72,9 +85,9 @@ module.exports = {
 };
 ```
 
-## 加快打包速度
+## 1.2. 加快打包速度
 
-### 优化 Loader
+### 1.2.1. 优化 Loader
 
 对于 Loader 来说，影响打包效率首当其冲必属 Babel 了。因为 Babel 会将代码转为字符串生成 AST（抽象语法树），然后对 AST 继续进行转变最后再生成新的代码，项目越大，转换代码越多，效率就越低。当然了，我们是有办法优化的。
 
@@ -104,7 +117,7 @@ module.exports = {
 loader: 'babel-loader?cacheDirectory=true'
 ```
 
-### HappyPack
+### 1.2.2. HappyPack
 
 受限于 Node 是单线程运行的，所以 Webpack 在打包的过程中也是单线程的，特别是在执行 Loader 的时候，长时间编译的任务很多，这样就会导致等待的情况。
 
@@ -132,7 +145,7 @@ plugins: [
 ]
 ```
 
-### DllPlugin
+### 1.2.3. DllPlugin
 
 DllPlugin 可以将特定的类库提前打包然后引入。这种方式可以极大的减少打包类库的次数，只有当类库更新版本才有需要重新打包，并且也实现了将公共代码抽离成单独文件的优化方案。
 
@@ -179,13 +192,13 @@ module.exports = {
 };
 ```
 
-### 代码压缩
+### 1.2.4. 代码压缩
 
-在 Webpack3 中，我们一般使用 UglifyJS 来压缩代码，但是这个是单线程运行的，为了加快效率，我们可以使用 webpack-parallel-uglify-plugin 来并行运行 UglifyJS，从而提高效率。
+在 Webpack3 中，我们一般使用 `UglifyJS` 来压缩代码，但是这个是单线程运行的，为了加快效率，我们可以使用 `webpack-parallel-uglify-plugin` 来并行运行 `UglifyJS`，从而提高效率。
 
-在 Webpack4 中，我们就不需要以上这些操作了，只需要将 mode 设置为 production 就可以默认开启以上功能。代码压缩也是我们必做的性能优化方案，当然我们不止可以压缩 JS 代码，还可以压缩 HTML、CSS 代码，并且在压缩 JS 代码的过程中，我们还可以通过配置实现比如删除 console.log 这类代码的功能。
+在 `Webpack4` 中，我们就不需要以上这些操作了，只需要将 mode 设置为 `production` 就可以默认开启以上功能。代码压缩也是我们必做的性能优化方案，当然我们不止可以压缩 JS 代码，还可以压缩 HTML、CSS 代码，并且在压缩 JS 代码的过程中，我们还可以通过配置实现比如删除 `console.log` 这类代码的功能。
 
-### 一些小的优化点
+### 1.2.5. 一些小的优化点
 
 - `resolve.extensions` 用来表明文件后缀列表，默认查找顺序是 ['.js', '.json']，如果你的导入文件没有添加后缀就会按照这个顺序查找文件。我们应该尽可能减少后缀列表长度，然后将出现频率高的后缀排在前面
 - `resolve.alias` 可以通过别名的方式来映射一个路径，能让 Webpack 更快找到路径

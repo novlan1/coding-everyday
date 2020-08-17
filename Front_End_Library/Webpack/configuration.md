@@ -1,6 +1,13 @@
-## webpack 配置文件
+- [1. webpack 配置文件](#1-webpack-配置文件)
+  - [1.1. webpack.config.js](#11-webpackconfigjs)
+  - [1.2. mode](#12-mode)
+  - [1.3. 多入口](#13-多入口)
+  - [1.4. 为打包出的 JS 加前缀](#14-为打包出的-js-加前缀)
+  - [1.5. devtool](#15-devtool)
 
-### webpack.config.js
+## 1. webpack 配置文件
+
+### 1.1. webpack.config.js
 
 webpack.config.js 是 webpack 的默认打包配置文件。也可以`npx webpack --config 配置文件名`手动设置
 
@@ -32,7 +39,7 @@ entry: {
 }
 ```
 
-### mode
+### 1.2. mode
 
 打包模式，有生产环境与发布环境两种，默认是发布环境。
 
@@ -47,7 +54,7 @@ entry: {
 >
 > The 'mode' option has not been set, webpack will fallback to 'production' for this value. Set 'mode' option to 'development' or 'production' to enable defaults for each environment. You can also set it to 'none' to disable any default behavior. Learn more: `https://webpack.js.org/configuration/mode/`
 
-### 多入口
+### 1.3. 多入口
 
 最后都会将其写入到 html 的 script 标签中
 
@@ -62,7 +69,7 @@ output: {
 }
 ```
 
-### 为打包出的 JS 加前缀
+### 1.4. 为打包出的 JS 加前缀
 
 比如静态资源都放在 CDN 上，那么希望打包出 srcipt 的 src 是一个 http 地址 可这样做：
 
@@ -73,7 +80,7 @@ output: {
 }
 ```
 
-### devtool
+### 1.5. devtool
 
 devtool 就是去配置 sourcemap，方便调试，能准确定位到代码错误
 

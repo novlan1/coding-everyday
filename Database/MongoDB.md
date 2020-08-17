@@ -1,6 +1,10 @@
-## mongoDB
+- [1. mongoDB](#1-mongodb)
+  - [1.1. mongoDB命令](#11-mongodb命令)
+  - [1.2. Mongoose 命令](#12-mongoose-命令)
 
-### mongoDB命令
+## 1. mongoDB
+
+### 1.1. mongoDB命令
 
 集合相当于数据表
 ```js
@@ -20,7 +24,7 @@
 ```
 
 
-### Mongoose 命令
+### 1.2. Mongoose 命令
 
 Mongoose 模型提供了 `find`, `findOne`, 和 `findById` 方法用于文档查询。
 

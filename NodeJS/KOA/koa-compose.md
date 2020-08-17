@@ -1,3 +1,8 @@
+- [koa中间件的实现原理](#koa中间件的实现原理)
+  - [一、问题分析](#一问题分析)
+  - [二、实现](#二实现)
+  - [三、总结](#三总结)
+
 ## koa中间件的实现原理
 
 koa中间件的实现原理如何？先来看一个例子。
@@ -28,7 +33,7 @@ const middleware3 = async function (ctx, next) {
 
 问题是koa中间件实现原理，也就是洋葱模型的实现原理是什么？
 
-**一、问题分析**
+### 一、问题分析
 
 async await是promise的语法糖，await后面跟一个promise，所以上面的代码可以写成：
 
@@ -72,7 +77,7 @@ return 2
 
 next要求调用队列中下一个middleware，当达到最后一个的时候resolve。这样最后面的promise先resolve，一直到第一个，这样就是洋葱模型的顺序了。
 
-**二、实现**
+### 二、实现
 
 koa-compose的实现是这样的：
 
@@ -107,7 +112,7 @@ function compose(middleware) {
 2. 返回的是一个Promise.resolve包装之后的调用，而不是同步的调用，所以这是一个异步递归，异步递归比同步递归的好处是可以被打断，如果中间有一些优先级更高的微任务，那么可以先执行别的微任务
 3. compose是函数复合，把n个middleware复合成一个，参数依然是context和next，这种复合之后依然是一个middleware，还可以继续进行复合。
 
-**三、总结**
+### 三、总结
 
 Koa 中间件的实现原理，也就是洋葱模型的实现原理，核心在于next的实现。next需要依次调用下一个middleware，当到最后一个的时候结束，这样后面middleware的promise先resolve，然后直到第一个，这样的流程也就是洋葱模型的流程了。
 

@@ -1,3 +1,9 @@
+- [WebSocket](#websocket)
+  - [握手协议](#握手协议)
+    - [例子](#例子)
+  - [`Sec-WebSocket-Key/Accept`的作用](#sec-websocket-keyaccept的作用)
+  
+  
 ##  WebSocket
 ### 握手协议
 WebSocket 是独立的、创建在TCP上的协议。

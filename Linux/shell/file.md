@@ -1,6 +1,22 @@
-# 文件系统
+- [1. 文件系统](#1-文件系统)
+  - [1.1. pwd](#11-pwd)
+  - [1.2. cd](#12-cd)
+  - [1.3. ls](#13-ls)
+  - [1.4. stat](#14-stat)
+  - [1.5. touch](#15-touch)
+  - [1.6. file](#16-file)
+  - [1.7. chmod](#17-chmod)
+  - [1.8. umask](#18-umask)
+  - [1.9. du](#19-du)
+  - [1.10. md5sum](#110-md5sum)
+  - [1.11. locate](#111-locate)
+    - [1.11.1. `centos` 系统找不到 `locate` 命令（`locate: command not found`）](#1111-centos-系统找不到-locate-命令locate-command-not-found)
+  - [1.12. find](#112-find)
+  - [1.13. xargs](#113-xargs)
 
-## pwd
+# 1. 文件系统
+
+## 1.1. pwd
 
 `pwd`命令显示列出当前所在的目录。
 
@@ -8,7 +24,7 @@
 $ pwd
 ```
 
-## cd
+## 1.2. cd
 
 `cd`命令用来改变用户所在的目录。
 
@@ -26,7 +42,7 @@ $ cd ~user_name
 cd ..  
 ```
 
-## ls
+## 1.3. ls
 
 `ls`目录可以显示指定目录的内容。不加参数时，显示当前目录的内容。
 
@@ -117,7 +133,7 @@ $ find -maxdepth 1 -type d
 
 另一个简便方法是利用自动补全功能，先键入`cd`命令，然后连按两下`tab`键。
 
-## stat
+## 1.4. stat
 
 `stat`命令是加强版的`ls`命令，可以显示一个文件的详细信息。
 
@@ -132,7 +148,7 @@ Modify: 2008-10-08 15:15:39.000000000 -0400
 Change: 2008-10-08 15:15:39.000000000 -0400
 ```
 
-## touch
+## 1.5. touch
 
 `touch`用来设置或更新文件的访问，更改，和修改时间。然而，如果一个文件名参数是一个 不存在的文件，则会创建一个空文件。
 
@@ -149,7 +165,7 @@ $ touch playground/dir-{00{1..9},0{10..99},100}/file-{A..Z}
 
 上面的命令创建了一个包含一百个子目录，每个子目录中包含了26个空文件。
 
-## file
+## 1.6. file
 
 `file`命令显示指定文件的类型。
 
@@ -173,7 +189,7 @@ $ find -exec file {} \;
 ./bits:       ELF 32-bit LSB executable, Intel 80386, version ...
 ```
 
-## chmod
+## 1.7. chmod
 
 `chmod`命令用于更改文件的权限，是“change mode”的缩写。
 
@@ -236,7 +252,7 @@ $ chmod u+x,go=rw foo.txt
 - --x	1
 - ---	0
 
-## umask
+## 1.8. umask
 
 `umask`用来查看和设置权限掩码。
 
@@ -269,7 +285,7 @@ $ umask 0000
 
 `umask`命令设置的掩码值只能在当前Shell会话中生效，若当前Shell会话结束后，则必须重新设置。
 
-## du
+## 1.9. du
 
 `du`命令显示某个文件或目录的磁盘使用量。
 
@@ -309,7 +325,7 @@ $ sudo du /home/ -hc --max-depth=2
 $ tree --du -h /path/to/directory
 ```
 
-## md5sum
+## 1.10. md5sum
 
 `md5sum`命令用来显示一个文件的md5校验码。
 
@@ -318,7 +334,7 @@ $ md5sum image.iso
 34e354760f9bb7fbf85c96f6a3f94ece    image.iso
 ```
 
-## locate
+## 1.11. locate
 
 `locate`程序快速搜索本机的路径名数据库，并且输出每个与给定字符串相匹配的文件名。
 
@@ -365,16 +381,16 @@ PRUNEPATHS =
 #搜索时，不搜索的路径
 ```
 
-#### centos系统找不到locate命令（locate: command not found）
+### 1.11.1. `centos` 系统找不到 `locate` 命令（`locate: command not found`）
 
 解决方法：
-1. 安装mlocate包
-    - yum -y install mlocate
+1. 安装`mlocate`包
+    - `yum -y install mlocate`
 2. 更新数据库
-    - updatedb
+    - `updatedb`
 
 
-## find
+## 1.12. find
 
 `locate`程序只能依据文件名来查找文件，而`find`程序能基于各种各样的属性，搜索一个给定目录（以及它的子目录），来查找文件。
 
@@ -610,7 +626,7 @@ $ ls -l file1 file2
 $ find ~ -type f -name 'foo*' -exec ls -l '{}' +
 ```
 
-## xargs
+## 1.13. xargs
 
 `xargs`命令从标准输入接受输入，并把输入转换为一个特定命令的参数列表。
 

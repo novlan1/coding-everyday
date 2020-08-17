@@ -1,5 +1,12 @@
-## 链表
-### 链表的实现
+- [1. 链表](#1-链表)
+  - [1.1. 链表的实现](#11-链表的实现)
+  - [1.2. 翻转链表](#12-翻转链表)
+  - [1.3. K 个一组翻转链表 [Leetcode - 25]](#13-k-个一组翻转链表-leetcode---25)
+  - [1.4. 两两交换链表中的节点](#14-两两交换链表中的节点)
+  - [1.5. 模拟`git rebase`的第一步，找到最近的公共节点](#15-模拟git-rebase的第一步找到最近的公共节点)
+
+## 1. 链表
+### 1.1. 链表的实现
 ```python
 class Node:
   def __init__(self, val):
@@ -20,7 +27,7 @@ class LinkedList:
         head = head.next
       head.next = node
 ```
-### 翻转链表
+### 1.2. 翻转链表
 ```
 输入一个链表，翻转链表后，输出新链表的表头。
 1->2->3->4->5->null
@@ -38,7 +45,7 @@ def reverseList(head):
   return pre
 ```
 
-### K 个一组翻转链表 [Leetcode - 25]
+### 1.3. K 个一组翻转链表 [Leetcode - 25]
 ```
 1. 设置一个头结点的前一个节点 hair，设置 tail，含义是指向子链表的尾部，一开始等于 hair。
 2. 每k个一组，找到tail的位置，并记下tail.next，设为nxt。
@@ -87,7 +94,7 @@ def reverse(head, tail):
     p = nxt
   return tail, head
 ```
-### 两两交换链表中的节点
+### 1.4. 两两交换链表中的节点
 ```
 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
@@ -115,4 +122,50 @@ def reverseTwo(head):
     p = node1
     
   return hair.nexts
+```
+
+
+### 1.5. 模拟`git rebase`的第一步，找到最近的公共节点
+
+```js
+function getBestCommonAncestor(head, mergeHead) {
+  let headList = getList(head, [])
+  let mergeHeadList = getList(mergeHead, [])
+
+  const res = {}
+  const totalList= [...headList, ...mergeHeadList]
+
+  for (let item of totalList) {
+    if (res[item]) {
+      return item
+    } else {
+      res[item] = 1
+    }
+  }
+
+  // for (let i = 0, len = headList.length; i < len; i++) {
+  //   if (mergeHeadList.includes(headList[i])) {
+  //     return headList[i]
+  //   }
+  // }
+  return null
+}
+
+function getList(head, res) {
+  while (head && head.id) {
+    res.push(head.id)
+    head = head.parent
+  }
+  return res
+}
+
+// test case
+const A = { id: 'A', parent: null };
+const B = { id: 'B', parent: A };
+const C = { id: 'C', parent: B };
+const D = { id: 'D', parent: B };
+const E = { id: 'E', parent: C };
+
+getBestCommonAncestor(A, B); // A
+getBestCommonAncestor(D, E); // B
 ```

@@ -1,4 +1,61 @@
-### doctype 是什么，举例常见 doctype 及特点
+- [1. doctype 是什么，举例常见 doctype 及特点](#1-doctype-是什么举例常见-doctype-及特点)
+- [2. 标准模式与兼容模式各有什么区别？](#2-标准模式与兼容模式各有什么区别)
+- [3. HTML5 为什么只需要写 `<!DOCTYPE HTML>`，而不需要引入 DTD？](#3-html5-为什么只需要写-doctype-html而不需要引入-dtd)
+- [4. SGML 、 HTML 、XML 和 XHTML 的区别？](#4-sgml--html-xml-和-xhtml-的区别)
+- [5. DTD 介绍](#5-dtd-介绍)
+- [6. HTML 全局属性(global attribute)有哪些](#6-html-全局属性global-attribute有哪些)
+- [7. 什么是 web 语义化，有什么好处](#7-什么是-web-语义化有什么好处)
+- [8. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：](#8-从输入url到得到html的过程中浏览器做的工作大致分为以下几步)
+  - [8.1. 浏览器**渲染**页面的过程：](#81-浏览器渲染页面的过程)
+    - [8.1.1. DOM树的构建是文档加载完成开始的？](#811-dom树的构建是文档加载完成开始的)
+    - [8.1.2. Render树是DOM树和CSSOM树构建完毕才开始构建的吗？](#812-render树是dom树和cssom树构建完毕才开始构建的吗)
+    - [8.1.3. CSS的解析是从右往左逆向解析的](#813-css的解析是从右往左逆向解析的)
+  - [8.2. 空元素定义](#82-空元素定义)
+  - [8.3. 渲染过程中遇到 JS 文件怎么处理？（浏览器解析过程）](#83-渲染过程中遇到-js-文件怎么处理浏览器解析过程)
+  - [8.4. async 和 defer 的作用是什么？有什么区别？（浏览器解析过程）](#84-async-和-defer-的作用是什么有什么区别浏览器解析过程)
+  - [8.5. 什么是文档的预解析？（浏览器解析过程）](#85-什么是文档的预解析浏览器解析过程)
+  - [8.6. CSS 如何阻塞文档解析？（浏览器解析过程）](#86-css-如何阻塞文档解析浏览器解析过程)
+  - [8.7. 渲染页面时常见哪些不良现象？（浏览器渲染过程）](#87-渲染页面时常见哪些不良现象浏览器渲染过程)
+- [9. `window.onload`和`DomContentLoaded`的区别](#9-windowonload和domcontentloaded的区别)
+- [10. 常见的浏览器内核比较](#10-常见的浏览器内核比较)
+- [11. 常见浏览器所用内核](#11-常见浏览器所用内核)
+- [12. `defer` 和 `async` 的区别](#12-defer-和-async-的区别)
+- [13. 懒加载与预加载的基本概念](#13-懒加载与预加载的基本概念)
+- [14. 浏览器内核的理解](#14-浏览器内核的理解)
+- [15. HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？](#15-html-规范中为什么要求引用资源不加协议头http或者https)
+- [16. `script`标签的`crossorigin`属性](#16-script标签的crossorigin属性)
+- [17. DOS攻击](#17-dos攻击)
+  - [17.1. a. DDOS](#171-a-ddos)
+- [18. script标签的integrity属性](#18-script标签的integrity属性)
+  - [18.1. a. 如何开启 SRI 功能](#181-a-如何开启-sri-功能)
+- [19. Viewport](#19-viewport)
+- [20. HTML `<meta>` 标签](#20-html-meta-标签)
+  - [20.1. a. `name`属性](#201-a-name属性)
+  - [20.2. b. `http-equiv`属性](#202-b-http-equiv属性)
+  - [20.3. c. `HTML 4.01` 与 `HTML5`之间的差异](#203-c-html-401-与-html5之间的差异)
+  - [20.4. d. Content-Type 类型](#204-d-content-type-类型)
+    - [20.4.1. `application/x-www-form-urlencoded` 主要用于如下:](#2041-applicationx-www-form-urlencoded-主要用于如下)
+    - [20.4.2. `multipart/form-data`](#2042-multipartform-data)
+    - [20.4.3. `application/json`](#2043-applicationjson)
+- [21. 响应式开发](#21-响应式开发)
+- [22. `class`和`id`命名规范](#22-class和id命名规范)
+- [23. 回流和重绘](#23-回流和重绘)
+  - [23.1. a. 针对回流和重绘的优化点：](#231-a-针对回流和重绘的优化点)
+- [24. HTML5的Audio](#24-html5的audio)
+  - [24.1. a. 当音频/视频处于加载过程中时，会依次发生以下事件](#241-a-当音频视频处于加载过程中时会依次发生以下事件)
+  - [24.2. b. 元数据和数据的区别？](#242-b-元数据和数据的区别)
+  - [24.3. c. 动态的创建`<audio>`元素](#243-c-动态的创建audio元素)
+  - [24.4. d. 判断浏览器支持的编码方式](#244-d-判断浏览器支持的编码方式)
+- [25. 两个标签页的sessionstorage共享吗](#25-两个标签页的sessionstorage共享吗)
+- [26. `iframe`的优缺点](#26-iframe的优缺点)
+    - [26.0.1. `iframe` 的优点：](#2601-iframe-的优点)
+    - [26.0.2. iframe 的缺点：](#2602-iframe-的缺点)
+- [27. `img`标签的`title`与`alt`区别](#27-img标签的title与alt区别)
+  - [27.1. b 与 strong 的区别和 i 与 em 的区别？](#271-b-与-strong-的区别和-i-与-em-的区别)
+  - [27.2. 前端性能优化？](#272-前端性能优化)
+- [28. 如何检测页面是否有卡顿](#28-如何检测页面是否有卡顿)
+
+### 1. doctype 是什么，举例常见 doctype 及特点
 
 1. `<!doctype>`声明必须处于 HTML 文档的头部，在`<html>`标签之前，HTML5 中不区分大小写
 2. `<!doctype>`声明不是一个 HTML 标签，是一个用于告诉浏览器当前 HTMl 版本的指令
@@ -16,14 +73,14 @@
 6. **XHTML 1.0 Frameset**:允许使用表现性、废弃元素以及 frameset，文档必须是结构良好的 XML 文档。声明：`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">`
 7. **HTML 5**: `<!doctype html>`
 
-### 标准模式与兼容模式各有什么区别？
+### 2. 标准模式与兼容模式各有什么区别？
 
 ```
 标准模式的渲染方式和 JS 引擎的解析方式都是以该浏览器支持的最高标准运行。在兼容模式中，页面以宽松的向后兼容的方式显示
 ，模拟老式浏览器的行为以防止站点无法工作。
 ```
 
-### HTML5 为什么只需要写 `<!DOCTYPE HTML>`，而不需要引入 DTD？
+### 3. HTML5 为什么只需要写 `<!DOCTYPE HTML>`，而不需要引入 DTD？
 
 ```
 HTML5 不基于 SGML，因此不需要对 DTD 进行引用，但是需要 DOCTYPE 来规范浏览器的行为（让浏览器按照它们应该的方式来运
@@ -32,7 +89,7 @@ HTML5 不基于 SGML，因此不需要对 DTD 进行引用，但是需要 DOCTYP
 而 HTML4.01 基于 SGML ，所以需要对 DTD 进行引用，才能告知浏览器文档所使用的文档类型。
 ```
 
-### SGML 、 HTML 、XML 和 XHTML 的区别？
+### 4. SGML 、 HTML 、XML 和 XHTML 的区别？
 
 ```
 SGML 是标准通用标记语言，是一种定义电子文档结构和描述其内容的国际标准语言，是所有电子文档标记语言的起源。
@@ -46,7 +103,7 @@ XHTML 也是现在基本上所有网页都在用的标记语言，他其实和 H
 更严格，比如标签必须都用小写，标签都必须有闭合标签等。
 ```
 
-### DTD 介绍
+### 5. DTD 介绍
 
 ```
 DTD（ Document Type Definition 文档类型定义）是一组机器可读的规则，它们定义 XML 或 HTML 的特定版本中所有允许元
@@ -55,7 +112,7 @@ DTD（ Document Type Definition 文档类型定义）是一组机器可读的规
 DTD 是对 HTML 文档的声明，还会影响浏览器的渲染模式（工作模式）。
 ```
 
-### HTML 全局属性(global attribute)有哪些
+### 6. HTML 全局属性(global attribute)有哪些
 
 参考资料：[MDN: html global attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)或者[W3C HTML global-attributes](http://www.w3.org/TR/html-markup/global-attributes.html#common.attrs.core)
 
@@ -76,7 +133,7 @@ DTD 是对 HTML 文档的声明，还会影响浏览器的渲染模式（工作�
 - `title`: 元素相关的建议信息
 - `translate`: 元素和子孙节点内容是否需要本地化
 
-### 什么是 web 语义化，有什么好处
+### 7. 什么是 web 语义化，有什么好处
 
 web 语义化是指通过 HTML 标记表示页面包含的信息，包含了 HTML 标签的语义化和 css 命名的语义化。 
 
@@ -91,7 +148,7 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
 - 搜索引擎更好地理解页面，有利于收录
 - 便团队项目的可持续运作及维护
 
-### 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
+### 8. 从输入url到得到html的过程中，浏览器做的工作大致分为以下几步：
 
 - 加载：根据请求的URL进行域名解析，向服务器发起请求，接收文件（HTML、JS、CSS、图象等）。
 - 解析：对加载到的资源（HTML、JS、CSS等）进行语法解析，建议相应的内部数据结构（比如HTML的DOM树，JS的（对象）属性表，CSS的样式规则等等）
@@ -101,7 +158,7 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
 
 
 
-#### 浏览器**渲染**页面的过程：
+#### 8.1. 浏览器**渲染**页面的过程：
 
 ![渲染过程](../../imgs/dom_render_process.png)
 
@@ -112,18 +169,18 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
 - 第五步，`Render`树和节点显示坐标都有了，就调用每个节点`paint`方法，把它们绘制出来。 
 
 
-##### DOM树的构建是文档加载完成开始的？
+##### 8.1.1. DOM树的构建是文档加载完成开始的？
 构建DOM数是一个渐进过程，为达到更好用户体验，渲染引擎会尽快将内容显示在屏幕上。它不必等到整个HTML文档解析完毕之后才开始构建render数和布局。
 
-##### Render树是DOM树和CSSOM树构建完毕才开始构建的吗？
+##### 8.1.2. Render树是DOM树和CSSOM树构建完毕才开始构建的吗？
 这三个过程在实际进行的时候又不是完全独立，而是会有交叉。会造成一边加载，一遍解析，一遍渲染的工作现象。
 
-##### CSS的解析是从右往左逆向解析的
+##### 8.1.3. CSS的解析是从右往左逆向解析的
 从DOM树的`下－上`解析比`上－下`解析效率高)，嵌套标签越多，解析越慢。
 
 
 
-#### 空元素定义
+#### 8.2. 空元素定义
 
 ```
 标签内没有内容的 HTML 标签被称为空元素。空元素是在开始标签中关闭的。
@@ -131,7 +188,7 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
 常见的空元素有：br hr img input link meta
 ```
 
-#### 渲染过程中遇到 JS 文件怎么处理？（浏览器解析过程）
+#### 8.3. 渲染过程中遇到 JS 文件怎么处理？（浏览器解析过程）
 
 ```
  JavaScript 的加载、解析与执行会阻塞文档的解析，也就是说，在构建 DOM 时，HTML 解析器若遇到了 JavaScript，那么
@@ -142,7 +199,7 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
  原因。当然在当下，并不是说 script 标签必须放在底部，因为你可以给 script 标签添加 defer 或者 async 属性。
 ```
 
-#### async 和 defer 的作用是什么？有什么区别？（浏览器解析过程）
+#### 8.4. async 和 defer 的作用是什么？有什么区别？（浏览器解析过程）
 
 ```
  （1）脚本没有 defer 或 async，浏览器会立即加载并执行指定的脚本，也就是说不等待后续载入的文档元素，读到就加载并执
@@ -157,7 +214,7 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
 
 详细资料可以参考： [《defer 和 async 的区别》](https://segmentfault.com/q/1010000000640869)
 
-#### 什么是文档的预解析？（浏览器解析过程）
+#### 8.5. 什么是文档的预解析？（浏览器解析过程）
 
 ```
  Webkit 和 Firefox 都做了这个优化，当执行 JavaScript 脚本时，另一个线程解析剩下的文档，并加载后面需要通过网络加
@@ -165,20 +222,20 @@ css 命名的语义化是指：为 html 标签添加有意义的 class，id 补�
  过程，自己只解析外部资源的引用，比如外部脚本、样式表及图片。
 ```
 
-#### CSS 如何阻塞文档解析？（浏览器解析过程）
+#### 8.6. CSS 如何阻塞文档解析？（浏览器解析过程）
 
 理论上，既然样式表不改变 DOM 树，也就没有必要停下文档的解析等待它们，然而，存在一个问题，JavaScript 脚本执行时可能在文档的解析过程中请求样式信息，如果样式还没有加载和解析，脚本将得到错误的值，显然这将会导致很多问题。
 
 所以如果浏览器尚未完成 CSSOM 的下载和构建，而我们却想在此时运行脚本，那么浏览器将延迟 JavaScript 脚本执行和文档的解析，直至其完成 CSSOM 的下载和构建。也就是说，在这种情况下，浏览器会先下载和构建 CSSOM，然后再执行 JavaScript，最后再继续文档的解析。
 
-#### 渲染页面时常见哪些不良现象？（浏览器渲染过程）
+#### 8.7. 渲染页面时常见哪些不良现象？（浏览器渲染过程）
 
 FOUC：
 主要指的是样式闪烁的问题，由于浏览器渲染机制（比如firefox），在 CSS 加载之前，先呈现了 HTML，就会导致展示出无样式内容，然后样式突然呈现的现象。会出现这个问题的原因主要是 css 加载时间过长，或者 css 被放在了文档底部。
 
 白屏：有些浏览器渲染机制（比如chrome）要先构建 DOM 树和 CSSOM 树，构建完成后再进行渲染，如果 CSS 部分放在 HTML 尾部，由于 CSS 未加载完成，浏览器迟迟未渲染，从而导致白屏；也可能是把 js 文件放在头部，脚本的加载会阻塞后面文档内容的解析，从而页面迟迟未渲染出来，出现白屏问题。
 
-### `window.onload`和`DomContentLoaded`的区别
+### 9. `window.onload`和`DomContentLoaded`的区别
 ```javascript
 window.addEventListener('load', function() {
   // 页面的全部资源加载完之后才会执行，包括图片、视频等。
@@ -188,82 +245,7 @@ window.addEventListener('DomContentLoaded', function() {
 })
 ```
 
-
-
-### 3. cache-control 属性有哪些？
-
-1. `cache-control: max-age=xxxx，public`
-
-**客户端和代理服务器**都可以缓存该资源；
-客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存，statu code:200 ，如果用户做了刷新操作，就向服务器发起http请求
-
-
-2. `cache-control: max-age=xxxx，private`
-
-只让**客户端**可以缓存该资源；代理服务器不缓存
-客户端在xxx秒内直接读取缓存，statu code:200
-
-3. `cache-control: max-age=xxxx，immutable`
-
-客户端在xxx秒的有效期内，如果有请求该资源的需求的话就直接读取缓存，statu code:200 ，即使用户做了刷新操作，也不向服务器发起http请求
-
-4. `cache-control: no-cache`
-
-**跳过设置强缓存**，但是不妨碍设置协商缓存；一般如果你做了强缓存，只有在强缓存失效了才走协商缓存的，设置了no-cache就不会走强缓存了，每次请求都回询问服务端。
-
-
-5. `cache-control: no-store`
-
-不缓存，这个会让**客户端、服务器都不缓存**，也就没有所谓的强缓存、协商缓存了。
-
-
-
-#### a. `immutable`
-
-`immutable` 为了让用户在刷新页面的时候不要去请求服务器。
-
-`Cache-Control: max-age=3600, immutable`，表明该资源能存活一小时，在一小时之内，即便用户刷新也不要发送条件请求，不走协商缓存的流程。
-
-在过期之后，浏览器会发送一个不带`If-Modified-Since`和`If-None-Match`的请求来更新资源。
-
-这里需要注意，一旦被标志成 immutable，则这个资源不可能返回 304 响应了，只有 200（Chrome 开发者工具的network里面size会显示为`from memory cache/from disk cache`）。
-
-
-
-参考资料：[扼杀 304，Cache-Control: immutable](https://www.cnblogs.com/ziyunfei/p/5642796.html) 
-
-
-
-### 4. 协商缓存触发条件
-
-1. `Cache-Control`的值为`no-cache` （不强缓存）
-2. 或者`max-age`过期了 （强缓存，但总有过期的时候）
-
-
-参考资料：[强缓存和协商缓存](https://www.cnblogs.com/everlose/p/12779864.html)，[浅谈http中的Cache-Control](https://blog.csdn.net/u012375924/article/details/82806617)
-
-### 5. 强缓存和协商缓存
-强缓存：
-- `cache-control`的单位是秒
-- `Expire`绝对时间，`cache-control`是相对时间，以后者为准
-
-协商缓存：
-- `Last-Modified`是服务器下发的，`If-Modified-Since`是浏览器发送到的，记录的时间，有可能时间变了，内容不变
-- `Etag`是变的是内容才会再次请求，对应的是`If-None-Match`
-
-<img src='../../imgs/b_s_cache.png' height='500'/>
-
-### 6. 为什么要有etag？
-
-你可能会觉得使用`last-modified`已经足以让浏览器知道本地的缓存副本是否足够新，为什么还需要`etag`呢？HTTP1.1中etag的出现（也就是说，etag是新增的，为了解决之前只有If-Modified的缺点）主要是为了解决几个last-modified比较难解决的问题：
-
-1. 一些文件也许会**周期性的更改**，但是他的**内容并不改变(仅仅改变的修改时间)**，这个时候我们并不希望客户端认为这个文件被修改了，而重新get；
-2. 某些文件**修改非常频繁**，比如在**秒以下的时间内进行修改，(比方说1s内修改了N次)**，if-modified-since能检查到的粒度是秒级的，这种修改无法判断(或者说UNIX记录MTIME只能精确到秒)；
-3. 某些**服务器不能精确的得到文件的最后修改时间**。
-
- 
-
-### 7. 常见的浏览器内核比较
+### 10. 常见的浏览器内核比较
 ```
 Trident：这种浏览器内核是 IE 浏览器用的内核，因为在早期 IE 占有大量的市场份额，所以这种内核比较流行，以前有很多
 网页也是根据这个内核的标准来编写的，但是实际上这个内核对真正的网页标准支持不是很好。但是由于 IE 的高市场占有率，微
@@ -286,7 +268,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 内核，加入 Google 阵营，跟随谷歌一起研发 Blink。
 ```
 
-### 8. 常见浏览器所用内核
+### 11. 常见浏览器所用内核
 
 ```
  （1） IE 浏览器内核：Trident 内核，也是俗称的 IE 内核；
@@ -311,7 +293,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
       是基于火狐内核。
 ```
 
-### 11. `defer` 和 `async` 的区别
+### 12. `defer` 和 `async` 的区别
 ![difference between defer and async](../../imgs/deferAndAsyncDiff.png)
 
 1. defer和async在网络读取（下载）这块儿是一样的，都是异步的（相较于 HTML 解析）
@@ -322,7 +304,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-### 12. 懒加载与预加载的基本概念
+### 13. 懒加载与预加载的基本概念
 
 - 懒加载也叫延迟加载： 延迟加载图片或符合某些条件时才加载某些图片。
 - 预加载：提前加载图片，当用户需要查看时可直接从本地缓存中渲染。
@@ -347,7 +329,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-### 13. 浏览器内核的理解
+### 14. 浏览器内核的理解
 
 主要分成两部分：**渲染引擎(layout engineer 或 Rendering Engine) **和 **JS 引擎**。
 
@@ -359,7 +341,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-### 14. HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？
+### 15. HTML 规范中为什么要求引用资源不加协议头`http`或者`https`？
 
 如果用户当前访问的页面是通过 `HTTPS` 协议来浏览的，那么网页中的资源也只能通过 `HTTPS` 协议来引用，否则浏览器会出现警告信息，不同浏览器警告信息展现形式不同。
 
@@ -370,7 +352,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-### 15. `script`标签的`crossorigin`属性
+### 16. `script`标签的`crossorigin`属性
 
 引入跨域的脚本（比如用了 `apis.google.com` 上的库文件），如果这个脚本有错误，因为浏览器的限制（根本原因是协议的规定），是拿不到错误信息的。当本地尝试使用 `window.onerror` 去记录脚本的错误时，跨域脚本的错误只会返回 `Script error`。
 
@@ -386,7 +368,7 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-### 16. DOS攻击
+### 17. DOS攻击
 
 拒绝服务（英文名称`denial of service;DoS`）是指通过向服务器发送大量垃圾信息或干扰信息的方式，导致服务器无法向正常用户提供服务的现象。
 拒绝服务攻击的类型按其攻击形式分为：
@@ -398,13 +380,13 @@ KHTML 的分支一样。Blink 引擎现在是谷歌公司与 Opera Software 共�
 
 
 
-#### a. DDOS
+#### 17.1. a. DDOS
 
 全称`Distributed Denial of Service`，中文意思为“分布式拒绝服务”，就是利用大量合法的**分布式服务器**对目标发送请求，从而导致正常合法用户无法获得服务。
 
 
 
-### 17. script标签的integrity属性
+### 18. script标签的integrity属性
 
 CDN均表示以支持SRI为荣，不支持SRI功能为耻
 
@@ -431,7 +413,7 @@ setInterval(imgflood, 10)
 
 
 
-#### a. 如何开启 SRI 功能
+#### 18.1. a. 如何开启 SRI 功能
 
 SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS` 设置，然后需要在`<script>`中提供**签名**以供校验。由于 SRI 在不匹配的时候就不执行脚本。
 
@@ -443,7 +425,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 <script>
 ```
 
-### 21. Viewport
+### 19. Viewport
 
 1. `iphone5`的分辨率是 `640dp * 1136 dp`（物理像素）
     `dp,pt`： `device independent pixels` 设备无关的像素
@@ -508,7 +490,7 @@ SRI 开启需要有两个条件：首先需要资源为同域或者开启 `CORS`
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 ```
 
-### 22. HTML `<meta>` 标签
+### 20. HTML `<meta>` 标签
 元数据（Metadata）是数据的数据信息。
 `<meta>` 标签提供了 HTML 文档的元数据。元数据不会显示在客户端，但是会被浏览器解析。
 META元素通常用于指定网页的描述，关键词，文件的最后修改时间，作者及其他元数据。
@@ -523,7 +505,7 @@ HTML 与 XHTML 之间的差异
 
 
 
-#### a. `name`属性
+#### 20.1. a. `name`属性
 
 `name`属性主要用于**描述网页**，与之对应的属性值为`content`，`content`中的内容主要是便于搜索引擎机器人查找信息和分类信息用的。 
 
@@ -547,7 +529,7 @@ meta标签的name属性语法格式是：
 
 
 
-#### b. `http-equiv`属性
+#### 20.2. b. `http-equiv`属性
 
 `http-equiv`顾名思义，**相当于http的文件头**作用，它可以向浏览器传回一些有用的信息，以帮助正确和精确地显示网页内容，与之对应的属性值为`content`，`content`中的内容其实就是各个参数的变量值。
 
@@ -587,7 +569,7 @@ meta标签的`http-equiv`属性语法格式是：
 
 
 
-#### c. `HTML 4.01` 与 `HTML5`之间的差异
+#### 20.3. c. `HTML 4.01` 与 `HTML5`之间的差异
 使用 `http-equiv` 已经不是规定 HTML 文档的字符集的唯一方式：
 
 `HTML 4.01`：
@@ -600,7 +582,7 @@ meta标签的`http-equiv`属性语法格式是：
 ```
 
 
-#### d. Content-Type 类型
+#### 20.4. d. Content-Type 类型
 
 `application/x-www-form-urlencoded`, `multipart/form-data`, `application/json`, `application/xml` 这四个是ajax的请求，表单提交或上传文件的常用的资源类型。
 form表单中可以定义`enctype`属性，该属性的含义是在发送到服务器之前应该如何对表单数据进行编码。默认的情况下，表单数据会编码为 `"application/x-www-form-unlencoded"`
@@ -609,7 +591,7 @@ enctype常用的属性值如下：
 - `application/x-www-form-unlencoded`： 在发送前编码所有字符(默认情况下)；
 - `multipart/form-data`, 不对字符编码。在使用文件上传时候，使用该值。
 
-##### `application/x-www-form-urlencoded` 主要用于如下:
+##### 20.4.1. `application/x-www-form-urlencoded` 主要用于如下:
 1. 最常见的POST提交数据方式。
 2. 原生form默认的提交方式(可以使用`enctype`指定提交数据类型)。
 3. jquery，zepto等默认post请求提交的方式。
@@ -621,14 +603,14 @@ enctype常用的属性值如下：
 <img src='../../imgs/content_type_urlencoded.png' height='250' />
 
 
-##### `multipart/form-data`
+##### 20.4.2. `multipart/form-data`
 使用表单上传文件时，必须指定表单的 `enctype`属性值为 `multipart/form-data`. 请求体被分割成多部分，每部分使用 `--boundary`分割；
 
 <img src='../../imgs/content_type_multipart.png' height='250' />
 
 
 
-##### `application/json`
+##### 20.4.3. `application/json`
 在http请求中，`Content-Type`都是默认的值 `application/x-www-form-urlencoded`, 这种编码格式的特点是：`name/value`值对，每组之间使用`&`连接，而`name`与`value`之间是使用 `=` 连接，比如 `key=xxx&name=111&password=123456; `键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用`application/json`传递比较好，
 
 <img src='../../imgs/content_type_json.png' height='250' />
@@ -637,17 +619,17 @@ enctype常用的属性值如下：
 
 注意：请求头`Content-Type`的`Type`的T一定大写。
 
-### 23. 响应式开发
+### 21. 响应式开发
 响应式开发：弹性网格布局+弹性图片+媒体查询
 
 - 优点：**减少工作量**、节省时间
 - 缺点：会**加载更多的样式和脚本资源**、老版本浏览器兼容不好
 
-### 24. `class`和`id`命名规范
+### 22. `class`和`id`命名规范
 `class`一般都是**小写加横杠**的方式命名，如`first-button`，`id`一般是用**驼峰**的方式命名，如`firstButton`
 
 
-### 25. 回流和重绘
+### 23. 回流和重绘
 回流(`reflow`)
 - 当`render tree`中的一部分(或全部)因为元素的**规模尺寸，布局，隐藏**等改变而需要重新构建。这就称为回流(`reflow`)
 - 当页面布局和几何属性改变时就需要回流
@@ -663,7 +645,7 @@ enctype常用的属性值如下：
 
 
 
-#### a. 针对回流和重绘的优化点：
+#### 23.1. a. 针对回流和重绘的优化点：
 
 1. 用`translate`替代`top`改变
 2. 用`opacity`替代`visibility`
@@ -677,7 +659,7 @@ enctype常用的属性值如下：
 
 
 
-### 26. HTML5的Audio
+### 24. HTML5的Audio
 
 Audio的使用：
 - `audio = new Audio()`，先设置`src`，后`play`或`pause`，自动支持断点续播
@@ -693,7 +675,7 @@ Audio的事件：
 
 
 
-#### a. 当音频/视频处于加载过程中时，会依次发生以下事件
+#### 24.1. a. 当音频/视频处于加载过程中时，会依次发生以下事件
 
 - loadstart
 - durationchange
@@ -707,14 +689,14 @@ Audio的事件：
 
 
 
-#### b. 元数据和数据的区别？
+#### 24.2. b. 元数据和数据的区别？
 
 - 元数据是用来**描述数据的数据**，比如“年龄"、"身高"、"相貌"、"性格”，数码照片的`EXIF`信息，何文件系统中的数据分为数据和元数据。
 - 数据是指普通文件中的实际数据，而元数据指用来描述一个文件的特征的系统数据，诸如访问权限、文件拥有者以及文件数据块的分布信息(`inode`...)等。
 
 
 
-#### c. 动态的创建`<audio>`元素
+#### 24.3. c. 动态的创建`<audio>`元素
 
 ```javascript
 //方式1
@@ -728,7 +710,7 @@ audio.play();
 ```
 
 
-#### d. 判断浏览器支持的编码方式
+#### 24.4. d. 判断浏览器支持的编码方式
 
 通过`canPlayType()`方法可以判断浏览器支持的编码方式，从而设置对应的音频文件。
 
@@ -740,7 +722,7 @@ if (audio.canPlayType("audio/mp3")) {
 }
 ```
 
-### 30. 两个标签页的sessionstorage共享吗
+### 25. 两个标签页的sessionstorage共享吗
 
 - 这取决于标签页如何打开。
 - 通过点击链接（或者用了 window.open）打开的新标签页之间是属于同一个 session 的，但新开一个标签页总是会初始化一个新的 session，即使网站是一样的，它们也不属于同一个 session。
@@ -748,14 +730,14 @@ if (audio.canPlayType("audio/mp3")) {
 - 也就是说，sessionStorage的session仅限当前标签页或者当前标签页打开的新标签页，通过其它方式新开的窗口或标签不认为是同一个session。
 
 
-### `iframe`的优缺点
-##### `iframe` 的优点：
+### 26. `iframe`的优缺点
+##### 26.0.1. `iframe` 的优点：
 - iframe能够原封不动地把嵌入的网页展现出来。
 - 如果有多个网页调用iframe，只需要修改iframe的内容，就可以实现对调用iframe的每一个页面内容的更改，方便快捷。
 - 网页如果为了统一风格，头部和版本都是一样的，就可以写成一个页面，用iframe来嵌套，可以增加代码的可重用性。
 - 如果遇到加载缓慢的第三方内容，如图标和广告等，可以用iframe来解决。
 
-##### iframe 的缺点：
+##### 26.0.2. iframe 的缺点：
 - 会产生很多页面，不容易管理。
 - 在几个框架中都出现上下、左右滚动条时，这些滚动条除了会挤占已经非常有限的页面空间外，还会分散访问者的注意力。
 - 使用框架结构时，必须保证正确设置所有的导航链接，否则会给访问者带来很大的麻烦。比如被链接的页面出现在导航框架内，这种情况下会导致链接死循环。
@@ -763,11 +745,11 @@ if (audio.canPlayType("audio/mp3")) {
 - iframe框架页面会增加服务器的http请求，对于大型网站是不可取的。
 
 
-### `img`标签的`title`与`alt`区别
+### 27. `img`标签的`title`与`alt`区别
 1. title属性规定关于元素的额外信息。这些信息通常会在**鼠标移到元素上**时显示一段工具**提示文本（tooltip text）**。在显示的内容被省略的时候，可以加一个title属性，快速实现提示文本。
 2. alt属性alt定义有关图形的短的描述。在**图片加载失败了**的时候，会显示该描述。
 
-####  b 与 strong 的区别和 i 与 em 的区别？
+####  27.1. b 与 strong 的区别和 i 与 em 的区别？
 
 ```
  从页面显示效果来看，被 <b> 和 <strong> 包围的文字将会被加粗，而被 <i> 和 <em> 包围的文字将以斜体的形式呈现。
@@ -782,7 +764,7 @@ if (audio.canPlayType("audio/mp3")) {
 
 详细资料可以参考： [《HTML5 中的 b/strong，i/em 有什么区别？》](https://www.zhihu.com/question/19551271)
 
-#### 前端性能优化？
+#### 27.2. 前端性能优化？
 
 ```
  前端性能优化主要是为了提高页面的加载速度，优化用户的访问体验。我认为可以从这些方面来进行优化。
@@ -818,5 +800,5 @@ if (audio.canPlayType("audio/mp3")) {
  （4）通过对 JavaScript 和 CSS 的文件进行压缩，来减小文件的体积。
 ```
 
-### 如何检测页面是否有卡顿
+### 28. 如何检测页面是否有卡顿
 每秒中计算一次网页的 FPS 值，获得一列数据，然后分析。通俗地解释就是，通过 requestAnimationFrame API 来定时执行一些 JS 代码，如果浏览器卡顿，无法很好地保证渲染的频率，1s 中 frame 无法达到 60 帧，即可间接地反映浏览器的渲染帧率。

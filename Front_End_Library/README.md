@@ -1,10 +1,10 @@
 ## 前端通用库
 
-1. [React](./React/README.md)
-2. [Vue](./Vue/README.md)
-3. [Webpack](./Webpack/README.md)
-4. [NextJs](./NextJs/README.md)
-5. [Electron](./Electron/README.md)
-6. [Typescript](./Typescript/README.md)
-7. [Babel](./Babel/README.md)
+1. [React](./React)
+2. [Vue](./Vue)
+3. [Webpack](./Webpack)
+4. [NextJs](./NextJs)
+5. [Electron](./Electron)
+6. [Typescript](./Typescript)
+7. [Babel](./Babel)
 

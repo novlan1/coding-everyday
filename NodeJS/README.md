@@ -1,12 +1,27 @@
-### NodeJS的优势
+- [1. NodeJS的优势](#1-nodejs的优势)
+- [2. NodeJS 全局变量和全局对象](#2-nodejs-全局变量和全局对象)
+  - [2.1. 全局对象](#21-全局对象)
+  - [2.2. 全局函数：](#22-全局函数)
+  - [2.3. 全局变量：](#23-全局变量)
+  - [2.4. 准全局变量](#24-准全局变量)
+- [3. http-server 启动本地服务器](#3-http-server-启动本地服务器)
+- [4. nodeJS 获取IP和Mac地址](#4-nodejs-获取ip和mac地址)
+- [5. fs 的常用API](#5-fs-的常用api)
+  - [5.1. fs](#51-fs)
+  - [5.2. fs 的 Promise](#52-fs-的-promise)
+- [6. 流](#6-流)
+  - [6.1. NodeJS 流基本用法：](#61-nodejs-流基本用法)
+- [7. 扫描所有视频文件](#7-扫描所有视频文件)
+
+### 1. NodeJS的优势
 
 - JS适合资源密集型操作，单线程，支持高并发，如果是CPU密集型会一直占用这个线程
 - NodeJS可以充分单核CPU的性能，高并发是相对的。
 
 
-### NodeJS 全局变量和全局对象
+### 2. NodeJS 全局变量和全局对象
 
-#### 1、全局对象
+#### 2.1. 全局对象
 
 所有模块都可以调用
 1）`global`：表示Node所在的全局环境，类似于浏览器中的window对象。
@@ -16,19 +31,19 @@
 通常是写console.log()，无须多言
 
 
-#### 2、全局函数：
+#### 2.2. 全局函数：
 
 1）定时器函数：共有4个，分别是`setTimeout()`, `clearTimeout()`, `setInterval()`, `clearInterval()`。
 2）`require`：用于加载模块。
 
 
-#### 3、全局变量：
+#### 2.3. 全局变量：
 
 1）`_filename`：指向当前运行的脚本文件名。
 2）`_dirname`：指向当前运行的脚本所在的目录。
 
 
-#### 4、准全局变量
+#### 2.4. 准全局变量
 
 模块内部的局部变量，指向的对象根据模块不同而不同，但是所有模块都适用，可以看作是伪全局变量，主要为`module`,`module.exports`, `exports`等。
 
@@ -41,7 +56,7 @@
 - `module.children` 返回一个数组，表示该模块要用到的其他模块
 
 
-### http-server启动本地服务器
+### 3. http-server 启动本地服务器
 
 `npm install -g http-server`
 
@@ -52,7 +67,7 @@
 - `-o` 在开始服务后打开浏览器
 
 
-### nodeJS获取IP和Mac地址
+### 4. nodeJS 获取IP和Mac地址
 
 ```js
 var os=require("os");
@@ -62,9 +77,9 @@ var networkInterfaces=os.networkInterfaces();
 console.info(networkInterfaces);
 ```
 
-### NodeJS中的常用API
+### 5. fs 的常用API
 
-##### fs
+#### 5.1. fs
 ```js
 fs.unlink(path)   // 删除文件
 
@@ -75,7 +90,7 @@ fs.readFile(path, {encoding: 'utf8'})   // 读取文件
 fs.writeFile(path, content, {encoding: 'utf8'})   // 写入文件
 ```
 
-##### fs 的 Promise
+#### 5.2. fs 的 Promise
 
 node10以后，fs增加了Promise，直接返回结果，如：
 ```js
@@ -88,9 +103,9 @@ const testPath = path.join(__dirname, 'helper.js')
 readFile(testPath).then(res => {
   console.log(res)
 })
-````
+```
 
-##### 流
+### 6. 流
 
 流的类型：
 - 可读流
@@ -119,7 +134,7 @@ readable.on('end', ()=>{
 src.pipe(zlib.createGzip()).pipe(writeDesc)
 ```
 
-##### NodeJS 流基本用法：
+#### 6.1. NodeJS 流基本用法：
 ```js
 // 创建一个可读流
 var readerStream = fs.createReadStream('input.txt');
@@ -132,7 +147,7 @@ var writerStream = fs.createWriteStream('output.txt');
 readerStream.pipe(writerStream);
 ```
 
-### 扫描所有视频文件
+### 7. 扫描所有视频文件
 ```js
 const path = require('path')
 const fs = require('fs')

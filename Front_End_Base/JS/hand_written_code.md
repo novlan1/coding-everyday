@@ -1,4 +1,39 @@
-### 单例模式
+- [1. JS 为数字添加千位分隔符](#1-js-为数字添加千位分隔符)
+- [2. 单例模式](#2-单例模式)
+- [3. 观察者模式](#3-观察者模式)
+- [4. 发布订阅模式](#4-发布订阅模式)
+- [5. 函数柯里化](#5-函数柯里化)
+- [6. 实现一个add方法，使结果满足如下预期](#6-实现一个add方法使结果满足如下预期)
+- [7. 实现 call、apply 方法](#7-实现-callapply-方法)
+- [8. 实现 bind 方法](#8-实现-bind-方法)
+- [9. 实现 instanceof 方法](#9-实现-instanceof-方法)
+- [10. new 的本质](#10-new-的本质)
+- [11. Object.create 的基本实现原理](#11-objectcreate-的基本实现原理)
+- [12. 实现防抖和节流](#12-实现防抖和节流)
+- [13. 用 for 和 reduce 实现 map 和 filter](#13-用-for-和-reduce-实现-map-和-filter)
+- [14. 使用 for 循环打印1-10，每个数字间隔 100ms](#14-使用-for-循环打印1-10每个数字间隔-100ms)
+- [15. 使用 setTimeout 模拟 setInterval](#15-使用-settimeout-模拟-setinterval)
+- [16. ES5 实现继承](#16-es5-实现继承)
+- [17. 实现 compose](#17-实现-compose)
+- [18. 实现深拷贝](#18-实现深拷贝)
+- [19. 实现 Promise](#19-实现-promise)
+- [20. 实现 Promise.all、Promise.race、Promise.allSettled](#20-实现-promiseallpromiseracepromiseallsettled)
+  - [20.1. Promise.all](#201-promiseall)
+  - [20.2. Promise.race](#202-promiserace)
+  - [20.3. Promise.allSettled](#203-promiseallsettled)
+- [21. 双向数据绑定](#21-双向数据绑定)
+
+### 1. JS 为数字添加千位分隔符
+```js
+function milliFormat(num) {
+    return num && num.toString()
+        .replace(/\d+/, function(s){
+             return s.replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+         })
+}
+```
+
+### 2. 单例模式
 ```js
 class Single{
   constructor(...args) {
@@ -28,7 +63,7 @@ a === b //true
 2. 创建出来的实例全等
 ```
 
-### 观察者模式
+### 3. 观察者模式
 ```js
 // 目标对象
 class Subject{
@@ -64,7 +99,7 @@ subject.notify('a', 'b', 'c')
 首先是目标的构造函数，他有个数组，用于添加观察者。
 还有个广播方法notify，遍历观察者数组后调用观察者们的update方法。
 ```
-### 发布订阅模式
+### 4. 发布订阅模式
 ```js
 class EventEmitter{
   constructor() {
@@ -120,7 +155,7 @@ emitter.emit('b', 'y', 'g', 'w')
 3. 观察者模式两个对象之间有很强的依赖关系；发布/订阅模式两个对象之间的耦合度低。
 ```
 
-### 函数柯里化
+### 5. 函数柯里化
 ```
 当我们没有重新定义 toString 与 valueOf 时，函数的隐式转换会调用默认的 toString 方法，它会将函数的定义内容作为字符串返回。
 
@@ -156,7 +191,7 @@ const a = currying(add, 12, 24, 36)
 a()
 a(123)(123)(123)
 ```
-### 实现一个add方法，使结果满足如下预期
+### 6. 实现一个add方法，使结果满足如下预期
 ```
 add(1)(2)(3) = 6; 
 add(1, 2, 3)(4) = 10;
@@ -178,7 +213,7 @@ function add() {
 }
 ```
 
-### 实现 call、apply 方法
+### 7. 实现 call、apply 方法
 ```js
 Function.prototype.myCall = function() {
   let [context, ...args] = [...arguments]
@@ -209,7 +244,7 @@ Function.prototype.myApply = function() {
   return res
 }
 ```
-### 实现 bind 方法
+### 8. 实现 bind 方法
 ```js
 Function.prototype.myBind = function() {
   const [context, ...args] = [...arguments]
@@ -220,7 +255,7 @@ Function.prototype.myBind = function() {
   }
 }
 ```
-### 实现 instanceof 方法
+### 9. 实现 instanceof 方法
 
 `instanceof`运算符用来验证，一个对象是否为指定的构造函数的实例。`obj instanceof Object`返回`true`，就表示`obj`对象是`Object`的实例。
 `instanceof`的原理是检查右边构造函数的`prototype`属性，是否在左边对象的原型链上。
@@ -238,7 +273,7 @@ function myInstanceof(left, right) {
   }
 }
 ```
-### new 的本质
+### 10. new 的本质
 ```
 1. 创建一个新对象且将其隐式原型指向构造函数原型
 2. 执行构造函数
@@ -255,7 +290,7 @@ function myNew() {
 }
 ```
 
-### Object.create 的基本实现原理
+### 11. Object.create 的基本实现原理
 ```
 1. 创建一个空的构造函数
 2. 将传入的对象作为其原型
@@ -291,7 +326,7 @@ B.print === A.print // true
 
 上面代码中，`Object.create`方法以`A`对象为原型，生成了`B`对象。`B`继承了`A`的所有属性和方法。
 
-### 实现防抖和节流
+### 12. 实现防抖和节流
 
 ```
 所谓防抖，就是指触发事件后在 n 秒内函数只能执行一次，如果在 n 秒内又触发了事件，则会重新计算函数执行时间。
@@ -321,6 +356,7 @@ function debounce(fn, time) {
   }
 }
 
+
 function throttle(tn, time) {
   let timeout 
   
@@ -344,7 +380,7 @@ function count() {
 window.onscroll = debounce(count, 500)
 window.onscroll = throttle(count, 500)
 ```
-### 用 for 和 reduce 实现 map 和 filter
+### 13. 用 for 和 reduce 实现 map 和 filter
 
 ```js
 // for 实现 map
@@ -397,7 +433,7 @@ Array.prototype.myFilter = function() {
   }, [])
 }
 ```
-### 使用 for 循环打印1-10，每个数字间隔 100ms
+### 14. 使用 for 循环打印1-10，每个数字间隔 100ms
 
 ```js
 // 使用 let
@@ -427,7 +463,7 @@ for (var i = 0; i < 11; i++) {
 }
 ```
 
-### 使用 setTimeout 模拟 setInterval
+### 15. 使用 setTimeout 模拟 setInterval
 ```js
 const time = 500 
 
@@ -491,7 +527,7 @@ setInterval(function(){
 
 参考资料：[解决 setInterval 计时器不准的问题](https://www.cnblogs.com/flash3d/archive/2014/05/08/3715600.html)
 
-### ES5 实现继承
+### 16. ES5 实现继承
 ```js
 function Parent() {
 }
@@ -583,7 +619,7 @@ console.log(s.constructor)
 
 
 
-### 实现 compose
+### 17. 实现 compose
 ```js
 /**
  * 实现以下功能：compose([a, b, c])('参数') => a(b(c('参数')))
@@ -612,7 +648,7 @@ const b = x => x + 5
 const c = x => x * 3
 compose([a, b, c])(123)
 ```
-### 实现深拷贝
+### 18. 实现深拷贝
 ```
 1. 使用JSON.stringify和JSON.parse实现深拷贝：JSON.stringify把对象转成字符串，再用JSON.parse把字符串转成
    新的对象；
@@ -670,12 +706,48 @@ function deepCopyBFS(origin) {
   }
   return target
 }
-
-
 ```
 参考资料：[深拷贝, 简书](https://www.jianshu.com/p/cf1e9d7e94fb)
 
-### 实现 Promise
+### 19. 实现 Promise
+```js
+class MyPromise{
+  constructor(process) {
+    this.status = 'pending'
+    this.msg = ''
+    process(this.resolve.bind(this), this.reject.bind(this))
+    return this
+  }
+
+  resolve(val) {
+    this.status = 'fulfilled' 
+    this.msg = val
+  }
+
+  reject(val) {
+    this.status = 'rejected'
+    this.msg = val
+  }
+
+  then(fulfilled, reject) {
+    if (this.status === 'fulfilled') {
+      fulfilled(this.msg)
+    }
+    if (this.status === 'rejected'){
+      reject(this.msg)
+    }   
+  }
+}
+
+// 测试
+const mm = new MyPromise((resolve, reject) => {
+  resolve('123')
+})
+
+mm.then(res => {
+  console.log(res, 'success')
+})
+```
 ```js
 const PENDING = 'pending'
 const RESOLVED = 'resolved'
@@ -778,8 +850,8 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
 参考资料：[segmentfault](https://segmentfault.com/a/1190000016550260)
 
-### 实现 Promise.all、Promise.race、Promise.allSettled
-#### Promise.all
+### 20. 实现 Promise.all、Promise.race、Promise.allSettled
+#### 20.1. Promise.all
 ```
 Promise.all(iterable) 方法返回一个 Promise 实例，此实例在 iterable 参数内所有的 
 promise 都“完成（resolved）”或参数中不包含 promise 时回调完成（resolve）；
@@ -812,7 +884,7 @@ Promise.newAll = function (promiseArr) {
 }
 
 ```
-#### Promise.race
+#### 20.2. Promise.race
 ```
 Promise.race(iterable) 方法返回一个 promise，一旦迭代器中的某个 promise 解决或拒绝，
 返回的 promise 就会解决或拒绝。
@@ -838,7 +910,7 @@ Promise.newRace = function (promiseArr) {
 };
 ```
 
-#### Promise.allSettled
+#### 20.3. Promise.allSettled
 ```
 Promise.allSettled() 方法返回一个在所有给定的 promise 已被决议或被拒绝后决议的 promise，
 并带有一个对象数组，每个对象表示对应的promise 结果。
@@ -877,7 +949,7 @@ Promise.newAllSettled = function (promiseArr) {
 };
 ```
 
-### 双向数据绑定
+### 21. 双向数据绑定
 ```html
 <input id="input"/>
 ```

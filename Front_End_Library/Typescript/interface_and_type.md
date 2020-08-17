@@ -1,13 +1,20 @@
-# Typescript 中的 interface 和 type
+- [1. Typescript 中的 interface 和 type](#1-typescript-中的-interface-和-type)
+  - [1.1. 相同点](#11-相同点)
+  - [1.2. 不同点](#12-不同点)
+    - [1.2.1. type 可以而 interface 不行](#121-type-可以而-interface-不行)
+    - [1.2.2. interface 可以而 type 不行](#122-interface-可以而-type-不行)
 
-## 相同点
+
+## 1. Typescript 中的 interface 和 type
+
+### 1.1. 相同点
 
 - 都可以描述一个对象或者函数
 - 都允许拓展（extends）
 
-## 不同点
+### 1.2. 不同点
 
-### type 可以而 interface 不行
+#### 1.2.1. type 可以而 interface 不行
 
 - type 声明的方式可以定义组合类型，交叉类型，原始类型。
 
@@ -48,7 +55,7 @@ type Coordinates = Pair<number>;
 type Tree<T> = T | { left: Tree<T>, right: Tree<T> };
 ```
 
-### interface 可以而 type 不行
+#### 1.2.2. interface 可以而 type 不行
 
 - interface 能够声明合并
 

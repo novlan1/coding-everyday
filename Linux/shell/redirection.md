@@ -1,4 +1,9 @@
-# 重定向
+- [1. 重定向](#1-重定向)
+  - [1.1. tee](#11-tee)
+  - [1.2. 命令替换](#12-命令替换)
+  - [1.3. basename](#13-basename)
+
+# 1. 重定向
 
 重定向指的是将命令行输出写入指定位置。
 
@@ -97,7 +102,7 @@ read -p "Enter a single item > "
 [[ -z $REPLY ]] && invalid_input
 ```
 
-## tee
+## 1.1. tee
 
 `tee`命令用于同时将标准输出重定向到文件，以及另一个命令的标准输入。
 
@@ -105,7 +110,7 @@ read -p "Enter a single item > "
 $ ls /usr/bin | tee ls.txt | grep zip
 ```
 
-## 命令替换
+## 1.2. 命令替换
 
 命令替换（command substitution）指的是将一个命令的输出，替换进入另一个命令。`$(command)`表示命令替换，另一种写法是使用反引号。
 
@@ -119,7 +124,7 @@ $ ls -l $(which cp)
 $ ls -l `which cp`
 ```
 
-## basename
+## 1.3. basename
 
 `basename`命令清除 一个路径名的开头部分，只留下一个文件的基本名称。
 

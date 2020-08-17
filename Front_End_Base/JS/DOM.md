@@ -1,6 +1,28 @@
-## DOM
+- [1. DOM 事件级别](#1-dom-事件级别)
+- [2. DOM 事件模型](#2-dom-事件模型)
+- [3. DOM 事件流](#3-dom-事件流)
+- [4. 描述 DOM 事件捕获的具体流程](#4-描述-dom-事件捕获的具体流程)
+- [5. Event 对象常见应用](#5-event-对象常见应用)
+- [6. 事件的代理/委托](#6-事件的代理委托)
+- [7. 自定义事件](#7-自定义事件)
+- [8. IE 与火狐的事件机制有什么区别？ 如何阻止冒泡？](#8-ie-与火狐的事件机制有什么区别-如何阻止冒泡)
+- [9. DOM 元素的 dom.getAttribute(propName)和 dom.propName 有什么区别和联系](#9-dom-元素的-domgetattributepropname和-dompropname-有什么区别和联系)
+- [10. DOM 操作——怎样添加、移除、移动、复制、创建和查找节点?](#10-dom-操作怎样添加移除移动复制创建和查找节点)
+- [11. `documen.write` 和 `innerHTML` 的区别](#11-documenwrite-和-innerhtml-的区别)
+- [12. `window` 对象 与 `document` 对象](#12-window-对象-与-document-对象)
+- [13. 区分什么是“客户区坐标”、“页面坐标”、“屏幕坐标”](#13-区分什么是客户区坐标页面坐标屏幕坐标)
+- [14. focus/blur 与 focusin/focusout 的区别与联系](#14-focusblur-与-focusinfocusout-的区别与联系)
+- [15. mouseover/mouseout 与 mouseenter/mouseleave 的区别与联系](#15-mouseovermouseout-与-mouseentermouseleave-的区别与联系)
+- [16. IE 的事件处理和 W3C 的事件处理有哪些区别？](#16-ie-的事件处理和-w3c-的事件处理有哪些区别)
+- [17. onclick 与 addEventListener 区别？](#17-onclick-与-addeventlistener-区别)
+  - [17.1. DOM是哪种基本数据结构](#171-dom是哪种基本数据结构)
+  - [17.2. DOM节点的Attribute和property有何区别？](#172-dom节点的attribute和property有何区别)
+- [18. 对于一个无限下拉加载图片的页面，如何给每个图片绑定事件？](#18-对于一个无限下拉加载图片的页面如何给每个图片绑定事件)
+- [19. 事件委托](#19-事件委托)
+- [20. 事件代理的好处](#20-事件代理的好处)
+- [21. 什么时候用事件委托？](#21-什么时候用事件委托)
 
-### DOM 事件级别
+### 1. DOM 事件级别
 
 - DOM0
   - onXXX 类型的定义事件
@@ -16,12 +38,12 @@
   - element.addEventListener('keyup', function (e) { ... })
   - eventUtil 是自定义对象，textInput 是 DOM3 级事件
 
-### DOM 事件模型
+### 2. DOM 事件模型
 ![DOM 事件模型](../../imgs/dom_event_model.jpg)
 
 捕获从上到下， 冒泡从下到上。 先捕获，再到目标，再冒泡 
 
-### DOM 事件流
+### 3. DOM 事件流
 
 DOM 标准采用捕获+冒泡。两种事件流都会触发 DOM 的所有对象，从 window 对象开始，也在 window 对象结束。
 
@@ -31,11 +53,11 @@ DOM 标准规定事件流包括三个阶段：
 - 处于目标阶段
 - 事件冒泡阶段
 
-### 描述 DOM 事件捕获的具体流程
+### 4. 描述 DOM 事件捕获的具体流程
 
 从 window -> document -> html -> body -> ... -> 目标元素
 
-### Event 对象常见应用
+### 5. Event 对象常见应用
 
 - event.target
   - 触发事件的元素
@@ -49,7 +71,7 @@ DOM 标准规定事件流包括三个阶段：
 - event.stopImmediatePropagation()
   - 阻止事件冒泡并且阻止相同事件的其他侦听器被调用。
 
-### 事件的代理/委托
+### 6. 事件的代理/委托
 
 事件委托是指将事件绑定目标元素的到父元素上，利用冒泡机制触发该事件
 
@@ -73,7 +95,7 @@ ulEl.addEventListener(
 );
 ```
 
-### 自定义事件
+### 7. 自定义事件
 
 - Event
 - CustomEvent
@@ -90,7 +112,7 @@ someDom.addEventListener("myEvent", function () {
 someDom.dispatchEvent(evt);
 ```
 
-### IE 与火狐的事件机制有什么区别？ 如何阻止冒泡？
+### 8. IE 与火狐的事件机制有什么区别？ 如何阻止冒泡？
 
 IE 只事件冒泡，不支持事件捕获；火狐同时支持件冒泡和事件捕获。
 
@@ -114,7 +136,7 @@ function stopHandler(event)
 }
 ```
 
-### DOM 元素的 dom.getAttribute(propName)和 dom.propName 有什么区别和联系
+### 9. DOM 元素的 dom.getAttribute(propName)和 dom.propName 有什么区别和联系
 
 - dom.getAttribute()，是标准 DOM 操作文档元素属性的方法，具有通用性可在任意文档上使用，返回元素在源文件中设置的属性
 - dom.propName 通常是在 HTML 文档中访问特定元素的特性，浏览器解析元素后生成对应对象（如 a 标签生成 HTMLAnchorElement），这些对象的特性会根据特定规则结合属性设置得到，对于没有对应特性的属性，只能使用 getAttribute 进行访问
@@ -124,7 +146,7 @@ function stopHandler(event)
 - 一些布尔属性 `<input hidden/>` 的检测设置需要 hasAttribute 和 removeAttribute 来完成，或者设置对应 property，像`<a href="../index.html">link</a>`中 href 属性，转换成 property 的时候需要通过转换得到完整 URL
 - 一些 attribute 和 property 不是一一对应如：form 控件中`<input value="hello"/>`对应的是 `defaultValue`，修改或设置 value property 修改的是控件当前值，setAttribute 修改 value 属性不会改变 value property
 
-### DOM 操作——怎样添加、移除、移动、复制、创建和查找节点?
+### 10. DOM 操作——怎样添加、移除、移动、复制、创建和查找节点?
 
 创建新节点
 
@@ -145,12 +167,12 @@ function stopHandler(event)
 - getElementsByName() // 通过元素的 Name 属性的值(IE 容错能力较强，会得到一个数组，其中包括 id 等于 name 值的)
 - getElementById() //通过元素 Id，唯一性
 
-### documen.write 和 innerHTML 的区别
+### 11. `documen.write` 和 `innerHTML` 的区别
 
-- document.write 只能重绘整个页面
-- innerHTML 可以重绘页面的一部分
+- `document.write` 只能重绘整个页面
+- `innerHTML` 可以重绘页面的一部分
 
-### Window 对象 与 document 对象
+### 12. `window` 对象 与 `document` 对象
 
 window
 
@@ -164,7 +186,7 @@ document
 - Document 对象使我们可以通过脚本对 HTML 页面中的所有元素进行访问
 - Document 对象是 Window 对象的一部分，即 window.document
 
-### 区分什么是“客户区坐标”、“页面坐标”、“屏幕坐标”
+### 13. 区分什么是“客户区坐标”、“页面坐标”、“屏幕坐标”
 
 - 客户区坐标
   - 鼠标指针在可视区中的水平坐标(clientX)和垂直坐标(clientY)
@@ -173,18 +195,18 @@ document
 - 屏幕坐标
   - 设备物理屏幕的水平坐标(screenX)和垂直坐标(screenY)
 
-### focus/blur 与 focusin/focusout 的区别与联系
+### 14. focus/blur 与 focusin/focusout 的区别与联系
 
 1. focus/blur 不冒泡，focusin/focusout 冒泡
 2. focus/blur 兼容性好，focusin/focusout 在除 FireFox 外的浏览器下都保持良好兼容性，如需使用事件托管，可考虑在 FireFox 下使用事件捕获 elem.addEventListener('focus', handler, true)
 
-### mouseover/mouseout 与 mouseenter/mouseleave 的区别与联系
+### 15. mouseover/mouseout 与 mouseenter/mouseleave 的区别与联系
 
 1. mouseover/mouseout 是标准事件，**所有浏览器都支持**；mouseenter/mouseleave 是 IE5.5 引入的特有事件后来被 DOM3 标准采纳，现代标准浏览器也支持
 2. mouseover/mouseout 是**冒泡**事件；mouseenter/mouseleave**不冒泡**。需要为**多个元素监听鼠标移入/出事件时，推荐 mouseover/mouseout 托管，提高性能**
 3. 标准事件模型中 `event.target` 表示发生移入/出的元素,**event.relatedTarget**对应移出/如元素；在老 IE 中 `event.srcElement` 表示发生移入/出的元素，**event.toElement**表示移出的目标元素，**event.fromElement**表示移入时的来源元素
 
-### IE 的事件处理和 W3C 的事件处理有哪些区别？
+### 16. IE 的事件处理和 W3C 的事件处理有哪些区别？
 
 绑定事件
 
@@ -218,7 +240,7 @@ document
 
 
 
-### onclick 与 addEventListener 区别？
+### 17. onclick 与 addEventListener 区别？
 
 1. onclick事件在同一时间**只能指向唯一对象**。就算对于一个对象**绑定了多次**，但是仍然只会**执行最后的一次绑定**。
 2. addEventListener 给一个事件**注册多个listener**
@@ -226,13 +248,13 @@ document
 4. addEventListener 可以控制 listener 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 removeEventListener 清除
 5. IE9使用 attachEvent 和 detachEvent
 
-#### DOM是哪种基本数据结构
+#### 17.1. DOM是哪种基本数据结构
 1. DOM，Document Object Model，文档对象模型 
 2. DOM 的本质 => 树结构
 3.  DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
 
 
-#### DOM节点的Attribute和property有何区别？
+#### 17.2. DOM节点的Attribute和property有何区别？
 1. property只是一个**JS对象的属性**的修改（如`nodeType/nodeName/classList`）
 2. attribute是对 **html标签属性**的修改
 
@@ -270,3 +292,25 @@ attribute：
 </li>
 ```
 
+
+
+### 18. 对于一个无限下拉加载图片的页面，如何给每个图片绑定事件？
+采用事件代理，给父容器绑定事件，然后通过 event.target 判断是否是图片类型，是的话，执行事件逻辑。
+
+
+### 19. 事件委托
+
+事件委托(事件代理)指的是，**不在事件的发生地（直接dom）上设置监听函数**，而是**在其父元素上设置监听函数**，通过**事件冒泡**，父元素可以监听到子元素上事件的触发，**通过判断事件发生元素DOM的类型**，来做出不同的响应。
+
+举例：最经典的就是`ul`和`li`标签的事件监听，比如我们在添加事件时候，采用事件委托机制，不会在`li`标签上直接添加，而是在`ul`父元素上添加。
+
+关键是 e.target
+
+
+### 20. 事件代理的好处
+1. 代码简洁
+2. 比较合适动态元素的绑定，新添加的子元素也会有监听函数，也可以有事件触发机制。
+3. 事件委托技术可以避免对每个子元素添加事件监听器，减少操作DOM节点的次数，从而减少浏览器的重绘和重排，提高代码的性能。使用事件委托，只有父元素与DOM存在交互，其他的操作都是在JS虚拟内存中完成的，这样就大大提高了性能。
+
+### 21. 什么时候用事件委托？
+当子元素有很多，需要对子元素的事件进行监听的时候。

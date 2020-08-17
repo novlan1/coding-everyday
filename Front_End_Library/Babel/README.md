@@ -1,3 +1,11 @@
+- [1. babel工作流](#1-babel工作流)
+- [2. Toolings](#2-toolings)
+- [3. Plugins](#3-plugins)
+- [4. Presets](#4-presets)
+- [5. Polyfills](#5-polyfills)
+- [6. babel7做的更新](#6-babel7做的更新)
+- [7. babel将`ECMAScript 2015+` 版本的代码分为了两种情况处理：](#7-babel将ecmascript-2015-版本的代码分为了两种情况处理)
+
 ### 1. babel工作流
 
 ```rust
@@ -199,7 +207,7 @@ core-js（https://github.com/zloirock/core-js）
 
 
 
-### babel将`ECMAScript 2015+` 版本的代码分为了两种情况处理：
+### 7. babel将`ECMAScript 2015+` 版本的代码分为了两种情况处理：
 
 - **语法层**： let、const、class、箭头函数等，这些需要在**构建时进行转译**，是指在语法层面上的转译
 - **api方法层**：Promise、includes、map等，这些是在全局或者Object、Array等的原型上新增的方法，它们可以由相应es5的方式重新定义

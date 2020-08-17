@@ -1,5 +1,20 @@
-## Node 获取硬件信息
-####  可以获取外网 IP 的网址
+- [1. Node 获取硬件信息](#1-node-获取硬件信息)
+  - [1.1. 可以获取外网 IP 的网址](#11-可以获取外网-ip-的网址)
+  - [1.2. 获取外网端口号](#12-获取外网端口号)
+  - [1.3. MAC 电脑获取WIFI、网线等对应的设备代码](#13-mac-电脑获取wifi网线等对应的设备代码)
+  - [1.4. Windows 获取 CPU 序列号](#14-windows-获取-cpu-序列号)
+  - [1.5. 获取主机名字](#15-获取主机名字)
+  - [1.6. 获取主机序列号](#16-获取主机序列号)
+  - [1.7. 获取磁盘序列号](#17-获取磁盘序列号)
+  - [1.8. 获取磁盘分区信息](#18-获取磁盘分区信息)
+  - [1.9. 获取系统版本](#19-获取系统版本)
+  - [1.10. 获取系统盘卷标号](#110-获取系统盘卷标号)
+  - [1.11. 获取内网 IP 和 MAC 地址](#111-获取内网-ip-和-mac-地址)
+
+## 1. Node 获取硬件信息
+
+###  1.1. 可以获取外网 IP 的网址
+
 ```js
 const ipUrlList = [
   "http://pv.sohu.com/cityjson",
@@ -9,13 +24,13 @@ const ipUrlList = [
 ];
 ```
 
-#### 获取外网端口号
+### 1.2. 获取外网端口号
 
 ```bash
 curl ifconfig.io/port 
 ```
 
-#### MAC 电脑获取WIFI、网线等对应的设备代码
+### 1.3. MAC 电脑获取WIFI、网线等对应的设备代码
 ```bash
 networksetup -listnetworkserviceorder
 ```
@@ -36,7 +51,7 @@ An asterisk (*) denotes that a network service is disabled.
 ```
 
 
-#### Windows 获取 CPU 序列号
+### 1.4. Windows 获取 CPU 序列号
 
 ```bash
 wmic CPU get ProcessorID
@@ -46,7 +61,7 @@ wmic CPU get ProcessorID
 ProcessorId
 BFEBFBFF000506E3
 ```
-#### 获取主机名字
+### 1.5. 获取主机名字
 ```js
 const os = require("os");
 const host = os.hostname();
@@ -55,12 +70,12 @@ const host = os.hostname();
 ```
 hostname
 ```
-#### 获取主机序列号
+### 1.6. 获取主机序列号
 MAC（与获取磁盘序列号一样）：
 ```bash
 system_profiler SPHardwareDataType
 ```
-#### 获取磁盘序列号
+### 1.7. 获取磁盘序列号
 MAC（获取的是`Hardware UUID`）：
 ```bash
 system_profiler SPHardwareDataType
@@ -96,7 +111,7 @@ SerialNumber
 AU6485
 86DA166MS
 ```
-#### 获取磁盘分区信息
+### 1.8. 获取磁盘分区信息
 MAC（与获取系统盘卷标号一样）：
 ```bash
 system_profiler SPStorageDataType
@@ -116,7 +131,7 @@ NTFS        G:    214754652160
 NTFS        H:    340186361856
 ```
 
-#### 获取系统版本
+### 1.9. 获取系统版本
 Windows 命令：
 ```
 ver
@@ -147,7 +162,7 @@ more /System/Library/CoreServices/SystemVersion.plist
 </plist>
 ```
 
-#### 获取系统盘卷标号
+### 1.10. 获取系统盘卷标号
 Windows 命令：
 ```
 vol c:
@@ -222,7 +237,7 @@ Storage:
 ```
 正则获取第一个`BSD Name`即可
 
-#### 获取内网 IP 和 MAC 地址
+### 1.11. 获取内网 IP 和 MAC 地址
 ```js
 const os = require("os");
 const ifaces = os.networkInterfaces();

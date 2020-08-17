@@ -1,4 +1,17 @@
-# Loader
+- [Loader](#loader)
+- [打包静态资源](#打包静态资源)
+  - [一、打包图片](#一打包图片)
+    - [(1) file-loader](#1-file-loader)
+      - [配置项](#配置项)
+    - [(2) url-loader](#2-url-loader)
+  - [二、打包样式](#二打包样式)
+    - [使用 sass](#使用-sass)
+    - [厂商前缀 postcss-loader](#厂商前缀-postcss-loader)
+    - [importLoaders](#importloaders)
+    - [CSS modules](#css-modules)
+  - [三、打包字体](#三打包字体)
+
+## Loader
 
 当打包到非 JS 文件的时候，webpack 会在`module`中配置里查找，然后根据`rules`中的`test`选择一个 loader 来处理。
 
@@ -25,7 +38,7 @@ module: {
 },
 ```
 
-#### 配置项
+##### 配置项
 
 让图片打包出来的名字与拓展名与原来一样 `'[name].[ext]'` 这种语法叫 `placehoder` 即占位符
 
@@ -161,7 +174,7 @@ img.src = girl;
 img.classList.add(style.girl)
 ```
 
-#### 三、打包字体
+### 三、打包字体
 
 打包时如果有字体文件的话打包又会报错，因为不认识字体文件。而对字体文件的打包只需要`file-loader`就可以了
 

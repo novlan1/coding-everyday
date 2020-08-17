@@ -1,8 +1,15 @@
-# path
+- [1. path](#1-path)
+    - [1.0.1. normalize、join、resolve](#101-normalizejoinresolve)
+    - [1.0.2. basename、dirname、extname](#102-basenamedirnameextname)
+    - [1.0.3. parse 与 format](#103-parse-与-format)
+    - [1.0.4. sep、delimiter、win32、posix](#104-sepdelimiterwin32posix)
+    - [1.0.5. 关于路径，`__dirname`，`process.cwd()`，`path.resolve()`三者的区别](#105-关于路径__dirnameprocesscwdpathresolve三者的区别)
+
+# 1. path
 
 path 模块提供用于处理文件路径和目录路径的实用工具。
 
-### normalize、join、resolve
+### 1.0.1. normalize、join、resolve
 
 - path.normalize() 方法规范化给定的 path，解析 '..' 和 '.' 片段。
 
@@ -26,7 +33,7 @@ path.join("/foo", "bar", "baz/asdf", "..");
 // 则返回 '/home/myself/node/wwwroot/static_files/gif/image.gif')
 ```
 
-### basename、dirname、extname
+### 1.0.2. basename、dirname、extname
 
 - basename
   - 文件名.拓展名
@@ -44,7 +51,7 @@ path.join("/foo", "bar", "baz/asdf", "..");
 └──────┴──────────────┴──────┴─────┘
 ```
 
-### parse 与 format
+### 1.0.3. parse 与 format
 
 - parse 是将字符串形式的文件路径给解析成一个包含 root, dir, base, name, ext 属性的对象
 - format 则是将这个对象代表的路径转成字符串形式，与 parse 相反
@@ -56,7 +63,7 @@ path.join("/foo", "bar", "baz/asdf", "..");
 - 如果提供了 pathObject.dir，则忽略 pathObject.root。
 - 如果 pathObject.base 存在，则忽略 pathObject.ext 和 pathObject.name。
 
-### sep、delimiter、win32、posix
+### 1.0.4. sep、delimiter、win32、posix
 
 - delimiter提供平台特定的路径分隔符：
   - Windows 上是 `;`
@@ -67,7 +74,7 @@ path.join("/foo", "bar", "baz/asdf", "..");
 - path.win32 属性提供了 path 方法针对 Windows 的实现;
 - path.posix 属性提供了 path 方法针对 POSIX 的实现。
 
-### 关于路径，`__dirname`，`process.cwd()`，`path.resolve()`三者的区别
+### 1.0.5. 关于路径，`__dirname`，`process.cwd()`，`path.resolve()`三者的区别
 
 - `__dirname`与`__filename`总是返回文件的绝对路径，即物理磁盘上的路径
 - `process.cwd()`总是返回执行`node`命令时所在的文件夹路径，当前在哪里启动的脚本路径
@@ -77,4 +84,5 @@ path.join("/foo", "bar", "baz/asdf", "..");
 
 
 
-参考资料：[初学node，你必须懂的几个api](https://www.jianshu.com/p/08e014f786a4?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation)
+参考资料：
+1. [初学node，你必须懂的几个api](https://www.jianshu.com/p/08e014f786a4?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation)

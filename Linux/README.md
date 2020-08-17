@@ -1,6 +1,33 @@
-## Linux 命令
+- [1. Linux 命令](#1-linux-命令)
+  - [1.1. 生成 SSH 密钥](#11-生成-ssh-密钥)
+  - [1.2. unzip解压缩到其他目录](#12-unzip解压缩到其他目录)
+  - [1.3. linux创建文件名添加当前系统日期时间的方法](#13-linux创建文件名添加当前系统日期时间的方法)
+  - [1.4. Vim 删除当前行](#14-vim-删除当前行)
+  - [1.5. Vim 设置行号](#15-vim-设置行号)
+  - [1.6. Vim 搜索与取消搜索](#16-vim-搜索与取消搜索)
+  - [1.7. `df -h`和 `df -i`](#17-df--h和-df--i)
+  - [1.8. `sudo su` 和 `sudo -s`的区别](#18-sudo-su-和-sudo--s的区别)
+  - [1.9. `ps -ef`和`ps aux`的区别](#19-ps--ef和ps-aux的区别)
+  - [1.10. VScode 使用时会每次修改文件时提示没有权限的问题](#110-vscode-使用时会每次修改文件时提示没有权限的问题)
+  - [1.11. mac 电脑在控制台输入`open .`即可打开`finder`的当前文件夹](#111-mac-电脑在控制台输入open-即可打开finder的当前文件夹)
+  - [1.12. ifconfig 含义](#112-ifconfig-含义)
+  - [1.13. windows 电脑查看mac地址](#113-windows-电脑查看mac地址)
+  - [1.14. 部署项目至远程服务器](#114-部署项目至远程服务器)
+    - [1.14.1. 连接远程linux服务器](#1141-连接远程linux服务器)
+    - [1.14.2. Web服务器Nginx的安装](#1142-web服务器nginx的安装)
+    - [1.14.3. Nginx的配置](#1143-nginx的配置)
+    - [1.14.4. 上传项目到服务器](#1144-上传项目到服务器)
+  - [1.15. Linux 安装`unzip`](#115-linux-安装unzip)
+  - [1.16. Linux 安装`node`](#116-linux-安装node)
+  - [1.17. Linux 安装 MongoDB](#117-linux-安装-mongodb)
+  - [1.18. CentOS7 安装 MySQL](#118-centos7-安装-mysql)
+  - [1.19. mysql修改用户密码的方法及命令](#119-mysql修改用户密码的方法及命令)
+  - [1.20. 查看 crontab 任务是否执行以及执行日志](#120-查看-crontab-任务是否执行以及执行日志)
+  - [1.21. 挂载](#121-挂载)
 
-### 生成 SSH 密钥
+## 1. Linux 命令
+
+### 1.1. 生成 SSH 密钥
 ```bash
 ssh-keygen -t rsa -C "your_email@example.com"
 ```
@@ -24,12 +51,12 @@ Generating public/private rsa key pair.
 
 默认情况下，用户的 SSH 密钥存储在其 `~/.ssh` 目录下
 
-### unzip解压缩到其他目录
+### 1.2. unzip解压缩到其他目录
 
 `unzip test.zip -d /tmp`
 
 
-### linux创建文件名添加当前系统日期时间的方法
+### 1.3. linux创建文件名添加当前系统日期时间的方法
 
 使用`date +%y%m%d` 
 
@@ -42,18 +69,18 @@ mkdir `date +%y%m%d`
 
 重要说明点：那个日期`$(date +%Y%m%d)`的 `date`命令和后边的日期格式的`+`号之前有一个空格。直接连写生成不了日期
 
-### Vim 删除当前行
+### 1.4. Vim 删除当前行
 ```vim
 dd
 ```
 
-### Vim 设置行号 
+### 1.5. Vim 设置行号 
 ```
 :set number
 ```
 
 
-### Vim 搜索与取消搜索
+### 1.6. Vim 搜索与取消搜索
 
 在Vi里面如果要搜索某个关键字，只要在命令状态下键入`/xxx`就可以了，比如，我要搜索`port`的位置，我就键入：
 ```
@@ -62,20 +89,20 @@ dd
 然后回车，一个文件中，所有出现这个字样的地方都会被高亮显示。按n键，就可以自动把光标跳到下一个。
 但是，用好这个功能，怎么消除高亮呢，只要键入`:noh`就可以了
 
-### `df -h`和 `df -i`
+### 1.7. `df -h`和 `df -i`
 
 - `df -h`查看磁盘使用情况
 - `df -i` 查看inode使用情况
 
 
-### `sudo su` 和 `sudo -s`的区别
+### 1.8. `sudo su` 和 `sudo -s`的区别
 `sudo su` 和 `sudo -s`都是切换到root用户，不同的是：
 
 - sudo su 环境用的是目标用户(root)的环境
 - sudo -s 环境用的是当前用户本身的环境
 
 
-### `ps -ef`和`ps aux`的区别
+### 1.9. `ps -ef`和`ps aux`的区别
 
 - `-ef`是`System V`展示风格，而`aux`是`BSD`风格。
 - `COMMAND`列如果过长，`aux`会截断显示，而ef不会
@@ -83,7 +110,7 @@ dd
 - 如果想查看进程的父进程`ID`和完整的`COMMAND`命令，可以使用`ef`
 
 
-### VScode 使用时会每次修改文件时提示没有权限的问题
+### 1.10. VScode 使用时会每次修改文件时提示没有权限的问题
 ```bash
 sudo chown -R 当前用户  需要操作的文件夹路径
 ```
@@ -93,10 +120,10 @@ sudo chown -R 当前用户  需要操作的文件夹路径
 sudo chown -R liwz /Users/liwz/workspace/minicnypafe
 ```
 
-### mac 电脑在控制台输入`open .`即可打开`finder`的当前文件夹
+### 1.11. mac 电脑在控制台输入`open .`即可打开`finder`的当前文件夹
 用的工具是`iterm`
 
-### ifconfig 含义
+### 1.12. ifconfig 含义
 ```
 lo0 = loopback
 
@@ -130,18 +157,18 @@ vmnet#通常由VM（Parallels / VMware）建立
 
 参考资料：[有人可以在Mac OS X中解釋ifconfig輸出吗？](https://t.codebug.vip/questions-1079897.htm)
 
-### windows 电脑查看mac地址 
+### 1.13. windows 电脑查看mac地址 
 
 ```
 ipconfig/all
 ```
 
 
-### 部署项目至远程服务器
+### 1.14. 部署项目至远程服务器
 
 选择的是CentOS系统，版本在7.0以上
 
-##### 1. 连接远程linux服务器
+#### 1.14.1. 连接远程linux服务器
 
 `Git bash`连接远程工具 
 
@@ -150,7 +177,7 @@ ipconfig/all
 除了`git bash`，大家还可以用`Xshell`,也很方便，或者直接通过远程桌面连接（方法：`windows键+R`；输入`mstsc`）
 
 
-##### 2. Web服务器Nginx的安装
+#### 1.14.2. Web服务器Nginx的安装
 
 1. 因为`centos`的`yum`源没有`nginx`资源，故需要先安装`epel-release`
 ```
@@ -165,7 +192,7 @@ yum install nginx
 `EPEL`的全称叫 `Extra Packages for Enterprise Linux` 。EPEL是由 `Fedora` 社区打造，为 `RHEL` 及衍生发行版如 CentOS、Scientific Linux 等提供高质量软件包的项目。装上了 EPEL之后，就相当于添加了一个第三方源。
 
 
-##### 3. Nginx的配置
+#### 1.14.3. Nginx的配置
 
 - nginx配置文件
 
@@ -190,7 +217,7 @@ nginx -s stop # 停止进程
 
 直接`nginx`  或者 nginx -s reload # 重启nginx
 ```
-##### 4. 上传项目到服务器
+#### 1.14.4. 上传项目到服务器
 
 `scp -r ./* root@47.94.255.230:/root/www`
 
@@ -198,14 +225,14 @@ nginx -s stop # 停止进程
 
 
 
-### Linux 安装`unzip`
+### 1.15. Linux 安装`unzip`
 如果你如法使用`unzip`命令解压.zip文件，可能是你没有安装unzip软件，下面是安装方法
 
 - 命令： `yum list | grep zip/unzip`  #获取安装列表
 - 安装命令：`yum install zip`  #提示输入时，请输入y；
 - 安装命令：`yum install unzip` #提示输入时，请输入y；
 
-### Linux 安装`node`
+### 1.16. Linux 安装`node`
 - 服务器安装`node`，解压安装包后，在`/etc/profile`文件`export path`语句前加上
 ```
 PATH=$PATH:/home/kun/mysofltware/node-v0.10.26-linux-x64/bin
@@ -219,7 +246,7 @@ PATH=$PATH:/home/kun/mysofltware/node-v0.10.26-linux-x64/bin
 - 然后，`source ~/.bash_profile`
 
 
-### Linux 安装 MongoDB
+### 1.17. Linux 安装 MongoDB
 
 - 创建日志目录和数据文件目录
 ```bash
@@ -249,7 +276,7 @@ cd /usr/local/mongodb/bin/
 ./mongod --config ../mongodb.conf
 ```
 
-### CentOS7 安装 MySQL
+### 1.18. CentOS7 安装 MySQL
 
 在 CentOS 中默认安装有 MariaDB，这个是 MySQL 的分支，但为了需要，还是要在系统中安装 MySQL，而且安装完成之后可以直接覆盖掉 MariaDB。
 
@@ -298,7 +325,7 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'new password';
 ```
 
 
-### mysql修改用户密码的方法及命令
+### 1.19. mysql修改用户密码的方法及命令
 
 
 用`SET PASSWORD`命令 
@@ -344,7 +371,7 @@ mysql> set global validate_password_length=1;
 $ yum -y remove mysql57-community-release-el7-10.noarch
 ```
 
-### 查看 crontab 任务是否执行以及执行日志
+### 1.20. 查看 crontab 任务是否执行以及执行日志
 1. 查看 crontab 的日志
 - 日志文件为`/var/log/cron`
 - 找到对应时间，是否执行指令
@@ -363,7 +390,7 @@ $ yum -y remove mysql57-community-release-el7-10.noarch
 >>/opt/lyy/checkES.log，表示将标准输出（文件描述符为1）的日志重定向到文件 /opt/lyy/checkES.log 中，相当于 1>>/opt/lyy/checkES.log。
 ```
 
-### 挂载
+### 1.21. 挂载
 
 1. `mount /dev/sdb1 ~/Share/ `，把新硬盘的区sdb1挂载到工作目录的`~/Share/`文件夹下，之后访问这个`~/Share/`文件夹就相当于访问这个硬盘2的`sdb1`分区了。对`/Share/`的任何操作，都相当于对`sdb1`里文件的操作。
 2. 所以Linux下，mount挂载的作用，就是将一个设备（通常是存储设备）挂接到一个已存在的目录上。访问这个目录就是访问该存储设备。
@@ -395,4 +422,5 @@ Linux 规定了主分区（或者扩展分区）占用 1 至 16 号码中的前 
 
 
 
-参考资料:[Linux 磁盘管理](https://www.runoob.com/linux/linux-filesystem.html)
+参考资料:
+1. [Linux 磁盘管理](https://www.runoob.com/linux/linux-filesystem.html)

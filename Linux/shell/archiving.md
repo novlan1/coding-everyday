@@ -1,6 +1,17 @@
-# 归档和备份
+- [1. 归档和备份](#1-归档和备份)
+  - [1.1. gzip](#11-gzip)
+  - [1.2. gzcat](#12-gzcat)
+  - [1.3. bzip2](#13-bzip2)
+  - [1.4. zip](#14-zip)
+  - [1.5. tar](#15-tar)
+  - [1.6. rsync](#16-rsync)
+  - [1.7. scp](#17-scp)
+    - [1.7.1. 基本用法](#171-基本用法)
+    - [1.7.2. 参数](#172-参数)
 
-## gzip
+# 1. 归档和备份
+
+## 1.1. gzip
 
 gzip 程序用来压缩文件，原文件的压缩版（添加`gz`后缀名）会替代原文件。gunzip 程序用来还原压缩版本。
 
@@ -34,7 +45,7 @@ $ gunzip -c foo.txt | less
 $ zcat foo.txt.gz | less
 ```
 
-## gzcat
+## 1.2. gzcat
 
 `gzcat`命令用于查看一个`gz`文件，但并不实际解压它。
 
@@ -42,7 +53,7 @@ $ zcat foo.txt.gz | less
 $ gzcat filename
 ```
 
-## bzip2
+## 1.3. bzip2
 
 `bzip2`程序与`gzip`程序相似，但是使用了不同的压缩算法，舍弃了压缩速度，实现了更高的压缩级别。在大多数情况下，它的工作模式等同于`gzip`。 由`bzip2`压缩的文件，用扩展名`.bz2`表示。
 
@@ -53,7 +64,7 @@ $ bunzip2 foo.txt.bz2
 
 gzip程序的所有选项（除了`-r`），bzip2 程序同样也支持。同样有 bunzip2 和 bzcat 程序来解压缩文件。bzip2 文件也带有 bzip2recover 程序，其会 试图恢复受损的 .bz2 文件。
 
-## zip
+## 1.4. zip
 
 `zip`程序既是压缩工具，也是一个打包工具，读取和写入.zip文件。
 
@@ -86,7 +97,7 @@ $ unzip ../playground.zip
 $ unzip -p ls-etc.zip | less
 ```
 
-## tar
+## 1.5. tar
 
 `tar`是`tape archive`的简称，原来是一款制作磁带备份的工具，现在主要用于打包。一个 tar 包可以由一组独立的文件，一个或者多个目录，或者两者混合体组成。
 
@@ -192,7 +203,7 @@ $ tar rvf archive.tar.gz xyz.txt
 $ tar rvf archive.tar.bz2 xyz.txt
 ```
 
-## rsync
+## 1.6. rsync
 
 `rsync`命令用于在多个目录之间、或者本地与远程目录之间同步。字母`r`表示`remote`。
 
@@ -229,9 +240,9 @@ $ sudo rsync -av --delete --rsh=ssh /etc /home /usr/local remote-sys:/backup
 $ rsync -av -delete rsync://rsync.gtlib.gatech.edu/path/to/oss fedora-devel
 ```
 
-## scp
+## 1.7. scp
 
-### 基本用法
+### 1.7.1. 基本用法
 
 `scp`是 secure copy 的缩写，用来在两台主机之间加密传送文件。它的底层是 SSH 协议，默认端口是22。
 
@@ -310,7 +321,7 @@ $ scp user1@host1.com:/files/file.txt user2@host2.com:/files
 
 系统将提示您输入两个远程帐户的密码。数据将直接从一个远程主机传输到另一个远程主机。
 
-### 参数
+### 1.7.2. 参数
 
 `-P`用来指定远程主机的 SSH 端口。如果远程主机使用非默认端口22，可以在命令中指定。
 

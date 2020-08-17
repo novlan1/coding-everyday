@@ -1,4 +1,5 @@
-### `@babel/preset-env`
+
+### 1. `@babel/preset-env`
 
 `@babel/preset-env`这个包官方说是智能预设，怎么智能了，你**只要给出一个浏览器的版本号，就知道哪些语法要转，哪些语法不要转**。可以有效的**避免把不需要转换的语法也转换了，浪费性能**，浏览器都有这个语法，再加个转换就没必要了。
 
@@ -28,7 +29,7 @@
 
 
 
-### `@babel/polyfill `
+### 2. `@babel/polyfill `
 
 @babel/polyfill 是对 core-js 的封装，引用了 core-js 的内容和生成器（regenerator-runtime)。 v7.4 之后，这个仓库就被废弃了，希望用户自己选择使用哪个兼容库。
 
@@ -49,5 +50,8 @@ import "regenerator-runtime/runtime";
 
 
 
-参考资料：[babel 官方文档](https://www.babeljs.cn/docs/babel-preset-env)，[babel需要这样配置](https://www.cnblogs.com/wuxianqiang/p/11339462.html)，[最近折腾 @babel/preset-env 的一些小心得](https://blog.meathill.com/js/some-tips-of-babel-preset-env-config.html)
+参考资料：
+1. [babel 官方文档](https://www.babeljs.cn/docs/babel-preset-env)
+2. [babel需要这样配置](https://www.cnblogs.com/wuxianqiang/p/11339462.html)
+3. [最近折腾 @babel/preset-env 的一些小心得](https://blog.meathill.com/js/some-tips-of-babel-preset-env-config.html)
 

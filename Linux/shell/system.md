@@ -1,6 +1,15 @@
-# 系统信息
+- [1. 系统信息](#1-系统信息)
+  - [1.1. uname](#11-uname)
+  - [1.2. service](#12-service)
+  - [1.3. last](#13-last)
+  - [1.4. uptime](#14-uptime)
+  - [1.5. w](#15-w)
+  - [1.6. who](#16-who)
+  - [1.7. whoami](#17-whoami)
 
-## uname
+# 1. 系统信息
+
+## 1.1. uname
 
 `uname`命令返回当前机器的信息。
 
@@ -24,7 +33,7 @@ $ cat /etc/issue
 Debian GNU/Linux 9 \n \l
 ```
 
-## service
+## 1.2. service
 
 `service`命令可以查看当前正在运行的服务。
 
@@ -38,7 +47,7 @@ $ service --status-all
 上面代码中，`+`表示正在运行，`-`表示已经停止，`?`表示`service`命令不了解相关信息。
 
 
-## last
+## 1.3. last
 
 `last`命令显示用户登录系统的记录。
 
@@ -52,16 +61,16 @@ $ last
 $ last yourUsername
 ```
 
-## uptime
+## 1.4. uptime
 
 `uptime`命令显示本次开机运行的时间。
 
-## w
+## 1.5. w
 
 `w`命令显示当期谁在线。
 
 
-## who
+## 1.6. who
 
 `who`命令显示已经登录的用户。
 
@@ -72,7 +81,7 @@ $ who -b
 system boot  2017-06-20 17:41
 ```
 
-## whoami
+## 1.7. whoami
 显示当前操作用户
 
 

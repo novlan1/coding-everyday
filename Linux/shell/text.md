@@ -1,6 +1,30 @@
-# 文本处理
+- [1. 文本处理](#1-文本处理)
+  - [1.1. cat](#11-cat)
+  - [1.2. more](#12-more)
+  - [1.3. nl](#13-nl)
+  - [1.4. sort](#14-sort)
+  - [1.5. uniq](#15-uniq)
+  - [1.6. cut](#16-cut)
+  - [1.7. paste](#17-paste)
+  - [1.8. wc](#18-wc)
+  - [1.9. head](#19-head)
+  - [1.10. tail](#110-tail)
+  - [1.11. grep](#111-grep)
+  - [1.12. egrep](#112-egrep)
+  - [1.13. sed](#113-sed)
+  - [1.14. awk](#114-awk)
+    - [1.14.1. 基本用法](#1141-基本用法)
+    - [1.14.2. 变量](#1142-变量)
+    - [1.14.3. 函数](#1143-函数)
+    - [1.14.4. 条件](#1144-条件)
+    - [1.14.5. if 语句](#1145-if-语句)
+    - [1.14.6. 参考链接](#1146-参考链接)
+  - [1.15. fmt](#115-fmt)
+  - [1.16. tr](#116-tr)
 
-## cat
+# 1. 文本处理
+
+## 1.1. cat
 
 `cat`可以文件的内容，显示在标准输出。
 
@@ -70,7 +94,7 @@ $ sort -k2 <<END
 
 如果使用`<<-`代替`<<`，行首的tab键将被剥离。
 
-## more
+## 1.2. more
 分页显示文件内容
 语法：
 ```
@@ -87,7 +111,7 @@ more /etc/services
 less与more类似，不同的是less命令除了可以用空格向下显示文件外，还可以利用上下键卷动文件。
 
 
-## nl
+## 1.3. nl
 
 `nl`命令为文本文件添加行号，显示在标准输出。
 
@@ -143,7 +167,7 @@ $ nl -s". " example.txt
 `-s`参数表示行号的后缀。
 
 
-## sort
+## 1.4. sort
 
 `sort`命令将文本文件的所有行排序后输出。
 
@@ -169,7 +193,7 @@ $ sort --key=1,1 --key=2n distros.txt
 
 上面命令中，第一个`--key`指定第一排序标准是只用第一字段（`1,1`），也可以指定使用第一字段第一个字符（`1.1`）；第二排序标准是第二字段，按数值排序。
 
-## uniq
+## 1.5. uniq
 
 `uniq`命令在排序后的行中，删除所有重复的行，保证所有输出没有重复。
 
@@ -207,7 +231,7 @@ $ sort -rV input.txt
 1.0.15
 ```
 
-## cut
+## 1.6. cut
 
 `cut`程序用来从文本行中抽取文本，并把其输出到标准输出。它能够接受多个文件参数或者标准输入。
 
@@ -255,7 +279,7 @@ $ cut file1.txt -d, -f1,3
 $ cut -f 1-2,4-5 data.txt
 ```
 
-## paste
+## 1.7. paste
 
 `paste`程序将多个文本文件按行合并，即每一行都由原来文本文件的每一行组成，显示在标准输出。
 
@@ -263,7 +287,7 @@ $ cut -f 1-2,4-5 data.txt
 $ paste distros-dates.txt distros-versions.txt
 ```
 
-## wc
+## 1.8. wc
 
 `wc`命令输出一个文本文件的统计信息（word count），一共有三个值，分别为行数、词数和字节数。
 
@@ -279,7 +303,7 @@ $ ls /bin /usr/bin | sort | uniq | wc -l
  2728
 ```
 
-## head
+## 1.9. head
 
 `head`命令返回文本文件的头部，默认显示10行。
 
@@ -289,7 +313,7 @@ $ ls /bin /usr/bin | sort | uniq | wc -l
 $ head -n 5 ls-output.txt
 ```
 
-## tail
+## 1.10. tail
 
 `tail`命令返回文本文件的尾部，默认显示10行。
 
@@ -305,7 +329,7 @@ $ tail -n 5 ls-output.txt
 $ tail -f /var/log/messages
 ```
 
-## grep
+## 1.11. grep
 
 `grep`程序用于在指定文件之中，搜索符合某个模式的行，并把搜索结果输出到标准输出。
 
@@ -361,7 +385,7 @@ find 命令与 grep 命令的区别
 linux选项分为简化选项和完整选项，它俩作用完全一样，比如`-a`和`--all`
 
 
-## egrep
+## 1.12. egrep
 
 `egrep`命令用于显示匹配正则模式的行，与`grep -E`命令等价。
 
@@ -403,7 +427,7 @@ sanctus est Lorem
 ipsum dolor sit
 ```
 
-## sed
+## 1.13. sed
 
 `sed`是一个强大的文本编辑工具。
 
@@ -445,7 +469,7 @@ $ sed 's/[0-9]/d/g' example.txt
 Hello This is a Test d d d d
 ```
 
-## awk
+## 1.14. awk
 
 [`awk`](https://en.wikipedia.org/wiki/AWK)是处理文本文件的一个应用程序，几乎所有 Linux 系统都自带这个程序。
 
@@ -455,7 +479,7 @@ Hello This is a Test d d d d
 
 `awk`其实不仅仅是工具软件，还是一种编程语言。不过，这里只介绍它的命令行用法，对于大多数场合，应该足够用了。
 
-### 基本用法
+### 1.14.1. 基本用法
 
 `awk`的基本用法就是下面的形式。
 
@@ -508,7 +532,7 @@ sys
 sync
 ```
 
-### 变量
+### 1.14.2. 变量
 
 除了`$ + 数字`表示某个字段，`awk`还提供其他一些变量。
 
@@ -554,7 +578,7 @@ $ awk -F ':' '{print NR ") " $1}' demo.txt
 > - `ORS`：输出记录的分隔符，用于打印时分隔记录，默认为换行符。
 > - `OFMT`：数字输出的格式，默认为`％.6g`。
 
-### 函数
+### 1.14.3. 函数
 
  `awk`还提供了一些内置函数，方便对原始数据的处理。
 
@@ -583,7 +607,7 @@ SYNC
 
 `awk`内置函数的完整列表，可以查看[手册](https://www.gnu.org/software/gawk/manual/html_node/Built_002din.html#Built_002din)。
 
-### 条件
+### 1.14.4. 条件
 
 `awk`允许指定输出条件，只输出符合条件的行。
 
@@ -631,7 +655,7 @@ root
 bin
 ```
 
-### if 语句
+### 1.14.5. if 语句
 
 `awk`提供了`if`结构，用于编写复杂的条件。
 
@@ -655,12 +679,12 @@ sys
 sync
 ```
 
-### 参考链接
+### 1.14.6. 参考链接
 
 - [An Awk tutorial by Example](https://gregable.com/2010/09/why-you-should-know-just-little-awk.html), Greg Grothaus
 - [30 Examples for Awk Command in Text Processing](https://likegeeks.com/awk-command/), Mokhtar Ebrahim
 
-## fmt
+## 1.15. fmt
 
 `fmt`命令用于对文本指定样式。
 
@@ -695,7 +719,7 @@ ipsum dolor sit
 amet.
 ```
 
-## tr
+## 1.16. tr
 
 `tr`命令用于按照给定模式转换文本。
 

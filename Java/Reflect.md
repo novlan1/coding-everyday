@@ -1,4 +1,11 @@
-### 反射
+- [1. 反射](#1-反射)
+- [2. 反射访问字段](#2-反射访问字段)
+- [3. 反射调用方法](#3-反射调用方法)
+- [4. 反射调用构造方法](#4-反射调用构造方法)
+- [5. 反射获取继承关系](#5-反射获取继承关系)
+- [6. 动态代理](#6-动态代理)
+
+### 1. 反射
 
 JVM在第一次读取到一种`class`类型时，将其加载进内存。
 
@@ -44,7 +51,7 @@ Class cls = s.getClass();
 Class cls = Class.forName("java.lang.String");
 ```
 
-### 反射访问字段
+### 2. 反射访问字段
 
 1. Java的反射API提供的`Field`类封装了字段的所有信息：
 2. 通过`Class`实例的方法可以获取`Field`实例：`getField()`，`getFields()`，`getDeclaredField()`，`getDeclaredFields()`；
@@ -64,7 +71,7 @@ System.out.println(stdClass.getDeclaredField("grade"));
 
 
 
-### 反射调用方法
+### 3. 反射调用方法
 
 Java的反射API提供的Method对象封装了方法的所有信息：
 
@@ -95,7 +102,7 @@ m.invoke(p, "Bob");
 System.out.println(p.name);
 ```
 
-### 反射调用构造方法
+### 4. 反射调用构造方法
 
 `Constructor`对象封装了构造方法的所有信息；
 
@@ -115,7 +122,7 @@ Integer n2 = (Integer) cons2.newInstance("456");
 System.out.println(n2);
 ```
 
-### 反射获取继承关系
+### 5. 反射获取继承关系
 
 通过`Class`对象可以获取继承关系：
 
@@ -140,7 +147,7 @@ Number.class.isAssignableFrom(Integer.class); // true，因为Integer可以赋�
 Integer.class.isAssignableFrom(Number.class); // false，因为Number不能赋值给Integer
 ```
 
-### 动态代理
+### 6. 动态代理
 
 先定义了接口 Hello，但是我们并不去编写实现类，而是直接通过 JDK 提供的一个Proxy.newProxyInstance() 创建了一个 Hello 接口对象。这种没有实现类但是在运行期动态创建了一个接口对象的方式，我们称为动态代码。JDK提供的动态创建接口对象的方式，就叫动态代理。
 

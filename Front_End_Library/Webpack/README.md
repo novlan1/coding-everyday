@@ -1,19 +1,38 @@
-## webpack 简介
+- [1. webpack 简介](#1-webpack-简介)
+  - [1.1. webpack 打包方式](#11-webpack-打包方式)
+  - [1.2. `webpack-dev-server`](#12-webpack-dev-server)
+    - [1.2.1. 配置文件](#121-配置文件)
+  - [1.3. `HMR` (`Hot Module Replacement`)](#13-hmr-hot-module-replacement)
+    - [1.3.1. 关于 babel](#131-关于-babel)
+  - [1.4. Tree shaking](#14-tree-shaking)
+  - [1.5. `production` 和 `development`模式的区分打包](#15-production-和-development模式的区分打包)
+  - [1.6. code splitting](#16-code-splitting)
+  - [1.7. `SplitChunksPlugin`配置参数](#17-splitchunksplugin配置参数)
+  - [1.8. CSS文件的代码分割`mini-css-extract-plugin / OptimizeCSSAssetsPlugin`](#18-css文件的代码分割mini-css-extract-plugin--optimizecssassetsplugin)
+  - [1.9. `Shimming`](#19-shimming)
+  - [1.10. webpack性能优化](#110-webpack性能优化)
+  - [1.11. Vue 和 React 中的 Webpack 区别](#111-vue-和-react-中的-webpack-区别)
+  - [1.12. webpack工作流程](#112-webpack工作流程)
+  - [1.13. Tree Shaking 原理以及和 dead code elimination（DCE）的区别](#113-tree-shaking-原理以及和-dead-code-eliminationdce的区别)
+    - [1.13.1. Dead Code 一般具有以下几个特征](#1131-dead-code-一般具有以下几个特征)
+    - [1.13.2. Tree Shaking](#1132-tree-shaking)
+
+## 1. webpack 简介
 
 `webpack`是一个前端模块化打包工具，最开始它只能打包 JS 文件，但是随着 webpack 的发展，他还能打包如 CSS、图片等文件。主要由入口，出口，loader，plugins 四个部分。
 
 
-### webpack 打包方式
+### 1.1. webpack 打包方式
 用`webpack`打包有三种方式：
 1. `global`，全局安装了`webpack`，命令行输入`webpack index.js`
 2. `local`  命令：`npx webpack index.js`
 3. 配置脚本`scripts`：`webpack`命令: `npm run build webpack`
 
 
-### `webpack-dev-server`
+### 1.2. `webpack-dev-server`
 ```
 "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js"
-````
+```
 
 `webpack-dev-server`是`webpack`官方提供的一个小型`Express`服务器。使用它可以为`webpack`打包生成的资源文件提供web服务
 
@@ -32,7 +51,7 @@
 - `--progress` 是否显示在编译时候的进度条，一般都会有，看着编译的进度，体验好一些。
 - `--config XXXX.js` 通过这个参数指定一个新的配置文件。这里指定了 `build/webpack.dev.conf.js`
 
-##### 配置文件
+#### 1.2.1. 配置文件
 
 `Webpack.config.js`中添加`devServer`配置项：
 
@@ -49,7 +68,7 @@
 可以自己写一个`server.js`, 用`webpackDevMiddleware`等做个`webpack-dev-server`。
 
 
-### `HMR` (`Hot Module Replacement`)
+### 1.3. `HMR` (`Hot Module Replacement`)
 
 块热替换(`HMR` - `Hot Module Replacement`)功能会在应用程序运行过程中替换、添加或删除模块，而无需重新加载整个页面。
 
@@ -63,13 +82,13 @@ Vue 和 React 内置了热更新，并且有`module.hot.accept`功能。
 
 `module.hot.accept`：接受(`accept`)给定依赖模块的更新，并触发一个 回调函数 来对这些更新做出响应。
 
-##### 关于 babel
+#### 1.3.1. 关于 babel
 
 - `babel-preset-env`将`es6`语法转为`es5`，`babel-loader`只是打通了`babel`和`webpack`
 - `babel-transform-runtime`不会污染全局环境
 
 
-### Tree shaking
+### 1.4. Tree shaking
 - 移除 JavaScript 上下文中的未引用代码(`dead-code`)。
 - 只支持`ES module`，即`import`（静态），不支持`require.js`
 
@@ -80,7 +99,7 @@ Vue 和 React 内置了热更新，并且有`module.hot.accept`功能。
 - 一般所有`css`文件都会忽略`tree shaking`，所以可以设置成`”*.css”`
 
 
-### `production` 和 `development`模式的区分打包
+### 1.5. `production` 和 `development`模式的区分打包
 安装`webpack-merge`
 
 ```
@@ -89,7 +108,7 @@ merge(baseConfig, devConfig)
 先分后合
 - 把`production`配置文件和`development`配置文件中的公共部分拿出来，然后`merge`输出。
 
-### code splitting
+### 1.6. code splitting
 - 能够把代码分离到不同的 `bundle` 中，然后可以按需加载或并行加载这些文件。代码分离可以用于获取更小的 `bundle`，以及控制资源加载优先级。
 - 拆分业务代码和非业务代码，当页面业务逻辑发生变化时，只要加载`main.js`即可
 
@@ -106,7 +125,7 @@ optimization:{
 },
 ```
 
-### `SplitChunksPlugin`配置参数
+### 1.7. `SplitChunksPlugin`配置参数
 
 参数：
 ```
@@ -123,7 +142,7 @@ cacheGroups  决定分割出来的代码放到哪个文件里去
 priority   优先级，决定打包后的文件起什么名字、放到哪
 ```
 
-### CSS文件的代码分割`mini-css-extract-plugin / OptimizeCSSAssetsPlugin`
+### 1.8. CSS文件的代码分割`mini-css-extract-plugin / OptimizeCSSAssetsPlugin`
 
 1. 代码分割：`mini-css-extract-plugin`
 将线上css单独拿出来，而不是放在js中
@@ -140,7 +159,7 @@ output: {
 
 2. 合并压缩css： `OptimizeCSSAssetsPlugin`
 
-### `Shimming`
+### 1.9. `Shimming`
 
 一些第三方的库(`library`)可能会引用一些全局依赖（例如`jQuery` 中的 `$`）。这些库也可能创建一些需要被导出的全局变量。这些“不符合规范的模块”就是`shimming`发挥作用的地方
 
@@ -154,17 +173,17 @@ plugins: [
 ]
 ```
 
-### webpack性能优化
+### 1.10. webpack性能优化
 1. `plugin`尽可能精简并确保可靠
 2. `loader`少用
 
-### Vue 和 React 中的 Webpack 区别
+### 1.11. Vue 和 React 中的 Webpack 区别
 - Vue-cli 脚手架自己封装了 webpack 的API，通过改`vue.config.js`配置项间接改 webpack 的配置
 - React 脚手架用的是原封不动的 webpack
 
 
 
-### webpack工作流程
+### 1.12. webpack工作流程
 
 Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：
 
@@ -178,9 +197,9 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 在以上过程中，Webpack 会在特定的时间点广播出特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，并且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果。
 
-#### Tree Shaking原理以及和dead code elimination（DCE）的区别
+### 1.13. Tree Shaking 原理以及和 dead code elimination（DCE）的区别
 
-##### Dead Code 一般具有以下几个特征
+#### 1.13.1. Dead Code 一般具有以下几个特征
 
 - 代码不会被执行，不可到达
 - 代码执行的结果不会被用到
@@ -188,7 +207,7 @@ Webpack 的运行流程是一个串行的过程，从启动到结束会依次执
 
 传统的编译型语言都是由编译器去除掉DC，而js是通过uglify插件去除
 
-##### Tree Shaking
+#### 1.13.2. Tree Shaking
 
 es6模块特点
 
@@ -202,8 +221,8 @@ ES6模块依赖关系是确定的，和运行时的状态无关，可以进行�
 
 正是基于这个基础上，才使得 tree-shaking 成为可能，这也是为什么 rollup 和 webpack 2 都要用 ES6 module syntax 才能 tree-shaking。
 
-- rollup只处理函数和顶层的import/export变量，不能把没用到的类的方法消除掉
-- javascript动态语言的特性使得静态分析比较困难
+- `rollup` 只处理函数和顶层的 `import/export` 变量，不能把没用到的类的方法消除掉
+- `javascript` 动态语言的特性使得静态分析比较困难
 
 参考资料：[面试准备](https://segmentfault.com/a/1190000022037771/)
 

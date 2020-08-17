@@ -1,3 +1,25 @@
+- [SVG](#svg)
+  - [基本图形](#基本图形)
+  - [基本属性](#基本属性)
+  - [基本操作API](#基本操作api)
+  - [`preserveAspectRatio`](#preserveaspectratio)
+  - [SVG中的图形分组](#svg中的图形分组)
+  - [SVG四个坐标系](#svg四个坐标系)
+  - [渐变](#渐变)
+  - [SVG 圆弧命令：](#svg-圆弧命令)
+  - [线性(左标)变换](#线性左标变换)
+  - [颜色HSL](#颜色hsl)
+  - [笔刷](#笔刷)
+  - [path命令](#path命令)
+  - [弧线(`arc`)命令](#弧线arc命令)
+  - [贝塞尔曲线命令 - 光滑曲线](#贝塞尔曲线命令---光滑曲线)
+  - [SVG文本](#svg文本)
+    - [文本垂直居中](#文本垂直居中)
+    - [`<textPath>` 路径文本，可以让文本沿着路径排列，比如：曲线等](#textpath-路径文本可以让文本沿着路径排列比如曲线等)
+  - [图形的引用，裁切和蒙版](#图形的引用裁切和蒙版)
+  - [字体抗锯齿](#字体抗锯齿)
+  - [`stroke-dasharray` 和 `stroke-dashoffset`](#stroke-dasharray-和-stroke-dashoffset)
+
 ## SVG
 
 ### 基本图形

@@ -1,5 +1,10 @@
-## React-router
-### `BrowserRouter`和`HashRouter`
+- [1. React-Router](#1-react-router)
+  - [1.1. `BrowserRouter`和`HashRouter`](#11-browserrouter和hashrouter)
+  - [1.2. 混合组件化](#12-混合组件化)
+  - [1.3. 实现404](#13-实现404)
+
+## 1. React-Router
+### 1.1. `BrowserRouter`和`HashRouter`
 - `<BrowserRouter>`使用HTML5提供的`history API` (`pushState`,`replaceState`和 `popstate` 事件) 来保持 UI 和 URL 的同步。
 
 - `<HashRouter>`使用 URL 的hash部分（即 `window.location.hash`）来保持 UI 和 URL 的同步。
@@ -9,7 +14,7 @@
 
 `Switch`当第一个路由匹配成功后，就不再往下走了
 
-### 混合组件化
+### 1.2. 混合组件化
 
 就是路由当组件使用。
 
@@ -23,7 +28,7 @@
 - 路由匹配不到有两种处理方式，一是404，二是跳转到默认的首页。
 
 
-### 实现404
+### 1.3. 实现404
 必须使用`switch`，写一个**不带path**的`Route`放在所有`Route`的最后，`component`就是404页面
 ```jsx
 <Switch>

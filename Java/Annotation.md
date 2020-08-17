@@ -1,4 +1,12 @@
-### 注解
+- [1. 注解](#1-注解)
+  - [1.1. 元注解](#11-元注解)
+  - [1.2. @Target](#12-target)
+  - [1.3. @Retention](#13-retention)
+  - [1.4. @Repeatable](#14-repeatable)
+  - [1.5. @Inherited](#15-inherited)
+- [2. 处理注解](#2-处理注解)
+
+### 1. 注解
 
 Java的注解可以分为三类：
 
@@ -46,11 +54,11 @@ public class Hello {
 }
 ```
 
-#### 元注解
+#### 1.1. 元注解
 
 有一些注解可以修饰其他注解，这些注解就称为元注解（meta annotation）
 
-#### @Target
+#### 1.2. @Target
 
 最常用的元注解是`@Target`。使用`@Target`可以定义`Annotation`能够被应用于源码的哪些位置：
 
@@ -73,7 +81,7 @@ public @interface Report {
 
 定义注解`@Report`可用在方法或字段上，可以把`@Target`注解参数变为数组`{ ElementType.METHOD, ElementType.FIELD }`。
 
-#### @Retention
+#### 1.3. @Retention
 
 另一个重要的元注解`@Retention`定义了`Annotation`的生命周期：
 
@@ -89,7 +97,7 @@ public @interface Report {
 }
 ```
 
-#### @Repeatable
+#### 1.4. @Repeatable
 
 使用`@Repeatable`这个元注解可以定义`Annotation`是否可重复。这个注解应用不是特别广泛。
 
@@ -114,7 +122,7 @@ public class Hello {
 
 
 
-#### @Inherited
+#### 1.5. @Inherited
 
 使用`@Inherited`定义子类是否可继承父类定义的`Annotation`。`@Inherited`仅针对`@Target(ElementType.TYPE)`类型的`annotation`有效，并且仅针对`class`的继承，对`interface`的继承无效：
 
@@ -150,7 +158,7 @@ public class Student extends Person {
 
 
 
-### 处理注解
+### 2. 处理注解
 
 注解定义后也是一种`class`，所有的注解都继承自`java.lang.annotation.Annotation`，因此，读取注解，需要使用反射API。
 

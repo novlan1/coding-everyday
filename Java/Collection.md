@@ -1,4 +1,12 @@
-### List
+- [1. List](#1-list)
+- [2. List 编写 equals 方法](#2-list-编写-equals-方法)
+- [3. Map 编写 equals 和 hashCode 方法](#3-map-编写-equals-和-hashcode-方法)
+    - [3.0.1. 问题一：hashCode()返回的`int`范围高达±21亿，先不考虑负数，`HashMap`内部使用的数组得有多大？](#301-问题一hashcode返回的int范围高达21亿先不考虑负数hashmap内部使用的数组得有多大)
+    - [3.0.2. 问题二：如果添加超过16个`key-value`到`HashMap`，数组不够用了怎么办？](#302-问题二如果添加超过16个key-value到hashmap数组不够用了怎么办)
+    - [3.0.3. 问题三：如果不同的两个`key`，例如`"a"`和`"b"`，它们的`hashCode()`恰好是相同的（这种情况是完全可能的，因为不相等的两个实例，只要求`hashCode()`尽量不相等），那么，当我们放入：](#303-问题三如果不同的两个key例如a和b它们的hashcode恰好是相同的这种情况是完全可能的因为不相等的两个实例只要求hashcode尽量不相等那么当我们放入)
+- [4. Queue](#4-queue)
+
+### 1. List
 
 |                     | ArrayList    | LinkedList           |
 | :------------------ | :----------- | :------------------- |
@@ -9,7 +17,7 @@
 
 
 
-### List 编写 equals 方法
+### 2. List 编写 equals 方法
 
 在`List`中查找元素时，`List`的实现类通过元素的`equals()`方法比较两个元素是否相等，因此，放入的元素必须正确覆写`equals()`方法，Java标准库提供的`String`、`Integer`等已经覆写了`equals()`方法。
 
@@ -31,7 +39,7 @@ public boolean equals(Object o) {
 }
 ```
 
-### Map 编写 equals 和 hashCode 方法
+### 3. Map 编写 equals 和 hashCode 方法
 
 要正确使用`HashMap`，作为`key`的类必须正确覆写`equals()`和`hashCode()`方法；
 
@@ -69,7 +77,7 @@ int hashCode() {
 }
 ```
 
-##### 问题一：hashCode()返回的`int`范围高达±21亿，先不考虑负数，`HashMap`内部使用的数组得有多大？
+##### 3.0.1. 问题一：hashCode()返回的`int`范围高达±21亿，先不考虑负数，`HashMap`内部使用的数组得有多大？
 
 实际上`HashMap`初始化时默认的数组大小只有16，任何`key`，无论它的`hashCode()`有多大，都可以简单地通过：
 
@@ -79,7 +87,7 @@ int index = key.hashCode() & 0xf; // 0xf = 15
 
 把索引确定在0～15，即永远不会超出数组范围。
 
-##### 问题二：如果添加超过16个`key-value`到`HashMap`，数组不够用了怎么办？
+##### 3.0.2. 问题二：如果添加超过16个`key-value`到`HashMap`，数组不够用了怎么办？
 
 添加超过一定数量的`key-value`时，`HashMap`会在内部自动扩容，每次扩容一倍，即长度为16的数组扩展为长度32，相应地，需要重新确定`hashCode()`计算的索引位置。例如，对长度为32的数组计算`hashCode()`对应的索引，计算方式要改为：
 
@@ -95,7 +103,7 @@ Map<String, Integer> map = new HashMap<>(10000);
 
 虽然指定容量是`10000`，但`HashMap`内部的数组长度总是2n，因此，实际数组长度被初始化为比`10000`大的`16384`（2^14）。
 
-##### 问题三：如果不同的两个`key`，例如`"a"`和`"b"`，它们的`hashCode()`恰好是相同的（这种情况是完全可能的，因为不相等的两个实例，只要求`hashCode()`尽量不相等），那么，当我们放入：
+##### 3.0.3. 问题三：如果不同的两个`key`，例如`"a"`和`"b"`，它们的`hashCode()`恰好是相同的（这种情况是完全可能的，因为不相等的两个实例，只要求`hashCode()`尽量不相等），那么，当我们放入：
 
 ```java
 map.put("a", new Person("Xiao Ming"));
@@ -138,7 +146,7 @@ HashMap内部通过`"a"`找到的实际上是`List<Entry<String, Person>>`，它
 
 我们把不同的`key`具有相同的`hashCode()`的情况称之为哈希冲突。在冲突的时候，一种最简单的解决办法是用`List`存储`hashCode()`相同的`key-value`。显然，如果冲突的概率越大，这个`List`就越长，`Map`的`get()`方法效率就越低。
 
-### Queue
+### 4. Queue
 
 |                    | throw Exception | 返回false或null    |
 | :----------------- | :-------------- | ------------------ |

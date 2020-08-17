@@ -1,5 +1,12 @@
-## jQuery
-### jQuery自执行函数与普通自执行函数的区别
+- [1. jQuery](#1-jquery)
+  - [1.1. jQuery自执行函数与普通自执行函数的区别](#11-jquery自执行函数与普通自执行函数的区别)
+  - [1.2. jQuery 中`$.fn`是什么意思](#12-jquery-中fn是什么意思)
+  - [1.3. jQuery中的 ready 与 load](#13-jquery中的-ready-与-load)
+  - [1.4. jQuery组件开发分类](#14-jquery组件开发分类)
+  - [1.5. 使用`$`好处：](#15-使用好处)
+
+## 1. jQuery
+### 1.1. jQuery自执行函数与普通自执行函数的区别
 JS自执行函数： 
 ```
 (function(){
@@ -18,12 +25,12 @@ $(function(){
 
 
 
-### jQuery 中`$.fn`是什么意思
+### 1.2. jQuery 中`$.fn`是什么意思
 `jQuery.fn = jQuery.prototype`
 
 
 
-### jQuery中的 ready 与 load 
+### 1.3. jQuery中的 ready 与 load 
 jQuery 有3种针对文档加载的方法，其中一个是`ready`一个是`load`，这两个到底有什么区别呢？
 
 `ready`与`load`谁先执行：
@@ -33,7 +40,7 @@ jQuery 有3种针对文档加载的方法，其中一个是`ready`一个是`load
 
 
 
-### jQuery组件开发分类
+### 1.4. jQuery组件开发分类
 1. 类级别组件开发：
 ```
 jQuery.myPlugin = function(){
@@ -51,6 +58,6 @@ $.fn.myPlugin = function(){
 这里的`$.fn===$.prototype`
 例如 `addClass()`，`attr()`
 
-### 使用`$`好处：
+### 1.5. 使用`$`好处：
 1. 只有`$`会暴露在`window`全局变量
 2. 将插件扩展统一到`$.fn.xxx`这一个接口，方便使用

@@ -1,3 +1,7 @@
+- [history 模式和 hash 模式](#history-模式和-hash-模式)
+  - [hash 模式](#hash-模式)
+  - [history 模式](#history-模式)
+
 ## history 模式和 hash 模式
 
 SPA中，前端路由主要实现了两个功能（使用ajax更新页面状态的情况下）：
@@ -60,21 +64,25 @@ window.history.go(1) // 前进一步，-2为后退两步
 window.history.length  // 可以查看当前历史堆栈中页面的数量
 ```
 
-pushState 这个方法，页面不会变化，只是浏览器地址栏会发生更新，且浏览器的回退按钮变成了可点击状态！
+`pushState` 这个方法，页面不会变化，只是浏览器地址栏会发生更新，且浏览器的回退按钮变成了可点击状态！
 
 history 模式改变 url 的方式会导致浏览器向服务器发送请求，这不是我们想看到的，我们需要在服务器端做处理：如果匹配不到任何静态资源，则应该始终返回同一个 html 页面。
 
-vue-router 的 push方法的页面跳转流程：
-1. vue-router调用push方法首先会**使用 pushstate 变换页面 url**（仅仅变化 url，页面不变）
-2. 紧接着**根据 push 方法中传入的 params 找到对应的组件**【页面】
+`vue-router` 的 `push` 方法的页面跳转流程：
+1. `vue-router`调用 `push` 方法首先会**使用 `pushstate` 变换页面 url**（仅仅变化 url，页面不变）
+2. 紧接着**根据 `push` 方法中传入的 `params` 找到对应的组件**【页面】
 3. **载入对应页面组件**，跳转完毕
 
-【划重点】vue-router的push跳转或者replace跳转是不需要请求服务器的！
-但是我们如果使用 window.location.href 来做这个页面跳转，就基本上和 web1.0 没什么区别，一定会先请求到服务器，再由服务器下发资源，导致页面刷新~
+【划重点】`vue-router`的 `push` 跳转或者`replace`跳转是不需要请求服务器的！
+但是我们如果使用 `window.location.href` 来做这个页面跳转，就基本上和 `web1.0` 没什么区别，一定会先请求到服务器，再由服务器下发资源，导致页面刷新~
 
 
 
-参考资料：[History, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/History)，[History API, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/History_API)，[前端路由的两种模式： hash 模式和 history 模式](https://www.cnblogs.com/JRliu/p/adff)，[vue-router history模式的实现原理](https://www.jianshu.com/p/557f2ba86892)
+参考资料：
+1. [History, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/History)，
+2. [History API, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/History_API)，
+3. [前端路由的两种模式： hash 模式和 history 模式](https://www.cnblogs.com/JRliu/p/adff)，
+4. [vue-router history模式的实现原理](https://www.jianshu.com/p/557f2ba86892)
 
 
 

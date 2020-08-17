@@ -1,6 +1,28 @@
-# 硬件操作
+- [1. 硬件操作](#1-硬件操作)
+  - [1.1. df](#11-df)
+  - [1.2. free](#12-free)
+  - [1.3. 硬盘](#13-硬盘)
+  - [1.4. mount](#14-mount)
+      - [1.4.0.1. 挂载命令的格式](#1401-挂载命令的格式)
+      - [1.4.0.2. 挂载光盘](#1402-挂载光盘)
+      - [1.4.0.3. 卸载光盘](#1403-卸载光盘)
+      - [1.4.0.4. 挂载 U 盘](#1404-挂载-u-盘)
+  - [1.5. umount](#15-umount)
+  - [1.6. fdisk](#16-fdisk)
+  - [1.7. mkfs](#17-mkfs)
+  - [1.8. fsck](#18-fsck)
+  - [1.9. dd](#19-dd)
+    - [1.9.1. 复制磁盘](#191-复制磁盘)
+    - [1.9.2. 清除数据](#192-清除数据)
+    - [1.9.3. 监控进展](#193-监控进展)
+    - [1.9.4. 参考链接](#194-参考链接)
+  - [1.10. dmidecode](#110-dmidecode)
+  - [1.11. lspci](#111-lspci)
+  - [1.12. lsusb](#112-lsusb)
 
-## df
+# 1. 硬件操作
+
+## 1.1. df
 
 `df`命令查看硬盘信息。
 
@@ -12,7 +34,7 @@ Filesystem 1K-blocks Used Available Use% Mounted on
 /dev/sda1 147764 17370 122765 13% /boot
 ```
 
-## free
+## 1.2. free
 
 `free`命令查看内存占用情况。
 
@@ -24,7 +46,7 @@ Mem: 513712 503976 9736 0 5312 122916
 Swap: 1052248 104712 947536
 ```
 
-## 硬盘
+## 1.3. 硬盘
 
 文件`/etc/fstab`配置系统启动时要挂载的设备。
 
@@ -43,7 +65,7 @@ LABEL=/boot             /boot           ext3        defaults        1   2
 - 频率：一位数字，指定是否和在什么时间用 dump 命令来备份一个文件系统。
 - 次序：一位数字，指定 fsck 命令按照什么次序来检查文件系统。
 
-## mount
+## 1.4. mount
 
 `mount`不带参数时，显示当前挂载的文件系统。
 
@@ -73,7 +95,7 @@ $ mount -a
 # 依据配置文件/etc/fstab的内容，自动挂载
 ```
 
-#### 挂载命令的格式
+#### 1.4.0.1. 挂载命令的格式
 ```
 mount [-t 文件系统] [-o特殊选项] 设备 文件名 挂载点
 ```
@@ -86,14 +108,14 @@ $ mount -o remount,noexec /home/
 # 重新挂载/home分区，使用noexec权限
 ```
 
-#### 挂载光盘
+#### 1.4.0.2. 挂载光盘
 ```
 $ mkdir /mnt/cdrom/ # 建立挂载点, 空目录都可以
 $ mount -t iso9660  /dev/sr0  /mnt/cdrom/ 
   # 或 
 $ mount /dev/sr0 /mnt/cdrom/ # 挂载光盘
 ```
-#### 卸载光盘
+#### 1.4.0.3. 卸载光盘
 umount 设备文件名或挂载点 
 得先出来，必须卸载，不卸载拿不出来
 ```
@@ -101,7 +123,7 @@ $ umount /mnt/cdrom/ # 或
 $ umount /dev/sr0
 ```
 
-#### 挂载 U 盘
+#### 1.4.0.4. 挂载 U 盘
 ```
 fdisk -l
 #查看设备文件名
@@ -110,7 +132,7 @@ mount -t vfat /dev/sdb1 /mnt/usb/
 #Linux默认不支持NTFS文件系统的(也就是移动硬盘不能直接挂载)
 ```
 
-## umount
+## 1.5. umount
 
 `umount`命令用来卸载设备。
 
@@ -120,7 +142,7 @@ $ umount [设备名]
 $ umount /dev/hdc
 ```
 
-## fdisk
+## 1.6. fdisk
 
 `fdisk`命令用于格式化磁盘。
 
@@ -129,7 +151,7 @@ $ sudo umount /dev/sdb1
 $ sudo fdisk /dev/sdb
 ```
 
-## mkfs
+## 1.7. mkfs
 
 `mkfs`命令用于在一个设备上新建文件系统。
 
@@ -138,7 +160,7 @@ $ sudo mkfs -t ext3 /dev/sdb1
 $ sudo mkfs -t vfat /dev/sdb1
 ```
 
-## fsck
+## 1.8. fsck
 
 `fsck`命令用于检查（修复）文件系统。
 
@@ -146,11 +168,11 @@ $ sudo mkfs -t vfat /dev/sdb1
 $ sudo fsck /dev/sdb1
 ```
 
-## dd
+## 1.9. dd
 
 `dd`命令用于将大型数据块，从一个磁盘复制到另一个磁盘。
 
-### 复制磁盘
+### 1.9.1. 复制磁盘
 
 ```bash
 $ dd if=/dev/sda of=/dev/sdb
@@ -178,7 +200,7 @@ $ dd if=/dev/sda2 of=/home/username/partition2.img bs=4096
 $ dd if=sdadisk.img of=/dev/sdb
 ```
 
-### 清除数据
+### 1.9.2. 清除数据
 
 `dd`也可以用于清除磁盘数据。
 
@@ -190,7 +212,7 @@ $ dd if=/dev/zero of=/dev/sda1
 $ dd if=/dev/urandom of=/dev/sda1
 ```
 
-### 监控进展
+### 1.9.3. 监控进展
 
 磁盘的复制通常需要很久，为了监控进展，可以使用 Pipe Viewer 工具软件。如果没有安装这个软件，可以使用下面的命令安装。
 
@@ -205,14 +227,14 @@ $ dd if=/dev/urandom | pv | dd of=/dev/sda1
 4,14MB 0:00:05 [ 98kB/s] [      <=>                  ]
 ```
 
-### 参考链接
+### 1.9.4. 参考链接
 
 - David Clinton, [How to use dd in Linux without destroying your disk](https://opensource.com/article/18/7/how-use-dd-linux)
 
 
 
 
-## dmidecode
+## 1.10. dmidecode
 
 `dmidecode`命令用于输出BIOS信息。
 
@@ -298,7 +320,7 @@ $ sudo dmidecode -t 4
 $ sudo dmidecode -t system
 ```
 
-## lspci
+## 1.11. lspci
 
 `lspci`命令列出本机的所有PCI设备。
 
@@ -324,7 +346,7 @@ $ lspci
 $ lspci -vmm
 ```
 
-## lsusb
+## 1.12. lsusb
 
 `lsusb`命令用于操作USB端口。
 

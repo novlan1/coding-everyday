@@ -1,6 +1,10 @@
-# 时间管理
+- [1. 时间管理](#1-时间管理)
+  - [1.1. date 命令](#11-date-命令)
+  - [1.2. cal 命令](#12-cal-命令)
 
-## date 命令
+# 1. 时间管理
+
+## 1.1. date 命令
 
 `date`命令用于输出当前时间
 
@@ -66,7 +70,7 @@ $ date +%F-%T
 - %::z   +hh:mm:ss numeric time zone (e.g., -04:00:00)
 - %Z     alphabetic time zone abbreviation (e.g., EDT)
 
-## cal 命令
+## 1.2. cal 命令
 
 `cal`命令用于显示日历。不带有参数时，显示的是当前月份。
 
