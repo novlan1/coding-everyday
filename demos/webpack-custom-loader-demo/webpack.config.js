@@ -1,4 +1,7 @@
 const path = require('path')
+const DemoPlugin = require('./plugins/custom-plugin')
+
+
 const getLoaderPath = (loaderPath) => {
   return path.resolve(__dirname, 'loaders', loaderPath)
 }
@@ -10,6 +13,9 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
+  plugins: [
+    new DemoPlugin({options: true})
+  ],
   module: {
     rules: [
       {
