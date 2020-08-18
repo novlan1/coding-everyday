@@ -90,6 +90,9 @@
 - [71. 图片下面有一个缝隙是因为什么](#71-图片下面有一个缝隙是因为什么)
 - [72. target、currentTarget的区别？](#72-targetcurrenttarget的区别)
 - [73. `-webkit-overflow-scrolling: touch`](#73--webkit-overflow-scrolling-touch)
+- [74. `object.getBoundingClientRect()`](#74-objectgetboundingclientrect)
+- [`documentElement` 和 `body` 的异同点](#documentelement-和-body-的异同点)
+  - [scrollTop](#scrolltop)
 
 ### 1. CSS优先级
 
@@ -1345,4 +1348,43 @@ target当前被点击的元素
 
 缺点：耗内存
 
-参考资料：[-webkit-overflow-scrolling:touch介绍和碰到的坑](https://www.cnblogs.com/luoyanan/p/11095643.html)
+参考资料：
+1. [-webkit-overflow-scrolling:touch介绍和碰到的坑](https://www.cnblogs.com/luoyanan/p/11095643.html)
+
+
+### 74. `object.getBoundingClientRect()`
+
+![getBoundingClientRect](../../imgs/getBoundingClientRect.png)
+
+1. 返回的结果是包含完整元素的最小矩形，并且拥有l`eft, top, right, bottom, x, y, width`, 和 `height`这几个以像素为单位的只读属性用于描述整个边框。
+2. 除了width 和 height 以外的属性是相对于视图窗口的左上角来计算的。
+3. 当计算边界矩形时，会考虑视口区域（或其他可滚动元素）内的滚动操作，也就是说，当滚动位置发生了改变，`top`和`left`属性值就会随之立即发生变化（因此，它们的值是相对于视口的，而不是绝对的）。
+4. 如果你需要获得相对于整个网页左上角定位的属性值，那么只要给`top`、`left`属性值加上当前的滚动位置（通过 `window.scrollX` 和 `window.scrollY`），这样就可以获取与当前的滚动位置无关的值。
+
+如果需要更好的跨浏览器兼容性，请使用 `window.pageXOffset` 和 `window.pageYOffset` 代替 `window.scrollX` 和 `window.scrollY`(`pageYOffset` 属性是 `scrollY` 属性的别名)。不能访问这些属性的脚本可以使用下面的代码：
+
+```js
+// For scrollX
+(((t = document.documentElement) || (t = document.body.parentNode))
+  && typeof t.scrollLeft == 'number' ? t : document.body).scrollLeft
+// For scrollY
+(((t = document.documentElement) || (t = document.body.parentNode))
+  && typeof t.scrollTop == 'number' ? t : document.body).scrollTop
+```
+
+### `documentElement` 和 `body` 的异同点
+1. `document`代表的是整个文档(对于一个网页来说包括整个网页结构)；
+2. `document.documentElement`是整个文档节点树的根节点，在网页中即`html`标签；
+3. `document.body`是整个文档DOM节点树里的`body`节点，网页中即为`body`标签元素。
+
+ 
+
+#### scrollTop
+```js
+var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+// 或者
+var scroll = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
+```
+- 在文档使用了DTD时，`document.body.scrollTop`的值为`0`。
+  - 此时需要使用`document.documentElement.scrollTop`来获取滚动条滚过的长度；
+- 在未使用DTD定义文档时，使用`document.body.scrollTop`获取值。

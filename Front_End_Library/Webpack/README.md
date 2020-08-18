@@ -16,6 +16,11 @@
   - [1.13. Tree Shaking 原理以及和 dead code elimination（DCE）的区别](#113-tree-shaking-原理以及和-dead-code-eliminationdce的区别)
     - [1.13.1. Dead Code 一般具有以下几个特征](#1131-dead-code-一般具有以下几个特征)
     - [1.13.2. Tree Shaking](#1132-tree-shaking)
+  - [1.14. `module`, `chunk`, `bundle` 之间的关系](#114-module-chunk-bundle-之间的关系)
+  - [1.15. webpack 流程](#115-webpack-流程)
+  - [如何利用webpack来优化前端性能？（提高性能和体验）](#如何利用webpack来优化前端性能提高性能和体验)
+  - [如何提高webpack的构建速度？](#如何提高webpack的构建速度)
+  - [怎么配置单页应用？怎么配置多页应用？](#怎么配置单页应用怎么配置多页应用)
 
 ## 1. webpack 简介
 
@@ -224,5 +229,65 @@ ES6模块依赖关系是确定的，和运行时的状态无关，可以进行�
 - `rollup` 只处理函数和顶层的 `import/export` 变量，不能把没用到的类的方法消除掉
 - `javascript` 动态语言的特性使得静态分析比较困难
 
-参考资料：[面试准备](https://segmentfault.com/a/1190000022037771/)
+参考资料：
+1. [面试准备](https://segmentfault.com/a/1190000022037771/)
 
+### 1.14. `module`, `chunk`, `bundle` 之间的关系
+1. `module` 模块：代码模块，由 `import`, `require` 等模块规范导出的代码片段。
+2. `chunk` 代码块：由多个 `module` 组成，通常情况下 `bundle` 是由 `chunk` 对应生成。
+3. `bundle`：由多个 `module` 组成，通常跟 `chunk` 对应，包含已经过加载和编译的最终生成的源文件。
+
+### 1.15. webpack 流程
+
+从启动构建到输出结果一系列过程：
+
+1. 初始化参数：解析`webpack`配置参数，合并`shell`传入和`webpack.config.js`文件配置的参数，形成最后的配置结果。
+
+2. 开始编译：上一步得到的参数初始化`compiler`对象，注册所有配置的插件，插件监听`webpack`构建生命周期的事件节点，做出相应的反应，执行对象的 `run` 方法开始执行编译。
+3. 确定入口：从配置的`entry`入口，开始解析文件构建AST语法树，找出依赖，递归下去。
+4. 编译模块：递归中根据文件类型和`loader`配置，调用所有配置的`loader`对文件进行转换，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理。
+5. 完成模块编译并输出：递归完事后，得到每个文件结果，包含每个模块以及他们之间的依赖关系，根据`entry`配置生成代码块`chunk`。
+6. 输出完成：输出所有的`chunk`到文件系统。
+
+注意：在构建生命周期中有一系列插件在做合适的时机做合适事情，比如UglifyPlugin会在loader转换递归完对结果使用UglifyJs压缩覆盖之前的结果。
+
+
+### 如何利用webpack来优化前端性能？（提高性能和体验）
+
+用webpack优化前端性能是指优化webpack的输出结果，让打包的最终结果在浏览器运行快速高效。
+
+1. 压缩代码。删除多余的代码、注释、简化代码的写法等等方式。可以利用`webpack`的`UglifyJsPlugin`和`ParallelUglifyPlugin`来压缩JS文件， 利用`cssnano`（`css-loader?minimize`）来压缩`css`。使用`webpack4`，打包项目使用`production`模式，会自动开启代码压缩。
+
+2. 利用CDN加速。在构建过程中，将引用的静态资源路径修改为CDN上对应的路径。可以利用`webpack`对于`output`参数和各`loader`的`publicPath`参数来修改资源路径
+
+3. 删除死代码（`Tree Shaking`）。将代码中永远不会走到的片段删除掉。可以通过在启动`webpack`时追加参数`--optimize-minimize`来实现或者使用`es6`模块开启删除死代码。
+
+4. 优化图片，对于小图可以使用 `base64` 的方式写入文件中
+
+5. 按照路由拆分代码，实现按需加载，提取公共代码。
+
+6. 给打包出来的文件名添加哈希，实现浏览器缓存文件
+
+ 
+
+### 如何提高webpack的构建速度？
+
+（1）多入口的情况下，使用`commonsChunkPlugin`来提取公共代码；
+
+（2）通过`externals`配置来提取常用库；
+
+（3）使用`happypack`实现多线程加速编译；
+
+（4）使用`webpack-uglify-parallel`来提升`uglifyPlugin`的压缩速度。原理上`webpack-uglify-parallel`采用多核并行压缩来提升压缩速度；
+
+（5）使用`tree-shaking`和`scope hoisting`来剔除多余代码。
+
+ 
+
+### 怎么配置单页应用？怎么配置多页应用？
+
+1. 单页应用可以理解为webpack的标准模式，直接在entry中指定单页应用的入口即可。
+
+2. 多页应用的话，可以使用webpack的 AutoWebPlugin来完成简单自动化的构建，但是前提是项目的目录结构必须遵守他预设的规范。
+
+ 参考资料：[浅析webpack的原理](https://www.cnblogs.com/chengxs/p/11022842.html)

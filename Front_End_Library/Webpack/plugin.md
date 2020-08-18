@@ -76,10 +76,50 @@ var webpackConfig = {
 ### `Compiler` 和 `Compilation`
 在开发 `Plugin` 时最常用的两个对象就是 `Compiler` 和 `Compilation`，它们是 `Plugin` 和 `Webpack` 之间的桥梁。 `Compiler` 和 `Compilation` 的含义如下：
 
-1. `Compiler` 对象包含了 `Webpack` 环境所有的的配置信息，包含 `options`，`loaders`，`plugins` 这些信息，这个对象在 `Webpack` 启动时候被实例化，它是全局唯一的，可以简单地把它理解为 Webpack 实例；
-2. `Compilation` 对象包含了当前的模块资源、编译生成资源、变化的文件等。当 Webpack 以开发模式运行时，每当检测到一个文件变化，一次新的 `Compilation` 将被创建。`Compilation` 对象也提供了很多事件回调供插件做扩展。通过 `Compilation` 也能读取到 `Compiler` 对象。
+#### `Compiler`
+
+1. `Compiler` 继承 `Tapable` 对象，可以广播和监听 `webpack` 事件。
+2. `Compiler` 对象是 `webpack` 的编译器，`webpack` 周期中只存在一个 `Compiler` 对象。
+3. `Compiler` 对象在 `webpack` 启动时创建实例，`compiler` 实例中包含 `webpack` 的完整配置，包括 `loaders`, `plugins` 信息。
+
+
+#### `Compilation`
+
+1. `Compilation` 继承 `Tapable` 对象，可以广播和监听 `webpack` 事件。
+2. `Compilation` 实例仅代表一次 `webpack` 构建和生成编译资源的的过程。
+3. `webpack` 开发模式开启 `watch` 选项，每次检测到入口文件模块变化时，会创建一次新的编译: 生成一次新的编译资源和新的 `compilation` 对象，这个 `compilation` 对象包含了当前编译的`模块资源 module`, `编译生成的资源`，`变化的文件`, `依赖的的状态`
+
+
 
 `Compiler` 和 `Compilation` 的区别在于：`Compiler `代表了整个 `Webpack` 从启动到关闭的生命周期，而 `Compilation` 只是代表了一次新的编译。
+
+
+`Compiler`事件钩子:
+|事件|发生时机|传入参数|类型|使用时机|
+|---|---|---|---|---|
+|run|webpack启动编译流程时|compiler:此时只能获取 compiler.options内容,也就是构建webpack传入的options; callback|异步,异步就是执行后要使用 `callback` 执行一下|
+|compilation|生成好了compilation 对象, 可以操作这个compilation对象啦|compilation|同步|此时是一个编译过程，可以编辑|
+|make|从entry开始递归分析模块及其依赖的模块，compilation创建这些模块对象,准备对每个模块进行build|compilation|并行||
+|emit|把内存里面assets编译好的东西写到磁盘之前|||此时可以添加assets属性来添加写入文件,或者增加修改写入文件的内容|
+|done|完成所有编译过程|status|同步|
+|failed|编译失败|error|同步|
+
+
+`Compilation`事件钩子:
+|事件 | 发生时机 | 回调参数 |使用 |
+| --- |---|---|---|
+|normal-module-loader|加载所有模块，还没有依赖被创建| loaderContext, module|可以拿到所有的没有依赖的单独的module|
+|seal|编译封闭阶段优化|没有参数||
+|optimize-modules|优化编译阶段|modules ,这里拿到module进行处理|插件优化都是基于这里的事件|
+|optimize-chunks|chunk优化阶段||可以拿到模块的依赖, loader进行相应的处理|
+|additional-assets||callback|异步,可以为compilation对象创建额外的assets ,加入自定义资源|
+|optimize-chunk-assets|||优化chunk的assets的事件钩子,这个优化阶段可以改变chunk的assets以达到重新改变资源内容的目。assets 被存储在this.assets中,但是它们并不都是chunk的assets。一个chunk有一个files属性指出这个chunk创建的所有文件。附加的assets被存储在this.additionalChunkAssets中。比如UglifyJsPlugin插件就是在这个钩子里写逻辑|
+|optimize-assets|||优化所有的assets的异步事件钩子,在这个阶段可以直接通过this.assets拿到所有的assets ,并进行自定义操作。类似optimize-chunk -assets ,但是这个事件钩子的回调是拿不到chunks的。|
+
+
+      
+
+      
 
 参考资料：
 1. [webpack原理（二）自定义plugin](https://blog.csdn.net/qq_36228442/article/details/100037165)

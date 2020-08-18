@@ -96,11 +96,9 @@ export const objToArr = (obj) => {
 ```
 
 
-
 ### 3. js滚动到指定位置方法
 
 获取到最外层的div的id，然后获取属性`scrollTop`，给`scrollTop`赋值
-
 
 
 ### 4. 拖动时的`e.clientX`和`offsetLeft`
@@ -224,7 +222,7 @@ getElementTop = (elem) => {
   return elemTop
 }
 ```
-或者直接`ele.getBoudingRect.left()`
+或者直接`ele.getBoundingClientRect().left`
 
 ### 13. JS一层层向上查找父节点
 
