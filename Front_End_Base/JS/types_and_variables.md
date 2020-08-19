@@ -10,13 +10,13 @@
   - [1.9. 如何判断一个变量会被当做true或者false？](#19-如何判断一个变量会被当做true或者false)
   - [1.10. 说一下引用类型的比较规则，并回答下列结果](#110-说一下引用类型的比较规则并回答下列结果)
   - [1.11. 引用类型比较，何时返回true？](#111-引用类型比较何时返回true)
-  - [1.12. 何时使用===和==？](#112-何时使用和)
+  - [1.12. 何时使用`===`和`==`？](#112-何时使用和)
   - [1.13. JS内置函数有哪些？](#113-js内置函数有哪些)
   - [1.14. 如何理解 JSON？](#114-如何理解-json)
   - [1.15. 函数和数组可以有属性吗？](#115-函数和数组可以有属性吗)
   - [1.16. `!!()`是false的情况有哪几种？](#116-是false的情况有哪几种)
-  - [1.17. ===运算符判断相等的流程是怎样的](#117-运算符判断相等的流程是怎样的)
-  - [1.18. ==运算符判断相等的流程是怎样的](#118-运算符判断相等的流程是怎样的)
+  - [1.17. === 运算符判断相等的流程是怎样的](#117--运算符判断相等的流程是怎样的)
+  - [1.18. == 运算符判断相等的流程是怎样的](#118--运算符判断相等的流程是怎样的)
   - [1.19. 对象到字符串的转换步骤](#119-对象到字符串的转换步骤)
   - [1.20. 对象到数字的转换步骤](#120-对象到数字的转换步骤)
   - [1.21. 判断`[] == false`的输出是什么？](#121-判断--false的输出是什么)
@@ -24,11 +24,11 @@
   - [1.23. 判断`[] == ![]`的输出是什么？](#123-判断--的输出是什么)
   - [1.24. 判断`{} == !{}`的输出是什么？](#124-判断--的输出是什么)
   - [1.25. 判断`console.log( [] ? true : false)`的输出是什么？](#125-判断consolelog---true--false的输出是什么)
-  - [1.26. 1 与 new Number(1)有什么区别](#126-1-与-new-number1有什么区别)
-  - [1.27. console.log(!!(new Boolean(false))输出什么](#127-consolelognew-booleanfalse输出什么)
+  - [1.26. 1 与 `new Number(1)`有什么区别](#126-1-与-new-number1有什么区别)
+  - [1.27. `console.log(!!(new Boolean(false))`输出什么](#127-consolelognew-booleanfalse输出什么)
   - [1.28. 如何判断一个数据是不是 Array](#128-如何判断一个数据是不是-array)
-  - [1.29. Object.prototype.toString](#129-objectprototypetostring)
-  - [1.30. obj.toString() 和 Object.prototype.toString.call(obj)](#130-objtostring-和-objectprototypetostringcallobj)
+  - [1.29. `Object.prototype.toString`](#129-objectprototypetostring)
+  - [1.30. `obj.toString()` 和 `Object.prototype.toString.call(obj)`](#130-objtostring-和-objectprototypetostringcallobj)
   - [1.31. 输出以下代码运行结果](#131-输出以下代码运行结果)
   - [1.32. 实现一个类型判断函数](#132-实现一个类型判断函数)
   - [1.33. 对象转基本类型](#133-对象转基本类型)
@@ -36,7 +36,7 @@
   - [1.35. 数据属性和访问器属性](#135-数据属性和访问器属性)
   - [1.36. `eval`和`json.parse` 解析`json`的区别：](#136-eval和jsonparse-解析json的区别)
   - [1.37. `undefined`和字符串相加](#137-undefined和字符串相加)
-  - [1.38. parseInt()和Number()的区别](#138-parseint和number的区别)
+  - [1.38. `parseInt()`和`Number()`的区别](#138-parseint和number的区别)
   - [1.39. `toSring`和`valueOf`对比](#139-tosring和valueof对比)
   - [1.40. 序列化的坑](#140-序列化的坑)
   - [1.41. 生成数组`0-4`](#141-生成数组0-4)
@@ -53,7 +53,7 @@
   - [1.52. 注意 Array.length](#152-注意-arraylength)
   - [1.53. 加法运算符](#153-加法运算符)
   - [1.54. 字符串的比较](#154-字符串的比较)
-  - [1.55. js中Math.round、parseInt、Math.floor和Math.ceil小数取整总结](#155-js中mathroundparseintmathfloor和mathceil小数取整总结)
+  - [1.55. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整](#155-mathroundparseintmathfloor和mathceil小数取整)
   - [1.56. js属性对象的hasOwnProperty方法](#156-js属性对象的hasownproperty方法)
     - [1.56.1. 判断自身属性是否存在](#1561-判断自身属性是否存在)
     - [1.56.2. 遍历一个对象的所有自身属性](#1562-遍历一个对象的所有自身属性)
@@ -203,11 +203,11 @@ console === console // true
 ```
 
 
-### 1.12. 何时使用===和==？
+### 1.12. 何时使用`===`和`==`？
 ```js
 if (obj.a == null){} // 这里相当于obj.a === null || obj.a ===defined,简写形式
 ```
-除了这种情况，其他全用 ===
+除了这种情况，其他全用 `===`
 
 
 ### 1.13. JS内置函数有哪些？
@@ -236,19 +236,19 @@ fn.age=12
 0,NaN, ’’, undefined,null,false   6个
 
 
-### 1.17. ===运算符判断相等的流程是怎样的
+### 1.17. === 运算符判断相等的流程是怎样的
 
 1. 如果两个值不是相同类型，它们不相等
 2. 如果两个值都是 null 或者都是 undefined，它们相等
 3. 如果两个值都是布尔类型 true 或者都是 false，它们相等
 4. 如果其中有一个是**NaN**，它们不相等
 5. 如果都是数值型并且数值相等，他们相等， -0 等于 0
-6. 如果他们都是字符串并且在相同位置包含相同的 16 位值，他它们相等；如果在长度或者内容上不等，它们不相等；两个字符串显示结果相同但是编码不同==和===都认为他们不相等
+6. 如果他们都是字符串并且在相同位置包含相同的 16 位值，他它们相等；如果在长度或者内容上不等，它们不相等；两个字符串显示结果相同但是编码不同`==`和`===`都认为他们不相等
 7. 如果他们指向相同对象、数组、函数，它们相等；如果指向不同对象，他们不相等
 
-### 1.18. ==运算符判断相等的流程是怎样的
+### 1.18. == 运算符判断相等的流程是怎样的
 
-1. 如果两个值类型相同，按照===比较方法进行比较
+1. 如果两个值类型相同，按照`===`比较方法进行比较
 2. 如果类型不同，使用如下规则进行比较
 3. 如果其中一个值是 null，另一个是 undefined，它们相等
 4. 如果一个值是**数字**另一个是**字符串**，将**字符串转换为数字**进行比较
@@ -337,7 +337,7 @@ Boolean([])是true，Boolean({})是true
 console.log( [] ? true : false) // true
 ```
 
-### 1.26. 1 与 new Number(1)有什么区别
+### 1.26. 1 与 `new Number(1)`有什么区别
 
 ```js
 var a = Number(1); // 1
@@ -351,7 +351,7 @@ a == b; // true
 - new Number(1)返回的是一个对象
 - a==b 为 true 是因为所以在求值过程中，总是会强制转为原始数据类型而非对象。
 
-### 1.27. console.log(!!(new Boolean(false))输出什么
+### 1.27. `console.log(!!(new Boolean(false))`输出什么
 
 true 布尔的包装对象 Boolean 的对象实例，对象只有在 null 与 undefined 时，才会认定为布尔的 false 值，布尔包装对象本身是个对象，对象->布尔 都是 true，所以 new Boolean(false)其实是布尔的 true，看下面这段代码:
 
@@ -384,10 +384,10 @@ if (new Boolean(false)) {
 
   - 这个方法比较靠谱
 
-- ```obj.constructor === Array`
-- constructor 属性返回对创建此对象的函数的引用
+- `obj.constructor === Array`
+  - `constructor` 属性返回对创建此对象的函数的引用
 
-### 1.29. Object.prototype.toString
+### 1.29. `Object.prototype.toString`
 
 如果是原始类型，他会将原始类型包装为引用类型，然后调用对应方法
 
@@ -406,7 +406,7 @@ toString.call(123); //[object Number]
 toString.call("abc"); //[object String]
 ```
 
-### 1.30. obj.toString() 和 Object.prototype.toString.call(obj)
+### 1.30. `obj.toString()` 和 `Object.prototype.toString.call(obj)`
 
 同样是检测对象 obj 调用 toString 方法，obj.toString()的结果和 Object.prototype.toString.call(obj)的结果不一样，这是为什么？
 
@@ -634,19 +634,19 @@ console.log("a"+a); var a = 1; // aundefined
 console.log("b"+b); var b = 1; // bundefined
 ```
 
-### 1.38. parseInt()和Number()的区别
-- parseInt() 和 parseFloat() 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
+### 1.38. `parseInt()`和`Number()`的区别
+- `parseInt()` 和 `parseFloat()` 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
 - 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
-- 如果字符串值能被完整地转换，Number() 将判断是调用 parseInt() 方法还是 parseFloat() 方法。
+- 如果字符串值能被完整地转换，`Number()` 将判断是调用 `parseInt()` 方法还是 `parseFloat()` 方法。
 
 
 
 ### 1.39. `toSring`和`valueOf`对比
-1. toString() 方法返回一个**表示该对象的字符串**。
-对于对象x，toString() 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，toString() 返回x应有的文本值(不是单纯的加”“)
+1. `toString()` 方法返回一个**表示该对象的字符串**。
+对于对象x，`toString()` 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，toString() 返回x应有的文本值(不是单纯的加”“)
 
-2. valueOf() 方法返回**指定对象的原始值**
-每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，valueOf() 就会返回对象自身
+2. `valueOf()` 方法返回**指定对象的原始值**
+每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，`valueOf()` 就会返回对象自身
 
 对比：
 - 当函数fn用+连接一个字符串或者是数字的时候，如果我们没有重新定义valueOf和toString，其隐式转换会调用默认的toString()方法，将函数本身内容作为字符串返回； 
@@ -875,9 +875,9 @@ false + 'a' // "falsea"
 '2' > '11' // true
 ```
 
-### 1.55. [js中Math.round、parseInt、Math.floor和Math.ceil小数取整总结](https://www.cnblogs.com/naokr/p/5235624.html)
+### 1.55. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整
 
-Math.round、parseInt、Math.floor和Math.ceil 都可以返回一个整数，具体的区别请看下面的总结。
+`Math.round`、`parseInt`、`Math.floor`和`Math.ceil` 都可以返回一个整数，具体的区别请看下面的总结。
 
 **一、Math.round**
 
