@@ -4,6 +4,13 @@
   - [1.3. K 个一组翻转链表 [Leetcode - 25]](#13-k-个一组翻转链表-leetcode---25)
   - [1.4. 两两交换链表中的节点](#14-两两交换链表中的节点)
   - [1.5. 模拟`git rebase`的第一步，找到最近的公共节点](#15-模拟git-rebase的第一步找到最近的公共节点)
+  - [判断两个无环单链表是否相交](#判断两个无环单链表是否相交)
+  - [从尾到头打印链表](#从尾到头打印链表)
+  - [访问单个节点的删除](#访问单个节点的删除)
+  - [打印两个升序链表的公共值](#打印两个升序链表的公共值)
+  - [合并两个排序的链表](#合并两个排序的链表)
+  - [合并 K 个有序的链表](#合并-k-个有序的链表)
+  - [复杂链表的复制](#复杂链表的复制)
 
 ## 1. 链表
 ### 1.1. 链表的实现
@@ -34,6 +41,7 @@ class LinkedList:
 5->4->3->2->1->null
 ```
 ```python
+# 迭代
 def reverseList(head):
   if not head or not head.next: return head
   pre = None
@@ -43,6 +51,17 @@ def reverseList(head):
     pre = head
     head = nxt
   return pre
+
+# 递归
+def reverseList2(head):
+  if not head or not head.next: return head
+
+  # head->next 此刻指向 head 后面的链表的尾节点
+  # head->next-next = head 把 head 节点放在了尾部
+  p = reverseList2(head.next)
+  head.next.next = head
+  head.next = null
+  return p
 ```
 
 ### 1.3. K 个一组翻转链表 [Leetcode - 25]
@@ -169,3 +188,138 @@ const E = { id: 'E', parent: C };
 getBestCommonAncestor(A, B); // A
 getBestCommonAncestor(D, E); // B
 ```
+
+
+### 判断两个无环单链表是否相交
+
+如果相交最后一个节点必相等，只需要看最后一个节点值是否相等
+
+```python
+def chkIntersect(headA, headB):
+  if not headA or not headB: return False
+
+  while headA.next:
+    headA = headA.next
+  while headB.next:
+    headB = headB.next
+
+  if headA == headB:
+    return True
+
+  return False
+```
+
+### 从尾到头打印链表
+
+```python
+def printList(node):
+  newList = []
+  while node:
+    newList.insert(0, node.val)
+    node = node.next
+  return newList
+```
+
+
+### 访问单个节点的删除
+
+实现一个算法，删除单向链表中间的某个结点，假定你只能访问该结点。
+给定待删除的节点，请执行删除操作，若该节点为尾节点，返回false，否则返回true
+
+```python
+def removeNode(node):
+  if not node.next: return False
+  node.val = node.next.val
+  node.next = node.next.next
+  return True
+```
+
+### 打印两个升序链表的公共值
+
+谁小就让谁走一个指针，相等就添加到列表中，并且都走一个指针
+
+```python
+def findCommonParts(headA, headB):
+  res = []
+  
+  while headA and headB:
+    if headA.val < headB.val:
+      headA = headA.next
+    elif headA.val > headB.val:
+      headB = headB.next
+    else:
+      res.append(headA.val)
+      headA = headA.next
+      headB = headB.next
+
+  return res
+```
+
+### 合并两个排序的链表
+
+输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+
+```python
+def merge(head1, head2):
+  res = head = ListNode(0)
+
+  while head1 and head2:
+    if head1.val < head2.val:
+      head.next = head1
+      head1 = head1.next
+    else:
+      head.next = head2
+      head2 = head2.next
+
+    head = head.next
+  head.next = head1 if head2
+  return res.next
+```
+
+### 合并 K 个有序的链表
+
+输入:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+输出: 1->1->2->3->4->4->5->6
+
+```python
+from heapq import heapify, heappop
+
+def mergeL(lists):
+  h = []
+
+  for node in lists:
+    while node:
+      h.append(node.val)
+      node = node.next
+
+  if not h: return None
+
+  heapify(h)
+
+  root = ListNode(heappop(h))
+  curNode = root
+
+  while h:
+    nextNode = ListNode(heappop(h))
+    curNode.next = nextNode
+    curNode = nextNode
+
+  return root
+```
+
+### 复杂链表的复制
+
+输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+
+创建新的头结点，random等于原来头结点的random，next为递归的原来的next，这样每个节点保证复制一次（不多不少）
+
+```python
+
+
+```
+

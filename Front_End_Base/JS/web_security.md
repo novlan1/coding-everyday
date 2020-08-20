@@ -3,6 +3,9 @@
 - [XSS：跨站脚本攻击（Cross-site scripting）](#xss跨站脚本攻击cross-site-scripting)
   - [XSS防范](#xss防范)
 - [CSRF：跨站请求伪造（Cross-site request forgery）](#csrf跨站请求伪造cross-site-request-forgery)
+    - [cookie 不是同一个 domain 下才会携带吗？为啥 网站B 可以带着网站A的 cookie 请求 A 呢？](#cookie-不是同一个-domain-下才会携带吗为啥-网站b-可以带着网站a的-cookie-请求-a-呢)
+    - [B 网站可以获取到A网站到cookie吗？](#b-网站可以获取到a网站到cookie吗)
+    - [从 B 这个站点访问 A 这个接口，已经跨域了，怎么能访问通呢？](#从-b-这个站点访问-a-这个接口已经跨域了怎么能访问通呢)
   - [CSRF的防御](#csrf的防御)
 - [点击劫持](#点击劫持)
   - [X-FRAME-OPTIONS](#x-frame-options)
@@ -50,6 +53,17 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 
 1. 登录受信任站点 A，并在本地**生成cookie**；
 2. 在**不登出站点A（清除站点A的cookie）**的情况下，访问**恶意站点B**。
+
+
+#### cookie 不是同一个 domain 下才会携带吗？为啥 网站B 可以带着网站A的 cookie 请求 A 呢？
+因为B里面嵌入了A的地址，所以向B发起请求后，会自动向A发起请求，相当于浏览器做了两次请求。
+
+#### B 网站可以获取到A网站到cookie吗？
+不能，也不需要
+
+#### 从 B 这个站点访问 A 这个接口，已经跨域了，怎么能访问通呢？
+通过 img 标签的 src 属性发起的请求是不遵循同源策略的，这也是跨域的另一个解决方法Jsonp 的实现原理
+
 
 
 ### CSRF的防御

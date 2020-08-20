@@ -3,6 +3,7 @@
 - [2. 协商缓存触发条件](#2-协商缓存触发条件)
 - [3. 强缓存和协商缓存](#3-强缓存和协商缓存)
 - [4. 为什么要有etag？](#4-为什么要有etag)
+- [输入URL、`F5`、 `Ctrl + F5` 的区别](#输入urlf5-ctrl--f5-的区别)
 
 ### 1. cache-control 属性有哪些？
 
@@ -66,6 +67,12 @@
 
 <img src='../../imgs/b_s_cache.png' height='500'/>
 
+1. 图上说的「`Etag`? -> 否」是指没有 `ETag`，而不是 `ETag` 不同。
+2. 图上的错误则是，`RFC` 规定，如果 `ETag` 和 `Last-Modified` 都有，则必须一次性都发给服务器，没有优先级。
+3. 最后，如果服务器输出了 `ETag`，没有必要再输出 `Last-Modified`。
+
+参考资料：
+1. [有了Etag，last-Modified还有必要存在吗](https://www.zhihu.com/question/22883627)
 
 ### 4. 为什么要有etag？
 
@@ -75,4 +82,12 @@
 2. 某些文件**修改非常频繁**，比如在**秒以下的时间内进行修改，(比方说1s内修改了N次)**，`if-modified-since`能检查到的粒度是秒级的，这种修改无法判断(或者说UNIX记录MTIME只能精确到秒)；
 3. 某些**服务器不能精确的得到文件的最后修改时间**。
 
- 
+
+### 输入URL、`F5`、 `Ctrl + F5` 的区别
+1. 实际上浏览器输入 `url` 之后敲下回车就是先看本地 `cache-control`、`expires` 的情况；
+2. 刷新(`F5`)就是忽略先看本地 `cache-control`、`expires` 的情况，带上条件 `If-None-Match`、`If-Modified-Since`；
+3. 强制刷新(`Ctrl + F5`)就是不带条件的访问。
+
+
+
+
