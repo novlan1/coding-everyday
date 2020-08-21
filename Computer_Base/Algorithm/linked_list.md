@@ -11,6 +11,11 @@
   - [合并两个排序的链表](#合并两个排序的链表)
   - [合并 K 个有序的链表](#合并-k-个有序的链表)
   - [复杂链表的复制](#复杂链表的复制)
+  - [求链表的中间节点](#求链表的中间节点)
+  - [求链表的倒数第 K 个节点](#求链表的倒数第-k-个节点)
+  - [删除链表的倒数第N个节点](#删除链表的倒数第n个节点)
+  - [判断链表是否为回文](#判断链表是否为回文)
+  - [链表中环的入口结点](#链表中环的入口结点)
 
 ## 1. 链表
 ### 1.1. 链表的实现
@@ -316,10 +321,212 @@ def mergeL(lists):
 
 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
 
+递归：
+
 创建新的头结点，random等于原来头结点的random，next为递归的原来的next，这样每个节点保证复制一次（不多不少）
 
 ```python
+class RandomListNode:
+  def __init__(self, x):
+    self.label = x
+    self.next = None
+    self.random = None
 
+def clone(head):
+  if not head: return 
+  newN = RandomListNode(head.label)
+  newN.random = head.random
+  newN.next = clone(head.next)
+  return newN
+```
+
+非递归：
+
+1. 复制每个节点，如：复制节点`A`得到`A1`，将`A1`插入节点`A`后面
+2. 遍历链表，`A1->random = A->random->next`;
+3. 将链表拆分成原链表和复制后的链表
+
+```python
+def clone(head):
+  if not head: return 
+  cur = head
+
+  while cur:
+    newN = RandomListNode(cur.label)
+    nxt = cur.next
+    cur.next = newN
+    newN.next = nxt
+    cur = nxt
+
+  cur = head
+  
+  while cur:
+    cur.next.random = cur.random
+    cur = cur.next.next
+  
+  cur = head
+  cloneH = cur.next
+
+  while cur:
+    newN = cur.next
+    nxt = newN.next
+    newN.next = nxt.next if nxt else None
+    cur.next = nxt
+    cur = nxt
+
+  return cloneH
+```
+
+### 求链表的中间节点
+
+思路：
+1. 两个指针，一块一慢，快指针每次走两步，慢指针每次走一步。
+2. fast 或者 fast.next 节点为 None 时，慢指针指向的节点为中间节点
+
+```python
+def findMidNode(head):
+  if not head: return None
+  fast = slow = head
+
+  while fast and fast.next:
+    fast = fast.next.next
+    slow = slow.next
+
+  return slow
+```
+
+### 求链表的倒数第 K 个节点
+
+【思路】：
+首先判断链表的长度，判断是否有K个结点。当存在多余K个结点的时候，就用到了链表解决方案中经常使用的方法【运用两个指针，一前一后】。
+让一个链表先运动K步，然后同时向前运动，当先运动的指针结点为None的时候，后运动的指针对应的链表结点就是所求的倒数第K个结点。
+
+```python
+def findKthToTail(head, k):
+  if not head or k <= 0: return 
+  p1 = head
+  p2 = head
+
+  for i in range(k - 1):
+    if not p1.next: return 
+    p1 = p1.next
+
+  while p1.next:
+    p1 = p1.next
+    p2 = p2.next
+
+  return p2
+```
+
+### 删除链表的倒数第N个节点
+
+给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+
+示例： 给定一个链表: 1->2->3->4->5, 和 n = 2. 当删除了倒数第二个节点后，链表变为 1->2->3->5.
+
+```python
+def removeNthFromEnd(head, n):
+  if not head: return 
+
+  fake = ListNode(0)
+  fake.next = head
+
+  p = q = fake
+  for i in range(n):
+    if not q: return 
+    q = q.next
+  
+  while (q.next):
+    q = q.next
+    p = p.next
+
+  delNode = p.next
+  p.next = delNode.next
+
+  return fake.next
+```
+
+### 判断链表是否为回文
 
 ```
+请编写一个函数，检查链表是否为回文。
+
+给定一个链表 ListNode* pHead，请返回一个bool，代表链表是否为回文。
+
+测试样例：
+
+{1,2,3,2,1}
+返回：true
+
+{1,2,3,2,3}
+返回：false
+```
+
+慢指针走一步，快指针走两步，在快指针到尾部之前，将慢指针的值压入到队列中，（注意判断奇数的情况，就是fast有值而fast.next为空，需要让fast=fast.next），然后慢指针继续走，每走一步和队列中弹出的值比较，不相等不是回文
+
+用栈，额外空间复杂度为O(n)，直接用指针可以做到O(1)
+
+快指针走到尾的时候，让慢指针以后的元素逆序，也就是后半部分，然后一个指针从尾部向前，一个指针从头部往后，进行比较。注意最后要让逆序的结点再翻回来。
+
+```python
+def isPalindrome(head):
+  fast = head
+  slow = head
+  stack = []
+
+  while fast and fast.next:
+    stack.append(slow.val)
+    slow = slow.next
+    fast = fast.next.next
+
+  # 链表为奇数个时，跳过中间元素
+  if fast:
+    slow = slow.next
+  
+  while slow:
+    if slow.val != stack.pop():
+      return False
+    slow = slow.next
+
+  return True
+```
+
+### 链表中环的入口结点
+
+给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
+
+![链表中环的入口结点](../../imgs/linked_list_circle_entry.png)
+
+1. 链表起始点到环的入口点距离为L，环周长为R，环的入口点到快慢指针相遇位置为X，红色位置为相遇点
+2. 快指针走的距离：`F=L+X+n*R`
+3. 慢指针走的距离：`S=L+X`
+4. 慢指针一定是走不到一圈就相遇了，最差是在环入口点相遇（表头就是入口，慢指针走了一圈，快指针走了两圈）
+`F=2S`
+`L+X+n*R = 2 * (L+X)`，n等于1时，L=R-X，L为链表头部到环入口距离，R-X是相遇点到环入口距离
+第二次让temp指针指向头结点，slow继续走完剩下的一圈的时候，temp指针就走到入口了
+
+```python
+def entryNodeOfLoop(head):
+  if not head or not head.next: return 
+  fast = slow = head
+
+  while fast and fast.next:
+    fast = fast.next.next
+    slow = slow.next
+    if slow == fast:
+      break
+  
+  temp = head
+
+  while slow:
+    if slow == temp:
+      return slow
+    slow = slow.next
+    temp = temp.next
+
+  return 
+```
+1. 1个快指针每次走两步，1个慢指针每次走一步，
+2. 快指针和慢指针相遇时，找一个tmp指针指向头结点，慢指针继续走，再一次相遇，tmp所在位置是入口节点
+
 
