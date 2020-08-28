@@ -641,4 +641,7 @@ _handleCallBack(resolve, reject) {
 
 
 
-参考资料：[CommonJS模块与ES6模块的区别](https://www.cnblogs.com/unclekeith/p/7679503.html)，[ES6入门](https://uwayfly.com/static/docs/index.html#es6/module-loader#CommonJS-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%8A%A0%E8%BD%BD)，[module.exports与exports，export与export default之间的关系和区别](https://www.cnblogs.com/fayin/p/6831071.html)
+参考资料：
+1. [CommonJS模块与ES6模块的区别](https://www.cnblogs.com/unclekeith/p/7679503.html)
+2. [ES6入门](https://uwayfly.com/static/docs/index.html#es6/module-loader#CommonJS-%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%8A%A0%E8%BD%BD)
+3. [module.exports与exports，export与export default之间的关系和区别](https://www.cnblogs.com/fayin/p/6831071.html)

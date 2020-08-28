@@ -11,6 +11,7 @@
   - [1.6. 为什么叫 thunk ？](#16-为什么叫-thunk-)
   - [1.7. `react-redux`数据流](#17-react-redux数据流)
   - [1.8. `mapStateToProps` 和 `mapDispatchToProps`](#18-mapstatetoprops-和-mapdispatchtoprops)
+  - [1.9. 为什么reducer是纯函数](#19-为什么reducer是纯函数)
 
 ## 1. Redux
 
@@ -96,3 +97,10 @@ Thunk 是一类函数的别名，主要特征是**对另外一个函数添加了
 - `mapStateToProps`，参数为`state`，返回一个**对象(普通对象)**，为组件需要的数据。
 - `mapDispatchToProps`，参数为`dispatch`，返回一个**对象(包含一些方法)**，每个方法调用`dispatch`。
 
+
+### 1.9. 为什么reducer是纯函数
+因为不能改变输入值state，说白了就是reducer传state和action返回新的state。
+
+为什么这样设计？
+
+因为页面渲染需要比较新旧state，react比较state比较的是地址（也就是浅比较，如果深比较耗费性能）所以必须返回新的state，否则页面不更新

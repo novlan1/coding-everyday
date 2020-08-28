@@ -74,7 +74,7 @@
 `Quickfind`，`find`的时间复杂度为`O(1)`，即返回`A[index]`，很快。
 举个例子，比如输入的 Pair 是`(5，9)`，那么首先通过`find`方法发现它们的组号并不相同，然后在`union`的时候通过一次遍历，将组号`1`都改成`8`。当然，由`8`改成`1`也是可以的，保证操作时都使用一种规则就行。
 
-```
+```java
 public int find(int p)
 	{ return id[p]; }
 
@@ -103,7 +103,7 @@ public void union(int p,int q)
 
 如何将节点以更好的方式组织起来，组织的方式有很多种，但是最直观的还是将组号相同的节点组织在一起，想想所学的数据结构，什么样子的数据结构能够将一些节点给组织起来？常见的就是链表，图，树，什么的了。但是哪种结构对于查找和修改的效率最高？毫无疑问是树，因此考虑如何将节点和组的关系以树的形式表现出来。
 
-```
+```java
 private int find(int p)
 {
 	//寻找p节点所在组的根节点，根节点具有性质id[root] = root
@@ -132,7 +132,7 @@ public void union(int p,int q)
 
 巧妙的实现方式
 
-```
+```java
 private int find(int p)
 {
 	while(p != id[p])
@@ -158,7 +158,8 @@ private int find(int p)
 
  
 
-参考资料：[并查集(Union-Find)算法介绍](https://blog.csdn.net/dm_vincent/article/details/7655764?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)
+参考资料：
+1. [并查集(Union-Find)算法介绍](https://blog.csdn.net/dm_vincent/article/details/7655764?utm_medium=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)
 
 
 

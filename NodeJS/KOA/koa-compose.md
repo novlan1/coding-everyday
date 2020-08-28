@@ -120,4 +120,6 @@ Koa 中间件的实现原理，也就是洋葱模型的实现原理，核心在�
 
 
 
-参考资料：[浅谈koa中间件的实现原理](https://zhuanlan.zhihu.com/p/141890366)，[koa-compose, github](https://github.com/koajs/compose/blob/master/index.js)
+参考资料：
+1. [浅谈koa中间件的实现原理](https://zhuanlan.zhihu.com/p/141890366)
+2. [koa-compose, github](https://github.com/koajs/compose/blob/master/index.js)

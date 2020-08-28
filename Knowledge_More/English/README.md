@@ -1,5 +1,20 @@
 - [经典](#经典)
 - [口语天天练](#口语天天练)
+  - [go Dutch AA制，各付各的](#go-dutch-aa制各付各的)
+  - [hold a grudge 记仇](#hold-a-grudge-记仇)
+  - [hair loss脱发(名词，表现象) ，](#hair-loss脱发名词表现象-)
+  - [anyone in there?](#anyone-in-there)
+  - [May I speak to…? may I speak with…? 我想找……](#may-i-speak-to-may-i-speak-with-我想找)
+  - [It's all good. 没关系。](#its-all-good-没关系)
+  - [wash up 洗一下、洗洗手、洗洗脸](#wash-up-洗一下洗洗手洗洗脸)
+  - [Here we go开始吧=let's get started.](#here-we-go开始吧lets-get-started)
+  - [kill the mood破坏情绪（氛围），大煞风景](#kill-the-mood破坏情绪氛围大煞风景)
+  - [whine抱怨,发牢骚（=complain）](#whine抱怨发牢骚complain)
+  - [alarm闹铃](#alarm闹铃)
+  - [shopping买东西谈价钱 *](#shopping买东西谈价钱-)
+  - [keep an eye on留意，注意](#keep-an-eye-on留意注意)
+  - [Speaking of the devil 说曹操曹操到](#speaking-of-the-devil-说曹操曹操到)
+  - [It can be a killer. 这是一个伤脑筋的问题&是一个很杀脑细胞的问题。](#it-can-be-a-killer-这是一个伤脑筋的问题是一个很杀脑细胞的问题)
 
 ### 经典
 I can accept failure, everyone fails at something. But I can't accept not trying. —— Michael Jordan
@@ -171,8 +186,10 @@ you should be with a guy who knows what he has when he has you. 你应该和一�
 
 
 ### 口语天天练
+
+#### go Dutch AA制，各付各的
 Let’s go Dutch.（Let’s go fifty-fifty. ）(Let’s split the bill.) 让我们AA制吧。
-go Dutch AA制，各付各的
+
 
 我请客 I will buy you a lunch/dinner/drink. (It’s on me.) (It’s my treat.)
 I will treat you an ice-cream. 请你吃冰淇淋。
@@ -259,7 +276,7 @@ She was supposed to be here an hour ago.
 一个小时前她就该到了吧
 
 
-hold a grudge记仇 
+#### hold a grudge 记仇 
 grudge，n.怨恨、愤怒、生气、不爽 
 I'm definitely holding a grudge.
 我真的记仇了。 
@@ -273,7 +290,7 @@ Samantha is so forgiving. She has never held a grudge in her life.
 
 
 
-hair loss脱发(名词，表现象) ，
+#### hair loss脱发(名词，表现象) ，
 lose one's hair脱发（动词短语，表动作） 
 a. thin表头发稀少（形容词），
 be thin on top；thinning表示变少、变稀薄（动词） 
@@ -296,7 +313,7 @@ He's quite concerned about his receding hairline.
 
 
 
-anyone in there?
+#### anyone in there?
 里面有人吗？ （如卫生间、试衣间）
 Q:Is anyone in here?
 里面有人吗？ 
@@ -310,8 +327,7 @@ A:Ocupied./It's occupied.
 
 
 
-May I speak to…? may I speak with…?
-我想找……
+#### May I speak to…? may I speak with…? 我想找……
 May I ask what you are calling about?
 你打电话干什么啊
 sb is not in, she's in a meeting.某人不在，她在开会
@@ -325,8 +341,7 @@ You have/got the wrong number.
 
 
 
-It's all good.
-没关系。 
+#### It's all good. 没关系。 
 Hey, I'm so sorry I forget the drinks.
 嘿，我忘记带酒了，真是太抱歉了。 
 Oh, it's all good. somebody else brought drinks.
@@ -338,7 +353,7 @@ It's all good. Don't worry about it. I wanna get a new one anyway.
 
 
 
-wash up洗一下、洗洗手、洗洗脸 
+#### wash up 洗一下、洗洗手、洗洗脸 
 I've been digging in the garden all morning. I'm gonna go wash up.
 我一上午都在花园挖地，我要去洗一下。 
 Make sure the kids wash up before dinner.
@@ -346,7 +361,7 @@ Make sure the kids wash up before dinner.
 
 
 
-Here we go开始吧=let's get started. 
+#### Here we go开始吧=let's get started. 
 Here you go=here you are.给你 * 
 When are the fireworks going to start?
 烟花秀什么时候开始呀？
@@ -358,7 +373,7 @@ Here we go again. Another boring story of yours.
 
 
 
-kill the mood破坏情绪（氛围），大煞风景 
+#### kill the mood破坏情绪（氛围），大煞风景 
 The boss is killing the mood.
 老板太破坏氛围了。 
 If Lily doesn't update, that'll kill the mood.
@@ -370,7 +385,7 @@ we were all having fun. Then they started fighting. That killed the mood.
 
 
 
-whine抱怨,发牢骚（=complain） 
+#### whine抱怨,发牢骚（=complain） 
 no whining不要抱怨 
 He is always whining about his problems.
 他总是在抱怨他遇到的各种各样的问题。
@@ -382,7 +397,7 @@ For heaven's sake, stop whining. That's not gonna help.
 
 
 
-alarm闹铃 
+#### alarm闹铃 
 set the alarm for 设闹铃，在什么时间用介词for+time * 
 set the alarm for 7/8/10 定七/八/十点的闹铃 *
 I set the alarm for 8 tomorrow because I have a meeting at 9. 
@@ -395,7 +410,7 @@ I set my alarm for 7 but it went off at 7:30.
 
 
 
-shopping买东西谈价钱 *
+#### shopping买东西谈价钱 *
 How much is it?
 这个多少钱？ 
 Can you do any better?
@@ -496,7 +511,7 @@ I'm all ears！洗耳恭听
 
 
 
-keep an eye on留意，注意 
+#### keep an eye on留意，注意 
 1.I must go out for a moment ,Please keep an eye on my bag
 我要出门一下，请帮我留意我的包。 
 2.The parents most keep an eye on their babies
@@ -504,7 +519,7 @@ keep an eye on留意，注意
 
 
 
-Speaking of the devil 说曹操曹操到 
+#### Speaking of the devil 说曹操曹操到 
 Speaking of the devil, here comes the teacher.
 说曹操曹操到，老师来了。 
 Speaking of the devil, it comes to rain.
@@ -512,7 +527,7 @@ Speaking of the devil, it comes to rain.
 
 
 
-It can be a killer. 这是一个伤脑筋的问题&是一个很杀脑细胞的问题。 
+#### It can be a killer. 这是一个伤脑筋的问题&是一个很杀脑细胞的问题。 
 The cold weather is not very serious, but it can be a killer. 
 寒冷的天气并不严重，但它是个伤脑筋的问题。
 

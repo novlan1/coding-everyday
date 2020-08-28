@@ -4,6 +4,7 @@
 - [4. 设置 npm 的 registry 的几种方法](#4-设置-npm-的-registry-的几种方法)
 - [5. `prepack：“npm run build"`的作用](#5-prepacknpm-run-build的作用)
 - [6. `package-lock.json`的作用](#6-package-lockjson的作用)
+- [版本号](#版本号)
 - [7. npx常见用处](#7-npx常见用处)
 - [8. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`](#8-错误处理npm-warn-checkpermissions-missing-write-access-to-usrlocallibnode_modules)
 
@@ -112,6 +113,20 @@ npm install XXX@x.x.x
 `cnpm install`的时候，就算你项目中有`package-lock.json`文件，`cnpm`也不会识别，仍会根据`package.json`来安装。
 
 
+### 版本号
+
+使用 npm 下载和发布代码时都会接触到版本号。npm 使用语义版本号来管理代码，语义版本号分为 X.Y.Z 三位，分别代表主版本号、次版本号和补丁版本号。当代码变更时，版本号按以下原则更新。
+
+- 如果只是修复bug，需要更新Z位。
+- 如果是新增了功能，但是向下兼容，需要更新Y位。
+- 如果有大变动，向下不兼容，需要更新X位。
+
+> 版本号中的“~” 和 “^”
+>
+> - ~1.2.2：表示安装1.2.x的最新版本（不低于1.2.2），但是不安装1.3.x，也就是说安装时不改变主版本号和次版本号。
+>- ˆ1.2.2：表示安装1.x.x的最新版本（不低于1.2.2），但是不安装2.x.x，也就是说安装时不改变主版本号。需要注意的是，如果主版本号为0，则 “^” 和 “~” 行为相同，这是因为此时处于开发阶段，即使是次版本号变动，也可能带来程序的不兼容。
+>- 1.2.2：表示安装1.2.2版本，使用 npm update 命令时不会更新此类包
+
 
 ### 7. npx常见用处
 
@@ -129,8 +144,4 @@ npm install XXX@x.x.x
 
 1. 用`cnpm`试试
 2. 删除重新安装
-
-  - 找到`node`的全局安装路径，一般在`nodejs`文件夹的`node_modules`文件夹内，我的文件路径为：`E:\softtest\nodejs\node_modules`
-  - 找到安装失败创建的文件夹，删除它；如果不清楚是哪个文件夹安装失败了，那么最直接的方式就是直接删掉`node_modules`文件夹，一了百了
-  - 删除之后，再次执行`npm install`命令重新安装，即可成功 
 

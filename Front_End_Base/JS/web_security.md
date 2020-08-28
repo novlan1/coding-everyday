@@ -1,44 +1,44 @@
-- [SQL 注入](#sql-注入)
-  - [防御](#防御)
-- [XSS：跨站脚本攻击（Cross-site scripting）](#xss跨站脚本攻击cross-site-scripting)
-  - [XSS防范](#xss防范)
-- [CSRF：跨站请求伪造（Cross-site request forgery）](#csrf跨站请求伪造cross-site-request-forgery)
-    - [cookie 不是同一个 domain 下才会携带吗？为啥 网站B 可以带着网站A的 cookie 请求 A 呢？](#cookie-不是同一个-domain-下才会携带吗为啥-网站b-可以带着网站a的-cookie-请求-a-呢)
-    - [B 网站可以获取到A网站到cookie吗？](#b-网站可以获取到a网站到cookie吗)
-    - [从 B 这个站点访问 A 这个接口，已经跨域了，怎么能访问通呢？](#从-b-这个站点访问-a-这个接口已经跨域了怎么能访问通呢)
-  - [CSRF的防御](#csrf的防御)
-- [点击劫持](#点击劫持)
-  - [X-FRAME-OPTIONS](#x-frame-options)
-  - [JS 防御](#js-防御)
-- [中间人攻击](#中间人攻击)
+- [1. SQL 注入](#1-sql-注入)
+  - [1.1. 防御](#11-防御)
+- [2. XSS：跨站脚本攻击（`Cross-site scripting`）](#2-xss跨站脚本攻击cross-site-scripting)
+  - [2.1. XSS防范](#21-xss防范)
+- [3. CSRF：跨站请求伪造（`Cross-site request forgery`）](#3-csrf跨站请求伪造cross-site-request-forgery)
+    - [3.0.1. cookie 不是同一个 domain 下才会携带吗？为啥 网站B 可以带着网站A的 cookie 请求 A 呢？](#301-cookie-不是同一个-domain-下才会携带吗为啥-网站b-可以带着网站a的-cookie-请求-a-呢)
+    - [3.0.2. B 网站可以获取到A网站到cookie吗？](#302-b-网站可以获取到a网站到cookie吗)
+    - [3.0.3. 从 B 这个站点访问 A 这个接口，已经跨域了，怎么能访问通呢？](#303-从-b-这个站点访问-a-这个接口已经跨域了怎么能访问通呢)
+  - [3.1. CSRF的防御](#31-csrf的防御)
+- [4. 点击劫持](#4-点击劫持)
+  - [4.1. X-FRAME-OPTIONS](#41-x-frame-options)
+  - [4.2. JS 防御](#42-js-防御)
+- [5. 中间人攻击](#5-中间人攻击)
 
-## SQL 注入
+## 1. SQL 注入
 
-所谓 SQL 注入，就是通过把 **SQL 命令**插入到 Web **表单**提交或输入**域名**或**页面请求的查询字符串**，后台执行 SQL 语句时直接把前端传入的字段拿来做 SQL 查询。
+所谓 SQL 注入，就是通过把 **SQL 命令**插入到 Web **表单**提交或输入**域名**或**页面请求的查询字符串**，后台执行 SQL 语句时**直接把前端传入的字段拿来做 SQL 查询**。
 
-### 防御
+### 1.1. 防御
 
 - 永远不要信任用户的输入。
-- 永远不要使用动态拼装 sql
+- 永远不要使用动态拼装 sql，使用ORM可以大大降低sql注入风险
 - 不要把机密信息直接存放
 
 
 
-## XSS：跨站脚本攻击（Cross-site scripting）
+## 2. XSS：跨站脚本攻击（`Cross-site scripting`）
 
 1. 比如在新浪博客中写一篇文章，同时偷偷插入一段`<script>`
 2. 攻击代码中，获取cookie，发送到服务器
 3. 发布博客，有人查看博客内容
-4. 会把查看者到cookie发送到攻击者到服务器
+4. 会把查看者的cookie发送到攻击者的服务器
 
 
-### XSS防范
+### 2.1. XSS防范
 
 - 将`<`和`>`替换
 
 
 
-## CSRF：跨站请求伪造（Cross-site request forgery）
+## 3. CSRF：跨站请求伪造（`Cross-site request forgery`）
 
 CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站发送恶意请求。 CRSF能做的事情包括利用你的身份发邮件、发短信、进行交易转账等，甚至盗取你的账号。
 
@@ -55,18 +55,18 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 2. 在**不登出站点A（清除站点A的cookie）**的情况下，访问**恶意站点B**。
 
 
-#### cookie 不是同一个 domain 下才会携带吗？为啥 网站B 可以带着网站A的 cookie 请求 A 呢？
+#### 3.0.1. cookie 不是同一个 domain 下才会携带吗？为啥 网站B 可以带着网站A的 cookie 请求 A 呢？
 因为B里面嵌入了A的地址，所以向B发起请求后，会自动向A发起请求，相当于浏览器做了两次请求。
 
-#### B 网站可以获取到A网站到cookie吗？
+#### 3.0.2. B 网站可以获取到A网站到cookie吗？
 不能，也不需要
 
-#### 从 B 这个站点访问 A 这个接口，已经跨域了，怎么能访问通呢？
+#### 3.0.3. 从 B 这个站点访问 A 这个接口，已经跨域了，怎么能访问通呢？
 通过 img 标签的 src 属性发起的请求是不遵循同源策略的，这也是跨域的另一个解决方法Jsonp 的实现原理
 
 
 
-### CSRF的防御
+### 3.1. CSRF的防御
 
 1. 尽量使用`POST`，限制`GET`
 2. 将`cookie`设置为`HttpOnly`
@@ -76,7 +76,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 
 
 
-## 点击劫持
+## 4. 点击劫持
 
 点击劫持（Click Jacking）是一种视觉欺骗的攻击手段。攻击者将需要攻击的网站通过 iframe 嵌套的方式嵌入自己的网页中，并将 iframe 设置为透明，在页面中透出一个按钮诱导用户点击。
 
@@ -85,7 +85,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 - X-FRAME-OPTIONS
 - JS 防御
 
-### X-FRAME-OPTIONS
+### 4.1. X-FRAME-OPTIONS
 
 `X-FRAME-OPTIONS` 是一个 HTTP 响应头，在现代浏览器有一个很好的支持。这个 HTTP 响应头 就是为了防御用 iframe 嵌套的点击劫持攻击。
 
@@ -95,7 +95,7 @@ CSRF攻击：攻击者盗用了你的身份，以你的名义向第三方网站�
 - `SAMEORIGIN`，表示页面可以在相同域名下通过`iframe`的方式展示
 - `ALLOW-FROM`，表示页面可以在指定来源的`iframe`中展示
 
-### JS 防御
+### 4.2. JS 防御
 
 因为普通页面的top对象为window，而iframe的top对象不等于window对象，可以在JS代码中：
 ```js
@@ -108,7 +108,7 @@ if (top.location !== window.location){
 
 
 
-## 中间人攻击
+## 5. 中间人攻击
 
 中间人攻击是攻击方同时与服务端和客户端建立起了连接，并让对方认为连接是安全的，但是实际上整个通信过程都被攻击者控制了。攻击者不仅能获得双方的通信信息，还能修改通信信息。
 

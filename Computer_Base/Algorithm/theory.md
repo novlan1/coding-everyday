@@ -55,7 +55,6 @@
   - [2.7. 查找](#27-查找)
   - [2.8. 有序数组合并的最小比较次数](#28-有序数组合并的最小比较次数)
   - [2.9. 二分查找、顺序查找、分块查找对比](#29-二分查找顺序查找分块查找对比)
-  - [2.10. 二分查找的两种实现](#210-二分查找的两种实现)
   - [2.11. 几种常见的数据结构的操作性能对比](#211-几种常见的数据结构的操作性能对比)
   - [2.12. BloomFilter](#212-bloomfilter)
   - [2.13. 水库算法](#213-水库算法)
@@ -702,49 +701,7 @@ Kruskal算法：将边合并，适合稀疏网
 2. 三种静态查找算法：顺序、二分/折半、索引/分块查找
 3. 无论使用什么确定块，速度一定是二分>分块>顺序
    
-### 2.10. 二分查找的两种实现
 
-```js
-function binarySearch(arr, target) {
-	const n = arr.length
-	let left = 0
-	let right = n - 1  // 在[left...right]的范围里寻找target
-	while (left <= right) {  // 当left == right时，区间[left...right]仍然有效
-		let mid = parseInt((left + right) / 2)
-		if (arr[mid] === target) {
-			return mid
-		}
-
-		if (target > arr[mid]) {
-			left = mid + 1; // target 在[mid+1 ...right]中
-		} else {
-			right = mid - 1 // target 在[left ...mid-1]中
-		}
-	}
-	return -1
-}
-```
-修改边界取值
-```js
-function binarySearch(arr, target) {
-	const n = arr.length
-	let left = 0
-	let right = n  // 在[left...right)的范围里寻找target
-	while (left < right) {  // 当left == right时，区间[left...right)无效
-		let mid = parseInt((left + right) / 2)
-		if (arr[mid] === target) {
-			return mid
-		}
-
-		if (target > arr[mid]) {
-			left = mid + 1; // target 在[mid+1 ...right)中
-		} else {
-			right = mid // target 在[left ...mid)中
-		}
-	}
-	return -1
-}
-```
 
 ### 2.11. 几种常见的数据结构的操作性能对比
 

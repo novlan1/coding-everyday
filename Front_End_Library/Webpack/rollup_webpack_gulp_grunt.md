@@ -12,5 +12,8 @@
   - Rollup 与 Webpack 有这不同的用途，因此会共同存在，并相互支持
   - React 已经将构建工具从 Webpack 换成了 Rollup
 
-参考资料：[Grunt / Gulp / Webpack / Rollup 比较](https://www.imooc.com/article/20603)，[gulp](https://blog.csdn.net/qq_39125445/article/details/97394438)，[gulp详细入门教程](https://blog.csdn.net/x550392236/article/details/77117023?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.compare&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.compare)
+参考资料：
+1. [Grunt / Gulp / Webpack / Rollup 比较](https://www.imooc.com/article/20603)
+2. [gulp](https://blog.csdn.net/qq_39125445/article/details/97394438)
+3. [gulp详细入门教程](https://blog.csdn.net/x550392236/article/details/77117023?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.compare&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.compare)
 

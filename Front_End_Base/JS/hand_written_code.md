@@ -525,7 +525,8 @@ setInterval(function(){
 
 
 
-参考资料：[解决 setInterval 计时器不准的问题](https://www.cnblogs.com/flash3d/archive/2014/05/08/3715600.html)
+参考资料：
+1. [解决 setInterval 计时器不准的问题](https://www.cnblogs.com/flash3d/archive/2014/05/08/3715600.html)
 
 ### 16. ES5 实现继承
 ```js
@@ -707,7 +708,8 @@ function deepCopyBFS(origin) {
   return target
 }
 ```
-参考资料：[深拷贝, 简书](https://www.jianshu.com/p/cf1e9d7e94fb)
+参考资料：
+1. [深拷贝, 简书](https://www.jianshu.com/p/cf1e9d7e94fb)
 
 ### 19. 实现 Promise
 ```js

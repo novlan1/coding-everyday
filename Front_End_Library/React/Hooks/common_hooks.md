@@ -12,7 +12,7 @@
   - [8.3. 为什么建议将修改 DOM 的操作里放到 useLayoutEffect 里，而不是 useEffect？](#83-为什么建议将修改-dom-的操作里放到-uselayouteffect-里而不是-useeffect)
 - [使用 hooks 时，父组件如何调用子组件的方法？](#使用-hooks-时父组件如何调用子组件的方法)
 
-## 1. 常用 hooks  <!-- omit in toc -->
+## 常用 hooks  <!-- omit in toc -->
 
 ### 1. useState
 

@@ -11,6 +11,7 @@
     - [1.9.1. 变式一](#191-变式一)
     - [1.9.2. 变式二](#192-变式二)
     - [1.9.3. 变式三](#193-变式三)
+  - [判断打印顺序](#判断打印顺序)
 - [2. 异步和单线程](#2-异步和单线程)
   - [2.1. 前端使用异步的场景？](#21-前端使用异步的场景)
   - [2.2. 同步和异步的区别是什么？分别举一个同步和异步的例子](#22-同步和异步的区别是什么分别举一个同步和异步的例子)
@@ -444,7 +445,51 @@ console.log(4);
 结果：`3 7 4 1 2 5`
 参考资料：[Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 
+### 判断打印顺序
 
+```js
+console.log(1);
+
+setTimeout(() => {
+  console.log(2)
+});
+
+Promise.resolve().then(() => {
+  console.log(3);
+});
+
+setImmediate(() => {
+  console.log(4)
+});
+
+new Promise(resolve => {
+  console.log(5);
+  resolve();
+  console.log(6);
+}).then(() => {
+  console.log(7)
+});
+
+Promise.resolve().then(() => {
+  console.log(8);
+  Promise.resolve().then(() => {
+    console.log(9)
+  });
+});
+```
+
+结果：
+```
+1
+5
+6
+3
+7
+8
+9
+4
+2
+```
 
 ## 2. 异步和单线程
 ### 2.1. 前端使用异步的场景？

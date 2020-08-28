@@ -1,0 +1,238 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <canvas id="canvas" width="500" height="500">
+    您的浏览器不支持canvas标签，无法看到时钟
+  </canvas>
+  <script>
+    var canvas = document.getElementById("canvas");
+    var cxt = canvas.getContext("2d");
+
+    function drawClock() {
+      cxt.clearRect(0, 0, 500, 500);
+      var now = new Date();
+      var sec = now.getSeconds();
+      var min = now.getMinutes();
+      var hour = now.getHours();
+      hour = hour + min / 60;
+      hour = hour > 12 ? hour - 12 : hour;
+
+      cxt.beginPath();
+      cxt.lineWidth = 5;
+      cxt.strokeStyle = "beige";
+      cxt.arc(250, 250, 200, 0, 2 * Math.PI, false);
+      cxt.stroke();
+      cxt.closePath();
+
+      for (var i = 0; i < 12; i++) {
+        cxt.beginPath();
+        cxt.save();
+        cxt.strokeStyle = "purple";
+        cxt.lineWidth = 5;
+        cxt.translate(250, 250);
+        cxt.rotate(i * 30 * Math.PI / 180);
+        cxt.moveTo(0, -170);
+        cxt.lineTo(0, -190);
+        cxt.stroke();
+        cxt.restore();
+        cxt.closePath();
+      }
+      /* 表盘 */
+      for (var i = 0; i < 60; i++) {
+        cxt.beginPath();
+        cxt.save();
+        cxt.strokeStyle = "gold";
+        cxt.lineWidth = 3;
+        cxt.translate(250, 250);
+        cxt.rotate(i * 6 * Math.PI / 180);
+        cxt.moveTo(0, -180);
+        cxt.lineTo(0, -190);
+        cxt.stroke();
+        cxt.restore();
+        cxt.closePath();
+      }
+      /* 时针 */
+      cxt.beginPath();
+      cxt.save();
+      cxt.strokeStyle = "green";
+      cxt.lineWidth = 5;
+      cxt.translate(250, 250);
+      cxt.rotate(hour * 30 * Math.PI / 180);
+      cxt.moveTo(0, -140);
+      cxt.lineTo(0, 10);
+      cxt.stroke();
+      cxt.restore();
+      cxt.closePath();
+      /* 分针 */
+      cxt.beginPath();
+      cxt.save();
+      cxt.strokeStyle = "blue";
+      cxt.lineWidth = 3;
+      cxt.translate(250, 250);
+      cxt.rotate(min * 6 * Math.PI / 180);
+      cxt.moveTo(0, -160);
+      cxt.lineTo(0, 15);
+      cxt.stroke();
+      cxt.restore();
+      cxt.closePath();
+      /* 秒针 */
+      cxt.beginPath();
+      cxt.save();
+      cxt.strokeStyle = "red";
+      cxt.lineWidth = 1.5;
+      cxt.translate(250, 250);
+      cxt.rotate(sec * 6 * Math.PI / 180);
+      cxt.moveTo(0, -168);
+      cxt.lineTo(0, 20);
+      cxt.stroke();
+      cxt.restore();
+      cxt.closePath();
+
+      cxt.beginPath();
+      cxt.strokeStyle = "red";
+      cxt.fillStyle = "#bbb";
+      cxt.lineWidth = 2;
+      cxt.arc(250, 250, 5, 0, 2 * Math.PI, false);
+      cxt.stroke();
+      cxt.fill();
+      cxt.restore();
+      cxt.closePath();
+
+      cxt.beginPath();
+      cxt.save();
+      cxt.strokeStyle = "red";
+      cxt.lineWidth = 2;
+      cxt.translate(250, 250);
+      cxt.rotate(sec * 6 * Math.PI / 180);
+      cxt.arc(0, -150, 5, 0, 2 * Math.PI, false);
+      cxt.stroke();
+      cxt.fill();
+      cxt.restore();
+      cxt.closePath();
+
+      cxt.beginPath();
+      cxt.fillStyle = "yellow";
+      cxt.font = "30px 宋体"
+      cxt.fillText("青岛时间", 200, 405);
+      cxt.closePath();
+    }
+    setInterval(drawClock, 1000)
+
+  </script>
+  <script type="text/javascript">
+    function getDou(number) {
+      if (number < 10) {
+        return '0' + number;
+      } else {
+        return number;
+      }
+    }
+
+    function getWeek(week) {
+      var sWeek = null;
+      switch (week) {
+        case 0:
+          sWeek = '星期日'
+          break;
+        case 1:
+          sWeek = '星期一'
+          break;
+        case 2:
+          sWeek = '星期二'
+          break;
+        case 3:
+          sWeek = '星期三'
+          break;
+        case 4:
+          sWeek = '星期四'
+          break;
+        case 5:
+          sWeek = '星期五'
+          break;
+        case 6:
+          sWeek = '星期六'
+          break;
+        default:
+          break;
+      }
+      return ' ' + sWeek;
+    }
+    window.onload = function () {
+      var oDate = document.getElementsByTagName("p")[0];
+      var oTime = document.getElementsByTagName("p")[1];
+
+      function tick() {
+        var date = new Date();
+        var sDate = null;
+        var sTime = null;
+        var hours = date.getHours();
+        if (hours > 12) {
+          hours %= 12;
+          sTime = '下午 ';
+        } else {
+          sTime = '上午 ';
+        }
+        sTime += getDou(hours) + ':' + getDou(date.getMinutes()) + ':' + getDou(date.getSeconds());
+        sTime += getWeek(date.getUTCDay());
+        oTime.innerHTML = sTime;
+
+        sDate = date.getUTCFullYear() + "年";
+        if (date.getUTCMonth() < 9) {
+          sDate += '0' + (date.getUTCMonth() + 1) + "月";
+        } else {
+          sDate += (date.getUTCMonth() + 1) + "月";
+        }
+        sDate += date.getUTCDate() + "日";
+        oDate.innerHTML = sDate;
+      }
+
+      setInterval(tick, 1000);
+      tick();
+    }
+  </script>
+  <style type="text/css">
+    body {
+      width: 800px;
+      height: 500px;
+      /* background:black ; */
+      background-image: url("./imgs/217.jpg");
+      background-size: 100% 100%;
+      vertical-align: middle;
+      display: table-cell;
+    }
+
+    .date {
+      text-align: center;
+      color: white;
+      font-size: 50px;
+    }
+
+    .time {
+      text-align: center;
+      color: white;
+      font-size: 40px;
+    }
+  </style>
+  </head>
+
+  <body>
+
+    <div>
+      <p class="date">
+        日期
+      </p>
+      <p class="time">
+        时间
+      </p>
+    </div>
+
+  </body>
+</body>
+
+</html>

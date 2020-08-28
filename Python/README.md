@@ -1,277 +1,290 @@
-- [1. 如何在列表、字典和集合中根据条件筛选数据](#1-如何在列表字典和集合中根据条件筛选数据)
-- [2. 如何统计序列中元素的出现的频度](#2-如何统计序列中元素的出现的频度)
-- [3. 如何让字典保持有序](#3-如何让字典保持有序)
+- [1. Python属于动态强类型语言](#1-python属于动态强类型语言)
+- [2. 为什么要用Python？](#2-为什么要用python)
+- [3. 什么是`monkey patch`？哪些地方用到类？自己如何实现？](#3-什么是monkey-patch哪些地方用到类自己如何实现)
+- [4. 什么是自省(`Introspection`)？](#4-什么是自省introspection)
+- [5. `is`和等号的区别](#5-is和等号的区别)
+- [Python 之禅](#python-之禅)
+- [Python2和3差别](#python2和3差别)
+  - [Python3 改进](#python3-改进)
+  - [Python3新增：](#python3新增)
+  - [兼容2/3的工具](#兼容23的工具)
+- [`replace()` 和` re.sub()` 字符串字符替换](#replace-和-resub-字符串字符替换)
+  - [`replace()`](#replace)
+- [`re.sub()`](#resub)
+- [Python如何传递参数？](#python如何传递参数)
+  - [例题](#例题)
+- [哪些是不可变对象？哪些可变？](#哪些是不可变对象哪些可变)
+  - [例题](#例题-1)
+- [`*args`,  `**kwarg`s含义是什么](#args-kwargs含义是什么)
+- [如何自定义异常？](#如何自定义异常)
+- [Python性能分析与优化，GIL](#python性能分析与优化gil)
+- [如何规避GIL影响](#如何规避gil影响)
+- [为什么有了GIL还要关注线程安全？](#为什么有了gil还要关注线程安全)
+- [如何剖析程序性能？](#如何剖析程序性能)
+- [服务端性能优化措施](#服务端性能优化措施)
+- [Python生成器与协程](#python生成器与协程)
 
-### 1. 如何在列表、字典和集合中根据条件筛选数据
-在实际开发过程中，常常遇到如下几种情况：
 
-* 过滤掉列表`[3, 9, -1, 10, 20, -2, ...]`中的负数；
 
-* 筛选出字典`{‘Jack’:79, 'Jim':88, 'Lucy':92, ...}`中值高于90的键值对；
 
-* 筛选出集合`{77, 89, 32, 20, ...}`中能被3整除的元素。
+### 1. Python属于动态强类型语言
+1. 动态还是静态指的是编译期还是运行期确定类型
+2. 强类型指的是不会发生隐式类型转换（php js 都是弱类型语言）
 
-  
 
-故应学会在列表、字典和集合中根据条件筛选数据。
+### 2. 为什么要用Python？ 
+1. 胶水语言，轮子多，应用广泛
+2. 语言灵活，生产力高
 
-1. 列表
-过滤掉列表中的负数
+缺点：
+1. 性能问题
+2. 代码维护问题（动态语言一时爽，代码重构火葬场）
+3. python2/3兼容问题
+
+
+
+### 3. 什么是`monkey patch`？哪些地方用到类？自己如何实现？
+1. 所谓的`monkey patch`就是运行时替换
+2. 比如`gevent`库需要修改内置的`socket`
+
+```
+from gevent import monkey; 
+monkey.patch_socket()
+```
+
+
+### 4. 什么是自省(`Introspection`)？
+1. 运行时判断一个对象的类型的能力
+2. `python`一切皆对象，用`type`，`id`，`instance`获取对象类型信息
+3. `inspect`模块提供了更多获取对象信息的函数
+4. `id`返回的是变量在内存中的地址
+
 
 ```python
-data = [1, 5, -3, -2, 6, 0, 9]
-res = []
-for x in data:
-    if x >= 0:
-        res.append(x)
-print res
+print(type([1, 2, 3]))
+# <class 'list'>
+
+print(isinstance([1], list))
+# True
+
+a = 1
+print(id(a)) 
+# 140723276551840
 ```
-对此，我们可以使用Python中的filter()，具体做法如下：
+
+
+### 5. `is`和等号的区别
+
+1. `is`判断两个变量的地址是否相同
+2. 等号`==`判断两个变量值是否相同
 
 ```python
-from random import randint
+a = [1, 2, 3]
+b = [1, 2, 3]
 
-# 通过randint()随机生成含有10个int类型元素的list，且其元素范围为[-10, 10]
-data = [randint(-10, 10) for _ in xrange(10)]
+print(a == b) # True
+print(a is b) # False
 
-# 通过filter()过滤掉负数，并将其最终结果打印
-print filter(lambda x: x >= 0, data)
+print(id(a)) # 2583559616320
+print(id(b)) #  2583559616128
 ```
 
-除此之外，我们还能使用列表解析过滤掉列表中的负数。
+### Python 之禅
+`import this` 查看`python`准则
+
+
+### Python2和3差别
+- Print 成为函数，python2 中是关键字
+- 编码问题，python3 不再有 unicode 对象，默认 str 就是 unicode
+- 除法变化，python3 除号返回浮点数，python2 是直接截断，为了得到和 python2 一样的效果，使用`//`双斜杠
+
+
+
+Python2 需要`s=u’中文’`，`type(s)` // Unicode
+Python3 直接可以 `s=’中文’`   `type(s)`   // str
+
+
+
+####  Python3 改进
+1. 类型注解（`type hint`）帮助 IDE 进行类型检查
+2. 优化的`super()`方便直接调用父类函数
+3. Python 3 可以使用直接使用 `super().xxx` 代替 `super(Class, self).xxx`
+4. 高级解包操作，`a, b, *rest = range(10)`
+5.	生成的`pyc` 文件统一放到`__pycache__`
+6.	一些内置库的修改 `urllib selector`
+7.	性能优化
+
+
+#### Python3新增：
+1. `yield from` 链接子生成器
+2. `Asyncio`内置库，`asyc/await`原生协程支持异步编程
+3. 新的内置库 `enum, mock, asyncio, ipaddress, concurrent.futures`等
+
+
+
+#### 兼容2/3的工具
+1.	`Six` 模块
+2.	`2to3`等工具转换代码
+3.	`__future__` 在 python2 实现 python3 功能
+
+
+### `replace()` 和` re.sub()` 字符串字符替换
+
+
+#### `replace()`
 ```python
-from random import randint
+testStr = 'aa:bb[cc'
 
-# 通过randint()随机生成含有10个int类型元素的list，且其元素范围为[-10, 10]
-data = [randint(-10, 10) for _ in xrange(10)]
-
-# 通过列表解析过滤掉负数，并将其最终结果打印
-print [x for x in data if x >= 0]
+testStr.replace(':', '_')
+# 每次只能替换一个字符或字符串
 ```
 
-
-这时，我们可能会有一个疑问既然这三种方法都可以成功过滤掉列表中的负数，那哪一种方法效率更高呢？这里，我们可以使用timeit这个计时工具模块，分别测试三种方法的运行时间。其中，我们不妨将第一种方法命名为CommReNeg()，第二种方法命名为FiltReNeg()，第三种方法命名为ListReNeg()，具体代码如下：
-
-```python
-from random import randint
-import timeit
-
-# 通过randint()随机生成含有10个int类型元素的list，且其元素范围为[-10, 10]
-data = [randint(-10, 10) for _ in xrange(10)]
-
-def CommReNeg():
-    res = []
-    for x in data:
-        if x >= 0:
-            res.append(x)
-    print res
-
-def FiltReNeg():
-    # 通过filter()过滤掉负数，并将其最终结果打印
-    print filter(lambda x: x >= 0, data)
-
-def ListReNeg():
-    # 通过列表解析过滤掉负数，并将其最终结果打印
-    print [x for x in data if x >= 0]
-
-if __name__ == '__main__':
-    print (timeit.timeit("CommReNeg()", setup="from __main__ import CommReNeg", number=1))
-    print (timeit.timeit("FiltReNeg()", setup="from __main__ import FiltReNeg", number=1))
-    print (timeit.timeit("ListReNeg()", setup="from __main__ import ListReNeg", number=1))
-```
-
-其运行结果如图所示：
-```
-[3, 3, 6, 6, 4]
-0.00333480301869
-[3, 3, 6, 6, 4]
-0.00176789890732
-[3, 3, 6, 6, 4]
-0.00172641700262
-```
-
-从图中可以看出第三种方法运行最快，因此推荐使用第三种方法根据条件筛选数据。
-
-2. 字典
-筛选出字典中值高于90的键值对。
-既然在列表中已经分析出，采用列表解析运行速度最快，故在此处采用类似于列表解析的方法过滤掉字典中我们不想要的键值对，具体操作如下：
-
-```python
-from random import randint
-
-# 随机生成含有20个键值对的字典
-d = {x: randint(60, 100) for x in xrange(1, 21)}
-
-print d
-
-# 通过类似于列表解析的方法过滤掉值小于90的键值对
-print {k: v for k, v in d.iteritems() if v > 90}
-```
-pyhton3使用d.items()即可。
-
-3. 集合
-筛选出集合中能被3整除的元素。
-```python
-from random import randint
-
-data = [randint(-10, 10) for _ in xrange(10)]
-
-# 将list转为集合
-s = set(data)
-
-print {x for x in s if x%3 == 0}
-```
-
-
-
-### 2. 如何统计序列中元素的出现的频度
-
-实际案例
-
-1. 某随机序列`[12, 5, 6, 4, 6, 5, 5, 7, ...]`中，找到出现次数最高的3个元素，它们出现次数是多少？
-2. 对某英文文章的单词，进行词频统计，找到出现次数最高的10个单词，它们出现次数是多少？
-
-现在我们以序列为例，看下我们如何处理该问题。首先我们先创建一个序列，具体操作如下：
-
-```python
-from random import randint
-
-# 创建随机数序列
-data = [randint(0, 5) for _ in xrange(20)]
-print data
-
-# 创建字典，以data序列的值为字典的键，值初始化为0
-c = dict.fromkeys(data, 0)
-print c
-
-# 遍历data序列
-for x in data:
-    c[x] += 1
-
-print c
-```
-
-输出结果如下：
-
-```
-[5, 0, 1, 5, 2, 5, 0, 4, 1, 2, 4, 1, 4, 1, 0, 3, 4, 2, 0, 4]
-{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
-{0: 4, 1: 4, 2: 3, 3: 1, 4: 5, 5: 3}
-```
-这样，我们就统计出了序列中各个元素出现的次数。再回到实际案例中，案例1要求找到出现次数最高的3个元素。那我们就要根据字典的值，对字典的元素进行排序，具体操作如下：
-
-```python
-from random import randint
-
-# 创建随机数序列
-data = [randint(0, 5) for _ in xrange(20)]
-print data
-
-# 创建字典，以data序列的值为字典的键，值初始化为0
-c = dict.fromkeys(data, 0)
-print c
-
-# 遍历data序列
-for x in data:
-    c[x] += 1
-
-print c
-
-# 根据键值进行从大到小排序
-c_list = sorted(c.items(), key=lambda i:i[1], reverse=True)
-
-# 打印出现次数最多的3个元素
-print c_list[:3]
-```
-
-其输出结果如下：
-```
-[5, 0, 1, 5, 2, 5, 0, 4, 1, 2, 4, 1, 4, 1, 0, 3, 4, 2, 0, 4]
-{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
-{0: 4, 1: 4, 2: 3, 3: 1, 4: 5, 5: 3}
-[(4, 5), (0, 4), (1, 4)]
-```
-除上述方法外，我们还可以使用`collections.Counter`对象处理该问题。首先，将序列传入`Counter`的构造器，得到`Counter`的对象是元素频度的字典；然后，我们利用`Counter.most_common(n)`方法得到频度最高的n个元素的列表；最后，我们输出频度最高的3个元素。`collections.Counter`的相关操作可具体参考Python官方文档，此处的代码具体如下所示：
-
-```python
-from random import randint
-from collections import Counter
-
-# 创建随机数序列
-data = [randint(0, 5) for _ in xrange(20)]
-print data
-
-# 创建字典，以data序列的值为字典的键，值初始化为0
-c = dict.fromkeys(data, 0)
-print c
-
-# 遍历data序列
-for x in data:
-    c[x] += 1
-
-print c
-# 统计元素的频率
-counter = Counter(data)
-
-# 打印出现次数最多的3个元素
-print counter.most_common(3)
-```
-其输出结果如下：
-```
-[5, 0, 1, 5, 2, 5, 0, 4, 1, 2, 4, 1, 4, 1, 0, 3, 4, 2, 0, 4]
-{0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
-{0: 4, 1: 4, 2: 3, 3: 1, 4: 5, 5: 3}
-[(4, 5), (0, 4), (1, 4)]
-```
-好了，实际案例中的第一个案例我们已经圆满解决了。现在，让我们看看实际案例中的第二个案例。第二个案例是要求我们对英文单词进行词频统计，这里我们就要采用正则表达式了。我们运用正则表达式把英文单词一个一个地分割出来，然后再使用collections.Counter对象进行词频统计，最后，我们输出出现次数最高的10个单词，其代码如下：
+### `re.sub()`
 ```python
 import re
+testStr = 'aa:bb[cc}'
 
-from collections import Counter
-
-# 读入test.txt文件
-text = open("test.txt").read()
-
-# 运用正则表达式做切割
-word_list = re.split("\W+", text)
-
-# 统计英文单词的词频
-counter = Counter(word_list)
-
-# 打印出现次数最多的10个元素
-print counter.most_common(10)
+# 把 :[} 替换成 _
+re.sub(r'[:[}]', '_', testStr)
 ```
-其中，输出结果如下：
 
-```
-[('in', 12), ('the', 11), ('as', 10), ('China', 9), ('by', 7), ('AI', 7), ('guideline', 6), ('and', 6), ('to', 5), ('intelligence', 5)]
-```
-代码中，test.txt文件的内容来自扇贝新闻。这样我们也圆满完成实际案例中的第二个案例。
+`re.sub()` 的第一个参数是`pattern`，使用正则表达式，所以例子中 `r'[:[}]'` 代表 `[]` 中的任何一个字符 
 
 
+### Python如何传递参数？
 
-### 3. 如何让字典保持有序
-我们可以使用`collections.OrderedDict`来处理该问题。代码如下：
+1. 传值还是传递引用? 都不是，python 唯一支持的参数传递是共享传参
+2. `Call by Object` (`call by Object Reference or call by Sharing`)
+3. `Call by sharing`(共享传参)。**函数形参获得实参中各个引用的副本**。
+
+
+一切皆对象，变量是对象的标识，比如a, b可以指向 `[1,2]`
+
+#### 例题
 
 ```python
-from collections import OrderedDict
+def flist(l):
+  l.append(0)
+  print(l)
 
-d = OrderedDict()
-
-d['Li'] = (1, 29)
-
-d['Jack'] = (2, 35)
-
-d['Jim'] = (3, 36)
-
-for k in d:
-    print k
+l = []
+flist(l) # [0]
+flist(l) # [0, 0]
 ```
 
-其输出结果如下：
+```python
+def fstr(s):
+  s += 'a'
+  print(s)
 
+s = 'hehe'
+fstr(s) # hehea
+fstr(s) # hehea
 ```
-Li
-Jack
-Jim
+
+
+上述例子解释：
+1. `Call by Object Reference` 就是传递参数的时候，**形参和实参都指向同一个对象，它既不是拷贝一个值，也不是直接操作内存**。
+2. 但结果有两种，对于可变对象可以直接修改，对于不可变对象很像`copy`了这个值
+
+
+### 哪些是不可变对象？哪些可变？
+1. 不可变对象 `bool/int/float/tuple/str/frozenset`
+2. 可变对象 `list/set/dict`
+
+
+#### 例题
+
+```python
+def clearList(l):
+  l = []
+
+ll = [1, 2, 3]
+clearList(ll)
+print(ll) # [1, 2, 3]
 ```
+函数内的局部变量指向了新的对象，并不影响全局变量。这一点和 JS 不同。
+
+
+### `*args`,  `**kwarg`s含义是什么
+1.	用来处理可变参数
+2.	`*args` 被打包成`tuple`
+3.	`**kwargs` 被打包成`dict`
+
+```python
+def multi(*args):
+  print(type(args), args) 
+
+
+multi(1,2,3) 
+# <class 'tuple'> (1, 2, 3)
+```
+```python
+def multi(**kwargs):
+  print(type(kwargs), kwargs)
+
+
+multi(a=1, b=2) 
+# <class 'dict'> {'a': 1, 'b': 2}
+```
+
+### 如何自定义异常？
+1.	继承`Exception`实现自定义异常（为什么不是`BaseException`）（就不能用`ctrl+c` 结束程序了）
+2.	给异常加上个一些附加信息
+3.	处理一些业务相关的特定异常（`raise MyException`）
+
+
+### Python性能分析与优化，GIL
+`Global Interpreter Lock` （`Cpython`中的）
+1.	`Cpython`解释器的内存管理并不是线程安全的
+2.	保护多线程情况下对`python`对象的访问
+3.	`Cpython`使用简单的锁机制避免多个线程同时执行字节码
+
+`GIL`的影响，限制了程序的多核执行：
+1.	同一个时间只能有一个线程执行字节码
+2.	`CPU`密集程序难以利用多核优势
+3.	IO期间会释放`GIL`，对IO密集程序影响不大
+
+ 
+
+### 如何规避GIL影响
+区分 CPU 和 IO 密集程序
+
+1. CPU 密集可以使用多进程+进程池
+2. IO 密集使用多线程/协程
+3. Cython 扩展 
+
+
+
+### 为什么有了GIL还要关注线程安全？
+Python中什么操作才是原子的？一步到位执行完
+1.	一个操作如果是**一个字节码执行可以完成**就是原子的
+2.	原子的是可以保证线程安全的
+3.	使用dis操作来分析字节码
+
+
+### 如何剖析程序性能？
+使用`Profile`工具（内置或第三方）
+1.	内置的`profile`/`cprofile`等工具
+2.	使用`pyflame`(`uber`开源)的火焰图工具
+
+
+### 服务端性能优化措施
+Web应用一般语言不会成为瓶颈
+
+1. 数据结构与算法优化
+1. 数据库层：索引优化，慢查询消除，批量操作减少IO，`NoSQL`
+1. 网络IO：批量操作，`pipeline`操作减少IO
+1. 缓存：使用内存数据库 `redis/Memcached`
+1. 异步： `asyncio`, `celery`
+1. 并发：`gevent`/多线程
+
+
+
+### Python生成器与协程
+什么是生成器？`Generator`
+
+1. 生成器就是可以生成值的函数
+1. 当一个函数里有了yield关键字就成了生成器
+1. 生成器可以挂起执行并且保持当前执行的状态
+

@@ -25,18 +25,18 @@
 ### 1. DOM 事件级别
 
 - DOM0
-  - onXXX 类型的定义事件
-  - element.onclick = function(e) { ... }
+  - `onXXX` 类型的定义事件
+  - `element.onclick = function(e) { ... }`
 - DOM2
-  - addEventListener 方式
-  - element.addEventListener('click', function (e) { ... })
-  - btn.removeEventListener('click', func, false)
-  - btn.attachEvent("onclick", func);
-  - btn.detachEvent("onclick", func);
+  - `addEventListener` 方式
+  - `element.addEventListener('click', function (e) { ... })`
+  - `btn.removeEventListener('click', func, false)`
+  - `btn.attachEvent("onclick", func);`
+  - `btn.detachEvent("onclick", func);`
 - DOM3
   - 增加了很多事件类型
-  - element.addEventListener('keyup', function (e) { ... })
-  - eventUtil 是自定义对象，textInput 是 DOM3 级事件
+  - `element.addEventListener('keyup', function (e) { ... })`
+  - `eventUtil` 是自定义对象，`textInput` 是 DOM3 级事件
 
 ### 2. DOM 事件模型
 ![DOM 事件模型](../../imgs/dom_event_model.jpg)
@@ -55,20 +55,20 @@ DOM 标准规定事件流包括三个阶段：
 
 ### 4. 描述 DOM 事件捕获的具体流程
 
-从 window -> document -> html -> body -> ... -> 目标元素
+从 `window` -> `document` -> `html` -> `body` -> ... -> 目标元素
 
 ### 5. Event 对象常见应用
 
-- event.target
-  - 触发事件的元素
-- event.currentTarget
-  - 绑定事件的元素
-- event.preventDefault()
+- `event.target`
+  - **触发事件**的元素
+- `event.currentTarget`
+  - **绑定事件**的元素
+- `event.preventDefault()`
   - 阻止默认行为
-  - event.cancelBubble()和 event.preventBubble 都已经废弃
-- event.stopPropagation()
+  - `event.cancelBubble()`和 `event.preventBubble` 都已经废弃
+- `event.stopPropagation()`
   - 阻止在捕获阶段或冒泡阶段继续传播，而不是阻止冒泡
-- event.stopImmediatePropagation()
+- `event.stopImmediatePropagation()`
   - 阻止事件冒泡并且阻止相同事件的其他侦听器被调用。
 
 ### 6. 事件的代理/委托
@@ -210,46 +210,46 @@ document
 
 绑定事件
 
-- W3C: targetEl.addEventListener('click', handler, false);
-- IE: targetEl.attachEvent('onclick', handler);
+- W3C: `targetEl.addEventListener('click', handler, false);`
+- IE:` targetEl.attachEvent('onclick', handler);`
 
 删除事件
 
-- W3C: targetEl.removeEventListener('click', handler, false);
-- IE: targetEl.detachEvent(event, handler);
+- W3C: `targetEl.removeEventListener('click', handler, false);`
+- IE: `targetEl.detachEvent(event, handler);`
 
 事件对象
 
-- W3C: var e = arguments.callee.caller.arguments[0]
-- IE: window.event
+- W3C: `var e = arguments.callee.caller.arguments[0]`
+- IE: `window.event`
 
 事件目标
 
-- W3C: e.target
-- IE: window.event.srcElement
+- W3C: `e.target`
+- IE: `window.event.srcElement`
 
 阻止事件默认行为
 
-- W3C: e.preventDefault()
-- IE: window.event.returnValue = false'
+- W3C: `e.preventDefault()`
+- IE: `window.event.returnValue = false'`
 
 阻止事件传播
 
-- W3C: e.stopPropagation()
-- IE: window.event.cancelBubble = true
+- W3C: `e.stopPropagation()`
+- IE: `window.event.cancelBubble = true`
 
 
 
 ### 17. onclick 与 addEventListener 区别？
 
-1. onclick事件在同一时间**只能指向唯一对象**。就算对于一个对象**绑定了多次**，但是仍然只会**执行最后的一次绑定**。
-2. addEventListener 给一个事件**注册多个listener**
-3. addEventListener 对任何DOM都是有效的，而 onclick 仅限于HTML
-4. addEventListener 可以控制 listener 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 removeEventListener 清除
-5. IE9使用 attachEvent 和 detachEvent
+1. `onclick`事件在同一时间**只能指向唯一对象**。就算对于一个对象**绑定了多次**，但是仍然只会**执行最后的一次绑定**。
+2. `addEventListener` 给一个事件**注册多个listener**
+3. `addEventListener` 对任何DOM都是有效的，而 `onclick` 仅限于HTML
+4. `addEventListener` 可以控制 `listener` 的触发阶段，（捕获/冒泡）。对于多个相同的事件处理器，不会重复触发，不需要手动使用 `removeEventListener` 清除
+5. IE9使用 `attachEvent` 和 `detachEvent`
 
 #### 17.1. DOM是哪种基本数据结构
-1. DOM，Document Object Model，文档对象模型 
+1. DOM，`Document Object Model`，文档对象模型 
 2. DOM 的本质 => 树结构
 3.  DOM可以理解为：浏览器把拿到的HTML代码，结构化为一个浏览器能识别并且js可以操作的一个模型而已。
 
