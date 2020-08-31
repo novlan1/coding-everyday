@@ -19,6 +19,7 @@
 - [11. ES6 循环引用的例子](#11-es6-循环引用的例子)
   - [11.1. 为什么 ES 模块比 CommonJS 更好？](#111-为什么-es-模块比-commonjs-更好)
   - [11.2. ES6 的 export default](#112-es6-的-export-default)
+- [Node.js区分ES6和CommonJS模块](#nodejs区分es6和commonjs模块)
 - [12. 最快合并两个数组](#12-最快合并两个数组)
 - [13. 简述js中 for in 与 for of 区别](#13-简述js中-for-in-与-for-of-区别)
 - [14. 对比`forEach`、`for in`、`for of`](#14-对比foreachfor-infor-of)
@@ -528,6 +529,14 @@ export 42;
 ```
 
 上面代码中，后一句报错是因为没有指定对外的接口，而前一句指定对外接口为`default`。
+
+
+### Node.js区分ES6和CommonJS模块
+- `.mjs`文件总是以 `ES6` 模块加载;
+- `.cjs`文件总是以 `CommonJS` 模块加载;
+- `.js`文件的加载取决于`package.json`里面`type`字段的设置
+  - `type`为`module`是`ES6`模块
+  - `type`为`commonjs`是`CommonJS`模块。
 
 
 

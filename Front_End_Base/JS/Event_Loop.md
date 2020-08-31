@@ -3,6 +3,9 @@
   - [1.2. 任务队列](#12-任务队列)
   - [1.3. 事件和回调函数](#13-事件和回调函数)
   - [1.4. 四、Event Loop](#14-四event-loop)
+  - [事件循环的概念](#事件循环的概念)
+  - [事件循环的六个阶段](#事件循环的六个阶段)
+  - [`setTimeout` 和 `setImmediate`](#settimeout-和-setimmediate)
   - [1.5. 判断打印顺序](#15-判断打印顺序)
   - [1.6. 判断打印顺序](#16-判断打印顺序)
   - [1.7. 判断打印顺序](#17-判断打印顺序)
@@ -89,7 +92,66 @@ req.send();
 req.onload = function (){};    
 req.onerror = function (){};  
 ```
-也就是说，指定回调函数的部分（onload和onerror），在send()方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取"任务队列"。
+也就是说，指定回调函数的部分（`onload`和`onerror`），在`send()`方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取"任务队列"。
+
+### 事件循环的概念
+
+> "When Node.js starts, it initializes the event loop, processes the provided input script which may make async API calls, schedule timers, or call process.nextTick(), then begins processing the event loop."
+
+1. 首先，有些人以为，除了主线程，还存在一个单独的事件循环线程。不是这样的，**只有一个主线程，事件循环是在主线程上完成的**。
+
+2. 其次，Node 开始执行脚本时，会先进行事件循环的初始化，但是这时事件循环还没有开始，会先完成下面的事情。
+    - 同步任务
+    - 发出异步请求
+    - 规划定时器生效的时间
+    - 执行`process.nextTick()`等等
+
+3. 最后，上面这些事情都干完了，事件循环就正式开始了。
+
+
+### 事件循环的六个阶段
+事件循环会无限次地执行，一轮又一轮。只有异步任务的回调函数队列清空了，才会停止执行。
+
+每一轮的事件循环，分成六个阶段。这些阶段会依次执行。
+```
+timers
+I/O callbacks
+idle, prepare
+poll
+check
+close callbacks
+```
+每个阶段都有一个先进先出的回调函数队列。只有一个阶段的回调函数队列清空了，该执行的回调函数都执行了，事件循环才会进入下一个阶段。
+
+![事件循环的六个阶段](../../imgs/eventloop_steps.jpg)
+
+### `setTimeout` 和 `setImmediate`
+由于`setTimeout`在 `timers` 阶段执行，而`setImmediate`在 `check` 阶段执行。所以，`setTimeout`会早于`setImmediate`完成。
+
+```js
+setTimeout(() => console.log(1));
+setImmediate(() => console.log(2));
+```
+上面代码应该先输出1，再输出2，但是实际执行的时候，结果却是不确定，有时还会先输出2，再输出1。
+
+这是因为`setTimeout`的第二个参数默认为0。但是实际上，`Node` 做不到0毫秒，最少也需要1毫秒，根据官方文档，第二个参数的取值范围在1毫秒到`2147483647`毫秒之间。也就是说，`setTimeout(f, 0)`等同于`setTimeout(f, 1)`。
+
+实际执行的时候，进入事件循环以后，有可能到了1毫秒，也可能还没到1毫秒，取决于系统当时的状况。如果没到1毫秒，那么 `timers` 阶段就会跳过，进入 `check` 阶段，先执行`setImmediate`的回调函数。
+
+但是，下面的代码一定是先输出2，再输出1。
+
+```js
+const fs = require('fs');
+
+fs.readFile('test.js', () => {
+  setTimeout(() => console.log(1));
+  setImmediate(() => console.log(2));
+});
+```
+上面代码会先进入 `I/O callbacks` 阶段，然后是 `check` 阶段，最后才是 `timers` 阶段。因此，`setImmediate`才会早于`setTimeout`执行。
+
+
+
 
 ### 1.5. 判断打印顺序
 
@@ -506,3 +568,4 @@ Promise.resolve().then(() => {
 
 ### 2.3. css 是同步执行还是异步的？
 css没有同步和异步一说，弄清楚这个问题需要知道浏览器的渲染机制，dom树和css结合之后才会形成渲染树，才会执行页面渲染。
+
