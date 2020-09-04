@@ -28,7 +28,7 @@
 
 ## 1. HTTP
 
-HTTP 是 Hyper Text Transfer Protocol（超文本传输协议）的缩写。它是一个应用层协议，由请求和响应构成，是一个标准的客户端服务器模型。HTTP 是一个无状态的协议。
+HTTP 是 `Hyper Text Transfer Protocol`（超文本传输协议）的缩写。它是一个应用层协议，由请求和响应构成，是一个标准的客户端服务器模型。HTTP 是一个无状态的协议。
 
 ### 1.1. HTTP 协议的特点
 

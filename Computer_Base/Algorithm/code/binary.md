@@ -271,6 +271,37 @@ def fn(s):
   return res
 ```
 
+第二种方法，借助辅助数组来实现。
+遍历字符串，遇到存在的字符，就从之前的字符的下一个开始，加上这次的字符，放入到数组中。
+最后，遍历一次数组，取出最长的字符串。
+
+```js
+function getMostLen(str) {
+    let total = ['']
+
+    for (let item of str) {
+        const len = total.length
+        let cur = total[len - 1]
+
+        if (!cur.includes(item)) {
+            cur += item
+            total[len - 1] = cur
+
+        } else {
+            const firstIdx = cur.indexOf(item)
+            total.push(cur.slice(firstIdx + 1) + item)
+        }
+    }
+
+    let res = ''
+    for (let item of total) {
+        if (item.length > res.length) {
+            res = item
+        }
+    }
+    return res
+}
+```
 
 
 ### 5. 存在重复元素 II [Leetcode-219]

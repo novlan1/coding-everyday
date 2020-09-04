@@ -267,3 +267,49 @@ function split(arr) {
   return false
 }
 ```
+
+### 实现重复函数
+```js
+function repeat(times, mills, func) {
+
+}
+
+// example:
+let log3 = repeat(3, 1000, console.log);
+log3('hello', 'world');
+log3('hello', 'world', '2');
+// 1000ms后    
+// 输出hello world
+// 输出hello world 2
+// 又过1000ms后
+// 输出hello world
+// 输出hello world 2
+// 又过1000ms后
+// 输出hello world
+// 输出hello world 2
+```
+
+
+```js
+function repeat(times, mills, func) {
+  return function () {
+    const args = [...arguments]
+    const _this = this
+    let _times = times
+
+    const timer = setInterval = (() => {
+      
+      if (_times > 0) {
+        func.apply(_this, args)
+        _times -= 1
+      } else {
+        clearInterval(timer)
+      }
+
+    }, mills)
+  }
+}
+```
+
+
+
