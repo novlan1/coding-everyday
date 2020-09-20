@@ -841,7 +841,7 @@ display: -webkit-box;
 
 ### 47. 图片下面有一个缝隙是因为什么
 
-![fenxi](../../imgs/imgbottom.png)
+![图片下面有一个缝隙是因为什么](../../imgs/imgbottom.png)
 
 因为 img 也相当于一个 inline 的元素， inline 就要遵守行高的构成，它会按照 base 基线对齐，基线对齐的话那么它就会和底线间有一个缝隙。
 

@@ -1,7 +1,10 @@
+- [1. 缓存](#1-缓存)
+  - [1.1. webpack 中的 hash、chunkhash、contenthash 区别](#11-webpack-中的-hashchunkhashcontenthash-区别)
 
-## 缓存
 
-### webpack 中的 hash、chunkhash、contenthash 区别
+## 1. 缓存
+
+### 1.1. webpack 中的 hash、chunkhash、contenthash 区别
 
 hash 一般是结合 CDN 缓存来使用，通过 webpack 构建之后，生成对应文件名自动带上对应的 MD5 值。
 

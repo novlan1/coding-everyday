@@ -1005,6 +1005,111 @@ Object.defineProperty(obj, 'hello', {
 obj.hello;
 obj.hello = 'hi'
 ```
+完整版：
+```js
+// 订阅器
+function Dep(){
+  this.subs = []
+}
+
+Dep.prototype = {
+  addSub(sub) {
+    this.subs.push(sub)
+  },
+  notify() {
+    this.subs.map(sub => {
+      sub.update()
+    })
+  }
+}
+
+Dep.target = null
+
+// 观察者
+function observer(data) {
+  if (!data || typeof(data) !== 'object') {
+    return
+  }
+  Object.keys(data).map(key => {
+    defineReactive(data, key, data[key])
+  })
+}
+
+function defineReactive(data, key, value) {
+  const dep = new Dep()
+  Object.defineProperty(data, key, {
+    enumerable: true,
+    configurable: true,
+    get() {
+      if (Dep.target) {
+        dep.addSub(Dep.target)
+      }
+      return value
+    },
+    set(newVal) {
+      if (value !== newVal) {
+        
+        value = newVal
+        dep.notify()
+      }
+    }
+  })
+
+  if (value && typeof(value) === 'object') {
+    observer(value)
+  }
+
+}
+
+// 订阅者
+function Watcher(vm, prop, cb) {
+  this.vm = vm
+  this.prop = prop
+  this.cb = cb
+  this.value = this.get()
+}
+
+Watcher.prototype = {
+  get() {
+    Dep.target = this
+    const value = this.vm.$data[this.prop]
+    Dep.target = null
+    return value
+  },
+  update() {
+    let value = this.value
+    const newVal = this.vm.$data[this.prop]
+    if (value !== newVal) {
+      value = newVal
+      this.cb(newVal)
+    }
+  }
+}
+
+// Vue
+function Vue(options) {
+  this.$data = options.data
+  this.init()
+}
+
+Vue.prototype.init = function() {
+  observer(this.$data)
+  new Watcher(this, 'msg', (value) => { // 模拟编译过程中的监听
+    console.log('-----------------', value)
+  })
+}
+
+// 测试
+const vm = new Vue({
+  data: {
+    msg: 'test'
+  }
+})
+
+setTimeout(() => {
+  vm.$data['msg'] = 'test2'
+}, 1000)
+```
 
 
 ![MVVM](../../imgs/vue_mvvm.png)

@@ -48,8 +48,8 @@ def shuffle(arr):
 
   while n:
     idx = int(random() * n)
-	arr[n-1], arr[idx] = arr[idx], arr[n-1]
-	n -= 1
+	  arr[n-1], arr[idx] = arr[idx], arr[n-1]
+	  n -= 1
 
   return arr
 ```

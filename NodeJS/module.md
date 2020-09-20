@@ -79,11 +79,11 @@ var load = function (module) {
 
 ### 1.1.2. exports 和 module.exports 的区别
 
-- module.exports 默认值为{}
-- exports 是 module.exports 的引用，在模块被导出之前exports被赋值为module.exports
-- exports 默认指向 module.exports 的内存空间
-- require() 返回的是 module.exports 而不是 exports
-- 若对 exports 重新赋值，则断开了 exports 对 module.exports 的指向
+- `module.exports` 默认值为`{}`
+- `exports` 是 `module.exports` 的引用，在模块被导出之前`exports`被赋值为`module.exports`
+- `exports` 默认指向` module.exports` 的内存空间
+- `require()` 返回的是 `module.exports `而不是 `exports`
+- 若对 `exports` 重新赋值，则断开了 `exports` 对 `module.exports` 的指向
 
 
 比如，你想导出一个类。
@@ -104,9 +104,9 @@ module.exports = Boy
 ```
 
 总结：
-1. exports只是module.exports的引用
-2. 如果你想要使用exports导出模块，千万不能给它赋值！
-3. 稳一点的做法是使用module.exports，虽然exports用起来是挺爽的
+1. `exports`只是`module.exports`的引用
+2. 如果你想要使用`exports`导出模块，千万不能给它赋值！
+3. 稳一点的做法是使用`module.exports`，虽然`exports`用起来是挺爽的
 
 
 ## 1.2. Node 的模块实现
@@ -135,7 +135,7 @@ Node 对引入的模块都回进行缓存，而且缓存的是编译执行后的
 - 核心模块
 - 路径形式的文件模块
 - 自定义模块
-  - node_modules 下
+  - `node_modules` 下
   - 查找最费时
 
 文件定位
@@ -150,15 +150,15 @@ Node 对引入的模块都回进行缓存，而且缓存的是编译执行后的
 ### 1.2.3. 模块编译
 
 - .js 文件
-  - 通过 fs 同步读取后编译执行
+  - 通过 `fs` 同步读取后编译执行
 - .node
-  - 这是用 C/C++编写的拓展文件，通过 dlopen()方法加载最后编译生成的文件
+  - 这是用 C/C++编写的拓展文件，通过 `dlopen()`方法加载最后编译生成的文件
 - .json
-  - 用 JSON.parse()解析返回结果
+  - 用 `JSON.parse()`解析返回结果
 - 其余拓展名
-  - 当作.js 文件处理
+  - 当作`.js` 文件处理
 
-每一个编译成功的模块都会将其文件路径索引缓存在 Module._cache 对象上，以提高二次引入性能
+每一个编译成功的模块都会将其文件路径索引缓存在 `Module._cache` 对象上，以提高二次引入性能
 
 #### 1.2.3.1. js 模块的编译
 

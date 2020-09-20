@@ -18,18 +18,18 @@
   - [10.4. CommonJS 循环引用的例子](#104-commonjs-循环引用的例子)
 - [11. ES6 循环引用的例子](#11-es6-循环引用的例子)
   - [11.1. 为什么 ES 模块比 CommonJS 更好？](#111-为什么-es-模块比-commonjs-更好)
-  - [11.2. ES6 的 export default](#112-es6-的-export-default)
-- [Node.js区分ES6和CommonJS模块](#nodejs区分es6和commonjs模块)
-- [12. 最快合并两个数组](#12-最快合并两个数组)
-- [13. 简述js中 for in 与 for of 区别](#13-简述js中-for-in-与-for-of-区别)
-- [14. 对比`forEach`、`for in`、`for of`](#14-对比foreachfor-infor-of)
-  - [14.1. `forEach`](#141-foreach)
-  - [14.2. `for in`](#142-for-in)
-  - [14.3. `for of`](#143-for-of)
-- [15. 实现promise时需要注意的点](#15-实现promise时需要注意的点)
-- [16. ES6 中的 class 的 this 指向](#16-es6-中的-class-的-this-指向)
-- [17. `Promise.resolve([123])`，借用promise的形式，统一代码](#17-promiseresolve123借用promise的形式统一代码)
-- [18. 如果两个方法处理错误的方式相同，如何用Promise封装？](#18-如果两个方法处理错误的方式相同如何用promise封装)
+  - [11.2. ES6 的 `export default `](#112-es6-的-export-default-)
+- [12. Node.js区分ES6和CommonJS模块](#12-nodejs区分es6和commonjs模块)
+- [13. 最快合并两个数组](#13-最快合并两个数组)
+- [14. 简述js中 `for in` 与 `for of` 区别](#14-简述js中-for-in-与-for-of-区别)
+- [15. 对比`forEach`、`for in`、`for of`](#15-对比foreachfor-infor-of)
+  - [15.1. `forEach`](#151-foreach)
+  - [15.2. `for in`](#152-for-in)
+  - [15.3. `for of`](#153-for-of)
+- [16. 实现promise时需要注意的点](#16-实现promise时需要注意的点)
+- [17. ES6 中的 class 的 this 指向](#17-es6-中的-class-的-this-指向)
+- [18. `Promise.resolve([123])`，借用promise的形式，统一代码](#18-promiseresolve123借用promise的形式统一代码)
+- [19. 如果两个方法处理错误的方式相同，如何用Promise封装？](#19-如果两个方法处理错误的方式相同如何用promise封装)
 
 ### 1. var、let 及 const 区别？
 
@@ -384,13 +384,13 @@ console.log(
 #### 10.2. ES6模块
 
 1. ES6模块中的值属于【**动态只读引用**】。
-2. 对于只读来说，即不允许修改引入变量的值，import的变量是只读的，不论是基本数据类型还是复杂数据类型。当模块遇到import命令时，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。
+2. 对于只读来说，即不允许修改引入变量的值，**`import`的变量是只读的**，不论是基本数据类型还是复杂数据类型。当模块遇到`import`命令时，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。
 3. 对于动态来说，**原始值发生变化，import加载的值也会发生变化**。不论是基本数据类型还是复杂数据类型。
 4. 循环加载时，ES6模块是动态引用。只要两个模块之间存在某个引用，代码就能够执行。
 
 小结：
-1. CommonJS 模块输出的是一个**值的拷贝**，ES6 模块输出的是**值的引用**。
-2. CommonJS 模块是**运行时加载**，ES6 模块是**编译时输出接口**。
+1. `CommonJS` 模块输出的是一个**值的拷贝**，ES6 模块输出的是**值的引用**。
+2. `CommonJS` 模块是**运行时加载**，ES6 模块是**编译时输出接口**。
 
 
 #### 10.3. CommonJS 模块的加载原理
@@ -481,7 +481,7 @@ export let bar = 'bar';
 由于 ES6 模块是**编译时加载**（静态加载），使得**静态分析**成为可能。有了它，就能进一步拓宽 JavaScript 的语法，比如引入宏（macro）和类型检验（type system）这些只能靠静态分析实现的功能。
 
 
-#### 11.2. ES6 的 export default 
+#### 11.2. ES6 的 `export default `
 
 `export default`命令用于指定模块的默认输出。显然，一个模块只能有一个默认输出，因此`export default`命令只能使用一次。所以，import命令后面才不用加大括号，因为只可能唯一对应`export default`命令。
 
@@ -531,7 +531,7 @@ export 42;
 上面代码中，后一句报错是因为没有指定对外的接口，而前一句指定对外接口为`default`。
 
 
-### Node.js区分ES6和CommonJS模块
+### 12. Node.js区分ES6和CommonJS模块
 - `.mjs`文件总是以 `ES6` 模块加载;
 - `.cjs`文件总是以 `CommonJS` 模块加载;
 - `.js`文件的加载取决于`package.json`里面`type`字段的设置
@@ -540,7 +540,7 @@ export 42;
 
 
 
-### 12. 最快合并两个数组
+### 13. 最快合并两个数组
 ```js
 let arr1=[1,3]
 let arr2=[4,6]
@@ -552,32 +552,32 @@ arr1.concat(arr2) // [1, 3, 4, 6]
 ```
 
 
-### 13. 简述js中 for in 与 for of 区别
+### 14. 简述js中 `for in` 与 `for of` 区别
 1. for in是ES5标准，**遍历key**，并且可以遍历**继承的可枚举的属性**，常用于**对象**的遍历。
 2. for of是**ES6**标准，**遍历value**，常用于**数组**的遍历。
 
 
-### 14. 对比`forEach`、`for in`、`for of`
+### 15. 对比`forEach`、`for in`、`for of`
 
-#### 14.1. `forEach`
-1. 不能终止循环，break，continue不能使用。
+#### 15.1. `forEach`
+1. 不能终止循环，`break`，`continue`不能使用。
 2. 不适应于 字符串，Object。
 
-#### 14.2. `for in`
-1. index索引为字符串型数字，不能直接进行几何运算。
+#### 15.2. `for in`
+1. `index`索引为字符串型数字，不能直接进行几何运算。
 2. 遍历顺序有可能不是按照实际数组的内部顺序。
 3. 使用`for in`会遍历数组所有的**可枚举属性**，包括原型。
 
-所以for in更适合遍历对象，不要使用for in遍历数组
+所以`for in`更适合遍历对象，不要使用`for in`遍历数组
 
-#### 14.3. `for of`
+#### 15.3. `for of`
 1.	`for..of`适用遍历数/数组对象/字符串/map/set等拥有迭代器对象的集合.但是不能遍历对象，因为没有迭代器对象。
 2.	与`forEach()`不同的是，它可以**正确响应`break`、`continue`和`return`语句**。
-3.	for-of循环不支持普通对象，但如果你想迭代一个对象的属性，你可以用`for-in`循环（这也是它的本职工作）或内建的Object.keys()方法。
+3.	`for-of`循环不支持普通对象，但如果你想迭代一个对象的属性，你可以用`for-in`循环（这也是它的本职工作）或内建的`Object.keys()`方法。
 
 
 
-### 15. 实现promise时需要注意的点
+### 16. 实现promise时需要注意的点
 
 1. `New promise`时接收一个`executor函数`作为参数，该函数立即执行，该函数有两个参数`resolve`和`reject`，它俩也是函数。
 2. 状态流转，只能从`pending`转为`fulfilled`或者`rejected`，并且不可逆。
@@ -586,7 +586,7 @@ arr1.concat(arr2) // [1, 3, 4, 6]
 5. 如果是异步调用`resolve()`，比如放到`setTimeout`中，需要添加回调函数数组`onFulfilledCallbacks`和`onRejectedCallbacks`，并且在`then`方法中将`pending`状态的回调放到两个回调数组中(用来存储`then()`传入的成功和失败的回调)。当用户调用`resolve()`或`reject()`的时候，修改`state`状态时，并从相应的回调数组中取出回调执行。
 
 
-### 16. ES6 中的 class 的 this 指向
+### 17. ES6 中的 class 的 this 指向
 ```js
 class Logger{
     printName(name = 'there'){
@@ -633,10 +633,10 @@ class Logger{
 3.使用 Proxy， 获取方法的时候，自动绑定this
 
 
-### 17. `Promise.resolve([123])`，借用promise的形式，统一代码
+### 18. `Promise.resolve([123])`，借用promise的形式，统一代码
 `()=>{resolve()}`，其实就等于`resolve`，又比如`writer.on('error', reject)`
 
-### 18. 如果两个方法处理错误的方式相同，如何用Promise封装？
+### 19. 如果两个方法处理错误的方式相同，如何用Promise封装？
 高阶函数，接收 `resove` 和 `reject` 两个参数，返回一个函数，函数的参数是`err、body、statuCode`三个参数。
 调用的时候就只用传两个参数了，否则还要传5个参数。代码清爽
 ```js

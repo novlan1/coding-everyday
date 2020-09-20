@@ -4,9 +4,11 @@
 - [4. 设置 npm 的 registry 的几种方法](#4-设置-npm-的-registry-的几种方法)
 - [5. `prepack：“npm run build"`的作用](#5-prepacknpm-run-build的作用)
 - [6. `package-lock.json`的作用](#6-package-lockjson的作用)
-- [版本号](#版本号)
-- [7. npx常见用处](#7-npx常见用处)
-- [8. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`](#8-错误处理npm-warn-checkpermissions-missing-write-access-to-usrlocallibnode_modules)
+- [7. 版本号](#7-版本号)
+- [8. npx常见用处](#8-npx常见用处)
+- [9. npx作用](#9-npx作用)
+  - [9.1. `npm run`的过程](#91-npm-run的过程)
+- [10. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`](#10-错误处理npm-warn-checkpermissions-missing-write-access-to-usrlocallibnode_modules)
 
 
 
@@ -113,7 +115,7 @@ npm install XXX@x.x.x
 `cnpm install`的时候，就算你项目中有`package-lock.json`文件，`cnpm`也不会识别，仍会根据`package.json`来安装。
 
 
-### 版本号
+### 7. 版本号
 
 使用 npm 下载和发布代码时都会接触到版本号。npm 使用语义版本号来管理代码，语义版本号分为 X.Y.Z 三位，分别代表主版本号、次版本号和补丁版本号。当代码变更时，版本号按以下原则更新。
 
@@ -128,17 +130,29 @@ npm install XXX@x.x.x
 >- 1.2.2：表示安装1.2.2版本，使用 npm update 命令时不会更新此类包
 
 
-### 7. npx常见用处
+### 8. npx常见用处
 
 1. 调用项目内部安装的模块
-   npx 的原理很简单，就是运行的时候，会到`node_modules/.bin`路径和环境变量`$PATH`里面，检查命令是否存在。
+   `npx` 的原理很简单，就是运行的时候，会到`node_modules/.bin`路径和环境变量`$PATH`里面，检查命令是否存在。
 
 2. 避免全局安装模块
    比如，`create-react-app`这个模块是全局安装，`npx` 可以运行它，而且不进行全局安装。
 
 
+### 9. npx作用
 
-### 8. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`
+1. 避免全局安装模块
+   - 将create-react-app下载到临时目录，使用以后再删除。所以每一次执行`npx create-react-app`都会重新下载`create-react-app`。
+
+2. 调用项目内部安装的模块
+   - 比如安装了`mocha`，不可以在命令行中直接输入`mocha`，但是可以在`package.json`中新建`script`，比如：`test: mocha --version`。
+   - 若使用`npx`，就可以使用`mocha`命令了，如`npx mocha --version`。
+
+#### 9.1. `npm run`的过程
+每次`npm run`的时候都会新建一个`shell`，在`shell`中执行指定的脚本命令。`shell`会将`node_modules/bin`子目录加入`path`变量，执行结束后，再将`path`变量恢复原样。这样就可以调用内部的命令了。
+
+
+### 10. 【错误处理】`npm WARN checkPermissions Missing write access to /usr/local/lib/node_modules`
 
 这个问题的出现并不是管理员权限的问题，而是之前安装失败了，这个文件已经存在了，再次安装无法覆盖写入的问题。
 

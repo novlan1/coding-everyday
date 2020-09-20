@@ -1,4 +1,29 @@
-## KOA
+- [1. KOA](#1-koa)
+  - [1.1. 什么是中间件？](#11-什么是中间件)
+  - [1.2. 洋葱模型](#12-洋葱模型)
+  - [1.3. async 和 await](#13-async-和-await)
+  - [1.4. `await`的两个作用：](#14-await的两个作用)
+  - [1.5. `async`意义：函数返回值都是`Promise`（返回值包装为`Promise`）](#15-async意义函数返回值都是promise返回值包装为promise)
+  - [1.6. 为什么一定要保证洋葱模型？](#16-为什么一定要保证洋葱模型)
+  - [1.7. 为什么要调用`await next()`？](#17-为什么要调用await-next)
+  - [1.8. 中间件传递参数](#18-中间件传递参数)
+  - [1.9. 路由](#19-路由)
+  - [1.10. 使用`koa-router`](#110-使用koa-router)
+  - [1.11. 版本号](#111-版本号)
+  - [1.12. `nodemon`](#112-nodemon)
+  - [1.13. `require-directory`](#113-require-directory)
+  - [1.14. 获取参数](#114-获取参数)
+  - [1.15. body-parser](#115-body-parser)
+      - [1.15.0.1. `bodyParser` 解析json数据](#11501-bodyparser-解析json数据)
+  - [1.16. koa-body作用](#116-koa-body作用)
+  - [1.17. koa-body上传文件注意事项](#117-koa-body上传文件注意事项)
+  - [1.18. 异常处理](#118-异常处理)
+  - [1.19. 全局异常处理中间件](#119-全局异常处理中间件)
+  - [1.20. KOA数据流](#120-koa数据流)
+  - [1.21. `koa-static`](#121-koa-static)
+    - [1.21.1. 静态资源存储方案（如图片、js、css、html，特点是消耗流量）](#1211-静态资源存储方案如图片jscsshtml特点是消耗流量)
+
+## 1. KOA
 
 浏览器发送请求才会触发中间件函数
 
@@ -27,7 +52,7 @@ app.use((ctx, next) => {
   next() // 在第一个中间件函数中调用下一个中间件函数
 })
 ```
-### 什么是中间件？
+### 1.1. 什么是中间件？
 ```js
 const logger = (ctx, next) => {
   console.log(`${Date.now()} ${ctx.request.method} ${ctx.request.url}`);
@@ -42,7 +67,7 @@ app.use(logger);
 
 
 
-### 洋葱模型
+### 1.2. 洋葱模型
 
 中间件打印顺序：1 3 4 2
 ```js
@@ -61,7 +86,7 @@ app.use((ctx, next) => {
 ![洋葱模型](../../imgs/koa_onion_model.png)
 中间件只在应用程序启动时初始化一次，`validator`不容易做出中间件
 
-### async 和 await
+### 1.3. async 和 await
 
 中间件要加上 `async`和`await`，异步模型，如果不加上`async`和`await`很难保证所有的中间件函数都按照洋葱模型来执行（万无一失）。
 ```js
@@ -133,14 +158,14 @@ app.use(async (ctx, next) => {
   console.log(end - start) // 不加 async 和 await 时接近于0，说明没有阻塞
 })
 ```
-### `await`的两个作用：
+### 1.4. `await`的两个作用：
 
 1. 表达式或`Proimse`求值
 
 2. 阻塞线程，等待异步结果返回（切换线程，去做异步任务）
 
 
-### `async`意义：函数返回值都是`Promise`（返回值包装为`Promise`）
+### 1.5. `async`意义：函数返回值都是`Promise`（返回值包装为`Promise`）
 ```js
 async function fn() {
   return 'abc'
@@ -166,17 +191,17 @@ app.use(async (ctx, next) => {
 })
 ```
 
-### 为什么一定要保证洋葱模型？
+### 1.6. 为什么一定要保证洋葱模型？
 
 有些功能需要让下面的中间件执行完才能进行，比如计时功能，写在`next()`后面，当`next`执行完，说明下面的代码都执行完了。
 
 
-### 为什么要调用`await next()`？
+### 1.7. 为什么要调用`await next()`？
 
 原因是koa把很多`async`函数组成一个处理链，每个`async`函数都可以做一些自己的事情，然后用`await next()`来调用下一个async函数。我们把每个`async`函数称为`middleware`，这些`middleware`可以组合起来，完成很多有用的功能。
 
 
-### 中间件传递参数
+### 1.8. 中间件传递参数
 中间件传递参数可以利用`ctx`, 挂载在`ctx`上面，一定要加上`async`和`await`，以及写在`next()`后面保证后面代码执行完。
 ```js
 app.use(async (ctx, next) => {
@@ -192,7 +217,7 @@ app.use(async (ctx, next) => {
 })
 ```
 
-### 路由
+### 1.9. 路由
 
 `ctx.path`和`request.path`等效，以及`ctx.method`
 ```js
@@ -208,7 +233,7 @@ app.use(async (ctx, next) => {
 - Koa自动将对象形式转为JSON返回
 
 
-### 使用`koa-router`
+### 1.10. 使用`koa-router`
 ```js
 const Router = require('koa-router')
 const router = new Router()
@@ -225,7 +250,7 @@ app.listen(3000)
 
 REST中`get`代表查询，`post`代表新增，`put`代表更新，`delete`代表删除
 
-### 版本号
+### 1.11. 版本号
 
 - 版本号可以放在**路径**中、**查询参数**中或者**`header`**中
 - 最好的方法是在api文件夹下分别新建`v1`和`v2`等文件夹，放置不同版本的api文件。
@@ -271,11 +296,11 @@ module.exports = router
 const router = require('router')
 ```
 
-### `nodemon`
+### 1.12. `nodemon`
 全局安装 `nodemon`，`npm install nodemon -g` ，不加`-g`需要`npx nodemon`来启动`nodemon`，因为是在命令行中输入`nodemon`来调用，所以要么写在`package.json`脚本里，要么`npx nodemon`，要么就全局安装
 
 
-### `require-directory`
+### 1.13. `require-directory`
 `requireDirectory`实现路由自动，每当`requireDirectory`导入一个模块，就执行这个函数，检测导出的是否是`router`，是的话就`app.use()`
 ```js
 const requireDirectory = require('require-directory')
@@ -288,7 +313,7 @@ function whenLoadModule(obj) {
   }
 }
 ```
-### 获取参数
+### 1.14. 获取参数
 
 传参有四种方式，下面两种加上`header`和`body`
 
@@ -311,7 +336,7 @@ router.get('/v1/:id/book/latest', (ctx, next) => {
 注意：
 `url`和问号`?params=1`传递的参数都是字符串，而`body`里`json`可以记录数据类型。
 
-### body-parser
+### 1.15. body-parser
 `bodyparser` 用来解析`post`的请求取代了原生的 `req.on` 的方式 但是只能取到`ajax`和表单的数据 ，取不到上传的文件类型。
 
 
@@ -322,22 +347,22 @@ router.get('/v1/:id/book/latest', (ctx, next) => {
 4. `bodyParser.urlencoded(options)`: 解析UTF-8的编码的数据(表单)。
 
 
-##### `bodyParser` 解析json数据
+##### 1.15.0.1. `bodyParser` 解析json数据
 `var bodyParser = require('body-parser')`
 `bodyParser`变量是对中间件的引用。请求体解析后，解析值都会被放到`req.body`属性，内容为空时是一个`{}`空对象。
 
-### koa-body作用
+### 1.16. koa-body作用
 Web 应用离不开处理表单。本质上，表单就是 POST 方法发送到服务器的键值对。`koa-body`模块可以用来从 POST 请求的数据体里面提取键值对。
 
 - 不使用的话，`this.request.body`是`undefined`;
 - 使用的话，`this.request.body`是`{}`。
 
-### koa-body上传文件注意事项
+### 1.17. koa-body上传文件注意事项
 
 - `file`在`ctx.request.files.file`中，不在`ctx.request.body`中
 - 请求头`Content—Type`，为`multipart/form-data`
 
-### 异常处理
+### 1.18. 异常处理
 
 异常处理应该`throw`，而不是`return null`，让调用它的函数能捕捉到，让用户或开发者知道错误。
 
@@ -372,7 +397,7 @@ f1()
 ```
 一旦`throw Error`就不会继续向下执行了。
 
-### 全局异常处理中间件
+### 1.19. 全局异常处理中间件
 1. 监听错误
 2. 返回有意义的信息
 3. 然后在`app.js`中使用这个中间件`app.use(catchError)`
@@ -389,14 +414,14 @@ const catchError = async (ctx, next) => {
 module.exports = catchError
 ```
 
-### KOA数据流
+### 1.20. KOA数据流
 用户 => API => Model => MySQL => KOA => 用户
 
-### `koa-static`
+### 1.21. `koa-static`
 Koa静态资源使用`koa-static`中间件
 然后在浏览器中`http://localhost:3000/1.jpg`就能显示出来了
 
-#### 静态资源存储方案（如图片、js、css、html，特点是消耗流量）
+#### 1.21.1. 静态资源存储方案（如图片、js、css、html，特点是消耗流量）
 1. 网站目录，缺点污染`api`
 2. 专门的静态资源服务器，或者微服务，带宽足够
 3. 云服务， `OSS` 贵、 （ECS、RDS、OSS、 CDN

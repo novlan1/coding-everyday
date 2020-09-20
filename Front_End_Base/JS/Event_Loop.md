@@ -312,10 +312,10 @@ async1 end
 promise2
 setTimeout
 ```
-async 函数返回一个 Promise 对象，当函数执行的时候，一旦遇到 `await` 就会先返回（让出线程），等到触发的异步操作完成，再接着执行函数体内后面的语句。
+`async` 函数返回一个 `Promise` 对象，当函数执行的时候，一旦遇到 `await` 就会先返回（让出线程），等到触发的异步操作完成，再接着执行函数体内后面的语句。
 
 
-当调用一个 `async` 函数时，会返回一个 `Promise` 对象。当这个 `async` 函数返回一个值时，`Promise` 的 `resolve` 方法会负责传递这个值；当 `async` 函数抛出异常时，Promise 的 reject 方法也会传递这个异常值。
+当调用一个 `async` 函数时，会返回一个 `Promise` 对象。当这个 `async` 函数返回一个值时，`Promise` 的 `resolve` 方法会负责传递这个值；当 `async` 函数抛出异常时，`Promise` 的 `reject` 方法也会传递这个异常值。
 
 await
 - 后面跟表达式（`express`）：一个 `Promise` 对象或者任何要等待的值。
@@ -323,7 +323,7 @@ await
 
 Promise是一个立即执行函数，但是他的成功（或失败：`reject`）的回调函数`resolve`却是一个异步执行的回调。当执行到`resolve()`时，这个任务会被放入到**回调队列**中，等待调用栈有空闲时事件循环再来取走它。
 
-注意：async 函数中 await 语句的下一句是微任务。
+注意：`async` 函数中 `await` 语句的下一句是微任务。
 
 #### 1.9.1. 变式一
 
@@ -373,7 +373,7 @@ promise4
 setTimeout
 ```
 
-在第一次 macrotask 执行完之后，也就是输出`script end`之后，会去清理所有 microtask。所以会相继输出`promise2`， `async1 end` ，`promise4`。
+在第一次 `macrotask` 执行完之后，也就是输出`script end`之后，会去清理所有 `microtask`。所以会相继输出`promise2`， `async1 end` ，`promise4`。
 
 #### 1.9.2. 变式二
 

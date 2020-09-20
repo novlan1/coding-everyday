@@ -2,7 +2,7 @@
 - [2. javascript 按照存储方式区分变量类型？](#2-javascript-按照存储方式区分变量类型)
 - [3. 引用类型的特点？](#3-引用类型的特点)
 - [4. typeof 能区分哪些类型？](#4-typeof-能区分哪些类型)
-- [5. null 和 undefined 的区别](#5-null-和-undefined-的区别)
+- [5. `null` 和 `undefined` 的区别](#5-null-和-undefined-的区别)
 - [6. 如何强制类型转换？](#6-如何强制类型转换)
 - [7. 什么情况下会发生隐式类型转换？](#7-什么情况下会发生隐式类型转换)
 - [8. 隐式类型转换的常见应用？](#8-隐式类型转换的常见应用)
@@ -53,7 +53,7 @@
 - [53. 加法运算符](#53-加法运算符)
 - [54. 字符串的比较](#54-字符串的比较)
 - [55. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整](#55-mathroundparseintmathfloor和mathceil小数取整)
-- [56. js属性对象的hasOwnProperty方法](#56-js属性对象的hasownproperty方法)
+- [56. JS属性对象的hasOwnProperty方法](#56-js属性对象的hasownproperty方法)
   - [56.1. 判断自身属性是否存在](#561-判断自身属性是否存在)
   - [56.2. 遍历一个对象的所有自身属性](#562-遍历一个对象的所有自身属性)
   - [56.3. 注意 `hasOwnProperty` 作为属性名](#563-注意-hasownproperty-作为属性名)
@@ -61,18 +61,19 @@
 ## 类型和变量 <!-- omit in toc -->
 
 ### 1. javascript 有哪几种数据类型
-六种基本数据类型(值类型)
-- undefined
-- null
-- string
-- boolean
-- number
-- symbol(ES6)
+七种基本数据类型(值类型)
+- `undefined`
+- `null`
+- `string`
+- `boolean`
+- `number`
+- `symbol(ES6)`
+- `BigInt`
 
 三种引用类型
-- Object
-- Function
-- Array
+- `Object`
+- `Function`
+- `Array`
 
 ### 2. javascript 按照存储方式区分变量类型？
 - 值类型 
@@ -112,7 +113,7 @@ typeof undefined  ==>undefined
 typeof NaN==>number
 ```
 
-### 5. null 和 undefined 的区别
+### 5. `null` 和 `undefined` 的区别
 
 1. `null`表示**"没有对象"，即该处不应该有值**。典型用法是：
 （1） 作为函数的参数，表示**该函数的参数不是对象**。
@@ -306,7 +307,7 @@ Boolean([])是true，Boolean({})是true
 {} == false   // false 
 {} == true    // false
 ```
-因为`{}.toString()`为`[object Object]`，`[object Object]`和`false`比较时，`false`化为数字0，`[object Object]`化为数字`NaN`，所以不相等。同理，也不等于`true`
+因为`{}.toString()`为`[object Object]`，`[object Object]`和`false`比较时，`false`化为数字0，`[object Object]`化为**数字`NaN`**，所以不相等。同理，也不等于`true`
 
 
 ### 23. 判断`[] == ![]`的输出是什么？
@@ -320,14 +321,14 @@ Boolean([])是true，Boolean({})是true
 4. 如果一个操作数是对象，另一个操作数不是，则调用对象的 valueOf() 方法，用得到的基本类型值按照前面的规则进行比较，如果对象没有 valueOf() 方法，则调用 toString()
 5. 所以[]为 ‘’
 
-综上：[] == ![] -> [] == false -> [] == 0 -> '' == 0 -> 0 == 0 -> true
+综上：`[] == ![] -> [] == false -> [] == 0 -> '' == 0 -> 0 == 0 -> true`
 
 ### 24. 判断`{} == !{}`的输出是什么？
 ```js
 {} == !{} // false 
 ```
 1. 因为 `{}.toString()` -> `NaN`（`[object Object]`）
-2. 总结：{} == ! {} -> {} == false -> {} == 0 -> NaN == 0 -> false
+2. 总结：`{} == ! {} -> {} == false -> {} == 0 -> NaN == 0 -> false`
 
 
 ### 25. 判断`console.log( [] ? true : false)`的输出是什么？
@@ -437,21 +438,21 @@ toString.call("abc"); //[object String]
 true + true   // 2
 ```
 
-- 1 + "1"
+- `1 + "1"`
   - 加性操作符：如果只有一个操作数是字符串，则将另一个操作数转换为字符串，然后再将两个字符串拼接起来
-  - 所以值为：“11”
-- 2 * "2"
-  - 乘性操作符：如果有一个操作数不是数值，则在后台调用 Number()将其转换为数值
-- [1, 2] + [2, 1]
-  - Javascript 中所有对象基本都是先调用 valueOf 方法，如果不是数值，再调用 toString 方法。
-  - 所以两个数组对象的 toString 方法相加，值为："1,22,1"
-- "a" + + "b"
-  - 后边的“+”将作为一元操作符，如果操作数是字符串，将调用 Number 方法将该操作数转为数值，如果操作数无法转为数值，则为 NaN。
-  - 所以值为："aNaN"
+  - 所以值为：`“11”`
+- `2 * "2"`
+  - 乘性操作符：如果有一个操作数不是数值，则在后台调用 `Number()`将其转换为数值
+- `[1, 2] + [2, 1]`
+  - Javascript 中所有对象基本都是先调用 valueOf 方法，如果不是数值，再调用 `toString` 方法。
+  - 所以两个数组对象的 toString 方法相加，值为：`"1,22,1"`
+- `"a" + + "b"`
+  - 后边的“+”将作为一元操作符，如果操作数是字符串，将调用 `Number` 方法将该操作数转为数值，如果操作数无法转为数值，则为 NaN。
+  - 所以值为：`"aNaN"`
 
 ### 32. 实现一个类型判断函数
 
-1. 判断 null
+1. 判断 `null`
 2. 判断基础类型
 3. 使用`Object.prototype.toString.call(target)`来判断**引用类型**
 
@@ -933,7 +934,7 @@ Math.ceil(-1.5)　　//返回-1
 Math.ceil(-5.8)　　//返回-5
 ```
 
-### 56. [js属性对象的hasOwnProperty方法](https://www.cnblogs.com/weiqinl/p/8683207.html)
+### 56. [JS属性对象的hasOwnProperty方法](https://www.cnblogs.com/weiqinl/p/8683207.html)
 
 Object的`hasOwnProperty()`方法返回一个布尔值，判断对象是否包含特定的自身（非继承）属性。
 
@@ -957,7 +958,7 @@ o.hasOwnProperty('prop');  // false
 
 在看开源项目的过程中，经常会看到类似如下的源码。`for...in`循环对象的所有枚举属性，然后再使用`hasOwnProperty()`方法来忽略继承属性。
 
-```ks
+```js
 var buz = {
     fog: 'stack'
 };
@@ -970,7 +971,6 @@ for (var name in buz) {
         alert(name); // toString or something else
     }
 }
-  
 ```
 
 #### 56.3. 注意 `hasOwnProperty` 作为属性名

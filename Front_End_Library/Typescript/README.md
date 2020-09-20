@@ -12,6 +12,30 @@
   - [1.8. 泛型](#18-泛型)
   - [1.9. 声明合并](#19-声明合并)
   - [1.10. is 关键字](#110-is-关键字)
+  - [1.11. 查看版本](#111-查看版本)
+    - [1.11.1. 将ts文件编译成js文件](#1111-将ts文件编译成js文件)
+    - [1.11.2. `undefined`和`null`](#1112-undefined和null)
+    - [1.11.3. 联合类型(Union Types)](#1113-联合类型union-types)
+    - [1.11.4. `any`](#1114-any)
+    - [1.11.5. 数组](#1115-数组)
+    - [1.11.6. 元组](#1116-元组)
+    - [1.11.7. 接口](#1117-接口)
+      - [1.11.7.1. `readonly` vs `const`](#11171-readonly-vs-const)
+    - [1.11.8. 函数](#1118-函数)
+  - [1.12. `ts-node`库](#112-ts-node库)
+  - [1.13. 类](#113-类)
+  - [1.14. 类和接口](#114-类和接口)
+    - [1.14.1. 枚举类型](#1141-枚举类型)
+  - [1.15. 泛型](#115-泛型)
+    - [1.15.1. 约束泛型](#1151-约束泛型)
+    - [1.15.2. 类和接口](#1152-类和接口)
+  - [1.16. 类型别名](#116-类型别名)
+  - [1.17. 类型推论](#117-类型推论)
+  - [1.18. 类型断言](#118-类型断言)
+  - [1.19. 声明文件](#119-声明文件)
+    - [1.19.1. `tsconfig.json`配置文件](#1191-tsconfigjson配置文件)
+    - [1.19.2. 使用第三方声明文件](#1192-使用第三方声明文件)
+  - [TS和React结合](#ts和react结合)
 
 ## 1. TypeScript
 
@@ -232,3 +256,484 @@ let isAProps = (props: any): props is IAProps =>
 ```
 
 若 isAProps(props)返回 true 则断定参数 props 为 IAProps 类型
+
+
+### 1.11. 查看版本
+
+```
+tsc -v
+```
+`tsc`的意思是`typescript compiler`，即`ts`的编译器
+
+#### 1.11.1. 将ts文件编译成js文件
+
+
+```
+tsc hello.ts
+```
+即可生成`hello.js`
+
+#### 1.11.2. `undefined`和`null`
+`undefined`和`null`是所有类型的子类型，也就是可以赋值给任意类型的变量，比如：
+```ts
+let str: string = undefined
+
+let str2: number = null
+```
+
+#### 1.11.3. 联合类型(Union Types)
+
+```ts
+let numberOrStr: number | string = 'test'
+
+numberOrStr = 123123
+```
+
+#### 1.11.4. `any`
+任意数据类型
+
+注意：`ts`中冒号后面的一定是类型
+
+```ts
+let notSure: any = undefined
+notSure = '123'
+notSure = 1212
+notSure = false
+```
+
+#### 1.11.5. 数组
+
+```ts
+let numberArray: number[] = [1, 2, 3, 4]
+
+numberArray = ['str'] // 报错
+
+numberArray.push('test') // 报错
+```
+
+
+#### 1.11.6. 元组
+
+可以看作是包含不同数据类型的数组。
+和数组类型定义的不同是，**把数据类型写在了中括号里面**。
+
+数组元素多了或少了都会报错。
+
+```ts
+let tupleTest: [string, number] = ['str', 123]
+```
+
+#### 1.11.7. 接口
+
+```ts
+interface IPerson { // 一般大写
+  readonly id: number; // 只读属性
+  name: string; // 注意是分号，不是逗号
+  age: number; 
+  gender?: string; // 可选属性
+}
+
+let testObj: IPerson = {
+  id: 18,
+  name: 'mike',
+  age: 18,
+}
+
+testObj.id = 123123 // 报错
+```
+
+##### 1.11.7.1. `readonly` vs `const`
+最简单判断该用`readonly`还是`const`的方法是看要**把它做为变量使用还是做为一个属性**。 做为变量使用的话用 `const`，若做为属性则使用`readonly`。
+
+
+#### 1.11.8. 函数
+
+函数声明
+```ts
+// 可选参数
+function add(x: number, y: number, z?: number): number{
+  return x + y
+}
+// 默认参数
+function add2(x: number, y: number, z: number = 10): number{
+  return x + y
+}
+
+let res = add(3, 5)
+let res2 = add(3, 5)
+```
+
+函数表达式
+```ts
+const add3 = function(x: number, y: number, z?: number): number{
+  return x + y
+}
+
+// const add4: string = add3 // 报错
+
+/**
+ * 正确
+ * 这里的箭头不是箭头函数，而是声明函数返回类型
+ */
+const add4: (x: number, y: number, z?: number) => number = add3 
+```
+
+
+
+### 1.12. `ts-node`库
+
+将`tsc index.ts`和`node index.js`两个命令合二为一。
+全局安装:
+```
+npm install -g ts-node
+```
+### 1.13. 类
+```ts
+class Animal{
+  protected name: string
+  readonly age: number // 只读属性
+  constructor(name: string) {
+    this.name = name
+  }
+  run() {
+    console.log(`${this.name} is running`)
+  }
+}
+
+const snake = new Animal('viking')
+snake.run()
+console.log(snake.name) // 报错，只能在类内部和子类中使用
+```
+继承
+```ts
+class Cat extends Animal{
+  constructor(name) {
+    super(name)
+    console.log(this.name)
+  }
+
+  run() {
+    console.log(`The cat ${this.name} is running`)
+  }
+
+}
+
+const cat = new Cat('mm')
+cat.run()
+```
+
+### 1.14. 类和接口
+
+```ts
+interface Radio{
+  switchRadio() :void
+}
+
+interface Battery{
+  checkBatteryStatus();
+}
+
+class Car implements Radio{
+  switchRadio() {}
+}
+
+class CellPhone implements Radio, Battery{
+  switchRadio() {}
+
+  checkBatteryStatus() {}
+}
+```
+
+接口的继承:
+```ts
+interface RadioWithBattery extends Radio{
+  checkBatteryStatus();
+}
+
+class CellPhone2 implements RadioWithBattery{
+  switchRadio() {}
+
+  checkBatteryStatus() {}
+}
+```
+
+#### 1.14.1. 枚举类型
+
+```ts
+enum Direction {
+  Up,
+  Down,
+  Right,
+  Left
+}
+
+console.log(Direction.Down) // 1
+
+console.log(Direction[1]) // 'Down'
+```
+
+手动赋值：
+```ts
+enum Direction2 {
+  Up = 'UP',
+  Down = 'DOWN',
+  Right = 'RIGHT',
+  Left = 'LEFT'
+}
+
+const directionVal = 'UP'
+
+// 比较枚举类型中的值和普通值
+if (Direction2.Up === directionVal){
+  console.log('go up')
+}
+```
+
+
+常量枚举，在枚举类型前面加上`const`，能够大幅提高性能。
+
+只把用到的枚举类型翻译成结果，不会把枚举类型转成JS代码。
+
+```ts
+const enum Direction3 {
+  Up = 'UP',
+  Down = 'DOWN',
+  Right = 'RIGHT',
+  Left = 'LEFT'
+}
+
+if (Direction3.Up === directionVal){
+  console.log('go up')
+}
+```
+
+### 1.15. 泛型
+
+```ts
+function echo<T>(args: T): T{
+  return args
+}
+
+const res = echo(123)
+```
+多个类型
+```ts
+function swap<T, U>(tuple:[T,U]): [U, T]{
+  return [tuple[1], tuple[0]]
+}
+
+const myTuple: [string, number] = ['str', 123]
+const myTuple2 = swap(myTuple)
+```
+#### 1.15.1. 约束泛型
+约束泛型，约束传过来的参数必须包含某属性。
+
+```ts
+interface IWithLength {
+  length: number
+}
+
+function echoWithLength<T extends IWithLength>(args: T): T {
+  console.log(args.length) // 不继承该接口的话，不能使用length属性，会报错
+  return args
+}
+
+echoWithLength('string2')
+echoWithLength([1,2,3])
+echoWithLength({ length: 10000, width: 200 })
+```
+
+#### 1.15.2. 类和接口
+
+泛型类：
+```ts
+class Queue<T>{
+  private data = []
+  push(item: T) {
+    this.data.push(item)
+  }
+  pop(): T {
+    return this.data.shift()
+  }
+}
+
+const queue = new Queue<number>()
+queue.push(1)
+console.log(queue.pop().toFixed())
+
+const queue2 = new Queue<string>()
+queue2.push('string2')
+console.log(queue2.pop().length)
+```
+
+泛型接口：
+```ts
+interface KeyPair<T, U> {
+  key: T;
+  value: U;
+}
+
+let kp: KeyPair<number, string> = {
+  key: 123,
+  value: 'str'
+}
+
+let kp2: KeyPair<string, number> = {
+  key: 'str',
+  value: 123
+}
+```
+`Array`就是一个内置的`interface`
+
+用泛型的方式声明数值类型的数组：
+```ts
+let arr: number[] = [1, 2, 3]
+
+// 两种方式等价
+let arr2: Array<number> = [1, 2, 3]
+```
+
+接口描述函数类型：
+```ts
+interface IPlus {
+  (a: number, b: number): number
+}
+
+function plus(a: number, b: number): number {
+  return a + b
+}
+
+const a: IPlus = plus
+```
+泛型接口，描述函数类型
+```ts
+interface IPlus<T> {
+  (a: T, b: T): T
+}
+
+function plus(a: number, b: number): number {
+  return a + b
+}
+
+function connect(a: string, b: string): string {
+  return a + b
+}
+
+const a: IPlus<number> = plus
+const b: IPlus<string> = connect
+```
+
+### 1.16. 类型别名
+
+第一个例子，函数类型的别名
+```ts
+type PlusType = (a: number, b: number) => number // 类型别名
+
+function sum(a: number, b: number): number{
+  return a + b
+}
+
+const sum2: PlusType = sum
+
+
+```
+第二个例子，函数参数可以是`string`或者函数
+```ts
+type NameResolver = () => string
+type NameOrResolver = string | NameResolver
+
+function getName(n: NameOrResolver): string {
+  if (typeof n === 'string') {
+    return n
+  } 
+  return n()
+}
+```
+### 1.17. 类型推论
+`TypeScript`里，在有些没有明确指出类型的地方，类型推论会帮助提供类型。
+```ts
+let str = 'str'
+str = 123 // 报错
+```
+
+### 1.18. 类型断言
+
+类型断言有两种形式。 其一是“尖括号”语法：
+```ts
+let someValue: any = "this is a string";
+
+let strLength: number = (<string>someValue).length;
+```
+
+另一个为as语法：
+```ts
+let someValue: any = "this is a string";
+
+let strLength: number = (someValue as string).length;
+```
+
+例子：
+
+```ts
+function getLength(input: number | string) : number {
+  // const str = input as String // 类型断言，大写，表示接口，不是类型
+  // if (str.length) {
+  //   return str.length
+  // }
+  // const number = input as Number
+  // return number.toString().length
+
+  if((<string>input).length) { // 简便写法
+    return (<string>input).length
+  }
+  return input.toString().length
+}
+```
+
+### 1.19. 声明文件
+功能包括代码补全、提示等
+
+基本写法：
+```ts
+declare var jQuery: (selector: string) => any
+```
+
+文件名以`d.ts`结尾，比如`jQuery.d.ts`。
+
+#### 1.19.1. `tsconfig.json`配置文件
+```json
+{
+  "include": ["**/*"]
+}
+```
+功能：让编译器编译当前文件夹下的所有文件。
+
+#### 1.19.2. 使用第三方声明文件
+```
+npm install --save @types/jquery
+```
+`@types`开头，比如`@types/jquery`。这些第三方声明文件由`DefinitelyTyped`组织来管理。
+
+
+
+### TS和React结合
+```tsx
+interface IHello {
+  message?: string
+}
+
+// const Hello: React.FunctionComponent<IHello> = (props) => {
+//   return <h2>{props.message}</h2>
+// }
+
+const Hello: React.FC<IHello> = (props) => { // FC 是 FunctionComponent 的别名
+  return <h2>{props.message}</h2>
+}
+
+Hello.defaultProps = {
+  message: 'defaultName'
+}
+
+export default Hello
+```
+

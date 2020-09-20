@@ -22,7 +22,7 @@
 - [22. 丑数 [Leetcode-263]](#22-丑数-leetcode-263)
 - [23. 丑数 II [Leetcode-264]](#23-丑数-ii-leetcode-264)
 - [24. 超级丑数 [Leetcode-313]](#24-超级丑数-leetcode-313)
-- [25. 数组不相邻元素之和的最大值(面试题)](#25-数组不相邻元素之和的最大值面试题)
+- [25. 数组不相邻元素之和的最大值(腾讯面试题)](#25-数组不相邻元素之和的最大值腾讯面试题)
   - [25.1. 题目描述](#251-题目描述)
   - [25.2. 举例](#252-举例)
   - [25.3. 解题思路](#253-解题思路)
@@ -849,7 +849,7 @@ def ulgy(n, primes):
   return res[-1]
 ```
 
-### 25. 数组不相邻元素之和的最大值(面试题)
+### 25. 数组不相邻元素之和的最大值(腾讯面试题)
 
 #### 25.1. 题目描述
 
@@ -883,9 +883,26 @@ function solution(arr){
   return Math.max(p[len - 1], p[len - 2])
 }
 ```
+python解法：
+```python
+def solution(arr):
+  n = len(arr)
+  if n == 0: return 0
+  if n == 1: return arr[0]
+  if n == 2: return max(arr[0], arr[1])
+  if n == 3: return max(arr[0] + arr[2], arr[1])
+
+  p = [arr[0], arr[1], arr[0] + arr[2]]
+
+  for i in range(3, n):
+    temp = max(p[i-2], p[i-3]) + arr[i]
+    p.append(temp)
+
+  return max(p[n-1], p[n-2])
+```
 
 
-其实这题还能优化为o(1)的空间，从上面的代码分析，在计算打劫第i个房屋的收益的时候，其实只是和打劫前面3个房屋的收益有关，我们完全可以定义4个变量来表示。
+其实这题还能优化为`o(1)`的空间，从上面的代码分析，在计算打劫第`i`个房屋的收益的时候，其实只是和打劫前面3个房屋的收益有关，我们完全可以定义4个变量来表示。
 
 ```js
 function solution(arr){

@@ -1,11 +1,11 @@
-- [externals 和 libraryTarget](#externals-和-librarytarget)
-  - [外部扩展(externals)](#外部扩展externals)
-  - [libraryTarget](#librarytarget)
-  - [externals 和 libraryTarget 的关系](#externals-和-librarytarget-的关系)
+- [1. externals 和 libraryTarget](#1-externals-和-librarytarget)
+  - [1.1. 外部扩展(externals)](#11-外部扩展externals)
+  - [1.2. libraryTarget](#12-librarytarget)
+  - [1.3. externals 和 libraryTarget 的关系](#13-externals-和-librarytarget-的关系)
 
 
-## externals 和 libraryTarget
-### 外部扩展(externals)
+## 1. externals 和 libraryTarget
+### 1.1. 外部扩展(externals)
 
 `externals` 配置选项提供了「**从输出的 bundle 中排除依赖**」的方法。相反，所创建的 `bundle` 依赖于那些存在于用户环境(`consumer's environment`)中的依赖。此功能通常对 `library` 开发人员来说是最有用的。(写类库)
 
@@ -64,7 +64,7 @@ externals : {
 
 
 
-### libraryTarget
+### 1.2. libraryTarget
 
 配置如何暴露 `library` 。可以使用下面的选项中的任意一个。注意，此选项与分配给 `output.library` 的值一同使用。
 
@@ -132,7 +132,7 @@ require("MyLibrary").doSomething();
 
 
 
-### externals 和 libraryTarget 的关系
+### 1.3. externals 和 libraryTarget 的关系
 
 - libraryTarget 配置**如何暴露 library**。如果不设置 library，那这个 library 就不暴露。就相当于一个**自执行函数**
 - `externals` 是决定的是以哪种模式去加载所引入的额外的包

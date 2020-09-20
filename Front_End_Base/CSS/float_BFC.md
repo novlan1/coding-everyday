@@ -30,15 +30,15 @@ BFC（块级格式化上下文，用于**清除浮动，防止margin重叠**等�
 ### 1.2. 哪些元素会生成BFC？
 
 1. 根元素
-2. float不为none的元素
-3. position为fixed和absolute的元素
-4. display为inline-block、table-cell、table-caption，flex，inline-flex的元素
-5. overflow不为visible的元素
+2. `float`不为`none`的元素
+3. `position`为`fixed`和`absolute`的元素
+4. `display`为`inline-block`、`table-cell`、`table-caption`，`flex`，`inline-flex`的元素
+5. `overflow`不为`visible`的元素
 
 
 ### 1.3. 双边距重叠问题（外边距折叠）
 
-多个相邻（兄弟或者父子关系）普通流的块元素垂直方向marigin会重叠。
+多个相邻（兄弟或者父子关系）普通流的块元素垂直方向`marigin`会重叠。
 
 折叠的结果为：
 - 两个相邻的外边距都是**正数**时，折叠结果是它们两者之间**较大的值**。
