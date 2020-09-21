@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>纯CSS实现打分</title>
+<link rel="stylesheet" href="https://at.alicdn.com/t/font_1356455_c5d3d3ohlbq.css">
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container input {
+  font-family: "iconfont" !important;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.container .rate-content {
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+.container .rate-content input[name=rate] {
+  font-family: "iconfont";
+  font-size: 30px;
+  padding-right: 10px;
+  transition: transform 0.2s ease;
+}
+
+.container .rate-content input[name=rate]::after {
+  content: "\e645";
+  color: #999;
+  transition: color 0.4s ease;
+}
+
+.container .rate-content input[name=rate]:checked::after,
+.container .rate-content input[name=rate]:hover::after {
+  content: "\e73c";
+  color: #ffa822;
+}
+
+.container .rate-content input[name=rate]:checked~input[name=rate]::after,
+.container .rate-content input[name=rate]:hover~input[name=rate]::after {
+  content: "\e73c";
+  color: #ffa822;
+}
+
+.container .rate-content input[name=rate]:hover {
+  transform: scale(1.2);
+}
+</style>
+</head>
+
+<body>
+  <section class="container">
+    <div class="rate-content">
+      <input type="radio" name="rate">
+      <input type="radio" name="rate">
+      <input type="radio" name="rate">
+      <input type="radio" name="rate">
+      <input type="radio" name="rate">
+    </div>
+  </section>
+</body>
+
+</html>

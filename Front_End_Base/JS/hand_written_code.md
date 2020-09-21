@@ -1,4 +1,4 @@
-- [1. JS 为数字添加千位分隔符](#1-js-为数字添加千位分隔符)
+- [1. 为数字添加千位分隔符](#1-为数字添加千位分隔符)
 - [2. 单例模式](#2-单例模式)
 - [3. 观察者模式](#3-观察者模式)
 - [4. 发布订阅模式](#4-发布订阅模式)
@@ -17,13 +17,15 @@
 - [17. 实现 compose](#17-实现-compose)
 - [18. 实现深拷贝](#18-实现深拷贝)
 - [19. 实现 Promise](#19-实现-promise)
-- [20. 实现 Promise.all、Promise.race、Promise.allSettled](#20-实现-promiseallpromiseracepromiseallsettled)
-  - [20.1. Promise.all](#201-promiseall)
-  - [20.2. Promise.race](#202-promiserace)
-  - [20.3. Promise.allSettled](#203-promiseallsettled)
-- [21. 双向数据绑定](#21-双向数据绑定)
+- [20. 实现 `Promise.all`](#20-实现-promiseall)
+- [21. 实现 `Promise.race`](#21-实现-promiserace)
+- [22. 实现 `Promise.allSettled`](#22-实现-promiseallsettled)
+- [23. 双向数据绑定](#23-双向数据绑定)
+- [24. 数组扁平化](#24-数组扁平化)
+- [25. 对象扁平化](#25-对象扁平化)
+- [26. 图片懒加载](#26-图片懒加载)
 
-### 1. JS 为数字添加千位分隔符
+### 1. 为数字添加千位分隔符
 ```js
 function milliFormat(num) {
     return num && num.toString()
@@ -219,28 +221,35 @@ Function.prototype.myCall = function() {
   let [context, ...args] = [...arguments]
   if(!context) context = window
   
-  context.fn = this
-  const res = context.fn(...args)
+  // 关键步骤，在 context 上调用方法，触发 this 绑定为 context，使用 Symbol 防止原有属性的覆盖
+  const key = Symbol('key')
+  context[key] = this
+
+  const res = context.key(...args)
   
-  delete context.fn
+  delete context[key]
   return res
 }
 
 
 Function.prototype.myApply = function() {
-  let [context, args] = [...arguments] // 和call的不同点在于没有...，因为只有一个参数（数组）
+  // 和call的不同点在于没有...，因为只有两个参数（context 和 数组）
+  let [context, args] = [...arguments] 
   if (!context) context = window
   
-  context.fn = this
+  // 关键步骤，在 context 上调用方法，触发 this 绑定为 context，使用 Symbol 防止原有属性的覆盖
+  const key = Symbol('key')
+  context[key] = this
+
   let res
   
   if (args) {
-    res = context.fn(...args)
+    res = context.key(...args)
   } else {
-    res = context.fn()
+    res = context.key()
   }
   
-  delete context.fn
+  delete context[key]
   return res
 }
 ```
@@ -250,10 +259,52 @@ Function.prototype.myBind = function() {
   const [context, ...args] = [...arguments]
   const fn = this
   
-  return function() {
-    return fn.apply(context, args.concat(...arguments))
+  const newFn = function() {
+    const newArgs = args.concat(...arguments)
+
+    if (this instanceof newFn) {
+      return fn.apply(this, newArgs)
+    }
+    return fn.apply(context, newArgs)
+  }
+
+  newFn.prototype = Object.create(fn.prototype)
+  return newFn
+}
+```
+
+测试：
+```js
+const obj = {
+  name: 'yang',
+  getName() {
+    console.log(this.name)
   }
 }
+obj.getName()
+const obj2 = {
+  name: 'mike'
+}
+const getName2 = obj.getName.bind(obj2)
+getName2()
+```
+
+测试构造函数：
+```js
+function Test(name) {
+  this.name = name
+}
+
+const newTest = Test.myBind (obj)
+
+const obj = {
+  name: 'yang'
+}
+
+const instance = new Test('haha')
+const instance2 = new newTest('hehe')
+
+console.log(instance, instance2)
 ```
 ### 9. 实现 instanceof 方法
 
@@ -355,8 +406,8 @@ function debounce(fn, time) {
     }, time)
   }
 }
-
-
+```
+```js
 function throttle(tn, time) {
   let timeout 
   
@@ -371,8 +422,9 @@ function throttle(tn, time) {
     }
   }
 }
+```
 
-
+```js
 // 测试
 function count() {
  console.log('xxxxx')
@@ -394,7 +446,8 @@ Array.prototype.myMap = function() {
   }
   return res
 }
-
+```
+```js
 // for 实现 filter
 Array.prototype.myFilter = function() {
   const arr = this
@@ -408,7 +461,8 @@ Array.prototype.myFilter = function() {
   }
   return res
 }
-
+```
+```js
 // reduce 实现 map
 Array.prototype.myMap = function() {
   const arr = this
@@ -419,7 +473,8 @@ Array.prototype.myMap = function() {
     return acc
   }, [])
 }
-
+```
+```js
 // reduce 实现 filter
 Array.prototype.myFilter = function() {
   const arr = this
@@ -562,7 +617,7 @@ function Child() {
 console.log(new Child().say())
 ```
 构造函数中的继承：
-只用`Parent.call(this)`的缺点是，**原型链上的属性并没被继承**。
+- 只用`Parent.call(this)`的缺点是，**原型链上的属性并没被继承**。
 
 ```js
 function Parent() {
@@ -582,7 +637,7 @@ s1.play.push(4)
 console.log(s1.play, s2.play)
 ```
 单纯的原型链继承：
-使用`Child.prototype = new Parent()`的缺点是，**子类实例的引用类型是公用的**，修改一个实例会引起另一个实例的改变。
+- 使用`Child.prototype = new Parent()`的缺点是，**子类实例的引用类型是公用的**，修改一个实例会引起另一个实例的改变。
 
 ```js
 function Parent(){
@@ -614,8 +669,9 @@ Child.prototype = Parent.prototype
 const s = new Child()
 console.log(s.constructor)
 ```
-`Child.prototype = Parent.prototype`的缺点是，无法区分一个实例是哪个原型对象创建的。若强行使用过`Child.prototype.constructor=Child`，会使得父类对象的`contructor`属性也是`Child`，显然错误。
-并且，当我们想要在子对象原型中扩展一些属性以便之后继续继承的话，父对象的原型也会被改写，因为这里的原型对象实例始终只有一个，这也是这种继承方式的缺点。
+`Child.prototype = Parent.prototype`的缺点是：
+- 无法区分一个实例是哪个原型对象创建的。若强行使用过`Child.prototype.constructor=Child`，会使得父类对象的`contructor`属性也是`Child`，显然错误。
+- 并且，当我们想要在子对象原型中扩展一些属性以便之后继续继承的话，父对象的原型也会被改写，因为这里的原型对象实例始终只有一个，这也是这种继承方式的缺点。
 
 
 
@@ -651,62 +707,70 @@ compose([a, b, c])(123)
 ```
 ### 18. 实现深拷贝
 ```
-1. 使用JSON.stringify和JSON.parse实现深拷贝：JSON.stringify把对象转成字符串，再用JSON.parse把字符串转成
-   新的对象；
+1. 使用`JSON.stringify`和`JSON.parse`实现深拷贝：`JSON.stringify`把对象转成字符
+   串，再用`JSON.parse`把字符串转成新的对象；
 
-   缺陷：它会抛弃对象的constructor，深拷贝之后，不管这个对象原来的构造函数是什么，在深拷贝之后都会变成Object；
-   这种方法能正确处理的对象只有 Number, String, Boolean, Array, 扁平对象，也就是说，只有可以转成JSON格式的
-   对象才可以这样用，像function没办法转成JSON；
+   缺陷：它会抛弃对象的`constructor`，深拷贝之后，不管这个对象原来的构造函数是什么，
+   在深拷贝之后都会变成`Object`；这种方法能正确处理的对象只有 `Number`, `String`,
+   `Boolean`, `Array`, 扁平对象，也就是说，只有可以转成`JSON`格式的对象才可以这样
+   用，像`function`没办法转成`JSON`；
 
-2. slice是否为深拷贝
-   slice()和concat()都并非深拷贝，而是只拷贝第一层。
+2. `slice`是否为深拷贝
+   `slice()`和`concat()`都并非深拷贝，而是只拷贝第一层。
 ```
 ```js
-function getEmpty(obj) {
-  const type = {}.toString.call(obj)
-  if (type === '[object Object]') {
-    retur {}
+function deepCopy(obj, cache = new WeakMap()) {
+  if (!obj instanceof Object) return obj
+
+  // 防止循环引用
+  if (cache.get(obj)) return cache.get(obj)
+
+  // 支持函数
+  if (obj instanceof Function) {
+    // return new Function('return '+obj.toString())()
+    // 错误，对于`say(){}`这样的函数会报错
+
+    return eval(obj)
   }
-  if (type === '[object Array]') {
-    return []
-  }
-  return obj
+
+  // 支持日期
+  if (obj instanceof Date) return new Date(obj)
+
+  // 支持正则对象
+  if (obj instanceof RegExp) return new RegExp(obj.source, obj.flags)
+
+  // 数组是 key 为数字素银的特殊对象
+  const res = Array.isArray(obj) ? [] : {}
+
+  // 缓存 copy 的对象，用于处理循环引用的情况
+  cache.set(obj, res)
+
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] instanceof Object) {
+      res[key] = deepCopy(obj[key], cache)
+    } else {
+      res[key] = obj[key]
+    }
+  });
+  return res
 }
 
-
-/** 
- * 宽度优先遍历
- * 换成栈，每次弹出最后的，就是深度优先遍历了
- */
-function deepCopyBFS(origin) {
-  let queue = []
-  let map = new Map() // 记录出现过的对象，用于处理环
-  
-  let target = getEmpty(origin)
-  if (target !== origin) {
-    queue.push([origin, target])
-    map.set(origin, target)
-  }
-  
-  while (queue.length) {
-    let [ori, tar] = queue.shift()
-    
-    for (let key in ori) {
-      // 处理环状
-      if (map.get(ori[key])) {
-        tar[key] = map.get(ori[key])
-        continue
-      }
-      
-      tar[key] = getEmpty(ori[key])
-      if (tar[key] !== ori[key]) {
-        queue.push([ori[key], tar[key]])
-        map.set(ori[key], tar[key])
-      }
+// 测试
+const source = {
+  name: 'Jack',
+  meta: {
+    age: 12,
+    birth: new Date('1997-10-10'),
+    ary: [1, 2, { a: 1 }],
+    say() {
+      console.log('Hello');
     }
   }
-  return target
 }
+source.source = source
+const newObj = deepCopy(source)
+console.log(newObj.meta.ary[2] === source.meta.ary[2]); // false
+console.log(newObj.meta.birth === source.meta.birth); // false
 ```
 参考资料：
 1. [深拷贝, 简书](https://www.jianshu.com/p/cf1e9d7e94fb)
@@ -852,8 +916,7 @@ MyPromise.prototype.then = function(onResolved, onRejected) {
 
 参考资料：[segmentfault](https://segmentfault.com/a/1190000016550260)
 
-### 20. 实现 Promise.all、Promise.race、Promise.allSettled
-#### 20.1. Promise.all
+### 20. 实现 `Promise.all`
 ```
 Promise.all(iterable) 方法返回一个 Promise 实例，此实例在 iterable 参数内所有的 
 promise 都“完成（resolved）”或参数中不包含 promise 时回调完成（resolve）；
@@ -886,7 +949,7 @@ Promise.newAll = function (promiseArr) {
 }
 
 ```
-#### 20.2. Promise.race
+### 21. 实现 `Promise.race`
 ```
 Promise.race(iterable) 方法返回一个 promise，一旦迭代器中的某个 promise 解决或拒绝，
 返回的 promise 就会解决或拒绝。
@@ -912,7 +975,7 @@ Promise.newRace = function (promiseArr) {
 };
 ```
 
-#### 20.3. Promise.allSettled
+### 22. 实现 `Promise.allSettled`
 ```
 Promise.allSettled() 方法返回一个在所有给定的 promise 已被决议或被拒绝后决议的 promise，
 并带有一个对象数组，每个对象表示对应的promise 结果。
@@ -951,7 +1014,7 @@ Promise.newAllSettled = function (promiseArr) {
 };
 ```
 
-### 21. 双向数据绑定
+### 23. 双向数据绑定
 ```html
 <input id="input"/>
 ```
@@ -1049,7 +1112,7 @@ function defineReactive(data, key, value) {
     set(newVal) {
       if (value !== newVal) {
         
-        value = newVal
+        value = newVal // 这两句的顺序很关键，必须先赋新的值，才能成功notify
         dep.notify()
       }
     }
@@ -1080,7 +1143,7 @@ Watcher.prototype = {
     let value = this.value
     const newVal = this.vm.$data[this.prop]
     if (value !== newVal) {
-      value = newVal
+      value = newVal 
       this.cb(newVal)
     }
   }
@@ -1114,3 +1177,90 @@ setTimeout(() => {
 
 ![MVVM](../../imgs/vue_mvvm.png)
 
+### 24. 数组扁平化
+
+```js
+function recursionFlat(arr) {
+  const res = [];
+  arr.map((item) => {
+    if (Array.isArray(item)) {
+      res.push(...recursionFlat(item));
+    } else {
+      res.push(item);
+    }
+  });
+  return res;
+}
+
+function reduceFlat(arr) {
+  return arr.reduce(
+    (acc, item) => res.concat(Array.isArray(item) ? reduceFlat(item) : item),
+    []
+  );
+}
+
+const source = [1, 2, [3, 4, [5, 6]], "7"];
+console.log(recursionFlat(arr));
+console.log(reduceFlat(arr));
+```
+
+### 25. 对象扁平化
+
+```js
+function objectFlat(obj = {}) {
+  const res = {};
+
+  _objectFlat(obj, res);
+  return res;
+}
+
+function _objectFlat(item, res, preKey = "") {
+  Object.entries(item).forEach(([key, val]) => {
+    const newKey = preKey ? `${preKey}.${key}` : key;
+    if (val && typeof val === "object") {
+      _objectFlat(val, res, newKey);
+    } else {
+      res[newKey] = val;
+    }
+  });
+}
+
+// 测试
+const source = { a: { b: { c: 1, d: 2 }, e: 3 }, f: { g: 2 } };
+console.log(objectFlat(source));
+```
+
+
+### 26. 图片懒加载
+
+```js
+// <img src="default.png" data-src="https://xxxx/real.png">
+function isVisible(el) {
+  const position = el.getBoundingClientRect()
+  const windowHeight = document.documentElement.clientHeight
+  // 顶部边缘可见
+  const topVisible = position.top > 0 && position.top < windowHeight;
+  // 底部边缘可见
+  const bottomVisible = position.bottom < windowHeight && position.bottom > 0;
+  return topVisible || bottomVisible;
+}
+
+function imageLazyLoad() {
+  const images = document.querySelectorAll('img')
+  for (let img of images) {
+    const realSrc = img.dataset.src
+    if (!realSrc) continue
+    
+    if (isVisible(img)) {
+      img.src = realSrc
+      img.dataset.src = ''
+    }
+  }
+}
+
+// 测试
+window.addEventListener('load', imageLazyLoad)
+window.addEventListener('scroll', imageLazyLoad)
+// or
+window.addEventListener('scroll', throttle(imageLazyLoad, 1000))
+```

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  ::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 6px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: #ccc;
+  }
+
+  ::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  body {
+    background-color: rgb(211, 214, 223);
+    /* min-height: 100vh; */
+    /* min-width: 100vw; */
+  }
+
+  .container {
+    background-color: rgb(211, 214, 223);
+
+    /* min-height: 100vh; */
+  }
+
+  .chat-wrap {
+    margin: 10px auto;
+    width: 1150px;
+    display: flex;
+    height: 100%;
+    height: calc(100vh - 20px);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .chat-left {
+    width: 320px;
+    background-color: rgb(51, 53, 58);
+  }
+
+  .chat-main {
+    flex: 1;
+    background-color: #eee;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-wrap {
+    display: flex;
+    align-items: center;
+    padding: 10px 18px;
+    color: #fff;
+    border-bottom: 1px solid #404247;
+  }
+
+  .user-wrap img.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 18px;
+    overflow: hidden;
+  }
+
+  .user-wrap .user-fake-avatar{
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 50%;
+    color: #4e6ef2;
+    margin-right: 18px;
+    font-size: 20px;
+    border: 1px solid #4e6ef2;
+  }
+
+  .user-wrap .nickname {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .friend-item {
+    border-bottom: 1px solid #2c2e31;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: rgb(41, 43, 46);
+    position: relative;
+  }
+
+  .friend-item:hover {
+    background-color: rgb(58, 60, 66);
+  }
+
+  .friend-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #ff8f2c;
+  }
+
+  .friend-avatar-wrap img.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 15px;
+    margin-left: 18px;
+  }
+
+  .friend-main-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex: 1;
+  }
+
+  .friend-nickname-wrap {
+    height: 25px;
+    line-height: 20px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .friend-time {
+    color: #51555e;
+    font-size: 12px;
+  }
+
+  .friend-nickname {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 190px;
+  }
+
+  .friend-message {
+    color: #999;
+    margin-top: 6px;
+    margin-right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 20px;
+  }
+
+  .new-message-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 190px;
+  }
+
+  .has-new-message.active {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #ff8f2c;
+  }
+
+  .chat-main .header {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 18px;
+    color: #808080;
+    border-bottom: 1px solid #d9d9d9;
+  }
+
+  .chat-info {
+    overflow-y: auto;
+    flex: 1;
+    padding: 4px 0 8px;
+  }
+
+  .chat-time {
+    color: #a3a7ae;
+    font-size: 12px;
+    text-align: center;
+    margin: 7px auto;
+  }
+
+  .chat-content-wrap {
+    padding: 8px 18px;
+  }
+
+  .chat-content-wrap {
+    display: flex;
+  }
+
+  .chat-content-wrap.from-myself {
+    flex-direction: row-reverse;
+  }
+
+  .fake-chat-avatar-wrap {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 12px;
+    margin-left: 18px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 50%;
+    color: #4e6ef2;
+    font-size: 14px;
+    border: 1px solid #4e6ef2;
+  }
+
+  .chat-content-wrap .chat-content {
+    max-width: 390px;
+    word-break: break-all;
+    background-color: #fff;
+    font-size: 14px;
+    padding: 11px 16px;
+    color: #333;
+    position: relative;
+    border-radius: 4px;
+  }
+
+  .chat-content-wrap .chat-content::before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: -6px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 6px solid #fff;
+    border-bottom: 5px solid transparent;
+  }
+
+  .chat-content-wrap.from-myself .chat-content::before {
+    right: -6px;
+    left: auto;
+    border-right: none;
+    border-left: 6px solid rgb(158, 234, 106);
+  }
+
+  .chat-content-wrap.from-myself .chat-content {
+    background-color: rgb(158, 234, 106);
+  }
+
+  .publish-wrap {
+    border-top: 1px solid #ddd;
+    width: 100%;
+    background: #eee;
+    /* min-height: 151px; */
+  }
+
+  .publish-wrap textarea {
+    height: 100px;
+    padding: 8px 8px 8px 17px;
+    font-size: 14px;
+    line-height: 22px;
+    color: #333;
+    resize: none;
+    border: none !important;
+    background: transparent;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .publish-wrap textarea:focus {
+    outline: none;
+  }
+
+  .publish-wrap .publish-tip {
+    font-size: 12px;
+    height: 36px;
+    margin-right: 18px;
+    line-height: 36px;
+    text-align: right;
+    color: #a3a7ae;
+  }
+</style>
+
+<body>
+  <!-- <div class="container"> -->
+  <div class="chat-wrap">
+    <div class="chat-left">
+      <div class="user-wrap">
+        <span class="user-fake-avatar" id='userFakeAvatar'>
+          <!-- <img src='../../imgs/eventloop.jpg' class="avatar" /> -->
+          
+        </span>
+        <span class="nickname" id='userNickname'></span>
+      </div>
+
+      <div class="friends-list">
+        <div class="friend-item">
+          <span class='friend-avatar-wrap'>
+            <img src='../../imgs/eventloop.jpg' class="avatar" />
+          </span>
+          <span class="friend-main-wrap">
+            <span class="friend-nickname-wrap">
+              <span class="friend-nickname">
+                微博管理员
+              </span>
+              <span class="friend-time">
+                8:36
+              </span>
+            </span>
+            <span class="friend-message">
+              <span class='new-message-content'>
+                微博专项整治处置结果如下如下如下如下
+              </span>
+              <span class='has-new-message active'>
+
+              </span>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="chat-main">
+      <div class='header'>
+        微博管理员
+      </div>
+      <div class="chat-info" id='chatInfo'>
+        
+      </div>
+      <div class="publish-wrap">
+        <textarea></textarea>
+        <div class="publish-tip">
+          按下Enter发送内容/ Ctrl+Enter换行
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <input id='mainInput' /> -->
+  <!-- </div> -->
+  <script src='./config.js'></script>
+  <script>
+    // import { nameList } from './config.js'
+    // const { nameList } = require('./config.js')
+    let ws
+    let currentValue = ''
+    let currentUserInfo = {
+      avatar: '../../imgs/eventloop.jpg',
+      nickname: 'test',
+    }
+    const chatInfoDom = document.getElementById('chatInfo')
+    const userFakeAvatarDom = document.getElementById('userFakeAvatar')
+    const userNickname = document.getElementById('userNickname')
+
+    let chatList = [
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+      {
+        nickname: 'test',
+        content: '1',
+        fromMyself: true,
+        time: '07-31 19:10'
+      },
+    ]
+
+    window.onload = function () {
+      window.addEventListener('keyup', onKeyUp)
+      window.addEventListener('keydown', onKeyDown)
+      
+      getUserInfo()
+      initWebSocket()
+      onChangeChatInfo()
+    }
+
+    function getUserInfo() {
+      let _user = localStorage.getItem('_user') || ''
+      if (!_user) {
+        _user = nameList[parseInt(Math.random()*(nameList.length))]
+        localStorage.setItem('_user', _user)
+      }
+      currentUserInfo = {
+        nickname: _user,
+      }
+      userFakeAvatarDom.innerText = _user[0]
+      userNickname.innerText = _user
+      console.log(_user)
+    }
+
+    function initWebSocket() {
+      if ("WebSocket" in window) {
+        console.log("您的浏览器支持 WebSocket!");
+
+        // 打开一个 web socket
+        ws = new WebSocket("ws://localhost:3000/echo");
+
+        ws.onopen = function () {
+          // Web Socket 已连接上，使用 send() 方法发送数据
+          ws.send("connecting");
+          console.log("数据发送中...");
+        };
+
+        ws.onmessage = function (evt) {
+          var received_msg = evt.data;
+          console.log(typeof(received_msg))
+          try {
+            let res = JSON.parse(received_msg)
+            if (res.nickname !== currentUserInfo.nickname) {
+              res.fromMyself = false
+              chatList.push(res)
+              onChangeChatInfo()
+            }
+            
+          } catch(e) {
+            console.log(e)
+          }
+          console.log("数据已接收...", received_msg);
+        };
+
+        ws.onclose = function () {
+          // 关闭 websocket
+          console.log("连接已关闭...");
+        };
+      }
+
+      else {
+        // 浏览器不支持 WebSocket
+        console.log("您的浏览器不支持 WebSocket!");
+      }
+    }
+
+    function onKeyUp(e) {
+      
+      if (e.keyCode === 13) {
+        e.preventDefault()
+        currentValue = e.target.value
+        e.target.value = ''
+        const newItem = {
+          time: getThisTime(),
+          ...currentUserInfo,
+          fromMyself: true,
+          content: currentValue,
+        }
+        
+        ws.send(JSON.stringify(newItem))
+        chatList.push(newItem)
+        onChangeChatInfo()
+      }
+      
+    }
+
+    function onChangeChatInfo() {
+      let newChatItems = ''
+      for (let item of chatList) {
+        newChatItems +=`<div class='chat-item'>
+          <div class='chat-time'>${item.time}</div>
+            <div class='chat-content-wrap ${item.fromMyself ? 'from-myself' : ''}'>
+              <span class="fake-chat-avatar-wrap">
+                ${item.nickname[0]}
+              </span>
+              <span class='chat-content'>
+                ${item.content}
+              </span>
+            </div>
+          </div>`
+      }
+      chatInfoDom.innerHTML = newChatItems
+      chatInfoDom.scrollTop = 100000000000000
+    }
+
+    function onKeyDown(e) {
+      // e.preventDefault()
+      if (e.keyCode === 13) {
+        e.preventDefault()
+      }
+      if (event.ctrlKey && e.keyCode === 13) {
+        console.log('====')
+
+      }
+    }
+
+    function getThisTime() {
+      const date = new Date()
+      const hour = date.getHours()
+      const minute = date.getMinutes()
+      const day = date.getDate()
+      const month = date.getMonth() + 1
+      return `${addZero(month)}-${addZero(day)} ${addZero(hour)}:${addZero(minute)}`
+    }
+    
+    function addZero(num) {
+      num = '' + num
+      if (num.length < 2) {
+        return `0${num}`
+      }
+      return num
+    }
+
+  </script>
+</body>
+
+</html>
