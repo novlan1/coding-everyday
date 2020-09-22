@@ -36,6 +36,8 @@
     - [1.19.1. `tsconfig.json`配置文件](#1191-tsconfigjson配置文件)
     - [1.19.2. 使用第三方声明文件](#1192-使用第三方声明文件)
   - [TS和React结合](#ts和react结合)
+  - [VSCode中Typescript的Eslint配置](#vscode中typescript的eslint配置)
+  - [色彩体系](#色彩体系)
 
 ## 1. TypeScript
 
@@ -737,3 +739,29 @@ Hello.defaultProps = {
 export default Hello
 ```
 
+### VSCode中Typescript的Eslint配置
+
+在项目目录的`.vscode/setting.json`文件中添加以下代码，其实就是让编译器检查对`js/jsx/ts/tsx`文件都进行格式检查。
+
+```json
+{
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true},
+    { "language": "typescriptreact", "autoFix": true}
+  ]
+}
+```
+
+
+### 色彩体系
+
+系统色板：基础色板+中性色板
+产品色板：品牌色板+功能色板
+
+基础色，指通过观察得到的颜色，比如红橙黄绿蓝紫。
+中性色板，指黑白和不同级别的灰色。
+
+品牌色，比如可口可乐是红色和白色，百事可乐是蓝色和白色。`primary color`和`secondary color`。
+功能色板，比如成功是绿色，危险或失败是红色，警告是橙色。
