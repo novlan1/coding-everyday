@@ -1,8 +1,8 @@
-- [history 模式和 hash 模式](#history-模式和-hash-模式)
-  - [hash 模式](#hash-模式)
-  - [history 模式](#history-模式)
+- [1. history 模式和 hash 模式](#1-history-模式和-hash-模式)
+  - [1.1. hash 模式](#11-hash-模式)
+  - [1.2. history 模式](#12-history-模式)
 
-## history 模式和 hash 模式
+## 1. history 模式和 hash 模式
 
 SPA中，前端路由主要实现了两个功能（使用ajax更新页面状态的情况下）：
 
@@ -16,7 +16,7 @@ SPA中，前端路由主要实现了两个功能（使用ajax更新页面状态�
 - 截获 url 地址，并解析出需要的信息来匹配路由规则。
 我们路由常用的hash模式和history模式实际上就是实现了上面的功能。
 
-### hash 模式
+### 1.1. hash 模式
 这里的 hash 就是指 url 尾巴后的 # 号以及后面的字符。这里的 # 和 css 里的 # 是一个意思。hash 也 称作 锚点，本身是用来做页面定位的，她可以使对应 id 的元素显示在可视区域内。
 
 由于 hash 值变化不会导致浏览器向服务器发出请求，而且 hash 改变会触发 hashchange 事件，浏览器的进后退也能对其进行控制，所以人们在 html5 的 history 出现前，基本都是使用 hash 来实现前端路由的。
@@ -32,11 +32,11 @@ window.addEventListener('hashchange', function(){
 })
 ```
 
-### history 模式
-已经有 hash 模式了，而且 hash 能兼容到IE8， history 只能兼容到 IE10，为什么还要搞个 history 呢？
-首先，hash 本来是拿来做页面定位的，如果拿来做路由的话，原来的锚点功能就不能用了。其次，hash 的传参是基于 url 的，如果要传递复杂的数据，会有体积的限制，而 history 模式不仅可以在url里放参数，还可以将数据存放在一个特定的对象中。
+### 1.2. history 模式
+已经有 `hash` 模式了，而且 `hash` 能兼容到`IE8`， `history` 只能兼容到 `IE10`，为什么还要搞个 `history` 呢？
+首先，**`hash` 本来是拿来做页面定位的，如果拿来做路由的话，原来的锚点功能就不能用了**。其次，`hash` 的传参是基于 `url` 的，如果要传递复杂的数据，会有**体积的限制**，而 `history` 模式不仅可以在`url`里放参数，还可以将数据存放在一个特定的对象中。
 最重要的一点：
->如果不想要很丑的 hash，我们可以用路由的 history 模式
+>如果不想要很丑的 `hash`，我们可以用路由的 `history` 模式
 
 
 

@@ -56,5 +56,5 @@ import "regenerator-runtime/runtime";
 参考资料：
 1. [babel 官方文档](https://www.babeljs.cn/docs/babel-preset-env)
 2. [babel需要这样配置](https://www.cnblogs.com/wuxianqiang/p/11339462.html)
-3. [最近折腾 @babel/preset-env 的一些小心得](https://blog.meathill.com/js/some-tips-of-babel-preset-env-config.html)
+
 

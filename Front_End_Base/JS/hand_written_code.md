@@ -1087,7 +1087,8 @@ Dep.prototype = {
 }
 
 Dep.target = null
-
+```
+```js
 // 观察者
 function observer(data) {
   if (!data || typeof(data) !== 'object') {
@@ -1123,7 +1124,31 @@ function defineReactive(data, key, value) {
   }
 
 }
+```
+```js
+// Proxy 实现观察者
+function observer(data) {
+  if (!data || typeof(data) !== 'object') return
+  
+  const dep = new Dep()
 
+  return new Proxy(data, {
+    get(target, key, receiver) {
+      if (Dep.target) {
+        dep.addSub(Dep.target)
+      }
+      return Reflect.get(target, key, receiver)
+    },
+    set(target, key, value, receiver) {
+      if (target[key] !== value) {
+        Reflect.set(target, key, value, receiver)
+        dep.notify()
+      }
+    }
+  })
+}
+```
+```js
 // 订阅者
 function Watcher(vm, prop, cb) {
   this.vm = vm
@@ -1148,7 +1173,8 @@ Watcher.prototype = {
     }
   }
 }
-
+```
+```js
 // Vue
 function Vue(options) {
   this.$data = options.data
@@ -1157,11 +1183,13 @@ function Vue(options) {
 
 Vue.prototype.init = function() {
   observer(this.$data)
+  // this.$data = observer(this.$data) // 用Proxy实现观察者的话需替换为这行
   new Watcher(this, 'msg', (value) => { // 模拟编译过程中的监听
     console.log('-----------------', value)
   })
 }
-
+```
+```js
 // 测试
 const vm = new Vue({
   data: {
