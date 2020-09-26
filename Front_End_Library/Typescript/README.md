@@ -35,9 +35,11 @@
   - [1.19. 声明文件](#119-声明文件)
     - [1.19.1. `tsconfig.json`配置文件](#1191-tsconfigjson配置文件)
     - [1.19.2. 使用第三方声明文件](#1192-使用第三方声明文件)
-  - [TS和React结合](#ts和react结合)
-  - [VSCode中Typescript的Eslint配置](#vscode中typescript的eslint配置)
-  - [色彩体系](#色彩体系)
+  - [1.20. TS和React结合](#120-ts和react结合)
+  - [1.21. VSCode中Typescript的Eslint配置](#121-vscode中typescript的eslint配置)
+  - [1.22. 色彩体系](#122-色彩体系)
+  - [React提供了`button`和`a`标签的原生属性类型](#react提供了button和a标签的原生属性类型)
+  - [React测试](#react测试)
 
 ## 1. TypeScript
 
@@ -718,7 +720,7 @@ npm install --save @types/jquery
 
 
 
-### TS和React结合
+### 1.20. TS和React结合
 ```tsx
 interface IHello {
   message?: string
@@ -739,7 +741,7 @@ Hello.defaultProps = {
 export default Hello
 ```
 
-### VSCode中Typescript的Eslint配置
+### 1.21. VSCode中Typescript的Eslint配置
 
 在项目目录的`.vscode/setting.json`文件中添加以下代码，其实就是让编译器检查对`js/jsx/ts/tsx`文件都进行格式检查。
 
@@ -755,7 +757,7 @@ export default Hello
 ```
 
 
-### 色彩体系
+### 1.22. 色彩体系
 
 系统色板：基础色板+中性色板
 产品色板：品牌色板+功能色板
@@ -765,3 +767,22 @@ export default Hello
 
 品牌色，比如可口可乐是红色和白色，百事可乐是蓝色和白色。`primary color`和`secondary color`。
 功能色板，比如成功是绿色，危险或失败是红色，警告是橙色。
+
+
+### React提供了`button`和`a`标签的原生属性类型
+```tsx
+type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>
+type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>
+export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
+```
+
+`&`是联合类型，取并集。
+`Partial`是`Typescript`提供的函数，可以将属性都变成可选的。
+
+
+
+
+### React测试
+
+testing-library，是针对React的Jest封装，新版的creat-react-app已经内置了。
+另外，还有jest-dom库，提供额外的DOM相关断言，新版的creat-react-app也内置了。

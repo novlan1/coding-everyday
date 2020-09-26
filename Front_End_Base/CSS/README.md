@@ -66,6 +66,18 @@
 - [50. `object.getBoundingClientRect()`](#50-objectgetboundingclientrect)
 - [51. `documentElement` 和 `body` 的异同点](#51-documentelement-和-body-的异同点)
   - [51.1. scrollTop](#511-scrolltop)
+- [`SCSS`的`@import`和`CSS`的`@import`的区别](#scss的import和css的import的区别)
+- [`SCSS`文件下划线的使用](#scss文件下划线的使用)
+- [SCSS的@mixin` 与 `@include`](#scss的mixin与include)
+- [Sass @extend 与 继承](#sass-extend-与-继承)
+- [关于`@mixin` 和 `@extend` 对比](#关于mixin-和-extend-对比)
+- [SCSS百分号操作符](#scss百分号操作符)
+- [图标ICON的解决方案](#图标icon的解决方案)
+- [`SCSS`的 `@each`遍历](#scss的-each遍历)
+- [`display:none => display: block`过程中其他动画不生效](#displaynone--display-block过程中其他动画不生效)
+  - [`react-transition-group`](#react-transition-group)
+- [`react-scripts`其实就是`create-rect-app`](#react-scripts其实就是create-rect-app)
+- [`storybook`](#storybook)
 
 ### 1. CSS优先级
 
@@ -907,3 +919,214 @@ var scroll = document.documentElement.scrollTop ? document.documentElement.scrol
 - 在文档使用了DTD时，`document.body.scrollTop`的值为`0`。
   - 此时需要使用`document.documentElement.scrollTop`来获取滚动条滚过的长度；
 - 在未使用DTD定义文档时，使用`document.body.scrollTop`获取值。
+
+### `SCSS`的`@import`和`CSS`的`@import`的区别
+
+- `SCSS`的`@import`是直接将代码包含进目标`SCSS`文件，不会产生新的`HTTP`请求;
+- 而`CSS`的`@import`会产生新的`HTTP`请求。
+
+
+### `SCSS`文件下划线的使用
+
+SASS能够将代码分割为多个片段，并以`underscore`风格的下划线作为其命名前缀（`_partial.scss`），SASS会通过这些下划线来辨别哪些文件是SASS片段，并且**不让片段内容直接生成为CSS文件，从而只是在使用@import指令的位置被导入**。
+
+### SCSS的@mixin` 与 `@include`
+
+
+`@mixin` 指令允许我们定义一个可以在整个样式表中重复使用的样式。
+
+`@include` 指令可以将混入（`mixin`）引入到文档中。
+
+混入可以接收参数：
+```scss
+/* 混入接收两个参数 */
+@mixin bordered($color, $width) {
+  border: $width solid $color;
+}
+
+
+.myArticle {
+  @include bordered(blue, 1px);  // 调用混入，并传递两个参数
+}
+
+.myNotes {
+  @include bordered(red, 2px); // 调用混入，并传递两个参数
+}
+```
+
+转换后的CSS代码：
+```css
+.myArticle {
+  border: 1px solid blue;
+}
+
+.myNotes {
+  border: 2px solid red;
+}
+```
+包含默认参数：
+```scss
+@mixin sexy-border($color, $width: 1in) {
+  border: {
+    color: $color;
+    width: $width;
+    style: dashed;
+  }
+}
+p { @include sexy-border(blue); }
+h1 { @include sexy-border(blue, 2in); }
+```
+
+转换后的CSS代码：
+```css
+p {
+  border-color: blue;
+  border-width: 1in;
+  border-style: dashed; }
+
+h1 {
+  border-color: blue;
+  border-width: 2in;
+  border-style: dashed;
+}
+```
+
+### Sass @extend 与 继承
+`@extend` 指令告诉 `Sass` 一个选择器的样式从另一选择器继承。
+
+如果一个样式与另外一个样式几乎相同，只有少量的区别，则使用 `@extend` 就显得很有用。
+
+以下 Sass 实例中，我们创建了一个基本的按钮样式 `.button-basic`，接着我们定义了两个按钮样式 `.button-report` 与 `.button-submit`，它们都继承了 `.button-basic` ，它们主要区别在于背景颜色与字体颜色，其他的样式都是一样的。
+
+Sass 代码：
+```scss
+.button-basic  {
+  border: none;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-report  {
+  @extend .button-basic;
+  background-color: red;
+}
+
+.button-submit  {
+  @extend .button-basic;
+  background-color: green;
+  color: white;
+}
+```
+将以上代码转换为 CSS 代码，如下所示：
+
+Css 代码：
+```css
+.button-basic, .button-report, .button-submit {
+  border: none;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-report  {
+  background-color: red;
+}
+
+.button-submit  {
+  background-color: green;
+  color: white;
+}
+```
+使用 `@extend` 后，我们在 `HTML` 按钮标签中就不需要指定多个类 `class="button-basic button-report"` ，只需要设置 `class="button-report"` 类就好了。
+
+`@extend` 很好的体现了代码的复用。
+
+
+### 关于`@mixin` 和 `@extend` 对比
+- `@minxin` 相对`@extend`更可控，
+- 更易减少复杂度 尤其`@mixin`可以多层嵌套和传入参数
+- 在使用`gzip`后 `@mixin` 比`@extend`的压缩比更大
+
+
+### SCSS百分号操作符
+
+SCSS 的`"%"` 与 `"."` 功能类似，但是**不会输出代码**
+
+DEMO
+```scss
+%fo{
+  color:red;
+}
+
+.two {
+  @extend %fo;
+  font-size: 10px;
+}
+```
+生成
+```css
+.two {
+  color: red; 
+}
+
+.two {
+  font-size: 10px;
+}
+```
+
+### 图标ICON的解决方案
+
+1. 上古时期，雪碧图`CSS sprite`
+    - 无法缩放，无法用`CSS`控制
+2. 近代，`Font Icon`
+    - 用字体文件的字符编码代表图标，通过特定的`class`加伪类插入到浏览器中。
+    - 
+4. 现代和未来，`SVG`
+    - 完全可控，而`Font Icon`只能控制字符相关的属性
+    - `SVG`即取即用，`Font Icon`要下载全部的字体文件
+    - `Font Icon`还有奇怪的`bug`，当文件加载失败时，浏览器可能把`Icon`渲染成各种各样的字符
+
+
+
+### `SCSS`的 `@each`遍历
+
+
+用`()`包住`Map`，而不是`{}`
+
+用`#`包住变量，如`#{$size}`
+
+### `display:none => display: block`过程中其他动画不生效
+
+比如`opacity: 0 => opacity: 1`，即使对透明度设置了动画，一样不起作用，除非去掉`display: none`，但会占据位置，违背了初衷。
+
+解决方法：
+`display: none;` => `display: block; opacity: 0;` => `display: block; opacity: 1;`
+拆成两步走，第二步可以加动画。
+
+#### `react-transition-group`
+
+`react-transition-group`这个库，可以给react组件添加动画。
+
+enter (force a reflow, 添加动画效果)=> enter-active =>(自定义timeout) enter-done
+
+exit是一样的流程
+
+
+transition不会继承
+
+### `react-scripts`其实就是`create-rect-app`
+
+### `storybook`
+
+开发组件而不是web应用常用的库
+
+`info-addon`，最常用的`addon`，可以方便的生成说明文档。
+
+react-docgen-typescript-loader，是docge的ts版本loader，主要目的就是生成`proptypes`表格
+
+JSDOC格式的注释才能被显示出来
+
+
