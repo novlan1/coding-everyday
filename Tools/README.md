@@ -29,10 +29,10 @@ Facebook公司开发的包管理工具
 4. 更好的语义化
 
 如何使用Yarn？
-- yarn init
-- yarn add 
-- yarn remove
-- yarn install 安装所有依赖包
+- `yarn init`
+- `yarn add `
+- `yarn remove`
+- `yarn install` 安装所有依赖包
 
 
 
@@ -44,9 +44,9 @@ Facebook公司开发的包管理工具
 
 ### 3. STOMP
 
-`STOMP(Simple Text-Orientated Messaging Protocol)` 面向消息的简单文本协议；
-WebSocket是一个消息架构，不强制使用任何特定的消息协议，它依赖于应用层解释消息的含义。
--与HTTP不同，WebSocket是处在TCP上非常薄的一层，会将字节流转化为文本/二进制消息。因此，对于实际应用来说，WebSocket的通信形式层级过低。因此，可以在 WebSocket 之上使用STOMP协议，来为浏览器 和 server间的 通信增加适当的消息语义。
+`STOMP`(`Simple Text-Orientated Messaging Protocol`) 面向消息的简单文本协议；
+
+与HTTP不同，WebSocket是处在TCP上非常薄的一层，会将字节流转化为文本/二进制消息。因此，对于实际应用来说，WebSocket的通信形式层级过低。因此，可以在 WebSocket 之上使用STOMP协议，来为浏览器 和 server间的 通信增加适当的消息语义。
 
 
 
@@ -197,9 +197,9 @@ npm install -D babel-loader@7 babel-core babel-preset-env
 
 ### 15. `dev-server`的`host`设置
 
-设置`dev-server`的`host`为`0.0.0.0`可以使用`localhost`或者本地`ip`或者`127.0.0.1`。
+- 设置`dev-server`的`host`为`0.0.0.0`时，可以使用`localhost`或者本地`ip`或者`127.0.0.1`。
 
-如果设置为`127.0.0.1`别人无法通过ip访问
+- **如果设置为`127.0.0.1`别人无法通过ip访问**
 
 
 

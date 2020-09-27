@@ -29,14 +29,14 @@ VSCode中哪里能设置这个，最后在`Code->Preferences->Settings`中搜索
 
 #### 2.2. VScode 常用插件
 
-- css peek,html和css关联
-- prettier代码格式化
-- Icon Fonts：图标集
-- Auto Rename Tag：自动修改标签
-- Html Boilerplate：html模板
-- Color Info 颜色提示
-- Auto Close Tag：自动闭合标签
-- HTML CSS Support：html中css，class自动提示 
+- `css peek`：`html`和`css`关联
+- `prettier`：代码格式化
+- `Icon Fonts`：图标集
+- `Auto Rename Tag`：自动修改标签
+- `Html Boilerplate`：`html`模板
+- `Color Info`：颜色提示
+- `Auto Close Tag`：自动闭合标签
+- `HTML CSS Support`：`html`中`css`，`class`自动提示 
 
 
 
