@@ -8,6 +8,7 @@
 在页面元素很多，且需要频繁刷新的场景下，React 15 会出现掉帧的现象。
 
 其根本原因，是大量的同步计算任务阻塞了浏览器的 UI 渲染。默认情况下，JS 运算、页面布局和页面绘制都是运行在浏览器的主线程当中，他们之间是互斥的关系。如果 JS 运算持续占用主线程，页面就没法得到及时的更新。
+
 当我们调用`setState`更新页面的时候，React 会遍历应用的所有节点，计算出差异，然后再更新 UI。整个过程是一气呵成，不能被打断的。如果页面元素很多，整个过程占用的时机就可能超过 16 毫秒，就容易出现掉帧的现象。
 
 ### 1.2. 解决思路
@@ -34,16 +35,16 @@ const fiber = {
     return,       // 父节点
 }
 ```
-为了加以区分，以前的 Reconciler 被命名为`Stack Reconciler`。Stack Reconciler 运作的过程是不能被打断的，必须一条道走到黑。
+为了加以区分，以前的 `Reconciler` 被命名为`Stack Reconciler`。`Stack Reconciler` 运作的过程是不能被打断的，必须一条道走到黑。
 
-而 Fiber Reconciler 每执行一段时间，都会将控制权交回给浏览器，可以分段执行。
-为了达到这种效果，就需要有一个调度器 (Scheduler) 来进行任务分配。任务的优先级有六种：
-- synchronous，与之前的Stack Reconciler操作一样，同步执行
-- task，在next tick之前执行
-- animation，下一帧之前执行
-- high，在不久的将来立即执行
-- low，稍微延迟执行也没关系
-- offscreen，下一次render时或scroll时才执行
+而 `Fiber Reconciler` 每执行一段时间，都会将控制权交回给浏览器，可以分段执行。
+为了达到这种效果，就需要有一个调度器 (`Scheduler`) 来进行任务分配。任务的优先级有六种：
+- `synchronous`，与之前的`Stack Reconciler`操作一样，同步执行
+- `task`，在`next tick`之前执行
+- `animation`，下一帧之前执行
+- `high`，在不久的将来立即执行
+- `low`，稍微延迟执行也没关系
+- `offscreen`，下一次`render`时或`scroll`时才执行
 
 优先级高的任务（如键盘输入）可以打断优先级低的任务（如Diff）的执行，从而更快的生效。
 Fiber Reconciler 在执行过程中，会分为 2 个阶段。

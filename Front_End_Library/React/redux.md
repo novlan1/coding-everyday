@@ -99,8 +99,8 @@ Thunk 是一类函数的别名，主要特征是**对另外一个函数添加了
 
 
 ### 1.9. 为什么reducer是纯函数
-因为不能改变输入值state，说白了就是reducer传state和action返回新的state。
+因为不能改变输入值`state`，说白了就是reducer传`state`和action返回新的`state`。
 
 为什么这样设计？
 
-因为页面渲染需要比较新旧state，react比较state比较的是地址（也就是浅比较，如果深比较耗费性能）所以必须返回新的state，否则页面不更新
+因为**页面渲染需要比较新旧`state`，react比较`state`比较的是地址**（也就是浅比较，如果深比较耗费性能）所以必须返回新的`state`，否则页面不更新

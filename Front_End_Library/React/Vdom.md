@@ -125,7 +125,7 @@ btnChange.addEventListener('click', function() {
 
 #### 1.6.4. Diff 策略
 
-React用 三大策略 将O(n^3)复杂度 转化为 O(n)复杂度
+React用 三大策略 将`O(n^3)`复杂度 转化为 `O(n)`复杂度
 
 （1）策略一（`tree diff`）：
 Web UI中DOM节点跨层级的移动操作特别少，可以忽略不计。

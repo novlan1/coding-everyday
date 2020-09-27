@@ -9,18 +9,19 @@
 - [9. `withRouter`](#9-withrouter)
 - [10. `next_data`属性](#10-next_data属性)
 - [11. 关于`getInitialProps`方法](#11-关于getinitialprops方法)
+  - [11.1. 那么，`getInitialProps` 什么时候会在浏览器端调用呢？](#111-那么getinitialprops-什么时候会在浏览器端调用呢)
 - [12. getInitialProps入参对象的属性如下：](#12-getinitialprops入参对象的属性如下)
 - [13. SSR项目引入组件，提示`window`未定义](#13-ssr项目引入组件提示window未定义)
 
 ### 1. Next 中常见文件的作用
 
 - `next.config.js`：`next.js`的配置文件
-- `_app.js`覆盖`next`的`app.js`
+- `_app.js`：覆盖`next`的`app.js`
 - `@zeit/next-css`：`next`中加载`css`
 
 
 ### 2. Next 路由传递参数
-next路由传递参数，只能通过`query`(`b?id=1`)，不能`params`(`/b/id/1`)，但是可以通过路由映射，`as='/b/1'`，使URL好看
+Next路由传递参数，只能通过`query`(`b?id=1`)，不能`params`(`/b/id/1`)，但是可以通过路由映射，`as='/b/1'`，使URL好看
 
 
 ### 3. 自定义APP作用
@@ -80,11 +81,11 @@ const Comp = dynamic(import('components/test'))
 
 
 ### 11. 关于`getInitialProps`方法
-Next.js 在做服务器端渲染的时候，页面对应的 React 组件的 `getInitialProps` 函数被调用，异步结果就是“脱水”数据的重要部分，除了传给页面 React 组件完成渲染，还放在内嵌 script 的 `__NEXT_DATA__` 中。
+Next.js 在做服务器端渲染的时候，页面对应的 React 组件的 `getInitialProps` 函数被调用，异步结果就是“脱水”数据的重要部分，**除了传给页面 React 组件完成渲染，还放在内嵌 `script` 的 `__NEXT_DATA__` 中**。
 
-在浏览器端渲染的时候，不会去调用 `getInitialProps` ，直接通过 `__NEXT_DATA__` 中的“脱水”数据来启动页面 React 组件的渲染。这样一来，如果 `getInitialProps` 中有调用 API 的异步操作，只在服务器端做一次，浏览器端就不用做了。
+**在浏览器端渲染的时候，不会去调用 `getInitialProps`** ，直接通过 `__NEXT_DATA__` 中的“脱水”数据来启动页面 React 组件的渲染。这样一来，如果 `getInitialProps` 中有调用 API 的异步操作，只在服务器端做一次，浏览器端就不用做了。
 
-那么，`getInitialProps` 什么时候会在浏览器端调用呢？
+#### 11.1. 那么，`getInitialProps` 什么时候会在浏览器端调用呢？
 
 当在单页应用中做页面切换的时候，比如从 `Home` 页切换到 `Product` 页，这时候完全和服务器端没关系，只能靠浏览器端自己了，`Product`页面的 `getInitialProps` 函数就会在浏览器端被调用，得到的数据用来开启页面的 React 原生生命周期过程。
 
