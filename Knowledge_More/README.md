@@ -32,10 +32,6 @@
   - [16.8.`SEO`策略](#168seo策略)
 - [17. `{ ...this.props }`的含义](#17--thisprops-的含义)
 - [18. PWA:](#18-pwa)
-- [19. Service Worker：](#19-service-worker)
-  - [19.1.概念](#191概念)
-  - [19.2.`Service Worker`主要作用：](#192service-worker主要作用)
-  - [19.3.如何检测`chrome`开启了哪些`service worker`？](#193如何检测chrome开启了哪些service-worker)
 - [20. Worker](#20-worker)
 - [21. jsconfig.json](#21-jsconfigjson)
 - [22. 前端性能监测`Performance monitor`](#22-前端性能监测performance-monitor)
@@ -447,38 +443,6 @@ C/S一般面向相对固定的用户群，它可以对权限进行多层次校�
 1. 可靠：在**没有网络**的环境中也能提供基本的页面访问，而**不会出现“未连接到互联网”的页面**。
 2. 快速：针对网页渲染及网络数据访问有较好优化。
 3. 融入（`Engaging`）：**应用可以被增加到手机桌面**，并且和普通应用一样有全屏、推送等特性。
-
-
-
-### 19. Service Worker：
-
-#### 19.1.概念
-Service workers 本质上充当**Web应用程序**与**浏览器**之间的**代理服务器**，也可以在网络可用时作为浏览器和网络间的代理。它们旨在创建有效的**离线体验**，**拦截网络请求**并基于网络是否可用以及更新的资源是否驻留在服务器上来采取适当的动作。他们还允许访问**推送通知**和**后台同步**API。
-
-`Service Worker`是一个**脚本**，浏览器独立于当前网页，将其在后台运行，为实现一些不依赖页面或者用户交互的特性打开了一扇大门。
-
-Service Worker 最主要的特点是：在页面中注册并安装成功后，**运行于浏览器后台**，**不受页面刷新的影响**，可以监听和截拦作用域范围内所有页面的 HTTP 请求。
-
-
-
-#### 19.2.`Service Worker`主要作用：
-
-1. `Service Worker`能实现`PWA`中的**离线应用**的能力（**拦截和处理网络请求**）
-2. 能把大数据量的计算放在后台，不阻塞主线程
-
-
-
-#### 19.3.如何检测`chrome`开启了哪些`service worker`？
-
-```
-chrome://serviceworker-internals/
-chrome://inspect/#service-workers
-```
-
-参考资料：
-1. [Servive Worker, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API)
-2. [Using Service Worker, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers)
-
 
 
 ### 20. Worker

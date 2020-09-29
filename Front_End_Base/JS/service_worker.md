@@ -1,22 +1,51 @@
-- [1. Service Worker基本特征](#1-service-worker基本特征)
-- [Service Worker生命周期](#service-worker生命周期)
+- [1. 概念](#1-概念)
+- [2. `Service Worker`主要作用：](#2-service-worker主要作用)
+- [3. 如何检测`chrome`开启了哪些`service worker`？](#3-如何检测chrome开启了哪些service-worker)
+- [4. Service Worker基本特征](#4-service-worker基本特征)
+- [5. Service Worker生命周期](#5-service-worker生命周期)
 
 ## Service Worker <!-- omit in toc -->
 
-### 1. Service Worker基本特征
-- [ ] 无法操作DOM
-- [ ] 只能使用`HTTPS`以及`localhost`
-- [ ] 可以拦截全站请求从而控制你的应用
+
+### 1. 概念
+Service workers 本质上充当**Web应用程序**与**浏览器**之间的**代理服务器**，也可以在网络可用时作为浏览器和网络间的代理。
+
+它们旨在创建有效的**离线体验**，**拦截网络请求**并基于网络是否可用以及更新的资源是否驻留在服务器上来采取适当的动作。他们还允许访问**推送通知**和**后台同步**API。
+
+`Service Worker`是一个**脚本**，浏览器独立于当前网页，将其在后台运行，为实现一些不依赖页面或者用户交互的特性打开了一扇大门。
+
+Service Worker 最主要的特点是：在页面中注册并安装成功后，**运行于浏览器后台**，**不受页面刷新的影响**，可以监听和截拦作用域范围内所有页面的 HTTP 请求。
+
+
+
+### 2. `Service Worker`主要作用：
+
+1. `Service Worker`能实现`PWA`中的**离线应用**的能力（**拦截和处理网络请求**）
+2. 能把大数据量的计算放在后台，不阻塞主线程
+
+
+
+### 3. 如何检测`chrome`开启了哪些`service worker`？
+
+```
+chrome://serviceworker-internals/
+chrome://inspect/#service-workers
+```
+
+### 4. Service Worker基本特征
+- [x] 无法操作DOM
+- [x] 只能使用`HTTPS`以及`localhost`
+- [x] 可以拦截全站请求从而控制你的应用
 - [ ] 与主线程独立不会被阻塞（不要再应用加载时注册`sw`）
 - [ ] 完全异步，无法使用`XHR`和`localStorage`
-- [ ] 一旦被 `install`，就永远存在，除非被 `uninstall`或者`dev`模式手动删除
+- [x] 一旦被 `install`，就永远存在，除非被 `uninstall`或者`dev`模式手动删除
 - [ ] 独立上下文
 - [ ] 响应推送
 - [ ] 后台同步
 
 `service worker`是事件驱动的`worker`，生命周期与页面无关。 关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动。
 
-### Service Worker生命周期
+### 5. Service Worker生命周期
 
 ![Service Worker 生命周期](../../imgs/service_worker_lifecycle.webp)
 
@@ -49,4 +78,9 @@ Service Worker 脚本最常用的功能是**截获请求和缓存资源文件**,
 
 注意：
 `event.waitUntil`的作用是，等待Promise完成(`resolved`或`rejected`)后才返回。
+
+参考资料：
+1. [Servive Worker, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API)
+2. [Using Service Worker, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API/Using_Service_Workers)
+
 
