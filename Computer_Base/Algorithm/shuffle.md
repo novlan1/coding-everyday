@@ -24,6 +24,7 @@
 ```js
 function shuffle(arr) {
 	var len = arr.length
+	
 	while(len){
 		let idx = parseInt(Math.random()*len);
 		[arr[len -1], arr[idx]] = [arr[idx], arr[len - 1]];
