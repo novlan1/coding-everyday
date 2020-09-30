@@ -12,7 +12,8 @@
 - [9. 常见正则](#9-常见正则)
   - [9.1. MAC和IP地址正则匹配](#91-mac和ip地址正则匹配)
   - [9.2. 正则匹配两位以内有效数字](#92-正则匹配两位以内有效数字)
-  - [获取`cookie`的正则](#获取cookie的正则)
+  - [9.3. 获取`cookie`的正则](#93-获取cookie的正则)
+  - [9.4. 正则表达式获取URL参数](#94-正则表达式获取url参数)
 
 
 ### 1. 特殊符号
@@ -97,7 +98,6 @@ function solution(str) {
   const reg = /^(\w+)\1+$/
   return reg.test(str)
 }
-
 ```
 
 ### 5. `o|cb`
@@ -143,10 +143,10 @@ function solution(str) {
 ```js
 const pattern = /^\d+([.]{1}(\d){0,2}){0,1}$/
 ```
-#### 获取`cookie`的正则
+#### 9.3. 获取`cookie`的正则
 
 ```ts
-function getCookie(key: string) {
+function getCookie(key) {
   // 从cookie里面取
   const reg = new RegExp(key + "=([^;]*)");
   const m = document.cookie.match(reg);
@@ -157,4 +157,24 @@ function getCookie(key: string) {
 }
 ```
 
+#### 9.4. 正则表达式获取URL参数
 
+使用到的正则表达式：
+```js
+[^\?&]?参数名=[^&]+
+```
+```js
+function getURLParam(search, name) {
+  var reg = new RegExp("[^?&]?" + encodeURI(name) + "=([^&]+)");
+  const arr = search.match(reg);
+  if (arr && arr[1]) {
+    return arr[1];
+  }
+  return "";
+}
+```
+
+还可以直接用API：
+```js
+new URLSearchParams()
+```

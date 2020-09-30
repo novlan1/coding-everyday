@@ -453,7 +453,7 @@ def movingCount(thre, rows, cols):
     traverse(r - 1, c)
     traverse(r, c - 1)
     traverse(r, c + 1)
-
+    # 最后并没有将board[r][c]置回0，否则陷入死循环
   traverse(0, 0)
   return res[0]
 ```
