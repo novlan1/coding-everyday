@@ -44,9 +44,9 @@
 
 ### 2. `flex:1;`的含义
 
-- 默认`flex`属性是`0 1 auto`，【父控件有剩余控件也不放大，父控件空间不足按1缩小，保持本身的空间大小】
+- 默认`flex`属性是`0 1 auto`，【**父控件有剩余控件也不放大，父控件空间不足按1缩小，保持本身的空间大小**】
 
-- `flex:1;`的值是`1 1 0%`，【父控件有剩余空间占1份放大，父控件空间不足按1缩小，自身的空间大小是0%】
+- `flex:1;`的值是`1 1 0%`，【**父控件有剩余空间占1份放大，父控件空间不足按1缩小，自身的空间大小是0%**】
 
 ```
 flex为none：0 0 auto  （不放大也不缩小）
@@ -80,7 +80,7 @@ flex：n L；= flex-grow：n；
 
 
 ### 3. `flex-basis` 和 `width` 的优先级
-当一个元素同时被设置了 `flex-basis` (除值为 `auto` 外) 和 `width` (或者在 `flex-direction: column` 情况下设置了 `height`) , `flex-basis` 具有更高的优先级.
+当一个元素同时被设置了 `flex-basis` (除值为 `auto` 外) 和 `width` (或者在 `flex-direction: column` 情况下设置了 `height`) , **`flex-basis` 具有更高的优先级**.
 
 1. 如果没有设置`flex-basis`属性，那么`flex-basis`的大小就是项目的`width`属性的大小；
 2. 如果没有设置`width`属性，那么`flex-basis`的大小就是项目内容(`content`)的大小。

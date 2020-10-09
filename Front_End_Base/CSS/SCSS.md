@@ -5,6 +5,7 @@
 - [5. 关于`@mixin` 和 `@extend` 对比](#5-关于mixin-和-extend-对比)
 - [6. SCSS百分号操作符](#6-scss百分号操作符)
 - [7. `SCSS`的 `@each`遍历](#7-scss的-each遍历)
+  - [7.1. Multiple Assignment](#71-multiple-assignment)
 - [8. Sass和SCSS区别](#8-sass和scss区别)
 - [9. 默认变量](#9-默认变量)
 - [10. 全局变量和局部变量](#10-全局变量和局部变量)
@@ -173,9 +174,8 @@ DEMO
 ### 7. `SCSS`的 `@each`遍历
 
 
-用`()`包住`Map`，而不是`{}`
-
-用`#`包住变量，如`#{$size}`
+1. 用`()`包住`Map`，而不是`{}`
+2. 用`#`包住变量，如`#{$size}`
 
 `@each` 指令的格式是 `$var in <list>`, `$var` 可以是任何变量名，比如 `$length` 或者 `$name`，而 `<list>` 是一连串的值，也就是值列表。
 
@@ -202,7 +202,7 @@ DEMO
   background-image: url('/images/salamander.png');
 }
 ```
-8.4.1 Multiple Assignment
+#### 7.1. Multiple Assignment
 The `@each` directive can also use multiple variables, as in `@each $var1, $var2, ... in` . If is a list of lists, each element of the sub-lists is assigned to the respective variable. For example:
 ```scss
 @each $animal, $color, $cursor in (puma, black, default),

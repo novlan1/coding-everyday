@@ -1,24 +1,24 @@
-- [commander 使用教程总结](#commander-使用教程总结)
-  - [安装](#安装)
-  - [声明 program 变量](#声明-program-变量)
-  - [program.option 选项介绍](#programoption-选项介绍)
-  - [program.version 创建版本号](#programversion-创建版本号)
-  - [program.command 创建子命令](#programcommand-创建子命令)
-  - [help 方法的介绍](#help-方法的介绍)
-  - [自定义事件监听](#自定义事件监听)
-- [完整实践](#完整实践)
+- [1. commander 使用教程总结](#1-commander-使用教程总结)
+  - [1.1. 安装](#11-安装)
+  - [1.2. 声明 program 变量](#12-声明-program-变量)
+  - [1.3. program.option 选项介绍](#13-programoption-选项介绍)
+  - [1.4. program.version 创建版本号](#14-programversion-创建版本号)
+  - [1.5. program.command 创建子命令](#15-programcommand-创建子命令)
+  - [1.6. help 方法的介绍](#16-help-方法的介绍)
+  - [1.7. 自定义事件监听](#17-自定义事件监听)
+- [2. 完整实践](#2-完整实践)
 
-## commander 使用教程总结
+## 1. commander 使用教程总结
 
 > 引用官方的一句话，commander是nodejs 命令行操作的完整解决方案
 
-### 安装
+### 1.1. 安装
 
 ```
 npm install commander
 ```
 
-### 声明 program 变量
+### 1.2. 声明 program 变量
 
 1. commander 默认导出的是一个方便快速使用的全局对象
 
@@ -37,7 +37,7 @@ program.version('1.0.0');
 program.parse(process.argv);
 ```
 
-### program.option 选项介绍
+### 1.3. program.option 选项介绍
 
 commander 提供的 options选项可以快捷定义命令行参数，并生成对应的参数配置文档 在--help命令中展示。 options 可以接收多个参数
 
@@ -147,7 +147,7 @@ program.parse(process.argv) 解析命令行参数，调用了这个方法 就可
 1. 可以通过调用 **program.opts()** 获取所参数值
 2. 短命令如果都是 boolean类型的 可以连写, -a -b -c === -abc, 并且连写传入参数的话默认作为最后一个短命令的参数
 
-### program.version 创建版本号
+### 1.4. program.version 创建版本号
 
 - program.version方法添加具体版本号，该选项的默认调用 flag 为 -V, --version
 
@@ -171,7 +171,7 @@ program.parse(process.argv) 解析命令行参数，调用了这个方法 就可
   // index.js -v, --vers => 0.0.1
   ```
 
-### program.command 创建子命令
+### 1.5. program.command 创建子命令
 
 commander 提供了program.command 函数创建子级命令，使用program.command 的方法有两种
 
@@ -305,7 +305,7 @@ commander 提供了program.command 函数创建子级命令，使用program.comm
   - program 匹配命令时 是自上而下执行的，会执行 所有匹配上的命令， 注意git style command配置选项 isDefault: true 时默认命令会和command 同时匹配, command 不和 arguments 不会同时匹配 但是在处理 没有注册的命令时 arguments 会和 默认命令同时匹配。
   - 命令程序多个匹配 只会发生在非链式调用中， commander 的一个链式调用 表示 一组命令，这一组命令 只会匹配一个， 只有多个链式调用之间 会存在同时匹配的情况
 
-### help 方法的介绍
+### 1.6. help 方法的介绍
 
 - 自定义help方法 通过事件监听的方式,监听help 触发，并在help输出之后跟随输出自定的内容
 
@@ -358,7 +358,7 @@ commander 提供了program.command 函数创建子级命令，使用program.comm
   }
   ```
 
-### 自定义事件监听
+### 1.7. 自定义事件监听
 
 commander 允许监听 命令command 或者 选项设置 option 来执行一些自定义操作.
 
@@ -391,7 +391,7 @@ program.on('command:*', (cmdObj) => {
 2. 监听command 回调函数传入的 对象是一个数组 包括 cmd 命令 传入参数数组， 以及commander 对象
 3. command 的事件 不会和 command action注册的事件同时触发，但是会和 git style command 风格的命令同时触发
 
-## 完整实践
+## 2. 完整实践
 
 ```js
 const program = require('commander');

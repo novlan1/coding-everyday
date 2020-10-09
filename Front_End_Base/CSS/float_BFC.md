@@ -85,13 +85,6 @@ margin 叠加的意思是：当两个或者更多的垂直外边距 相遇时，
 当元素设置了overflow样式且值不为visible时，该元素就**构建了一个BFC，BFC在计算高度时，内部浮动元素的高度也要计算在内**，也就是说BFC区域内只有一个浮动元素，BFC的高度也不会发生塌缩，所以达到了清除浮动的目的。
 
 
-另外，注意`onerror`属性：
-`onerror`属性找图片加载失败了的时候，可以使用`onerror`将图片替换为默认图片。注意，一定要**在`onerror`里面将`onerror`置空**，不然在新的图片也加载失败后，会形成死循环。
-
-```
-<img src="http://example.com/a.png" onerror="this.onerror=''; this.src='http://example.com/b.png'">
-```
-
 ### 1.8. `zoom:1`的常见作用
 
 设置`zoom:1`可以在`IE6下`清除浮动、解决margin导致的重叠等问题。

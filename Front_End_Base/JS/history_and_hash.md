@@ -14,6 +14,7 @@ SPA中，前端路由主要实现了两个功能（使用ajax更新页面状态�
 - 改变url且不让浏览器向服务器发出请求；
 - 监测 url 的变化；
 - 截获 url 地址，并解析出需要的信息来匹配路由规则。
+
 我们路由常用的hash模式和history模式实际上就是实现了上面的功能。
 
 ### 1.1. hash 模式
@@ -48,8 +49,8 @@ window.history.pushState(state, title, url)
 // title：标题，基本没用，一般传 null
 // url：设定新的历史记录的 url。新的 url 与当前 url 的 origin 必须是一樣的，否则会抛出错误。url可以是绝对路径，也可以是相对路径。
 
-//如 当前url是 https://www.baidu.com/a/, 执行 history.pushState(null, null, './qq/')，则变成 https://www.baidu.com/a/qq/，
-//执行history.pushState(null, null, '/qq/')，则变成 https://www.baidu.com/qq/
+// 如 当前url是 https://www.baidu.com/a/, 执行 history.pushState(null, null, './qq/')，则变成 https://www.baidu.com/a/qq/，
+// 执行history.pushState(null, null, '/qq/')，则变成 https://www.baidu.com/qq/
 
 window.history.replaceState(state, title, url)
 // 与 pushState 基本相同，但她是修改当前历史记录，而 pushState 是创建新的历史记录
@@ -73,8 +74,8 @@ history 模式改变 url 的方式会导致浏览器向服务器发送请求，�
 2. 紧接着**根据 `push` 方法中传入的 `params` 找到对应的组件**【页面】
 3. **载入对应页面组件**，跳转完毕
 
-【划重点】`vue-router`的 `push` 跳转或者`replace`跳转是不需要请求服务器的！
-但是我们如果使用 `window.location.href` 来做这个页面跳转，就基本上和 `web1.0` 没什么区别，一定会先请求到服务器，再由服务器下发资源，导致页面刷新~
+【划重点】**`vue-router`的 `push` 跳转或者`replace`跳转是不需要请求服务器的！**
+**但是我们如果使用 `window.location.href` 来做这个页面跳转，就基本上和 `web1.0` 没什么区别，一定会先请求到服务器，再由服务器下发资源，导致页面刷新**~
 
 
 

@@ -61,6 +61,9 @@
 - [39. 用户、角色、权限](#39-用户角色权限)
 - [40. 抽象语法树](#40-抽象语法树)
 - [41. 什么是WebAssembly](#41-什么是webassembly)
+  - [37.1. `react-transition-group`](#371-react-transition-group)
+- [38. `react-scripts`其实就是`create-rect-app`](#38-react-scripts其实就是create-rect-app)
+- [39. `storybook`](#39-storybook)
 
 
 ### 1. `nginx`, `tomcat`, `apache` 三者分别用来做什么，有何区别？
@@ -711,4 +714,27 @@ WebAssembly的名字带个汇编Assembly，所以我们从其名字上就能知�
 
 
 
+
+#### 37.1. `react-transition-group`
+
+`react-transition-group`这个库，可以给react组件添加动画。
+
+`enter` (`force a reflow`, 添加动画效果)=> `enter-active` =>(自定义`timeout`) `enter-done`
+
+`exit`是一样的流程
+
+
+`transition`不会继承
+
+### 38. `react-scripts`其实就是`create-rect-app`
+
+### 39. `storybook`
+
+开发组件而不是Web应用常用的库
+
+`info-addon`，最常用的`addon`，可以方便的生成说明文档。
+
+`react-docgen-typescript-loader`，是`docgen`的`ts`版本`loader`，主要目的就是生成`proptypes`表格
+
+`JSDOC`格式的注释才能被显示出来
 

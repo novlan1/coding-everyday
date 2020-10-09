@@ -36,19 +36,14 @@ Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
 Sec-WebSocket-Protocol: chat
 ```
 字段说明
-1. `Connection`必须设置`Upgrade`，表示客户端希望连接升级。
-2. `Upgrade`字段必须设置`Websocket`，表示希望升级到 `Websocket` 协议。
-3. `Sec-WebSocket-Key`是随机的字符串，服务器端会用这些数据来构造出一个SHA-1的信息摘要。把`“Sec-WebSocket-Key”`加上一个特殊字符串`“258EAFA5-E914-47DA-95CA-C5AB0DC85B11”`，然后计算SHA-1摘要，之后进行`Base64`编码，将结果做为`“Sec-WebSocket-Accept”`头的值，返回给客户端。如此操作，可以尽量避免普通HTTP请求被误认为`Websocket`协议。
-4. `Sec-WebSocket-Version` 表示支持的Websocket版本。`RFC6455`要求使用的版本是13，之前草案的版本均应当弃用。
+1. **`Connection`必须设置`Upgrade`，表示客户端希望连接升级**。
+2. **`Upgrade`字段必须设置`Websocket`，表示希望升级到 `Websocket` 协议**。
+3. **`Sec-WebSocket-Key`是随机的字符串，服务器端会用这些数据来构造出一个SHA-1的信息摘要。**把`“Sec-WebSocket-Key”`加上一个特殊字符串`“258EAFA5-E914-47DA-95CA-C5AB0DC85B11”`，然后计算SHA-1摘要，之后进行`Base64`编码，将结果做为`“Sec-WebSocket-Accept”`头的值，返回给客户端。如此操作，可以尽量避免普通HTTP请求被误认为`Websocket`协议。
+4. **`Sec-WebSocket-Version` 表示支持的Websocket版本**。`RFC6455`要求使用的版本是13，之前草案的版本均应当弃用。
 5. `Origin` 字段是可选的，通常用来表示在浏览器中发起此 Websocket 连接所在的页面，类似于Referer。但是，与Referer 不同的是，Origin 只包含了协议和主机名称。
 6. 其他一些定义在 HTTP 协议中的字段，如 `Cookie` 等，也可以在 Websocket 中使用。
 
 
-
-
-参考资料：
-1. [WebSocket, wikipedia](https://zh.wikipedia.org/wiki/WebSocket)
-2. [WebSocket协议：5分钟从入门到精通](https://www.cnblogs.com/chyingp/p/websocket-deep-in.html)
 
 ### 1.2. `Sec-WebSocket-Key/Accept`的作用
 `Sec-WebSocket-Key/Sec-WebSocket-Accept`在主要作用在于提供基础的防护，减少恶意连接、意外连接。
@@ -63,4 +58,7 @@ Sec-WebSocket-Protocol: chat
 5. `Sec-WebSocket-Key`主要目的并不是确保数据的安全性，因为`Sec-WebSocket-Key`、`Sec-WebSocket-Accept`的转换计算公式是公开的，而且非常简单，最主要的作用是预防一些常见的意外情况（非故意的）。
 
 
+参考资料：
+1. [WebSocket, wikipedia](https://zh.wikipedia.org/wiki/WebSocket)
+2. [WebSocket协议：5分钟从入门到精通](https://www.cnblogs.com/chyingp/p/websocket-deep-in.html)
 

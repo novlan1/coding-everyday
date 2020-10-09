@@ -2,23 +2,22 @@
   - [1.1. 为什么`JavaScript`是单线程？](#11-为什么javascript是单线程)
   - [1.2. 任务队列](#12-任务队列)
   - [1.3. 事件和回调函数](#13-事件和回调函数)
-  - [1.4. 四、Event Loop](#14-四event-loop)
-  - [事件循环的概念](#事件循环的概念)
-  - [事件循环的六个阶段](#事件循环的六个阶段)
-  - [`setTimeout` 和 `setImmediate`](#settimeout-和-setimmediate)
-  - [1.5. 判断打印顺序](#15-判断打印顺序)
-  - [1.6. 判断打印顺序](#16-判断打印顺序)
-  - [1.7. 判断打印顺序](#17-判断打印顺序)
-  - [1.8. 宏任务、微任务](#18-宏任务微任务)
-  - [1.9. `async`函数、`setTimeOut`、`Promise`的打印顺序](#19-async函数settimeoutpromise的打印顺序)
-    - [1.9.1. 变式一](#191-变式一)
-    - [1.9.2. 变式二](#192-变式二)
-    - [1.9.3. 变式三](#193-变式三)
-  - [判断打印顺序](#判断打印顺序)
+  - [1.4. Event Loop](#14-event-loop)
+  - [1.5. 事件循环的概念](#15-事件循环的概念)
+  - [1.6. 事件循环的六个阶段](#16-事件循环的六个阶段)
+  - [1.7. `setTimeout` 和 `setImmediate`](#17-settimeout-和-setimmediate)
+  - [1.8. 判断打印顺序](#18-判断打印顺序)
+  - [1.9. 判断打印顺序](#19-判断打印顺序)
+  - [1.10. 判断打印顺序](#110-判断打印顺序)
+  - [1.11. 宏任务、微任务](#111-宏任务微任务)
+  - [1.12. `async`函数、`setTimeOut`、`Promise`的打印顺序](#112-async函数settimeoutpromise的打印顺序)
+    - [1.12.1. 变式一](#1121-变式一)
+    - [1.12.2. 变式二](#1122-变式二)
+    - [1.12.3. 变式三](#1123-变式三)
+  - [1.13. 判断打印顺序](#113-判断打印顺序)
 - [2. 异步和单线程](#2-异步和单线程)
   - [2.1. 前端使用异步的场景？](#21-前端使用异步的场景)
   - [2.2. 同步和异步的区别是什么？分别举一个同步和异步的例子](#22-同步和异步的区别是什么分别举一个同步和异步的例子)
-  - [2.3. css 是同步执行还是异步的？](#23-css-是同步执行还是异步的)
 
 
 ## 1. Event Loop
@@ -67,7 +66,7 @@ JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设
 
 "任务队列"是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，"任务队列"上第一位的事件就自动进入主线程。但是，由于存在后文提到的"定时器"功能，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。
 
-### 1.4. 四、Event Loop
+### 1.4. Event Loop
 主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。
 
 ![Event Loop](../../imgs/eventloop2.png)
@@ -94,7 +93,7 @@ req.onerror = function (){};
 ```
 也就是说，指定回调函数的部分（`onload`和`onerror`），在`send()`方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取"任务队列"。
 
-### 事件循环的概念
+### 1.5. 事件循环的概念
 
 > "When Node.js starts, it initializes the event loop, processes the provided input script which may make async API calls, schedule timers, or call process.nextTick(), then begins processing the event loop."
 
@@ -109,7 +108,7 @@ req.onerror = function (){};
 3. 最后，上面这些事情都干完了，事件循环就正式开始了。
 
 
-### 事件循环的六个阶段
+### 1.6. 事件循环的六个阶段
 事件循环会无限次地执行，一轮又一轮。只有异步任务的回调函数队列清空了，才会停止执行。
 
 每一轮的事件循环，分成六个阶段。这些阶段会依次执行。
@@ -125,8 +124,8 @@ close callbacks
 
 ![事件循环的六个阶段](../../imgs/eventloop_steps.jpg)
 
-### `setTimeout` 和 `setImmediate`
-由于`setTimeout`在 `timers` 阶段执行，而`setImmediate`在 `check` 阶段执行。所以，`setTimeout`会早于`setImmediate`完成。
+### 1.7. `setTimeout` 和 `setImmediate`
+**由于`setTimeout`在 `timers` 阶段执行，而`setImmediate`在 `check` 阶段执行。所以，`setTimeout`会早于`setImmediate`完成**。
 
 ```js
 setTimeout(() => console.log(1));
@@ -134,7 +133,7 @@ setImmediate(() => console.log(2));
 ```
 上面代码应该先输出1，再输出2，但是实际执行的时候，结果却是不确定，有时还会先输出2，再输出1。
 
-这是因为`setTimeout`的第二个参数默认为0。但是实际上，`Node` 做不到0毫秒，最少也需要1毫秒，根据官方文档，第二个参数的取值范围在1毫秒到`2147483647`毫秒之间。也就是说，`setTimeout(f, 0)`等同于`setTimeout(f, 1)`。
+**这是因为`setTimeout`的第二个参数默认为0。但是实际上，`Node` 做不到0毫秒，最少也需要1毫秒，根据官方文档，第二个参数的取值范围在1毫秒到`2147483647`毫秒之间。也就是说，`setTimeout(f, 0)`等同于`setTimeout(f, 1)`**。
 
 实际执行的时候，进入事件循环以后，有可能到了1毫秒，也可能还没到1毫秒，取决于系统当时的状况。如果没到1毫秒，那么 `timers` 阶段就会跳过，进入 `check` 阶段，先执行`setImmediate`的回调函数。
 
@@ -153,7 +152,7 @@ fs.readFile('test.js', () => {
 
 
 
-### 1.5. 判断打印顺序
+### 1.8. 判断打印顺序
 
 ```js
 setTimeout(function() {
@@ -180,7 +179,7 @@ console.log('执行结束')
 6. ok，第一轮事件循环结束了，我们开始第二轮循环，当然要从宏任务`Event Queue`开始。我们发现了宏任务`Event Queue`中`setTimeout`对应的回调函数，立即执行。 
 7. 结束。
 
-### 1.6. 判断打印顺序
+### 1.9. 判断打印顺序
 ```js
 console.log('1')
 setTimeout(() => {
@@ -225,7 +224,7 @@ setTimeout(() => {
 ```
 [1，7，6，8]，[2，4，3，5]，[9，11，10，12]
 ```
-### 1.7. 判断打印顺序
+### 1.10. 判断打印顺序
 ```js
 setTimeout(function() {
   console.log(1)
@@ -255,7 +254,7 @@ console.log(6);
 - 即使有多个`then`函数，也会在下一个事件循环之前执行。
 
 
-### 1.8. 宏任务、微任务
+### 1.11. 宏任务、微任务
 - 宏仁务主要是： `script`（全局任务），`setTimeout` ，`setInterval` ，`setImmediate` ，`I/O` ，`UI rendering`
 - 微任务主要是： `process.nextTick`, `Promise.then`, `Object.observer`, `MutationObserver`.
 
@@ -275,7 +274,7 @@ console.log(6);
 
 
 
-### 1.9. `async`函数、`setTimeOut`、`Promise`的打印顺序
+### 1.12. `async`函数、`setTimeOut`、`Promise`的打印顺序
 ```js
 async function async1() {
     console.log('async1 start')
@@ -325,7 +324,7 @@ Promise是一个立即执行函数，但是他的成功（或失败：`reject`�
 
 注意：`async` 函数中 `await` 语句的下一句是微任务。
 
-#### 1.9.1. 变式一
+#### 1.12.1. 变式一
 
 在第一个变式中我将 async2 中的函数也变成了 Promise 函数，代码如下：
 
@@ -375,7 +374,7 @@ setTimeout
 
 在第一次 `macrotask` 执行完之后，也就是输出`script end`之后，会去清理所有 `microtask`。所以会相继输出`promise2`， `async1 end` ，`promise4`。
 
-#### 1.9.2. 变式二
+#### 1.12.2. 变式二
 
 在第二个变式中，我将 async1 中 await 后面的代码和 async2 的代码都改为异步的，代码如下：
 
@@ -427,7 +426,7 @@ setTimeout1
 
 
 
-#### 1.9.3. 变式三
+#### 1.12.3. 变式三
 
 变式三是我在一篇面经中看到的原题，整体来说大同小异，代码如下：
 
@@ -507,7 +506,7 @@ console.log(4);
 结果：`3 7 4 1 2 5`
 参考资料：[Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 
-### 判断打印顺序
+### 1.13. 判断打印顺序
 
 ```js
 console.log(1);
@@ -564,8 +563,4 @@ Promise.resolve().then(() => {
 ### 2.2. 同步和异步的区别是什么？分别举一个同步和异步的例子
 - 同步会**阻塞代码执行**，而异步不会
 - alert是同步，setTimeout是异步
-
-
-### 2.3. css 是同步执行还是异步的？
-css没有同步和异步一说，弄清楚这个问题需要知道浏览器的渲染机制，dom树和css结合之后才会形成渲染树，才会执行页面渲染。
 

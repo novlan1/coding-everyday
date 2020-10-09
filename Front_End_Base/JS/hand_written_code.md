@@ -24,6 +24,8 @@
 - [24. 数组扁平化](#24-数组扁平化)
 - [25. 对象扁平化](#25-对象扁平化)
 - [26. 图片懒加载](#26-图片懒加载)
+- [27. 手动编写一个ajax，不依赖第三方库](#27-手动编写一个ajax不依赖第三方库)
+  - [27.1. xhr.readyState 有几种状态？](#271-xhrreadystate-有几种状态)
 
 ### 1. 为数字添加千位分隔符
 ```js
@@ -720,7 +722,7 @@ compose([a, b, c])(123)
 ```
 ```js
 function deepCopy(obj, cache = new WeakMap()) {
-  if (!obj instanceof Object) return obj
+  if (!(obj instanceof Object)) return obj
 
   // 防止循环引用
   if (cache.get(obj)) return cache.get(obj)
@@ -1015,6 +1017,8 @@ Promise.newAllSettled = function (promiseArr) {
 ```
 
 ### 23. 双向数据绑定
+
+极简版：
 ```html
 <input id="input"/>
 ```
@@ -1033,41 +1037,7 @@ input.onchange = function(e) {
   data.text = e.target.value;
 }
 ```
-`onkeyup`事件更明显
 
-- 单向绑定非常简单，就是把Model绑定到View，当我们用JavaScript代码更新Model时，View就会自动更新。
-- 有单向绑定，就有双向绑定。如果用户更新了View，Model的数据也自动被更新了，这种情况就是双向绑定。
-- 什么情况下用户可以更新View呢？填写表单就是一个最直接的例子。当用户填写表单时，View的状态就被更新了，如果此时MVVM框架可以自动更新Model的状态，那就相当于我们把Model和View做了双向绑定
-- 双向绑定最大的好处是我们不再需要用jQuery去查询表单的状态，而是直接获得了用JavaScript对象表示的Model。
-
-当用户提交表单时，传统的做法是响应onsubmit事件，用jQuery获取表单内容，检查输入是否有效，最后提交表单，或者用AJAX提交表单。
-
-现在，获取表单内容已经不需要了，因为双向绑定直接让我们获得了表单内容，并且获得了合适的数据类型。
-
-vue 双向数据绑定的原理：
-1. vue 双向数据绑定是通过 数据劫持 结合 发布订阅模式的方式来实现的， 也就是说数据和视图同步，数据发生变化，视图跟着变化，视图变化，数据也随之发生改变；
-
-2. 核心：关于VUE双向数据绑定，其核心是 `Object.defineProperty()`方法；
-
-3. 介绍一下`Object.defineProperty()`方法
-（1）`Object.defineProperty(obj, prop, descriptor)`，这个语法内有三个参数，分别为： `obj`（要定义其上属性的对象），`prop` （要定义或修改的属性），`descriptor` （具体的改变方法）。
-（2）简单地说，就是用这个方法来定义一个值。当调用时我们使用了它里面的get方法，当我们给这个属性赋值时，又用到了它里面的set方法。
-
-```js
-let obj = {}
-Object.defineProperty(obj, 'hello', {
-  set: function(val) {
-    console.log('setting')
-    obj['hello'] = val
-  },
-  get: function() {
-    console.log('getting')
-    return obj['hello']
-  }
-})
-obj.hello;
-obj.hello = 'hi'
-```
 完整版：
 ```js
 // 订阅器
@@ -1203,8 +1173,6 @@ setTimeout(() => {
 ```
 
 
-![MVVM](../../imgs/vue_mvvm.png)
-
 ### 24. 数组扁平化
 
 ```js
@@ -1292,3 +1260,24 @@ window.addEventListener('scroll', imageLazyLoad)
 // or
 window.addEventListener('scroll', throttle(imageLazyLoad, 1000))
 ```
+
+### 27. 手动编写一个ajax，不依赖第三方库
+```js
+function ajax() {
+    var xhr = new XMLHttpRequest()
+    xhr.open('GET', '/api', false)
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState === 4 && xhr.status === 200){
+            console.log(xhr.responceText)
+        }
+    }
+    xhr.send(null)
+}
+```
+
+#### 27.1. xhr.readyState 有几种状态？
+- 0，未初始化（还没有调用send方法）;
+- 1，载入（已经调用send方法，正在发送请求）;
+- 2，载入完成（send方法执行完成，已经收到全部响应内容）;
+- 3，交互（正在解析响应的内容）;
+- 4，完成（响应内容解析完成，可以在客户端调用了）

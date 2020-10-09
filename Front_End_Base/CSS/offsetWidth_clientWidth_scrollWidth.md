@@ -1,11 +1,11 @@
 
 
-### 1. 样式中困扰我们的offsetWidth、clientWidth、width、scrollWidth、clientX、screenX、offsetX、pageX
+### 样式中困扰我们的offsetWidth、clientWidth、width、scrollWidth、clientX、screenX、offsetX、pageX
 
-1. `offsetWidth`, `offsetHeight` //返回元素的宽度, 高度（包括**元素宽度、内边距和边框**，不包括外边距）
-2. `clientWidth`, `clientHeight` //返回元素的宽度, 高度（包括**元素宽度、内边距**，不包括边框和外边距）
-3. `style.width`, `style.height` //返回元素的宽度, 高度（包括**元素宽度**，不包括内边距、边框和外边距）
-4. `scrollWidth`, `scrollHeight` //返回元素的宽度, 高度（包括**元素宽度、内边距和溢出尺寸**，不包括边框和外边距），无溢出的情况，与clientWidth相同
+1. `offsetWidth`, `offsetHeight` // 返回元素的宽度, 高度（包括**元素宽度、内边距和边框**，不包括外边距）
+2. `clientWidth`, `clientHeight` // 返回元素的宽度, 高度（包括**元素宽度、内边距**，不包括边框和外边距）
+3. `style.width`, `style.height` // 返回元素的宽度, 高度（包括**元素宽度**，不包括内边距、边框和外边距）
+4. `scrollWidth`, `scrollHeight` // 返回元素的宽度, 高度（包括**元素宽度、内边距和溢出尺寸**，不包括边框和外边距），无溢出的情况，与`clientWidth`相同
 
 
 
