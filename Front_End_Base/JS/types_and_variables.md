@@ -16,44 +16,35 @@
 - [16. `!!()`是false的情况有哪几种？](#16-是false的情况有哪几种)
 - [17. === 运算符判断相等的流程是怎样的](#17--运算符判断相等的流程是怎样的)
 - [18. == 运算符判断相等的流程是怎样的](#18--运算符判断相等的流程是怎样的)
-- [19. 对象到字符串的转换步骤](#19-对象到字符串的转换步骤)
-- [20. 对象到数字的转换步骤](#20-对象到数字的转换步骤)
-- [21. 判断`[] == false`的输出是什么？](#21-判断--false的输出是什么)
-- [22. 判断`{} == false`的输出是什么？](#22-判断--false的输出是什么)
-- [23. 判断`[] == ![]`的输出是什么？](#23-判断--的输出是什么)
-- [24. 判断`{} == !{}`的输出是什么？](#24-判断--的输出是什么)
-- [25. 判断`console.log( [] ? true : false)`的输出是什么？](#25-判断consolelog---true--false的输出是什么)
-- [26. 1 与 `new Number(1)`有什么区别](#26-1-与-new-number1有什么区别)
-- [27. `console.log(!!(new Boolean(false))`输出什么](#27-consolelognew-booleanfalse输出什么)
-- [28. 如何判断一个数据是不是 Array](#28-如何判断一个数据是不是-array)
-- [29. `Object.prototype.toString`](#29-objectprototypetostring)
-- [30. `obj.toString()` 和 `Object.prototype.toString.call(obj)`](#30-objtostring-和-objectprototypetostringcallobj)
-- [31. 输出以下代码运行结果](#31-输出以下代码运行结果)
-- [32. 实现一个类型判断函数](#32-实现一个类型判断函数)
-- [33. 对象转基本类型](#33-对象转基本类型)
-- [34. 值类型的添加属性、获取属性是如何实现的，比如获取 str.length ？](#34-值类型的添加属性获取属性是如何实现的比如获取-strlength-)
-- [35. 数据属性和访问器属性](#35-数据属性和访问器属性)
-- [36. `eval`和`json.parse` 解析`json`的区别：](#36-eval和jsonparse-解析json的区别)
-- [37. `undefined`和字符串相加](#37-undefined和字符串相加)
-- [38. `parseInt()`和`Number()`的区别](#38-parseint和number的区别)
-- [39. `toSring`和`valueOf`对比](#39-tosring和valueof对比)
-- [40. 序列化的坑](#40-序列化的坑)
-- [41. 生成数组`0-4`](#41-生成数组0-4)
-- [42. 在 js 中不同进制数字的表示方式](#42-在-js-中不同进制数字的表示方式)
-- [43. js 中整数的安全范围是多少？](#43-js-中整数的安全范围是多少)
-- [44. isNaN 和 Number.isNaN 函数的区别？](#44-isnan-和-numberisnan-函数的区别)
-- [45. 其他值到字符串的转换规则？](#45-其他值到字符串的转换规则)
-- [46. 其他值到数字值的转换规则？](#46-其他值到数字值的转换规则)
-- [47. 其他值到布尔类型的值的转换规则？](#47-其他值到布尔类型的值的转换规则)
-- [48. {} 和 [] 的 valueOf 和 toString 的结果是什么？](#48--和--的-valueof-和-tostring-的结果是什么)
-- [52. 注意 Array.length](#52-注意-arraylength)
-- [53. 加法运算符](#53-加法运算符)
-- [54. 字符串的比较](#54-字符串的比较)
-- [55. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整](#55-mathroundparseintmathfloor和mathceil小数取整)
-- [56. JS属性对象的hasOwnProperty方法](#56-js属性对象的hasownproperty方法)
-  - [56.1. 判断自身属性是否存在](#561-判断自身属性是否存在)
-  - [56.2. 遍历一个对象的所有自身属性](#562-遍历一个对象的所有自身属性)
-  - [56.3. 注意 `hasOwnProperty` 作为属性名](#563-注意-hasownproperty-作为属性名)
+  - [18.1. 判断`console.log( [] ? true : false)`的输出是什么？](#181-判断consolelog---true--false的输出是什么)
+- [19. `Number(1)` 与 `new Number(1)`有什么区别](#19-number1-与-new-number1有什么区别)
+- [20. `console.log(!!(new Boolean(false))`输出什么](#20-consolelognew-booleanfalse输出什么)
+- [21. 如何判断一个数据是不是 Array](#21-如何判断一个数据是不是-array)
+- [22. `Object.prototype.toString`](#22-objectprototypetostring)
+  - [22.1. `obj.toString()` 和 `Object.prototype.toString.call(obj)`](#221-objtostring-和-objectprototypetostringcallobj)
+- [23. 实现一个类型判断函数](#23-实现一个类型判断函数)
+- [24. 值类型的添加属性、获取属性是如何实现的，比如获取 str.length ？](#24-值类型的添加属性获取属性是如何实现的比如获取-strlength-)
+- [25. 数据属性和访问器属性](#25-数据属性和访问器属性)
+- [26. `eval`和`json.parse` 解析`json`的区别](#26-eval和jsonparse-解析json的区别)
+- [27. 序列化的坑](#27-序列化的坑)
+- [28. 在 js 中不同进制数字的表示方式](#28-在-js-中不同进制数字的表示方式)
+- [29. js 中整数的安全范围是多少？](#29-js-中整数的安全范围是多少)
+- [30. `isNaN` 和 `Number.isNaN` 函数的区别？](#30-isnan-和-numberisnan-函数的区别)
+- [31. 类型间转换规则](#31-类型间转换规则)
+  - [31.1. 其他值到字符串的转换规则？](#311-其他值到字符串的转换规则)
+  - [31.2. 其他值到数字值的转换规则？](#312-其他值到数字值的转换规则)
+  - [31.3. 其他值到布尔类型的值的转换规则？](#313-其他值到布尔类型的值的转换规则)
+- [32. 注意 Array.length](#32-注意-arraylength)
+- [33. 加法运算符](#33-加法运算符)
+  - [33.1. `undefined`和字符串相加](#331-undefined和字符串相加)
+  - [33.2. 输出以下代码运行结果](#332-输出以下代码运行结果)
+- [34. 字符串的比较](#34-字符串的比较)
+- [35. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整](#35-mathroundparseintmathfloor和mathceil小数取整)
+  - [35.1. `parseInt()`和`Number()`的区别](#351-parseint和number的区别)
+- [36. JS属性对象的`hasOwnProperty`方法](#36-js属性对象的hasownproperty方法)
+  - [36.1. 判断自身属性是否存在](#361-判断自身属性是否存在)
+  - [36.2. 遍历一个对象的所有自身属性](#362-遍历一个对象的所有自身属性)
+  - [36.3. 注意 `hasOwnProperty` 作为属性名](#363-注意-hasownproperty-作为属性名)
 
 ## 类型和变量 <!-- omit in toc -->
 
@@ -113,13 +104,13 @@ typeof NaN==>number
 ### 5. `null` 和 `undefined` 的区别
 
 1. `null`表示**"没有对象"，即该处不应该有值**。典型用法是：
-（1） 作为函数的参数，表示**该函数的参数不是对象**。
-（2） 作为**对象原型链的终点**。
+    - 作为函数的参数，表示**该函数的参数不是对象**。
+    - 作为**对象原型链的终点**。
 2. `undefined`表示"缺少值"，就是**此处应该有一个值，但是还没有定义**。典型用法是：
-（1）**变量被声明了，但没有赋值**时，就等于`undefined`。
-（2）调用函数时，**应该提供的参数没有提供**，该参数等于`undefined`。
-（3）**对象没有赋值的属性**，该属性的值为`undefined`。
-（4）**函数没有返回值**时，默认返回`undefined`。
+   - **变量被声明了，但没有赋值**时，就等于`undefined`。
+   - 调用函数时，**应该提供的参数没有提供**，该参数等于`undefined`。
+   - **对象没有赋值的属性**，该属性的值为`undefined`。
+   - **函数没有返回值**时，默认返回`undefined`。
 
 3. `typeof(null)` 为 `'object'`，`typeof(undefined)` 为 `'undefined'`
 4. 转为数值时，`null` 转为 0，`undefined` 转为 `NaN`。
@@ -236,9 +227,9 @@ fn.age=12
 ### 17. === 运算符判断相等的流程是怎样的
 
 1. 如果两个值不是相同类型，它们不相等
-2. 如果两个值都是 null 或者都是 undefined，它们相等
+2. 如果两个值都是 `null` 或者都是 `undefined`，它们相等
 3. 如果两个值都是布尔类型 true 或者都是 false，它们相等
-4. 如果其中有一个是**NaN**，它们不相等
+4. 如果其中有一个是NaN，它们不相等
 5. 如果都是数值型并且数值相等，他们相等， -0 等于 0
 6. 如果他们都是字符串并且在相同位置包含相同的 16 位值，他它们相等；如果在长度或者内容上不等，它们不相等；两个字符串显示结果相同但是编码不同`==`和`===`都认为他们不相等
 7. 如果他们指向相同对象、数组、函数，它们相等；如果指向不同对象，他们不相等
@@ -248,10 +239,10 @@ fn.age=12
 1. 如果两个值类型相同，按照`===`比较方法进行比较
 2. 如果类型不同，使用如下规则进行比较
 3. 如果其中一个值是 null，另一个是 undefined，它们相等
-4. 如果一个值是**数字**另一个是**字符串**，将**字符串转换为数字**进行比较
-5. 如果有布尔类型，将**true 转换为 1，false 转换为 0**，然后用==规则继续比较
-6. 如果一个值是对象，另一个是数字或字符串，将对象转换为原始值然后用==规则继续比较
-7. **其他所有情况都认为不相等**
+4. **如果一个值是数字，另一个是字符串，将字符串转换为数字进行比较**
+5. **如果有布尔类型，将true 转换为 1，false 转换为 0，然后用==规则继续比较**
+6. **如果一个值是对象，另一个是数字或字符串，将对象转换为原始值然后用==规则继续比较**
+7. 其他所有情况都认为不相等
 
 ```js
 undefined == null // true
@@ -268,89 +259,31 @@ undefined == false // false
 0 == undefined // false
 0 == NaN // false
 ```
-```
 
-结果分别是什么？
-答案：true true true
-
-关键在于Number([])是0，Number({})是NaN，Number(false)是0，
-Boolean([])是true，Boolean({})是true
-```
-
-
-### 19. 对象到字符串的转换步骤
-
-1. 如果对象有 toString()方法，javascript 调用它。如果返回一个原始值（primitive value 如：string number boolean）,将这个值转换为字符串作为结果
-2. 如果对象没有 toString()方法或者返回值不是原始值，javascript 寻找对象的 valueOf()方法，如果存在就调用它，返回结果是原始值则转为字符串作为结果
-3. 否则，javascript 不能从 toString()或者 valueOf()获得一个原始值，此时 throws a TypeError
-
-### 20. 对象到数字的转换步骤
-
-```
-1. 如果对象有valueOf()方法并且返回元素值，javascript将返回值转换为数字作为结果
-2. 否则，如果对象有toString()并且返回原始值，javascript将返回结果转换为数字作为结果
-3. 否则，throws a TypeError
-```
-
-### 21. 判断`[] == false`的输出是什么？
-```js
-[] == false   // true 
-[] == true    // false
-```
-因为`[].toString()`为‘’，‘’和 false 比较时都化为数字0，所以相等。
-
-### 22. 判断`{} == false`的输出是什么？
-```js
-{} == false   // false 
-{} == true    // false
-```
-因为`{}.toString()`为`[object Object]`，`[object Object]`和`false`比较时，`false`化为数字0，`[object Object]`化为**数字`NaN`**，所以不相等。同理，也不等于`true`
-
-
-### 23. 判断`[] == ![]`的输出是什么？
-```js
-[] == ! []   // true
-```
-
-1. 根据运算符优先级 ，! 的优先级是大于 == 的，所以先会执行 ![]
-2. !可将变量转换成 boolean 类型，null、undefined、NaN 以及空字符串( '' )取反都为 true，其余都为false。
-3. 所以 ![] 为 false
-4. 如果一个操作数是对象，另一个操作数不是，则调用对象的 valueOf() 方法，用得到的基本类型值按照前面的规则进行比较，如果对象没有 valueOf() 方法，则调用 toString()
-5. 所以[]为 ‘’
-
-综上：`[] == ![] -> [] == false -> [] == 0 -> '' == 0 -> 0 == 0 -> true`
-
-### 24. 判断`{} == !{}`的输出是什么？
-```js
-{} == !{} // false 
-```
-1. 因为 `{}.toString()` -> `NaN`（`[object Object]`）
-2. 总结：`{} == ! {} -> {} == false -> {} == 0 -> NaN == 0 -> false`
-
-
-### 25. 判断`console.log( [] ? true : false)`的输出是什么？
-由上面可知，三元运算符会发生**隐式类型转换**，而 !![] 为true，所以结果为true
+#### 18.1. 判断`console.log( [] ? true : false)`的输出是什么？
+由上面可知，三元运算符会发生**隐式类型转换**，而 `!![]` 为`true`，所以结果为`true`
 ```js
 console.log( [] ? true : false) // true
 ```
 
-### 26. 1 与 `new Number(1)`有什么区别
+### 19. `Number(1)` 与 `new Number(1)`有什么区别
 
 ```js
 var a = Number(1); // 1
 var b = new Number(1); // Number {[[PrimitiveValue]]: 1}
+
 typeof a; // number
 typeof b; // object
 a == b; // true
 ```
 
-- var a = 1 是一个常量，而 Number(1)是一个函数
-- new Number(1)返回的是一个对象
-- a==b 为 true 是因为所以在求值过程中，总是会强制转为原始数据类型而非对象。
+- **`var a = 1` 是一个常量**，而 `Number(1)`是一个函数
+- **`new Number(1)`返回的是一个对象**
+- `a==b` 为 `true` 是因为所以在求值过程中，总是会强制转为原始数据类型而非对象。
 
-### 27. `console.log(!!(new Boolean(false))`输出什么
+### 20. `console.log(!!(new Boolean(false))`输出什么
 
-true 布尔的包装对象 Boolean 的对象实例，对象只有在 null 与 undefined 时，才会认定为布尔的 false 值，布尔包装对象本身是个对象，对象->布尔 都是 true，所以 new Boolean(false)其实是布尔的 true，看下面这段代码:
+true 布尔的包装对象 `Boolean` 的对象实例，对象只有在 `null` 与 `undefined` 时，才会认定为布尔的 `false` 值，**布尔包装对象本身是个对象，对象->布尔 都是 `true`，所以 `new Boolean(false)`其实是布尔的 `true`**，看下面这段代码:
 
 ```js
 if (new Boolean(false)) {
@@ -358,16 +291,15 @@ if (new Boolean(false)) {
 }
 ```
 
-只有使用了 valueOf 后才是真正的转换布尔值，与上面包装对象与原始资料转换说明的相同:
+只有使用了 `valueOf` 后才是真正的转换布尔值，与上面包装对象与原始资料转换说明的相同:
 
 ```js
-!!new Boolean(false)(
-  //true
-  new Boolean(false)
-).valueOf(); //false
+!!new Boolean(false) // true
+
+new Boolean(false).valueOf(); // false
 ```
 
-### 28. 如何判断一个数据是不是 Array
+### 21. 如何判断一个数据是不是 Array
 
 - `Array.isArray(obj)`
 
@@ -384,9 +316,9 @@ if (new Boolean(false)) {
 - `obj.constructor === Array`
   - `constructor` 属性返回对创建此对象的函数的引用
 
-### 29. `Object.prototype.toString`
+### 22. `Object.prototype.toString`
 
-如果是原始类型，他会将原始类型包装为引用类型，然后调用对应方法
+**如果是原始类型，他会将原始类型包装为引用类型**，然后调用对应方法
 
 ```js
 function dd() {}
@@ -403,13 +335,247 @@ toString.call(123); //[object Number]
 toString.call("abc"); //[object String]
 ```
 
-### 30. `obj.toString()` 和 `Object.prototype.toString.call(obj)`
+#### 22.1. `obj.toString()` 和 `Object.prototype.toString.call(obj)`
 
-同样是检测对象 obj 调用 toString 方法，obj.toString()的结果和 Object.prototype.toString.call(obj)的结果不一样，这是为什么？
+同样是检测对象 `obj` 调用 `toString` 方法，`obj.toString()`的结果和 `Object.prototype.toString.call(obj)`的结果不一样，这是为什么？
 
-这是因为 toString 为 Object 的原型方法，而 Array ，function 等类型作为 Object 的实例，都重写了 toString 方法。不同的对象类型调用 toString 方法时，根据原型链的知识，调用的是对应的重写之后的 toString 方法（function 类型返回内容为函数体的字符串，Array 类型返回元素组成的字符串.....），而不会去调用 Object 上原型 toString 方法（返回对象的具体类型），所以采用 obj.toString()不能得到其对象类型，只能将 obj 转换为字符串类型；因此，在想要得到对象的具体类型时，应该调用 Object 上原型 toString 方法。
+这是因为 `toString` 为 `Object` 的原型方法，而 **`Array` ，`function` 等类型作为 `Object` 的实例，都重写了 `toString` 方法**。
+- 不同的对象类型调用 `toString` 方法时，根据原型链的知识，调用的是对应的重写之后的 `toString` 方法（`function` 类型返回内容为函数体的字符串，Array 类型返回元素组成的字符串.....），而不会去调用 `Object` 上原型 `toString` 方法（返回对象的具体类型），所以采用 `obj.toString()`不能得到其对象类型，只能将 `obj` 转换为字符串类型；
+- 因此，**在想要得到对象的具体类型时，应该调用 `Object` 上原型 `toString` 方法**。
 
-### 31. 输出以下代码运行结果
+
+
+### 23. 实现一个类型判断函数
+
+1. 判断 `null`
+2. 判断基础类型
+3. 使用`Object.prototype.toString.call(target)`来判断**引用类型**
+
+注意： 一定是使用`call`来调用，不然是判断的 Object.prototype 的类型 之所以要先判断是否为基本类型是因为：虽然`Object.prototype.toString.call()`能判断出某值是：number/string/boolean，但是其实在包装的时候是把他们先转成了对象然后再判断类型的。 但是 JS 中包装类型和原始类型还是有差别的，因为对一个包装类型来说，typeof 的值是 object
+
+```js
+/**
+ * 类型判断
+ */
+function getType(target) {
+  //先处理最特殊的Null
+  if (target === null) {
+    return "null";
+  }
+  //判断是不是基础类型
+  const typeOfT = typeof target;
+  if (typeOfT !== "object") {
+    return typeOfT;
+  }
+  //肯定是引用类型了
+  const template = {
+    "[object Object]": "object",
+    "[object Array]": "array",
+    // 一些包装类型
+    "[object String]": "object - string",
+    "[object Number]": "object - number",
+    "[object Boolean]": "object - boolean",
+  };
+  const typeStr = Object.prototype.toString.call(target);
+  return template[typeStr];
+}
+```
+
+
+### 24. 值类型的添加属性、获取属性是如何实现的，比如获取 str.length ？
+把原始类型当作对象方式使用的本质，例如访问length属性，或者增加属性。js都会智能转换成包装类型对象，相当于`new`了一个原始类型对象。当访问完成后，会把这个包装的对象销毁
+
+例子：
+```js
+var str = ‘abc’
+var str1 = new string(‘abc’)
+
+console.log(str.length)   //3
+
+str.t =10      // 定义属性
+console.log(str.t)    // undefined
+```
+
+
+### 25. 数据属性和访问器属性
+
+ECMAScript中有两种属性：数据属性和访问器属性，数据属性一般用于存储数据数值，访问器属性对应的是`set/get`操作，不能直接存储数据值，每种属性下面又都含有四个特性.下面介绍一下:
+
+数据属性
+1. **`[[Configurable]]`: 表示能否通过delete将属性删除**，**能否把属性修改为访问器属性**, 默认为`false`。当把属性`Configurable`设置为`false`后，该属性不能通过delete删除，并且也无法再将该属性的`Configurable`设置回`true`
+2. **`[[Enumerable]]`: 表示属性可否被枚举**(即是否可以通过`for in`循环返回)，默认`false`
+3. **`[[Writable]]`: 表示属性是否可写**(即是否可以修改属性的值)，默认`false`
+4. `[[Value]]`: 该属性的数据值, 默认是`undefined`
+
+
+访问器属性
+1. `[[Configurable]]`: 表示能否通过`delete`将属性删除，能否把属性修改为数据属性, 默认为`false`。当把属性`Configurable`设置为`false`后，该属性不能通过`delete`删除，并且也无法再将该属性的`Configurable`设置回`true`
+2. `[[Enumerable]]`: 表示属性可否被枚举(即是否可以通过`for in`循环返回)，默认`false`
+3. `[[Get]]`: 读取属性时调用的函数, 默认为`undefined`
+4. `[[Set]]`: 写入属性时调用的函数, 默认是`undefined`
+
+
+### 26. `eval`和`json.parse` 解析`json`的区别
+1.	`eval`不会判断你的字符串**是否合法**，且`json`字符串中的**一些方法会被执行**。
+2.	`parse`要判断字符串是否合法，要是不合法报错。
+3.	使用`parse`相对于`eval`比较安全，要是调用第三方数据，数据中存在恶意代码，使用`eval`就会被执行。
+
+
+
+
+### 27. 序列化的坑
+- `undeifined`属性不会出现在序列化后的字符串中
+- `NaN`和`infinity`都会转出`null`，`New Date() `会转成时间
+```js
+var obj = {x: 1, y: true, z: [1,2,3], nullVal: null}
+
+JSON.stringify(obj) // "{"x":1,"y":true,"z":[1,2,3],"nullVal":null}"
+```
+```js
+obj = {a: undefined, b: NaN, c: Infinity, d: new Date()}
+
+JSON.stringify(obj) // "{"b":null,"c":null,"d":"2020-07-26T09:11:16.677Z"}"
+```
+
+### 28. 在 js 中不同进制数字的表示方式
+- 以 0X、0x 开头的表示为十六进制(hex)。
+- 以 0、0O、0o 开头的表示为八进制(octal)。
+- 以 0B、0b 开头的表示为二进制格式。
+
+### 29. js 中整数的安全范围是多少？
+安全整数指的是，在这个范围内的整数转化为二进制存储的时候不会出现精度丢失，能够被“安全”呈现的最大整数是 **2^53 - 1**，
+即9007199254740991，在 ES6 中被定义为 `Number.MAX_SAFE_INTEGER`。最小整数是-9007199254740991，在 ES6 中
+被定义为 `Number.MIN_SAFE_INTEGER`。
+
+如果某次计算的结果得到了一个超过 JavaScript 数值范围的值，那么这个值会被自动转换为特殊的 Infinity 值。如果某次
+计算返回了正或负的 `Infinity` 值，那么**该值将无法参与下一次的计算**。判断一个数是不是有穷的，可以使用 `isFinite` 函数
+来判断。
+
+### 30. `isNaN` 和 `Number.isNaN` 函数的区别？
+函数 `isNaN` 接收参数后，会**尝试将这个参数转换为数值**，**任何不能被转换为数值的的值都会返回 true**，比如`undefined`、对象(`{}`)、函数、不能被转成数字的字符串(如‘string’)，因此非数字值传入也会返回 `true` ，会影响 `NaN` 的判断。
+
+函数 `Number.isNaN` 会**首先判断传入参数是否为数字**，如果是数字再继续判断是否为 `NaN` ，这种方法对于 `NaN` 的判断更为**准确**。
+
+参考资料：[isNaN](https://uwayfly.com/detail/201)
+
+### 31. 类型间转换规则
+
+#### 31.1. 其他值到字符串的转换规则？
+规范的 9.8 节中定义了抽象操作 `ToString` ，它负责处理非字符串到字符串的强制类型转换。
+
+1. `Null` 和 `Undefined` 类型 `，null` 转换为 `"null"`，`undefined` 转换为 `"undefined"`
+
+1. `Boolean` 类型，`true` 转换为 `"true"`，`false` 转换为 `"false"`。
+
+1. `Number` 类型的值直接转换，不过那些极小和极大的数字会使用指数形式。
+
+1. `Symbol` 类型的值直接转换，但是只允许显式强制类型转换，使用隐式强制类型转换会产生错误。
+
+1. 对普通对象来说，除非自行定义 `toString()` 方法，否则会调用 `toString()`（`Object.prototype.toString()`）来返回内部属性 `[[Class]]` 的值，如`"[object Object]"`。如果对象有自己的 `toString()` 方法，字符串化时就会调用该方法并使用其返回值。
+
+#### 31.2. 其他值到数字值的转换规则？
+有时我们需要将非数字值当作数字来使用，比如数学运算。为此 ES5 规范在 9.3 节定义了抽象操作 `ToNumber`。
+
+1. `Undefined` 类型的值转换为 NaN。
+
+1. `Null` 类型的值转换为 0。
+
+1. `Boolean` 类型的值，`true` 转换为 1，`false` 转换为 0。
+
+1. `String` 类型的值转换如同使用 `Number()` 函数进行转换，如果包含非数字值则转换为 `NaN`，空字符串为 0。
+
+1. `Symbol` 类型的值不能转换为数字，会报错。
+
+1. 对象（包括数组）会首先被转换为相应的基本类型值，如果返回的是非数字的基本类型值，则再遵循以上规则将其强制转换为数字。
+
+为了将值转换为相应的基本类型值，抽象操作 `ToPrimitive` 会首先（通过内部操作 `DefaultValue`）检查该值是否有`valueOf()` 方法。
+如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用 `toString()` 的返回值（如果存在）来进行强制类型转换。
+
+如果 `valueOf()` 和 `toString()` 均不返回基本类型值，会产生 `TypeError` 错误。
+
+#### 31.3. 其他值到布尔类型的值的转换规则？
+ES5 规范 9.2 节中定义了抽象操作 `ToBoolean`，列举了布尔强制类型转换所有可能出现的结果。
+
+以下这些是假值：
+• `undefined`
+• `null`
+• `false`
+• `+0、-0 和 NaN`
+• `""`
+
+假值的布尔强制类型转换结果为 `false`。从逻辑上说，假值列表以外的都应该是真值。
+
+
+### 32. 注意 Array.length
+
+直接给`Array`的`length`赋一个新的值会导致`Array`大小的变化：
+
+```js
+var arr = [1, 2, 3];
+arr.length; // 3
+arr.length = 6;
+arr; // arr变为[1, 2, 3, undefined, undefined, undefined]
+arr.length = 2;
+arr; // arr变为[1, 2]
+```
+
+请注意，如果通过索引赋值时，索引超过了范围，同样会引起`Array`大小的变化：
+
+```js
+var arr = [1, 2, 3];
+arr[5] = 'x';
+arr; // arr变为[1, 2, 3, undefined, undefined, 'x']
+```
+
+将`Array`的长度设为0，将会清空`Array`：
+```js
+var arr = [1, 2, 3];
+arr.length = 0;
+arr; // []
+```
+
+
+### 33. 加法运算符
+
+JavaScript 允许非数值的相加。
+
+```javascript
+true + true // 2
+1 + true // 2
+```
+
+上面代码中，**第一行是两个布尔值相加，第二行是数值与布尔值相加。这两种情况，布尔值都会自动转成数值，然后再相加**。
+
+比较特殊的是，**如果是两个字符串相加，这时加法运算符会变成连接运算符**，返回一个新的字符串，将两个原字符串连接在一起。
+
+```javascript
+'a' + 'bc' // "abc"
+```
+
+**如果一个运算子是字符串，另一个运算子是非字符串，这时非字符串会转成字符串，再连接在一起。**
+
+```javascript
+1 + 'a' // "1a"
+false + 'a' // "falsea"
+```
+
+加法运算符是在运行时决定，到底是执行相加，还是执行连接。也就是说，运算子的不同，导致了不同的语法行为，这种现象称为“重载”（overload）。由于加法运算符存在重载，可能执行两种运算，使用的时候必须很小心。
+
+```javascript
+'3' + 4 + 5 // "345"
+3 + 4 + '5' // "75"
+```
+
+上面代码中，由于从左到右的运算次序，字符串的位置不同会导致不同的结果。
+
+
+#### 33.1. `undefined`和字符串相加
+```js
+console.log("a"+a); var a = 1; // aundefined
+console.log("b"+b); var b = 1; // bundefined
+```
+
+#### 33.2. 输出以下代码运行结果
 
 ```js
 1 + "1"    // '11'
@@ -447,397 +613,7 @@ true + true   // 2
   - 后边的“+”将作为一元操作符，如果操作数是字符串，将调用 `Number` 方法将该操作数转为数值，如果操作数无法转为数值，则为 NaN。
   - 所以值为：`"aNaN"`
 
-### 32. 实现一个类型判断函数
-
-1. 判断 `null`
-2. 判断基础类型
-3. 使用`Object.prototype.toString.call(target)`来判断**引用类型**
-
-注意： 一定是使用`call`来调用，不然是判断的 Object.prototype 的类型 之所以要先判断是否为基本类型是因为：虽然`Object.prototype.toString.call()`能判断出某值是：number/string/boolean，但是其实在包装的时候是把他们先转成了对象然后再判断类型的。 但是 JS 中包装类型和原始类型还是有差别的，因为对一个包装类型来说，typeof 的值是 object
-
-```js
-/**
- * 类型判断
- */
-function getType(target) {
-  //先处理最特殊的Null
-  if (target === null) {
-    return "null";
-  }
-  //判断是不是基础类型
-  const typeOfT = typeof target;
-  if (typeOfT !== "object") {
-    return typeOfT;
-  }
-  //肯定是引用类型了
-  const template = {
-    "[object Object]": "object",
-    "[object Array]": "array",
-    // 一些包装类型
-    "[object String]": "object - string",
-    "[object Number]": "object - number",
-    "[object Boolean]": "object - boolean",
-  };
-  const typeStr = Object.prototype.toString.call(target);
-  return template[typeStr];
-}
-```
-
-### 33. 对象转基本类型
-
-1. `toString()` 方法返回一个**表示该对象的字符串**。
-对于对象x，`toString()` 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，`toString()` 返回x应有的文本值(不是单纯的加”“)
-
-2. `valueOf()` 方法返回**指定对象的原始值**
-每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，`valueOf()` 就会**返回对象自身**。
-
-
-
-一般来说，对象到字符串的转换经过了如下步骤：
-
-1. 如果对象具有`toString()`方法，则调用这个方法。如果它返回一个原始值，js将这个值转换成字符串，并返还这个字符串结果。
-2. 如果对象没有`toString()`方法，或者这个方法并不返回一个原始值，那么js将调用valueOf()方法。
-3. 否则，js无法从`toString()`或者`valueOf()`获得一个原始值，因此这时它将抛出一个类型错误异常。
-
- 
-
-一般来说，对象到数字的转换过程中，js做了同样类似的事情，但这里它会首先尝试使用`valueOf()`方法：
-1. 如果对象具有`valueOf()`方法，后者返回一个原始值，则js将这个原始值转换成数字，并返回这个数字。
-2. 否则，如果对象具有`toString()`方法，后者返回一个原始值，则js将转换并返回。
-（首先js转换成相应的字符串原始值，再继续将这个原始值转换成相应的数字类型，再返回数字）
-3. 否则，js抛出一个类型错误异常。
-```js
-var a = {
-  valueOf() {
-    return 0;
-  },
-  toString() {
-    return "1";
-  },
-};
-
-1 + a; // 1
-a + 1; // 1
-'1' + a; // '10'
-a + '1'; // '01'
-
-"1".concat(a); //"11"
-```
-注意，运算符`+`号即使和字符串相加，也是会优先调用valueOf，因为`+`号默认是数值相加，而不是连接。
-
-
-```js
-var aa = { 
-  i: 10, 
-  toString: function() { 
-    console.log('toString'); 
-    return this.i; 
-  } 
-} 
-
-alert(aa);// 10 toString 
-console.log(+aa); // 10 toString 
-console.log('' + aa); // '10' toString 
-console.log(String(aa)); // '10' toString 
-console.log(Number(aa)); // 10 toString 
-console.log(aa == '10'); // true toString 
-
-
-// 再看 valueOf
-var bb = { 
-  i: 10, 
-  valueOf: function() { 
-    console.log('valueOf'); 
-    return this.i; 
-  } 
-} 
-
-alert(bb);// [object Object] 
-console.log(+bb); // 10 valueOf 
-console.log('' + bb); // '10' valueOf 
-console.log(String(bb)); // [object Object] 
-console.log(Number(bb)); // 10 valueOf 
-console.log(bb == '10'); // true valueOf 
-// 发现有点不同吧？！它没有像上面toString那样统一规整。对于那个[object Object]，我估计是从Object那里继承过来的，我们再去掉它看看。 
-
-
-Object.prototype.toString = null; 
-var cc = { 
-  i: 10, 
-  valueOf: function() { 
-    console.log('valueOf'); 
-    return this.i; 
-  } 
-} 
-
-alert(cc);// 10 valueOf 
-console.log(+cc); // 10 valueOf 
-console.log('' + cc); // '10' valueOf 
-console.log(String(cc)); // '10' valueOf 
-console.log(Number(cc)); // 10 valueOf 
-console.log(cc == '10'); // true valueOf
-```
-
-总结起来就是 如果只重写了toString，对象转换时会使用toString方法来进行转换。
-
-但是，如果只重写了valueOf方法，只有在非要转换为字符串的时候会优先考虑toString方法，包括String(obj)、alert(obj)，运算符`+`还是会调用valueOf 。在不能调用toString的情况下，只能让valueOf上阵了。
-
-### 34. 值类型的添加属性、获取属性是如何实现的，比如获取 str.length ？
-把原始类型当作对象方式使用的本质，例如访问length属性，或者增加属性。js都会智能转换成包装类型对象，相当于new了一个原始类型对象。当访问完成后，会把这个包装的对象销毁
-
-例子：
-```js
-var str = ‘abc’
-var str1 = new string(‘abc’)
-
-console.log(str.length)   //3
-
-str.t =10      // 定义属性
-console.log(str.t)    // undefined
-```
-
-
-
-### 35. 数据属性和访问器属性
-
-ECMAScript中有两种属性：数据属性和访问器属性，数据属性一般用于存储数据数值，访问器属性对应的是set/get操作，不能直接存储数据值，每种属性下面又都含有四个特性.下面介绍一下:
-
-数据属性
-1. `[[Configurable]]`: 表示**能否通过delete将属性删除**，**能否把属性修改为访问器属性**, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
-2. `[[Enumerable]]`: 表示属性**可否被枚举**(即是否可以通过for in循环返回)，默认false
-3. `[[Writable]]`: 表示属性**是否可写**(即是否可以修改属性的值)，默认false
-4. `[[Value]]`: 该属性的数据值, 默认是undefined
-
-
-访问器属性
-1. `[[Configurable]]`: 表示能否通过delete将属性删除，能否把属性修改为数据属性, 默认为false。当把属性Configurable设置为false后，该属性不能通过delete删除，并且也无法再将该属性的Configurable设置回true
-2. `[[Enumerable]]`: 表示属性可否被枚举(即是否可以通过for in循环返回)，默认false
-3. `[[Get]]`: 读取属性时调用的函数, 默认为undefined
-4. `[[Set]]`: 写入属性时调用的函数, 默认是undefined
-
-
-### 36. `eval`和`json.parse` 解析`json`的区别：
-1.	`eval`不会判断你的字符串**是否合法**，且`json`字符串中的**一些方法会被执行**。
-2.	`parse`要判断字符串是否合法，要是不合法报错。
-3.	使用`parse`相对于`eval`比较安全，要是调用第三方数据，数据中存在恶意代码，使用`eval`就会被执行。
-
-
-
-### 37. `undefined`和字符串相加
-```js
-console.log("a"+a); var a = 1; // aundefined
-console.log("b"+b); var b = 1; // bundefined
-```
-
-### 38. `parseInt()`和`Number()`的区别
-- `parseInt()` 和 `parseFloat()` 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
-- 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
-- 如果字符串值能被完整地转换，`Number()` 将判断是调用 `parseInt()` 方法还是 `parseFloat()` 方法。
-
-
-
-### 39. `toSring`和`valueOf`对比
-1. `toString()` 方法返回一个**表示该对象的字符串**。
-对于对象x，`toString()` 返回 `“[object type]”`,其中type是对象类型。如果x不是对象，toString() 返回x应有的文本值(不是单纯的加”“)
-
-2. `valueOf()` 方法返回**指定对象的原始值**
-每一个内置对象都会覆盖这个方法为了返回一个合理的值，如果对象没有原始值，`valueOf()` 就会返回对象自身
-
-对比：
-- 当函数fn用+连接一个字符串或者是数字的时候，如果我们没有重新定义valueOf和toString，其隐式转换会调用默认的toString()方法，将函数本身内容作为字符串返回； 
-- 如果我们自己重新定义toString/valueOf方法，那么其转换会按照我们的定义来，其中valueOf比toString优先级更高（不鸣则已，一鸣惊人）
-```js
-// 这个对象是一个函数
-function fn() {
-    return 20;
-} 
-console.log(fn + 10);  // function fn(){return 20}10
-console.log(fn + 'hello'); // function fn(){return 20}hello
-
-fn.toString = function() {
-    return 10;
-}
-console.log(fn + 10);  // 20
-console.log(fn + 'hello');  //10hello
-
-fn.valueOf = function() {
-    return 5;
-}
-
-console.log(fn + 10);   //15
-console.log(fn + 'hello');   //5hello
-```
-如果这个对象不是函数呢？ 
-经测试，如果这个对象是object、数组，结果和上面的一样 
-但如果这个对象是Date，则都调用toString()
-
-
-
-### 40. 序列化的坑
-- `undeifined`属性不会出现在序列化后的字符串中
-- `NaN`和`nfinity`都会转出`null`，`New Date() `会转成时间
-```js
-var obj = {x: 1, y: true, z: [1,2,3], nullVal: null}
-
-JSON.stringify(obj) // "{"x":1,"y":true,"z":[1,2,3],"nullVal":null}"
-
-obj = {a: undefined, b: NaN, c: Infinity, d: new Date()}
-JSON.stringify(obj) // "{"b":null,"c":null,"d":"2020-07-26T09:11:16.677Z"}"
-```
-
-
-
-### 41. 生成数组`0-4`
-```
-Array.from({length: 5}, (v, i) => i);     // [0, 1, 2, 3, 4]
-```
-
-### 42. 在 js 中不同进制数字的表示方式
-- 以 0X、0x 开头的表示为十六进制(hex)。
-- 以 0、0O、0o 开头的表示为八进制(octal)。
-- 以 0B、0b 开头的表示为二进制格式。
-
-### 43. js 中整数的安全范围是多少？
-安全整数指的是，在这个范围内的整数转化为二进制存储的时候不会出现精度丢失，能够被“安全”呈现的最大整数是 **2^53 - 1**，
-即9007199254740991，在 ES6 中被定义为 `Number.MAX_SAFE_INTEGER`。最小整数是-9007199254740991，在 ES6 中
-被定义为 `Number.MIN_SAFE_INTEGER`。
-
-如果某次计算的结果得到了一个超过 JavaScript 数值范围的值，那么这个值会被自动转换为特殊的 Infinity 值。如果某次
-计算返回了正或负的 `Infinity` 值，那么**该值将无法参与下一次的计算**。判断一个数是不是有穷的，可以使用 `isFinite` 函数
-来判断。
-
-### 44. isNaN 和 Number.isNaN 函数的区别？
-函数 isNaN 接收参数后，会**尝试将这个参数转换为数值**，**任何不能被转换为数值的的值都会返回 true**，比如`undefined`、对象(`{}`)、函数、不能被转成数字的字符串(如‘string’)，因此非数字值传入也会返回 true ，会影响 NaN 的判断。
-
-函数 Number.isNaN 会**首先判断传入参数是否为数字**，如果是数字再继续判断是否为 NaN ，这种方法对于 NaN 的判断更为**准确**。
-
-参考资料：[isNaN](https://uwayfly.com/detail/201)
-
-### 45. 其他值到字符串的转换规则？
-```
-规范的 9.8 节中定义了抽象操作 ToString ，它负责处理非字符串到字符串的强制类型转换。
-
-（1）Null 和 Undefined 类型 ，null 转换为 "null"，undefined 转换为 "undefined"，
-
-（2）Boolean 类型，true 转换为 "true"，false 转换为 "false"。
-
-（3）Number 类型的值直接转换，不过那些极小和极大的数字会使用指数形式。
-
-（4）Symbol 类型的值直接转换，但是只允许显式强制类型转换，使用隐式强制类型转换会产生错误。
-
-（3）对普通对象来说，除非自行定义 toString() 方法，否则会调用 toString()（Object.prototype.toString()）
-    来返回内部属性 [[Class]] 的值，如"[object Object]"。如果对象有自己的 toString() 方法，字符串化时就会
-    调用该方法并使用其返回值。
-```
-
-### 46. 其他值到数字值的转换规则？
-```
-有时我们需要将非数字值当作数字来使用，比如数学运算。为此 ES5 规范在 9.3 节定义了抽象操作 ToNumber。
-
-（1）Undefined 类型的值转换为 NaN。
-
-（2）Null 类型的值转换为 0。
-
-（3）Boolean 类型的值，true 转换为 1，false 转换为 0。
-
-（4）String 类型的值转换如同使用 Number() 函数进行转换，如果包含非数字值则转换为 NaN，空字符串为 0。
-
-（5）Symbol 类型的值不能转换为数字，会报错。
-
-（6）对象（包括数组）会首先被转换为相应的基本类型值，如果返回的是非数字的基本类型值，则再遵循以上规则将其强制转换为数字。
-
-为了将值转换为相应的基本类型值，抽象操作 ToPrimitive 会首先（通过内部操作 DefaultValue）检查该值是否有valueOf() 方法。
-如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用 toString() 的返回值（如果存在）来进行强制类型转换。
-
-如果 valueOf() 和 toString() 均不返回基本类型值，会产生 TypeError 错误。
-```
-
-### 47. 其他值到布尔类型的值的转换规则？
-```
-ES5 规范 9.2 节中定义了抽象操作 ToBoolean，列举了布尔强制类型转换所有可能出现的结果。
-
-以下这些是假值：
-• undefined
-• null
-• false
-• +0、-0 和 NaN
-• ""
-
-假值的布尔强制类型转换结果为 false。从逻辑上说，假值列表以外的都应该是真值。
-```
-
-### 48. {} 和 [] 的 valueOf 和 toString 的结果是什么？
-```
-{} 的 valueOf 结果为 {} ，toString 的结果为 "[object Object]"
-
-[] 的 valueOf 结果为 [] ，toString 的结果为 ""
-```
-
-### 52. 注意 Array.length
-
-直接给`Array`的`length`赋一个新的值会导致`Array`大小的变化：
-
-```js
-var arr = [1, 2, 3];
-arr.length; // 3
-arr.length = 6;
-arr; // arr变为[1, 2, 3, undefined, undefined, undefined]
-arr.length = 2;
-arr; // arr变为[1, 2]
-```
-
-请注意，如果通过索引赋值时，索引超过了范围，同样会引起`Array`大小的变化：
-
-```js
-var arr = [1, 2, 3];
-arr[5] = 'x';
-arr; // arr变为[1, 2, 3, undefined, undefined, 'x']
-```
-
-将`Array`的长度设为0，将会清空`Array`：
-```js
-var arr = [1, 2, 3];
-arr.length = 0;
-arr; // []
-```
-
-
-### 53. 加法运算符
-
-JavaScript 允许非数值的相加。
-
-```javascript
-true + true // 2
-1 + true // 2
-```
-
-上面代码中，第一行是两个布尔值相加，第二行是数值与布尔值相加。这两种情况，布尔值都会自动转成数值，然后再相加。
-
-比较特殊的是，如果是两个字符串相加，这时加法运算符会变成连接运算符，返回一个新的字符串，将两个原字符串连接在一起。
-
-```javascript
-'a' + 'bc' // "abc"
-```
-
-如果一个运算子是字符串，另一个运算子是非字符串，这时非字符串会转成字符串，再连接在一起。
-
-```javascript
-1 + 'a' // "1a"
-false + 'a' // "falsea"
-```
-
-加法运算符是在运行时决定，到底是执行相加，还是执行连接。也就是说，运算子的不同，导致了不同的语法行为，这种现象称为“重载”（overload）。由于加法运算符存在重载，可能执行两种运算，使用的时候必须很小心。
-
-```javascript
-'3' + 4 + 5 // "345"
-3 + 4 + '5' // "75"
-```
-
-上面代码中，由于从左到右的运算次序，字符串的位置不同会导致不同的结果。
-
-
-
-### 54. 字符串的比较
+### 34. 字符串的比较
 
 字符串按照字典顺序进行比较。
 
@@ -845,13 +621,13 @@ false + 'a' // "falsea"
 '2' > '11' // true
 ```
 
-### 55. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整
+### 35. `Math.round`、`parseInt`、`Math.floor`和`Math.ceil`小数取整
 
 `Math.round`、`parseInt`、`Math.floor`和`Math.ceil` 都可以返回一个整数，具体的区别请看下面的总结。
 
 **一、Math.round**
 
-作用：四舍五入，返回参数+0.5后，向下取整。
+作用：**四舍五入，返回参数+0.5后，向下取整**。
 
 如：
 ```
@@ -865,7 +641,7 @@ Math.round(-5.8)　　//返回-6
 ```
 **二、parseInt**
 
-作用：解析一个字符串，并返回一个整数，这里可以简单理解成返回舍去参数的小数部分后的整数。
+作用：解析一个字符串，并返回一个整数，**这里可以简单理解成返回舍去参数的小数部分后的整数**。
 
 如：
 ```
@@ -904,11 +680,18 @@ Math.ceil(-1.5)　　//返回-1
 Math.ceil(-5.8)　　//返回-5
 ```
 
-### 56. JS属性对象的hasOwnProperty方法
+#### 35.1. `parseInt()`和`Number()`的区别
+- `parseInt()` 和 `parseFloat()` 方法只转换第一个无效字符之前的字符串，因此 "1.2.3" 将分别被转换为 "1" 和 "1.2"。
+- 用 Number() 进行强制类型转换，"1.2.3" 将返回 NaN，因为整个字符串值不能转换成数字。
+- 如果字符串值能被完整地转换，`Number()` 将判断是调用 `parseInt()` 方法还是 `parseFloat()` 方法。
+
+
+
+### 36. JS属性对象的`hasOwnProperty`方法
 
 Object的`hasOwnProperty()`方法返回一个布尔值，判断对象是否包含特定的自身（非继承）属性。
 
-#### 56.1. 判断自身属性是否存在
+#### 36.1. 判断自身属性是否存在
 
 ```js
 var o = new Object();
@@ -924,7 +707,7 @@ changeO();
 o.hasOwnProperty('prop');  // false
 ```
 
-#### 56.2. 遍历一个对象的所有自身属性
+#### 36.2. 遍历一个对象的所有自身属性
 
 在看开源项目的过程中，经常会看到类似如下的源码。`for...in`循环对象的所有枚举属性，然后再使用`hasOwnProperty()`方法来忽略继承属性。
 
@@ -943,7 +726,7 @@ for (var name in buz) {
 }
 ```
 
-#### 56.3. 注意 `hasOwnProperty` 作为属性名
+#### 36.3. 注意 `hasOwnProperty` 作为属性名
 
 JavaScript 并没有保护 `hasOwnProperty` 属性名，因此，可能存在于一个包含此属性名的对象，有必要使用一个可扩展的`hasOwnProperty`方法来获取正确的结果：
 
