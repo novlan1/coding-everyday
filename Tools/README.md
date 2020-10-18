@@ -17,6 +17,10 @@
 - [14. `cross-env`插件](#14-cross-env插件)
 - [15. `dev-server`的`host`设置](#15-dev-server的host设置)
 - [16. Fiddler 工作原理](#16-fiddler-工作原理)
+- [react-docgen生成文档](#react-docgen生成文档)
+- [jsDoc生成注释](#jsdoc生成注释)
+- [typescript忽略传来的某属性](#typescript忽略传来的某属性)
+- [判断被点击的元素是否在容器内](#判断被点击的元素是否在容器内)
 
 ### 1. Yarn的使用
 
@@ -210,4 +214,31 @@ npm install -D babel-loader@7 babel-core babel-preset-env
 
 
 
+
+### react-docgen生成文档
+
+对应ts：react-docgen-typescript-loader
+
+
+### jsDoc生成注释
+
+注释格式如下，开头两个`*`号，结束一个`*`号：
+```js
+/** This is a description of the foo function. */
+function foo() {
+}
+```
+
+### typescript忽略传来的某属性
+比如要忽略size属性：
+`Omit<XXX, 'size'>`
+
+
+### 判断被点击的元素是否在容器内
+
+```js
+A.contains(e.target)
+```
+
+这么简单，不用一层一层遍历
 

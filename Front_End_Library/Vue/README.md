@@ -6,19 +6,24 @@
 - [6. computed和watch的区别](#6-computed和watch的区别)
   - [6.1. computed 特性](#61-computed-特性)
   - [6.2. watch 特性](#62-watch-特性)
-- [7. vue双向绑定原理](#7-vue双向绑定原理)
-- [8. 为什么vue组件的属性，有的需要加冒号“:”，有的不用?](#8-为什么vue组件的属性有的需要加冒号有的不用)
-- [9. 理解 vue 修饰符`sync`](#9-理解-vue-修饰符sync)
-- [10. 为什么在 vue 的组件中，data 要用 function 返回对象呢？](#10-为什么在-vue-的组件中data-要用-function-返回对象呢)
-- [11. Vue事件修饰符——.prevent 和.passive](#11-vue事件修饰符prevent-和passive)
-  - [11.1. prevent](#111-prevent)
-  - [11.2. passive](#112-passive)
-- [12. 覆盖elementui样式的几种办法](#12-覆盖elementui样式的几种办法)
-- [13. `$router`和`$route`的区别](#13-router和route的区别)
-- [14. Vue 中父子组件执行的先后顺序](#14-vue-中父子组件执行的先后顺序)
-- [15. Vue 创建全局变量和方法](#15-vue-创建全局变量和方法)
-- [16. `cli-3.0`环境变量](#16-cli-30环境变量)
-- [17. 环境变量的使用](#17-环境变量的使用)
+- [7. `methods`,`watch`,`computed`的区别](#7-methodswatchcomputed的区别)
+- [8. `v-if `vs `v-show`](#8-v-if-vs-v-show)
+- [9. vue双向绑定原理](#9-vue双向绑定原理)
+- [10. 为什么vue组件的属性，有的需要加冒号“:”，有的不用?](#10-为什么vue组件的属性有的需要加冒号有的不用)
+- [11. 理解 vue 修饰符`sync`](#11-理解-vue-修饰符sync)
+- [12. 为什么在 vue 的组件中，data 要用 function 返回对象呢？](#12-为什么在-vue-的组件中data-要用-function-返回对象呢)
+- [13. Vue事件修饰符——.prevent 和.passive](#13-vue事件修饰符prevent-和passive)
+  - [13.1. prevent](#131-prevent)
+  - [13.2. passive](#132-passive)
+- [14. 覆盖elementui样式的几种办法](#14-覆盖elementui样式的几种办法)
+- [15. `$router`和`$route`的区别](#15-router和route的区别)
+- [16. Vue 中父子组件执行的先后顺序](#16-vue-中父子组件执行的先后顺序)
+- [17. Vue 创建全局变量和方法](#17-vue-创建全局变量和方法)
+- [18. `cli-3.0`环境变量](#18-cli-30环境变量)
+- [19. 环境变量的使用](#19-环境变量的使用)
+- [20. slot的理解](#20-slot的理解)
+  - [具名插槽](#具名插槽)
+  - [作用域插槽](#作用域插槽)
 
 ### 1. jQuery 和 Vue 的区别
 1. 数据和视图的分离，解耦（开放封闭原则，对修改封闭，对扩展开放）；
@@ -61,20 +66,29 @@ MVVM：Vm是一个桥，ViewModel 主要通过`DOM Listener` 和 `Data Bindings`
 
 #### 6.2. watch 特性
 1. 是观察的动作
-2. 应用：监听`props`，`$emit`或本组件的值执行异步操作
+2. 应用：监听`props`，`$emit`或本组件的值执行**异步操作**
 3. 无缓存性，页面重新渲染时值不变化也会执行
 
+### 7. `methods`,`watch`,`computed`的区别
+1. `computed`属性的结果会被缓存，除非依赖的响应式属性变化才会重新计算。主要当作属性来使用；
+2. `methods`方法表示一个具体的操作，主要书写业务逻辑；
+3. `watch`一个对象，键是需要观察的表达式，值是对应回调函数。主要用来监听某些特定数据的变化，从而进行某些具体的业务逻辑操作；**可以看作是`computed`和`methods`的结合体**；
 
+### 8. `v-if `vs `v-show`
+1. `v-if` 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+2. `v-if` 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+3. 相比之下，`v-show` 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 `CSS(display)` 进行切换。
+4. 一般来说，`v-if` 有更高的切换开销，而 `v-show` 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 `v-show` 较好；如果在运行时条件很少改变，则使用 `v-if` 较好。
 
-### 7. vue双向绑定原理
+### 9. vue双向绑定原理
 vue数据双向绑定是通过**数据劫持**结合**发布者-订阅者模式**的方式来实现的。利用了 `Object.defineProperty()` 这个方法重新定义了对象获取属性值(get)和设置属性值(set)。
 
-### 8. 为什么vue组件的属性，有的需要加冒号“:”，有的不用?
+### 10. 为什么vue组件的属性，有的需要加冒号“:”，有的不用?
 加冒号的，说明后面的是一个`变量或者表达式`，没加冒号的后面就是对应的`字符串字面量`
 
 
 
-### 9. 理解 vue 修饰符`sync`
+### 11. 理解 vue 修饰符`sync`
 `sync`会被扩展为一个自动更新父组件属性的 `v-on` 监听器。
 
 示例代码如下：
@@ -91,20 +105,20 @@ this.$emit('update:foo', newValue)
 ```
 
 
-### 10. 为什么在 vue 的组件中，data 要用 function 返回对象呢？
+### 12. 为什么在 vue 的组件中，data 要用 function 返回对象呢？
 - 因为组件可能被用来创建多个实例。如果 data 仍然是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！通过提供 data 函数，每次创建一个新实例后，我们能够调用 data 函数，从而返回初始数据的一个全新副本数据对象。
 - 如果不用`function return` 每个组件的data都是内存的同一个地址，那一个数据改变其他也改变了。 用`function return` 其实就相当于申明了新的变量，相互独立，自然就不会有这样的问题
 
 
 
 
-### 11. Vue事件修饰符——.prevent 和.passive
+### 13. Vue事件修饰符——.prevent 和.passive
 `prevent` 是拦截默认事件，`passive`是不拦截默认事件。
 
-#### 11.1. prevent
+#### 13.1. prevent
 - 某些标签拥有自身的默认事件，如`a[href="#"]`，`button[type="submit"]` 这种标签在冒泡结束后会开始执行默认事件。注意默认事件虽然是冒泡后开始，但不会因为stop阻止事件传递而停止。
 
-#### 11.2. passive
+#### 13.2. passive
 - `passive`这个修饰符会执行默认方法。你们可能会问，明明默认执行为什么会设置这样一个修饰符。这就要说一下这个修饰符的本意了。
 - 【浏览器只有等内核线程执行到事件监听器对应的JavaScript代码时，才能知道内部是否会调用`preventDefault`函数来阻止事件的默认行为，所以浏览器本身是没有办法对这种场景进行优化的。这种场景下，用户的手势事件无法快速产生，会导致页面无法快速执行滑动逻辑，从而让用户感觉到页面卡顿。】
 - 通俗点说就是每次事件产生，浏览器都会去查询一下是否有`preventDefault`阻止该次事件的默认动作。我们加上`passive`就是为了告诉浏览器，不用查询了，我们没用`preventDefault`阻止默认动作。
@@ -115,23 +129,23 @@ this.$emit('update:foo', newValue)
 
 
 
-### 12. 覆盖elementui样式的几种办法
+### 14. 覆盖elementui样式的几种办法
 - 用 `/deep/` 标签，例如 `/deep/ .class{ 要覆盖的样式 }` 。
 - 可以在这个写`scope`的`style`标签下面再写一个`style`标签，专门写要覆盖的样式就好了 。
 - 在`index.html`中引入一个外部样式，进行覆盖
 
 
 
-### 13. `$router`和`$route`的区别
+### 15. `$router`和`$route`的区别
 - `$router` 路由器
 - `$route` 单个路由页面
 
-### 14. Vue 中父子组件执行的先后顺序
+### 16. Vue 中父子组件执行的先后顺序
 - “父亲”先开始自己的`created`
 - 然后“儿子”开始自己的`created`和`mounted`
 - 最后“父亲”再执行自己的`mounted`
 
-### 15. Vue 创建全局变量和方法
+### 17. Vue 创建全局变量和方法
 
 Vue 创建全局变量和方法有很多种，不过在这我推荐使用先新建一个`js`文件，这个文件主要就是写一个对象，这个对象直接带属性和方法即可，然后在`main.js`引入，引入后再用`Vue.prototype`把引入的文件直接挂接到`vue`的原型上。
 例如：
@@ -162,7 +176,7 @@ Vue.prototype.$aa = aa
 在 vue 实例化上要用变量的话就话就直接`this.aa.name`，用方法的话就`this.aa.bb()`这样就OK了
 
 
-### 16. `cli-3.0`环境变量
+### 18. `cli-3.0`环境变量
 
 `cli-3.0`总共提供了四种方式来制定环境变量：
 - 在根目录添加`.env`文件，配置所有情况下都会用到的配置
@@ -177,7 +191,7 @@ FOO=bar
 VUE_APP_SECRET=secret
 ```
 
-### 17. 环境变量的使用
+### 19. 环境变量的使用
 设置完环境变量之后就可以在我们的项目中使用这两个变量了。不过还需要注意的是在项目的不同地方使用，限制也不一样。
 1. 在项目中，也就是`src`中使用环境变量的话，必须以`VUE_APP_`开头。例如我们可以在`main.js`中直接输出：
 ```
@@ -192,6 +206,40 @@ console.log(process.env.VUE_APP_SECRET)
 ```
   - `<%- VAR %>` 用于HTML转义插值
   - `<% expression %>` 用于JavaScript控制流   
+
+
+### 20. slot的理解
+
+React中的组件`<Acomp></Acomp>`中间是空的，而Vue允许在里面加入内容，比如`<Acomp>Mike</Acomp>`，那么`Mike`就会插入到组件`Acomp`中的`<slot></slot>`中。
+
+
+#### 具名插槽
+
+具名插槽就是组件里面有多个`<slot></slot>`
+
+#### 作用域插槽
+
+作用域插槽就是想在使用组件的时候，获取其`slot`的`data`，如：
+
+组件定义：
+```html
+<span>
+  <slot v-bind:user="user">
+    {{ user.lastName }}
+  </slot>
+</span>
+```
+绑定在 `<slot>`元素上的 `attribute` 被称为插槽 `prop`
+
+使用：
+```html
+<current-user>
+  <template v-slot:default="slotProps">
+    {{ slotProps.user.firstName }}
+  </template>
+</current-user>
+```
+
 
 
 

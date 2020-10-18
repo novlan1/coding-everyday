@@ -177,6 +177,13 @@ ipconfig/all
 除了`git bash`，大家还可以用`Xshell`,也很方便，或者直接通过远程桌面连接（方法：`windows键+R`；输入`mstsc`）
 
 
+输入下面的命令，将公钥传送到远程主机host上面：
+```bash
+$ ssh-copy-id user@host
+```
+好了，从此你再登录，就不需要输入密码了。
+
+
 #### 1.14.2. Web服务器Nginx的安装
 
 1. 因为`centos`的`yum`源没有`nginx`资源，故需要先安装`epel-release`
