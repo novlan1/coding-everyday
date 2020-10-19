@@ -21,6 +21,18 @@
 - [jsDoc生成注释](#jsdoc生成注释)
 - [typescript忽略传来的某属性](#typescript忽略传来的某属性)
 - [判断被点击的元素是否在容器内](#判断被点击的元素是否在容器内)
+- [上传文件的方式](#上传文件的方式)
+- [Formdata](#formdata)
+- [useState回调函数](#usestate回调函数)
+- [`rimraf`插件](#rimraf插件)
+- [`npm whoami` 检测是否登录`npm`](#npm-whoami-检测是否登录npm)
+- [`package.json`中的`private`？](#packagejson中的private)
+- [package.json中的ISC协议？](#packagejson中的isc协议)
+- [`peerDependencies` 预先下载的依赖，比如React组件库需要预先下载`React`](#peerdependencies-预先下载的依赖比如react组件库需要预先下载react)
+- [`husky`插件进行`git commit`前的`lint`检查和单元测试](#husky插件进行git-commit前的lint检查和单元测试)
+- [`travis`自动运行测试CI](#travis自动运行测试ci)
+- [ts类型声明文件的作用](#ts类型声明文件的作用)
+- [软实力](#软实力)
 
 ### 1. Yarn的使用
 
@@ -241,4 +253,100 @@ A.contains(e.target)
 ```
 
 这么简单，不用一层一层遍历
+
+### 上传文件的方式
+
+有两种方式：
+1. form表单
+2. ajax异步发送
+
+后者一般借助`Formdata`
+
+### Formdata
+
+FormData的主要用途有两个：
+1. 将form表单元素的name与value进行组合，实现表单数据的序列化，从而减少表单元素的拼接，提高工作效率。
+2. 异步上传文件
+
+
+####​POST请求进行文件上传​
+```html
+<form>
+    <input type="text" name="user" id="userID">
+    <input type="file" name="file-name" id="fileID" multiple>
+</form>
+<button>上传文件</button>
+```
+
+```js
+//01 获取页面中的btn标签
+var oBtn    = document.getElementsByTagName("button")[0];
+var oUser   = document.getElementById("userID");
+var oFileID = document.getElementById("fileID");
+​
+//02 给按钮标签添加点击事件
+oBtn.onclick = function(){
+​
+//03 获取表单中的文件内容
+var data = new FormData();
+data.set("user",oUser.value);
+Array.from(oFileID.files).forEach(function(file){
+    data.append("fileName",file);
+})
+​
+//04 使用Ajax发送GET请求
+var xhr = new XMLHttpRequest();
+xhr.open("POST","http://127.0.0.1:5000/api",true);
+xhr.send(data);
+xhr.onreadystatechange = function(){
+  if(xhr.status >= 200 && xhr.status <=300 || xhr.status == 304)
+  {
+      console.log("请求成功"+xhr.responseText);
+  }else{
+      console.log("请求失败"+xhr.statusText);
+  }
+}
+}
+```
+
+
+### useState回调函数
+
+TODO
+
+
+
+### `rimraf`插件
+
+`rm -rf`
+
+### `npm whoami` 检测是否登录`npm`
+
+`npm config ls`，查看npm配置信息，包括是否用了淘宝源
+
+### `package.json`中的`private`？
+
+如果你在你的`package.json`中设置了`“private”：true`，那么`npm`将拒绝发布它。 这是防止私人存储库意外发布的一种方法。
+
+### package.json中的ISC协议？
+
+ISC协议和BSD协议差不多，都极大程度的开源，一般选择MIT协议
+
+### `peerDependencies` 预先下载的依赖，比如React组件库需要预先下载`React`
+
+但是开发组件库的过程中还需要，所以可以将它们如`react`、`react-dom`移动到`devDependcies`
+
+### `husky`插件进行`git commit`前的`lint`检查和单元测试
+
+### `travis`自动运行测试CI
+
+### ts类型声明文件的作用
+
+
+### 软实力
+
+1. 举一反三，触类旁通
+2. 自我学习的能力
+
+
 
