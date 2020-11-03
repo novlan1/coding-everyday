@@ -48,7 +48,7 @@ chrome://inspect/#service-workers
 
 ### 1.5. Service Worker生命周期
 
-![Service Worker 生命周期](../../imgs/service_worker_lifecycle.webp)
+![Service Worker 生命周期](../../../imgs/service_worker_lifecycle.webp)
 
 - [x] `register` 这个是由 client 端发起，注册一个 serviceWorker，这需要一个专门处理sw逻辑的文件
 

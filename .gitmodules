@@ -1,0 +1,3 @@
+[submodule "Tools/Git/web_crawer_one"]
+	path = Tools/Git/web_crawer_one
+	url = git@github.com:novlan1/web_crawer_one.git

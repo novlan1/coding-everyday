@@ -150,7 +150,7 @@ emitter.emit('b', 'y', 'g', 'w')
 ```
 基于一个主题/事件通道，订阅者subscriber通过自定义事件订阅主题，发布者publisher通过发布主题事件的方式发布。
 ```
-![观察者模式和发布订阅模式区别](../../imgs/event_emitter.png)
+![观察者模式和发布订阅模式区别](../../../imgs/event_emitter.png)
 ```
 观察者模式和发布订阅模式区别：
 
