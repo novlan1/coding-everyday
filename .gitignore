@@ -1,7 +1,7 @@
 **/node_modules/
 
 /demos/node-oauth-demo/
-test.js
-test.md
-index.js
-index.html
+/test.js
+/test.md
+
+.vscode
