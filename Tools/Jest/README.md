@@ -45,7 +45,6 @@ module.exports = {
 - `transform`
 简单地说就是一种转换器配置
 
-
 -  `testEnvironment`
 测试环境。
 ```js
@@ -54,12 +53,22 @@ module.exports = {
 表示它是一个类浏览器的测试环境，我们可以使用浏览器环境中的一些 API。
 
 - `testRegex`
-要测试文件的正则表达式。
+要测试文件的正则表达式，**与 testMatch 互斥，不能同时写**
 
 ```
 "testRegex": "/test/.*\\.(test|spec)\\.(ts)$"
 ```
+```
+testRegex: "(/__tests__).*|(\\\\.|/)(test|spec))\\\\.jsx?$";
+```
 
+- `testMatch`
+
+设置识别哪些文件是测试文件（glob 形式），**与 testRegex 互斥，不能同时写**
+
+```
+testMatch: ["**/__tests__/**/*.js?(x)", "**/?(*.)(spec|test).js?(x)"];
+```
 
 - `moduleFileExtensions`
 模块文件扩展名，当你去引入一个模块并没有指定扩展名的时候，它会依次尝试去添加这些扩展名去找你引入的模块文件。
@@ -147,7 +156,30 @@ env: {
   jest: true
 }
 ```
+4. `jest`加载`ts`文件时，报语法错误，解决方法：
+   在`jest.config.js`的`transform`中加：
+
+```js
+'^.+\\.ts?$': 'ts-jest',
+```
 
 
 
 
+## NodeJS 发送https请求，忽略校验证书
+
+```js
+import * as https from "https";
+import request from "axios";
+
+const res = await request({
+  baseURL: host,
+  url,
+  method,
+  ...config,
+  headers,
+  httpsAgent: new https.Agent({
+      rejectUnauthorized: false
+  })
+});
+```
