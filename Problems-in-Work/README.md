@@ -337,13 +337,13 @@ function b64_to_utf8( str ) {
 ```
 
 ### 24. escape, encodeURI, encodeURIComponent
-`escape()`不能直接用于URL编码，它的真正作用是返回一个字符的Unicode编码值。比如"春节"的返回结果是`%u6625%u8282`，`escape()`不对"+"编码 主要用于汉字编码，现在已经不提倡使用。
+**`escape()`不能直接用于URL编码，它的真正作用是返回一个字符的Unicode编码值**。比如"春节"的返回结果是`%u6625%u8282`，**`escape()`不对"+"编码 主要用于汉字编码**，现在已经不提倡使用。
 
-`encodeURI()`是Javascript中真正用来对URL编码的函数。 编码整个url地址，但对特殊含义的符号`"; / ? : @ & = + $ , #"`，也不进行编码。对应的解码函数是：`decodeURI()`。
+`encodeURI()`是Javascript中真正用来对URL编码的函数。**编码整个url地址，但对特殊含义的符号`"; / ? : @ & = + $ , #"`，也不进行编码**。对应的解码函数是：`decodeURI()`。
 
 `encodeURIComponent() `能编码`"; / ? : @ & = + $ , #"`这些特殊字符。对应的解码函数是`decodeURIComponent()`。
 
-假如要传递带`&`符号的网址，所以用`encodeURIComponent()`
+**假如要传递带`&`符号的网址，所以用`encodeURIComponent()`**。
 
 
 
