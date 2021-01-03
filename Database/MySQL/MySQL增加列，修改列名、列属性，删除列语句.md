@@ -6,14 +6,11 @@
 alter table test rename test1;
 ```
 
-
-
 ### 添加列
 
 ```sql
 alter table test add column name varchar(10); 
 ```
-
 
 
 ### 删除列
@@ -22,16 +19,12 @@ alter table test add column name varchar(10);
 alter table test drop column name;
 ```
 
-
-
 ### 修改列类型
 
 ```sql
 alter table test modify address char(10)
 ||alter table test change address address  char(40)  
 ```
-
-
 
 ### 修改列名
 

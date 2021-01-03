@@ -13,47 +13,46 @@
 - [13. 判断是否是回文字符串](#13-判断是否是回文字符串)
 - [14. moment获取当日0点时间戳](#14-moment获取当日0点时间戳)
 - [15. moment时间戳与时间格式互换](#15-moment时间戳与时间格式互换)
-- [16. 前端导出csv格式时产生中文乱码](#16-前端导出csv格式时产生中文乱码)
-- [17. 实现compose](#17-实现compose)
-- [18. 判断参数是否为浮点型？](#18-判断参数是否为浮点型)
-- [19. js动态修改@keyframes属性值](#19-js动态修改keyframes属性值)
-- [20. charCodeAt()](#20-charcodeat)
-- [21. HTML5视频元素video在加载的时候获取不到duration](#21-html5视频元素video在加载的时候获取不到duration)
-- [22. 单行文本超出经常使用省略号(`text-overflow: ellipsis`)，如何判断文本是否超出？](#22-单行文本超出经常使用省略号text-overflow-ellipsis如何判断文本是否超出)
-- [23. 借用`encodeURIComponent`进行base64编码](#23-借用encodeuricomponent进行base64编码)
-- [24. escape, encodeURI, encodeURIComponent](#24-escape-encodeuri-encodeuricomponent)
-- [25. `e.preventDefault(); passive: true`](#25-epreventdefault-passive-true)
-    - [25.0.1. 如何不让控制台提示，而且 `preventDefault()` 有效果呢？](#2501-如何不让控制台提示而且-preventdefault-有效果呢)
-- [26. 代理](#26-代理)
-- [27. &&符号](#27-符号)
-- [28. 服务端请求数据自动添加`http://127.0.0.1`](#28-服务端请求数据自动添加http127001)
-- [29. 拖拽技巧](#29-拖拽技巧)
-- [30. 禁止拖拽时选中文本的方法:](#30-禁止拖拽时选中文本的方法)
-- [31. 如何处理浮点数计算不准确？](#31-如何处理浮点数计算不准确)
-- [32. JS实现滚动条触底加载更多](#32-js实现滚动条触底加载更多)
-- [33. 页面切换出去再切换回来后怎样保持之前的滚动位置](#33-页面切换出去再切换回来后怎样保持之前的滚动位置)
-- [34. 判断浏览器版本是否ie8, ie9, ie10, ie11并提示升级](#34-判断浏览器版本是否ie8-ie9-ie10-ie11并提示升级)
-- [35. 解构赋值常见应用](#35-解构赋值常见应用)
-- [36. 下载CSV](#36-下载csv)
-- [37. 生成随机字符串](#37-生成随机字符串)
-- [38. 生成[n, m]的随机整数](#38-生成n-m的随机整数)
-- [39. 弹出层设计](#39-弹出层设计)
-- [40. moment 一分钟前](#40-moment-一分钟前)
-- [41. `ios`图片上传服务器后被自动旋转](#41-ios图片上传服务器后被自动旋转)
-    - [41.0.1. 获取图片选择角度](#4101-获取图片选择角度)
-    - [41.0.2. Canvas 对图像旋转 90 度](#4102-canvas-对图像旋转-90-度)
-    - [41.0.3. Base64 转图片](#4103-base64-转图片)
-    - [41.0.4. 图片转Base64](#4104-图片转base64)
-    - [41.0.5. 调用 ElementUI 中的 Upload 组件时，`before-upload`中解决ios端上传图片旋转90度问题](#4105-调用-elementui-中的-upload-组件时before-upload中解决ios端上传图片旋转90度问题)
-- [42. WebSocket 断开原因分析](#42-websocket-断开原因分析)
-- [43. 快速生成 Mac App icns 图标](#43-快速生成-mac-app-icns-图标)
-- [44. 虚拟列表](#44-虚拟列表)
-  - [44.1. 为什么需要使用虚拟列表？](#441-为什么需要使用虚拟列表)
-  - [44.2. 什么是虚拟列表？](#442-什么是虚拟列表)
-  - [44.3. 实现](#443-实现)
-  - [44.4. CellMeasurer 组件的原理](#444-cellmeasurer-组件的原理)
-- [45. 微前端](#45-微前端)
-- [46. 生成随机数、随机整数、随机字符串](#46-生成随机数随机整数随机字符串)
+- [16. 实现compose](#16-实现compose)
+- [17. 判断参数是否为浮点型？](#17-判断参数是否为浮点型)
+- [18. js动态修改@keyframes属性值](#18-js动态修改keyframes属性值)
+- [19. charCodeAt()](#19-charcodeat)
+- [20. HTML5视频元素video在加载的时候获取不到duration](#20-html5视频元素video在加载的时候获取不到duration)
+- [21. 单行文本超出经常使用省略号(`text-overflow: ellipsis`)，如何判断文本是否超出？](#21-单行文本超出经常使用省略号text-overflow-ellipsis如何判断文本是否超出)
+- [22. 借用`encodeURIComponent`进行base64编码](#22-借用encodeuricomponent进行base64编码)
+- [23. escape, encodeURI, encodeURIComponent](#23-escape-encodeuri-encodeuricomponent)
+- [24. `e.preventDefault(); passive: true`](#24-epreventdefault-passive-true)
+    - [24.0.1. 如何不让控制台提示，而且 `preventDefault()` 有效果呢？](#2401-如何不让控制台提示而且-preventdefault-有效果呢)
+- [25. 代理](#25-代理)
+- [26. &&符号](#26-符号)
+- [27. 服务端请求数据自动添加`http://127.0.0.1`](#27-服务端请求数据自动添加http127001)
+- [28. 拖拽技巧](#28-拖拽技巧)
+- [29. 禁止拖拽时选中文本的方法:](#29-禁止拖拽时选中文本的方法)
+- [30. 如何处理浮点数计算不准确？](#30-如何处理浮点数计算不准确)
+- [31. JS实现滚动条触底加载更多](#31-js实现滚动条触底加载更多)
+- [32. 页面切换出去再切换回来后怎样保持之前的滚动位置](#32-页面切换出去再切换回来后怎样保持之前的滚动位置)
+- [33. 判断浏览器版本是否ie8, ie9, ie10, ie11并提示升级](#33-判断浏览器版本是否ie8-ie9-ie10-ie11并提示升级)
+- [34. 解构赋值常见应用](#34-解构赋值常见应用)
+- [35. 下载CSV](#35-下载csv)
+- [36. 生成随机字符串](#36-生成随机字符串)
+- [37. 生成[n, m]的随机整数](#37-生成n-m的随机整数)
+- [38. 弹出层设计](#38-弹出层设计)
+- [39. moment 一分钟前](#39-moment-一分钟前)
+- [40. `ios`图片上传服务器后被自动旋转](#40-ios图片上传服务器后被自动旋转)
+    - [40.0.1. 获取图片选择角度](#4001-获取图片选择角度)
+    - [40.0.2. Canvas 对图像旋转 90 度](#4002-canvas-对图像旋转-90-度)
+    - [40.0.3. Base64 转图片](#4003-base64-转图片)
+    - [40.0.4. 图片转Base64](#4004-图片转base64)
+    - [40.0.5. 调用 ElementUI 中的 Upload 组件时，`before-upload`中解决ios端上传图片旋转90度问题](#4005-调用-elementui-中的-upload-组件时before-upload中解决ios端上传图片旋转90度问题)
+- [41. WebSocket 断开原因分析](#41-websocket-断开原因分析)
+- [42. 快速生成 Mac App icns 图标](#42-快速生成-mac-app-icns-图标)
+- [43. 虚拟列表](#43-虚拟列表)
+  - [43.1. 为什么需要使用虚拟列表？](#431-为什么需要使用虚拟列表)
+  - [43.2. 什么是虚拟列表？](#432-什么是虚拟列表)
+  - [43.3. 实现](#433-实现)
+  - [43.4. CellMeasurer 组件的原理](#434-cellmeasurer-组件的原理)
+- [44. 微前端](#44-微前端)
+- [45. 生成随机数、随机整数、随机字符串](#45-生成随机数随机整数随机字符串)
 
 
 ### 1. `flatten state`概念及代码
@@ -241,16 +240,7 @@ var res = moment(Date.now(), 'YYYY-MM-DD HH:mm:ss').valueOf();
 var res = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 ```
 
-### 16. 前端导出csv格式时产生中文乱码
-```js
-content="\ufeff"+content;
-let url = window.URL.createObjectURL(new Blob([content], {type: 'text/csv, charset = utf-8'}));
-```
-在字符串头部加上`"\ufeff"`表示它是utf-8格式编码的，再用编辑器打开时就不会产生乱码了
-
-
-
-### 17. 实现compose
+### 16. 实现compose
 ```js
 // 命令式编程（面向过程）
 function compose(fns) {
@@ -276,7 +266,7 @@ function compose(funcs) {
 }
 ```
 
-### 18. 判断参数是否为浮点型？
+### 17. 判断参数是否为浮点型？
 ```js
 // 1.
 n != parseInt(n)
@@ -285,7 +275,7 @@ n != parseInt(n)
 ~~n !== n
 ```
 
-### 19. js动态修改@keyframes属性值
+### 18. js动态修改@keyframes属性值
 
 `document.styleSheets`这个接口可以获取网页上引入的link样式表和style样式表。
 
@@ -295,13 +285,13 @@ n != parseInt(n)
 
 
 
-### 20. charCodeAt() 
+### 19. charCodeAt() 
 获取ASCII码
 
 
 
 
-### 21. HTML5视频元素video在加载的时候获取不到duration
+### 20. HTML5视频元素video在加载的时候获取不到duration
 1. 直接监听`canplay`事件获取：
 `canplay`：当浏览器能够开始播放指定的音频/视频时，发生 canplay 事件。
 
@@ -312,7 +302,7 @@ n != parseInt(n)
 
 
 
-### 22. 单行文本超出经常使用省略号(`text-overflow: ellipsis`)，如何判断文本是否超出？
+### 21. 单行文本超出经常使用省略号(`text-overflow: ellipsis`)，如何判断文本是否超出？
 ```js
 var clientWidth = document.getElementById("ellipsis").clientWidth;  
 var scrollWidth = document.getElementById("ellipsis").scrollWidth;  
@@ -321,7 +311,7 @@ if (clientWidth < scrollWidth){
 }
 ```
 
-### 23. 借用`encodeURIComponent`进行base64编码
+### 22. 借用`encodeURIComponent`进行base64编码
 中文编码一直都是程序员要关注的，`window.btoa('哎哟不错')`，是会抛出异常的。
 那么一般的思想都是先借用`encodeURIComponent`进行base64编码，
 然后借用`decodeURIComponent`进行base64解码。
@@ -336,7 +326,7 @@ function b64_to_utf8( str ) {
 }
 ```
 
-### 24. escape, encodeURI, encodeURIComponent
+### 23. escape, encodeURI, encodeURIComponent
 **`escape()`不能直接用于URL编码，它的真正作用是返回一个字符的Unicode编码值**。比如"春节"的返回结果是`%u6625%u8282`，**`escape()`不对"+"编码 主要用于汉字编码**，现在已经不提倡使用。
 
 `encodeURI()`是Javascript中真正用来对URL编码的函数。**编码整个url地址，但对特殊含义的符号`"; / ? : @ & = + $ , #"`，也不进行编码**。对应的解码函数是：`decodeURI()`。
@@ -347,7 +337,7 @@ function b64_to_utf8( str ) {
 
 
 
-### 25. `e.preventDefault(); passive: true`
+### 24. `e.preventDefault(); passive: true`
 从 chrome56 开始，在 window、document 和 body 上注册的 `touchstart` 和 `touchmove` 事件处理函数，会默认为是`passive: true`。浏览器忽略 preventDefault() 就可以第一时间滚动了。
 
 导致下面的效果一致：
@@ -356,7 +346,7 @@ wnidow.addEventListener('touchmove', func) // 效果和下面一句一样
 wnidow.addEventListener('touchmove', func, { passive: true })
 ```
 
-##### 25.0.1. 如何不让控制台提示，而且 `preventDefault()` 有效果呢？
+##### 24.0.1. 如何不让控制台提示，而且 `preventDefault()` 有效果呢？
 
 注册处理函数时，用如下方式，明确声明为不是被动的
 ```js
@@ -365,7 +355,7 @@ window.addEventListener(‘touchmove’, func, { passive: false })
 
 
 
-### 26. 代理
+### 25. 代理
 ES5对象代理
 ```js
 var Person1 = {
@@ -398,34 +388,34 @@ let person2 = new Proxy(Person2, {
 });
 ```
 
-### 27. &&符号
+### 26. &&符号
 &&符号也是可以赋值的，需要加上小括号，如：
 ```js
 step > max_step && (step = min_step)
 ```
 
-### 28. 服务端请求数据自动添加`http://127.0.0.1`
+### 27. 服务端请求数据自动添加`http://127.0.0.1`
 服务端axios.get/post请求数据，自动添加`http://127.0.0.1`, 而客户端自动添加`http://localhost:3000`, 可见服务端不会添加端口。因为服务端没有domain
 
 
 
-### 29. 拖拽技巧
+### 28. 拖拽技巧
 - 拖拽的事件不要放在某个小div上，而要放在全局上，否则卡顿
 - addEventListener 第三个参数为true（捕获阶段），不冒泡
 
-### 30. 禁止拖拽时选中文本的方法: 
+### 29. 禁止拖拽时选中文本的方法: 
 - js: `mousedown`事件`return false`
 - css：`user-select: none;`
 
 
 
 
-### 31. 如何处理浮点数计算不准确？
+### 30. 如何处理浮点数计算不准确？
 方法1：通过`toFixed(num)`方法来保留小数。因为这个方法是根据四舍五入来保留小数的，所以最后的计算结果不精确。
 方法2：把要计算的数字升级（乘以10的n次幂）成计算机能够精确识别的整数，计算完以后再降级，推荐
 
 
-### 32. JS实现滚动条触底加载更多
+### 31. JS实现滚动条触底加载更多
 
 原理：通过监听滚动区域DOM的scroll事件, 计算出触底
 ```js
@@ -433,7 +423,7 @@ step > max_step && (step = min_step)
 scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
 ```
 
-### 33. 页面切换出去再切换回来后怎样保持之前的滚动位置
+### 32. 页面切换出去再切换回来后怎样保持之前的滚动位置
 - 当页面切换出去的时候会调用`componentWillUnmount`方法，所以在这里记录下当前组件位置（`scrollTop = this.contentNode.scrollTop`）
 - 当页面切换进来的时候会调用`componentDidMount`方法，将之前保存的位置重新赋值给组件（`this.contentNode.scrollTop = scrollTop`）
 - scrollTop放在类外面作为全局变量
@@ -441,7 +431,7 @@ scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
 
 
 
-### 34. 判断浏览器版本是否ie8, ie9, ie10, ie11并提示升级
+### 33. 判断浏览器版本是否ie8, ie9, ie10, ie11并提示升级
 ```html
 <!--[if lte IE8]>
 <p class=''>您的浏览器太旧了，请到<a href='http://browserhappy.com'>这里</a>更新</p>
@@ -451,7 +441,7 @@ scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
 - 缺点：仅支持到IE9，不支持IE10和IE11
 
 
-### 35. 解构赋值常见应用
+### 34. 解构赋值常见应用
 多维数组变一维数组，`[].concat(...arr)`或者`[].concat.apply([], arr)`
 
 
@@ -461,7 +451,7 @@ scrollDom.clientHeight + scrollDom.scrollTop === scrollDom.scrollHeight
 
 
 
-### 36. 下载CSV
+### 35. 下载CSV
 
 ```javascript
 const exportCSV = (data, name) => {
@@ -480,7 +470,7 @@ const exportCSV = (data, name) => {
 }
 ```
 
-### 37. 生成随机字符串
+### 36. 生成随机字符串
 
 ```javascript
 /**
@@ -495,7 +485,7 @@ function getRandomString() {
 }
 ```
 
-### 38. 生成[n, m]的随机整数
+### 37. 生成[n, m]的随机整数
 ```js
 /**
  * parseInt()和Math.floor()结果都是向下取整。
@@ -513,16 +503,16 @@ function getRandInt(minNum, maxNum) {
 }
 ```
 
-### 39. 弹出层设计
+### 38. 弹出层设计
 
 弹出层与mark遮罩是同级，它们的上一级设置成`fixed`，并且`overflow：auto`，同时body是`height：100%，overflow：hidden`。滚动时`fixed`的那一层的`scrollTop`变化。
 
-### 40. moment 一分钟前
+### 39. moment 一分钟前
 `moment(Date.now() - 60*1000).fromNow()`：一分钟前
 
 
 
-### 41. `ios`图片上传服务器后被自动旋转
+### 40. `ios`图片上传服务器后被自动旋转
 
 EXIF（`Exchangeable Image File`）是“可交换图像文件”的缩写，当中包含了专门为数码相机的照片而定制的元数据，可以记录数码照片的拍摄参数、缩略图及其他属性信息。
 图像一旦被修改，Exif 信息可能会永久丢失，故编辑 Exif 必须使用专门的软件。
@@ -540,7 +530,7 @@ EXIF中，有一个 `Orientation`参数，用于记录照片生成时的方向�
 ```
 照片查看软件会将旋转的图片自动旋转过来，但html不会
 
-##### 41.0.1. 获取图片选择角度
+##### 40.0.1. 获取图片选择角度
 ```js
 import EXIF from 'exif-js'
 
@@ -554,7 +544,7 @@ function getOrientation(file) {
 }
 ```
 
-##### 41.0.2. Canvas 对图像旋转 90 度
+##### 40.0.2. Canvas 对图像旋转 90 度
 ```js
 function rotateImage(image, width, height) {
   let canvas = document.createElement('canvas')
@@ -568,7 +558,7 @@ function rotateImage(image, width, height) {
   return canvas.toDataURL('image/jpeg')
 }
 ```
-##### 41.0.3. Base64 转图片
+##### 40.0.3. Base64 转图片
 ```js
 function base64ToBlob(urlData, type) {
   let arr = urlData.split(',');
@@ -590,7 +580,7 @@ function base64ToBlob(urlData, type) {
  }
 ```
 
-##### 41.0.4. 图片转Base64
+##### 40.0.4. 图片转Base64
 ```js
 function image2Base64(img) {
   var canvas = document.createElement("canvas");
@@ -613,7 +603,7 @@ function getImgBase64(){
 }
 ```
 
-##### 41.0.5. 调用 ElementUI 中的 Upload 组件时，`before-upload`中解决ios端上传图片旋转90度问题
+##### 40.0.5. 调用 ElementUI 中的 Upload 组件时，`before-upload`中解决ios端上传图片旋转90度问题
 
 ```js
 const rotate = new Promise(resolve => {
@@ -637,17 +627,17 @@ const rotate = new Promise(resolve => {
 })
 ```
 
-### 42. WebSocket 断开原因分析
+### 41. WebSocket 断开原因分析
 
 参考资料：[WebSocket 断开原因分析](https://blog.csdn.net/weixin_34168880/article/details/88859480?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)，[CloseEvent, MDN](https://developer.mozilla.org/zh-CN/docs/Web/API/CloseEvent)
 
-### 43. 快速生成 Mac App icns 图标
+### 42. 快速生成 Mac App icns 图标
 
 参考资料：[快速生成 Mac App icns 图标](https://www.jianshu.com/p/e74047f7cc91)
 
-### 44. 虚拟列表
+### 43. 虚拟列表
 
-#### 44.1. 为什么需要使用虚拟列表？
+#### 43.1. 为什么需要使用虚拟列表？
 在实际的工作中，列表项必然不会仅仅只由一个li标签组成，必然是由复杂DOM节点组成的。
 
 那么可以想象的是，当列表项数过多并且列表项结构复杂的时候，同时渲染时，会在`Recalculate Style`和`Layout`阶段消耗大量的时间。
@@ -655,7 +645,7 @@ const rotate = new Promise(resolve => {
 而虚拟列表就是解决这一问题的一种实现。
 
 
-#### 44.2. 什么是虚拟列表？
+#### 43.2. 什么是虚拟列表？
 虚拟列表其实是按需显示的一种实现，即只对可见区域进行渲染，对非可见区域中的数据不渲染或部分渲染的技术，从而达到极高的渲染性能。
 
 假设有1万条记录需要同时渲染，我们屏幕的可见区域的高度为`500px`,而列表项的高度为`50px`，则此时我们在屏幕中最多只能看到10个列表项，那么在首次渲染的时候，我们只需加载10条即可。
@@ -664,7 +654,7 @@ const rotate = new Promise(resolve => {
 
 假设滚动发生，滚动条距顶部的位置为`150px`,则我们可得知在可见区域内的列表项为`第4项至`第13项`。
 
-#### 44.3. 实现
+#### 43.3. 实现
 虚拟列表的实现，实际上就是在首屏加载的时候，只加载可视区域内需要的列表项，当滚动发生时，动态通过计算获得可视区域内的列表项，并将非可视区域内存在的列表项删除。
 
 1. 计算当前可视区域起始数据索引(`startIndex`)
@@ -673,7 +663,7 @@ const rotate = new Promise(resolve => {
 4. 计算`startIndex`对应的数据在整个列表中的偏移位置`startOffset`(`scrollTop - (scrollTop % itemHeight)`)并设置到列表上
 
 
-####  44.4. CellMeasurer 组件的原理
+####  43.4. CellMeasurer 组件的原理
 `react-virtualized`提供了一个 CellMeasurer 组件，能够动态地计算子元素的大小。
 
 在 cell 元素被渲染之前，用的是预估的列宽值或者行高值计算的，此时的值未必就是精确的，而当 cell 元素渲染之后，就能获取到其真实的大小，因而缓存其真实的大小之后，在组件的下次 re-render 的时候就能对原先预估值的计算进行纠正，得到更精确的值。
@@ -682,11 +672,11 @@ const rotate = new Promise(resolve => {
 
 demo：[原生JS实现](./demos/virtuallized.html)
 
-### 45. 微前端
+### 44. 微前端
 
 参考资料：[实施前端微服务化的六七种方式](https://zhuanlan.zhihu.com/p/39102712)
 
-### 46. 生成随机数、随机整数、随机字符串
+### 45. 生成随机数、随机整数、随机字符串
 
 任意范围的随机数生成函数如下。
 
