@@ -1,0 +1,25 @@
+{
+  "name": "coding-everyday",
+  "version": "1.0.0",
+  "description": "- [数学](./Math) - [Linux](./Linux) - [NodeJS](./NodeJS) - [前端工作中常见问题](./Problems-in-Work) - [前端基础](./Front-End-Base)   - [Javascript](./Front-End-Base/JS)   - [HTML](./Front-End-Base/HTML)   - [CSS](./Front-End-Base/CSS) - [通用框架](./Front-End-Library)   - [React](./Front-End-Library/React)   - [Vue](./Front-End-Library/Vue)   - [Webpack](./Front-End-Library/Webpack)   - [NextJS](./Front-End-Library/NextJS)   - [Electron](./Front-End-Library/Electron) - [计算机基础](./Computer-Base)   - [算法](./Computer-Base/Algorithm)   - [数据结构](./Computer-Base/Data-Structure)   - [计算机网络](./Computer-Base/Computer-Network)   - [计算机操作系统](./Computer-Base/Computer-Operating-System)   - [计算机组成原理](./Computer-Base/Computer-Organization) - [工具](./Tools)   - [Git](./Tools/Git)   - [Jest](./Tools/Jest)   - [VSCode](./Tools/VSCode)   - [Eslint](./Tools/Eslint)",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "deploy": "sh deploy.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/novlan1/coding-everyday.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/novlan1/coding-everyday/issues"
+  },
+  "homepage": "https://github.com/novlan1/coding-everyday#readme",
+  "devDependencies": {
+    "vuepress": "^1.8.0"
+  }
+}
