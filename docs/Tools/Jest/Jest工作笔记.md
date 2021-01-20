@@ -14,8 +14,8 @@
 - [3. 第三周](#3-第三周)
   - [3.1. vue-test-utils的setData不会改变引用地址](#31-vue-test-utils的setdata不会改变引用地址)
   - [3.2. 测试logic的最佳实践](#32-测试logic的最佳实践)
-- [3.3 测试函数抛出异常](#33-测试函数抛出异常)
-- [3.4 toEqual可以对比对象 数组, toBe不可以，一般测试对象的几个属性的话，可以用toMatchObject](#34-toequal可以对比对象-数组-tobe不可以一般测试对象的几个属性的话可以用tomatchobject)
+  - [3.3 测试函数抛出异常](#33-测试函数抛出异常)
+  - [3.4 toEqual可以对比对象 数组, toBe不可以，一般测试对象的几个属性的话，可以用toMatchObject](#34-toequal可以对比对象-数组-tobe不可以一般测试对象的几个属性的话可以用tomatchobject)
   
 ## Jest工作笔记 <!-- omit in toc -->
 
@@ -106,7 +106,7 @@ const myMockFn = jest
 console.log(myMockFn(), myMockFn(), myMockFn(), myMockFn());
 ```
 
-### 3.3 测试函数抛出异常
+#### 3.3 测试函数抛出异常
 
 ```js
 test('throws on octopus', () => {
@@ -116,7 +116,7 @@ test('throws on octopus', () => {
 });
 ```
 
-### 3.4 toEqual可以对比对象 数组, toBe不可以，一般测试对象的几个属性的话，可以用toMatchObject
+#### 3.4 toEqual可以对比对象 数组, toBe不可以，一般测试对象的几个属性的话，可以用toMatchObject
 
 
 
