@@ -121,4 +121,7 @@ test('throws on octopus', () => {
 
 
 
-参考：[去抖动功能的Jest单元测试(Jest unit test for a debounce function)](https://www.it1352.com/1068940.html)
+参考：
+1. [去抖动功能的Jest单元测试(Jest unit test for a debounce function)](https://www.it1352.com/1068940.html)
+2. [你如何使用Jest来测试img.onerror(How do you use Jest to test img.onerror)](https://www.it1352.com/1472892.html)
+3. [JS中手动触发事件的方法](https://www.cnblogs.com/jiangxiaobo/p/5830200.html)

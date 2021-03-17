@@ -1,3 +1,9 @@
-[submodule "Tools/Git/web_crawer_one"]
-	path = Tools/Git/web_crawer_one
+[submodule "docs/Tools/Git/web_crawer_one"]
+	path = docs/Tools/Git/web_crawer_one
+	url = git@github.com:novlan1/web_crawer_one.git
+[submodule "web_crawer_one"]
+	path = web_crawer_one
+	url = git@github.com:novlan1/web_crawer_one.git
+[submodule "docs/sub"]
+	path = docs/sub
 	url = git@github.com:novlan1/web_crawer_one.git
