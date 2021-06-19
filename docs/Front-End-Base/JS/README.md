@@ -513,4 +513,4 @@ Object.defineProperty(obj, 'p', {
 5. 如果是使用`jQuery`，直接这样就可以了`$.ajaxSetup({cache:false})`。这样页面的所有ajax都会执行这条语句就是不需要保存缓存记录。
 
 ### 31. 学习资料
-https://github.com/huyaocode/webKnowledge
+[https://github.com/huyaocode/webKnowledge](https://github.com/huyaocode/webKnowledge)
