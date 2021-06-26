@@ -84,7 +84,7 @@ module.exports = {
 		"docsDir": "docs",
 		"editLinkText": "为该章节纠错",
 		"lastUpdated": "上次更新",
-		sidebarDepth: 2,
+		sidebarDepth: 1,
 		"nav": [
 			{
 				"text": "🙋‍♂️ 一起学习",
