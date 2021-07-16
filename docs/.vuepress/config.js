@@ -62,6 +62,7 @@ function getAllSideBar(configMap) {
 }
 
 console.log(JSON.stringify(getAllSideBar(configMap)))
+console.log(getAllSideBar(configMap))
 
 module.exports = {
 	"title": "Coding-everyday",
@@ -80,11 +81,11 @@ module.exports = {
 	"themeConfig": {
 		"repo": "novlan1/coding-everyday",
 		"repoLabel": "点亮⭐不迷路",
-		"editLinks": true,
+		"editLinks": false,
 		"docsDir": "docs",
 		"editLinkText": "为该章节纠错",
-		"lastUpdated": "上次更新",
-		sidebarDepth: 1,
+		// "lastUpdated": "上次更新",
+		"sidebarDepth": 0,
 		"nav": [
 			{
 				"text": "🙋‍♂️ 一起学习",
