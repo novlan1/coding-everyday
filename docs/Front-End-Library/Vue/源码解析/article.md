@@ -113,7 +113,7 @@ class Watcher {
 
 ### 3. `computed`原理
 
-举例：
+看这个例子：
 
 ```js
 computed: {
@@ -284,11 +284,11 @@ function computed(getter) {
 
 ## 四、相关资料
 
-1. 图解 Vue 响应式原理：https://juejin.cn/post/6857669921166491662
-2. 搞懂computed和watch原理，减少使用场景思考时间：https://juejin.cn/post/6844903926819454983
-3. Vue源码之computed和watch：https://blog.csdn.net/zhoulei1995/article/details/114447005
-4. Vue.js 技术揭秘：https://ustbhuangyi.github.io/vue-analysis/
-5. vue3.0响应式函数原理：https://juejin.cn/post/6972769060324900871
-6. 手写Vue3 响应式（Reactivity）模块：https://juejin.cn/post/6994459104945291295
-7. vue3源码分析（三）—— 响应式系统（reactivity）：https://blog.csdn.net/qq_36131788/article/details/118995492
-8. Vue3 深度解析：https://blog.csdn.net/weixin_37543731/article/details/103268732
+1. [图解 Vue 响应式原理](https://juejin.cn/post/6857669921166491662)
+2. [搞懂computed和watch原理，减少使用场景思考时间](https://juejin.cn/post/6844903926819454983)
+3. [Vue源码之computed和watch](https://blog.csdn.net/zhoulei1995/article/details/114447005)
+4. [Vue.js 技术揭秘](https://ustbhuangyi.github.io/vue-analysis/)
+5. [vue3.0响应式函数原理](https://juejin.cn/post/6972769060324900871)
+6. [手写Vue3 响应式（Reactivity）模块](https://juejin.cn/post/6994459104945291295)
+7. [vue3源码分析（三）—— 响应式系统（reactivity）](https://blog.csdn.net/qq_36131788/article/details/118995492)
+8. [Vue3 深度解析](https://blog.csdn.net/weixin_37543731/article/details/103268732)
