@@ -288,7 +288,7 @@ def merge(head1, head2):
       head2 = head2.next
 
     head = head.next
-  head.next = head1 if head2
+  head.next = head1 if head1 else head2
   return res.next
 ```
 
@@ -610,12 +610,13 @@ a-b-4-5-null
 
 如果有公共结点，那么指针一起走到末尾的部分，也就一定会重叠。看看下面指针的路径吧。
 
-p1： 0-1-2-3-4-5-null(此时遇到if else)-a-b-4-5-null
-p2:  a-b-4-5-null(此时遇到if else)0-1-2-3-4-5-null
+p1： `0-1-2-3-4-5-null`(此时遇到if else)-`a-b-4-5-null`
+p2:  `a-b-4-5-null`(此时遇到if else)`0-1-2-3-4-5-null`
 
 因此，两个指针所要遍历的链表就长度一样了！
 
-其实就是两个链表相加a+n+b+n；再一起走a+b+n步就行
+其实就是两个链表相加 `a+n+b+n`；再一起走 `a+b+n` 步就行
+
 ```
 ```python
 def findFirstCommonNode(head1, head2):

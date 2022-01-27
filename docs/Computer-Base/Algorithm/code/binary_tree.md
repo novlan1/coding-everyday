@@ -1,10 +1,10 @@
 - [1. 二叉树的实现](#1-二叉树的实现)
 - [2. 二叉树的层次遍历](#2-二叉树的层次遍历)
-- [3. 二叉树的前序、中序、后序遍历（递归）](#3-二叉树的前序中序后序遍历递归)
-- [4. 前序遍历（非递归）](#4-前序遍历非递归)
-- [5. 中序遍历（非递归）](#5-中序遍历非递归)
-- [6. 后序遍历（非递归）](#6-后序遍历非递归)
-- [7. 二叉树的按层打印](#7-二叉树的按层打印)
+- [3. 二叉树的按层打印](#3-二叉树的按层打印)
+- [4. 二叉树的前序、中序、后序遍历（递归）](#4-二叉树的前序中序后序遍历递归)
+- [5. 前序遍历（非递归）](#5-前序遍历非递归)
+- [6. 中序遍历（非递归）](#6-中序遍历非递归)
+- [7. 后序遍历（非递归）](#7-后序遍历非递归)
 - [8. 二叉树之字形打印](#8-二叉树之字形打印)
 - [9. 折纸问题](#9-折纸问题)
 - [10. 求二叉树的镜像](#10-求二叉树的镜像)
@@ -81,9 +81,42 @@ def traverseTree(root):
       q.append(p.right)
 
   return res
-
 ```
-### 3. 二叉树的前序、中序、后序遍历（递归）
+
+### 3. 二叉树的按层打印
+
+1. 用队列不断推入当前层的节点，每次遍历的时候用一个变量记录当前层的节点个数。
+2. 依次遍历队列，将值放入temp中，遍历完一层后，将temp放入res中。
+
+```python
+def levelOrder(root):
+  if not root: return 
+
+  res = []
+  q = [root]
+  
+  while q:
+    curLen = len(q)
+    temp = []
+
+    for i in range(curLen):
+      node = q.pop(0)
+      temp.append(node.val)
+
+      if node.left: q.append(node.left)
+      if node.right: q.append(node.right)
+
+    res.append(temp)
+
+  return res
+```
+
+
+
+### 4. 二叉树的前序、中序、后序遍历（递归）
+
+
+
 
 ```python
 def preOrder(root):
@@ -107,7 +140,35 @@ def postOrder(root):
   right = postOrder(root.right)
   return left + right + res
 ```
-### 4. 前序遍历（非递归）
+
+测试
+
+```python
+a = Tree()
+for i in range(10):
+  a.add(i)
+
+preorder(a.root)
+# [0, 1, 3, 7, 8, 4, 9, 2, 5, 6]
+
+inOrder(a.root)
+# [7, 3, 8, 1, 9, 4, 0, 5, 2, 6]
+
+postOrder(a.root)
+# [7, 8, 3, 9, 4, 1, 5, 6, 2, 0]
+```
+
+```
+         0
+      /    \
+     1       2
+    /  \    /   \
+   3    4  5    6
+ /  \   / 
+7    8  9   
+```
+
+### 5. 前序遍历（非递归）
 
 1. 申请一个栈 stack，将头节点head压入。
 2. 每次从栈中弹出一个元素，并放入res中，并且依次遍历它的右、左孩子，如果存在，将其放入栈中。
@@ -118,20 +179,20 @@ def postOrder(root):
 def preOrder2(root):
   if not root: return []
   res = []
-  q = [root]
+  s = [root]
   
-  while q:
-    node = q.pop()
+  while s:
+    node = s.pop()
     res.append(node.val)
     
     if node.right:
-      q.append(node.right)
+      s.append(node.right)
     if node.left:
-      q.append(node.left)
+      s.append(node.left)
   return res
 ```
 
-### 5. 中序遍历（非递归）
+### 6. 中序遍历（非递归）
 
 1. 申请一个栈，和一个变量cur，指向根节点。
 2. 只要cur不为空，就不断将其压入到栈中，并不断将cur指向它的左孩子。
@@ -143,21 +204,21 @@ def preOrder2(root):
 def inOrder2(root):
   if not root: return []
   res = []
-  q = []
+  s = []
   cur = root
   
-  while q or cur:
+  while s or cur:
     if cur:
-      q.append(cur)
+      s.append(cur)
       cur = cur.left
     else:
-      node = q.pop()
+      node = s.pop()
       res.append(node.val)
       cur = node.right
   return res
 ```
 
-### 6. 后序遍历（非递归）
+### 7. 后序遍历（非递归）
 
 方法一：使用两个栈实现
 1. 申请两个栈，s1 和 s2，s1先推入根节点
@@ -166,7 +227,7 @@ def inOrder2(root):
 4. 从s2中依次弹出节点，并打印。
 
 
-```
+```python
 def postOrder2(root):
   if not root: return []
   res = []
@@ -211,35 +272,6 @@ def postOrder3(root):
       c = s.pop()
       res.append(c.val)
       h = c
-
-  return res
-```
-
-
-### 7. 二叉树的按层打印
-
-1. 用队列不断推入当前层的节点，每次遍历的时候用一个变量记录当前层的节点个数。
-2. 依次遍历队列，将值放入temp中，遍历完一层后，将temp放入res中。
-
-```python
-def levelOrder(root):
-  if not root: return 
-
-  res = []
-  q = [root]
-  
-  while q:
-    curLen = len(q)
-    temp = []
-
-    for i in range(curLen):
-      node = q.pop(0)
-      temp.append(node.val)
-
-      if node.left: q.append(node.left)
-      if node.right: q.append(node.right)
-
-    res.append(temp)
 
   return res
 ```

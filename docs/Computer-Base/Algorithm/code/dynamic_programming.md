@@ -44,12 +44,12 @@ def fibonacci(n):
 
 ### 2. 01背包问题
 ```
-dp[x][y]表示前x件物品，不超过重量y的时候的最大价值。
+dp[x][y] 表示前x件物品，不超过重量y的时候的最大价值。
 有两种可能：
-（1）若选择x件物品，则前x-1件物品的重量不能超过y-w[x]。
-（2）若不选择x件物品，则前x-1件物品的重量不能超过y。
+（1）若选择 x 件物品，则前x-1件物品的重量不能超过y-w[x]。
+（2）若不选择 x 件物品，则前x-1件物品的重量不能超过y。
 
-所以dp[x][y]可能等于dp[x-1][y]，也就是不取第x件物品。也可能是dp[x-1][y-w[x]]+v[x]，二者取较大值。
+所以 dp[x][y] 可能等于 dp[x-1][y]，也就是不取第x件物品。也可能是 dp[x-1][y-w[x]]+v[x]，二者取较大值。
 ```
 
 ```python
@@ -65,12 +65,22 @@ def bag(w, v, cap):
   return dp[-1][-1]
 ```
 
+
+```python
+bag([1,2,3], [1,2,3], 6)
+# 6
+```
+
+
 ### 3. 找零钱问题
 ```
 dp[i]是目标面值为i时，可以换钱的方法数。
 
 dp[j] += dp[j - penny[i]]，比如，当 penny[i] 为5时，比5大的目标，都应该加上5 + (剩余的面值)的方法数。
+
+比如我要凑7块钱，之前只有1块钱、2块钱的，现在多了一张5块钱的，那就是之前凑1块钱的方法数 + 之前凑2块钱的方法数 + 之前凑7块钱的方法数。
 ```
+
 ```python
 def exchange(penny, aim):
   n = len(penny)
@@ -86,14 +96,29 @@ def exchange(penny, aim):
   return dp[-1]
 ```
 
+```python
+exchange([1, 2, 5])
+# 10
+```
+
+
+举例：
+
+```
+exchange(1 2 5, 5)
+1 1 1 1 1 1 （i=0, j=penny[i]=penny[0]=1，遍历完成）
+1 1 2 2 3 3 （i=1, j=penny[i]=penny[1]=2，遍历完成）
+1 1 2 2 3 4 （i=2, j=penny[i]=penny[2]=5，遍历完成）
+```
+
 ### 4. 最长公共子序列LCS
 
 ```
 LCS是Longest Common Subsequence的缩写,即最长公共子序列
 
-1. dp[i][j]的含义是字符串arr1[0...i]和arr2[0...j]的最长公共子序列。
-2. 矩阵dp的第一列，即dp[i][0]，为arr1[0..j]和arr2[0]的最长公共子序列长度，
-   由于arr2[0]长度为1，所以dp[i][0]最大为1。dp[i][0]一旦被设为1，那么之后的dp[i+1..M]都为1。
+1. dp[i][j] 的含义是字符串 arr1[0...i] 和 arr2[0...j] 的最长公共子序列。
+2. 矩阵 dp 的第一列，即 dp[i][0]，为 arr1[0..j] 和 arr2[0] 的最长公共子序列长度，
+   由于 arr2[0] 长度为 1，所以 dp[i][0] 最大为 1。dp[i][0] 一旦被设为1，那么之后的 dp[i+1..M] 都为 1。
 3. 同理，矩阵的第一行，dp[0][j]，也是相同的规律。
 4. 若 arr1[i]==arr2[j]，则 dp[i][j]=dp[i-1][j-1]+1，否则 dp[i][j] = max(dp[i-1][j], dp[i][j-1])。
 ```
@@ -102,6 +127,7 @@ LCS是Longest Common Subsequence的缩写,即最长公共子序列
 def LCS(A, B):
   n = len(A)
   m = len(B)
+  if n <=0 or m <=0: return 0
 
   dp =[[0 for i in range(m)]for j in range(n)]
 
@@ -135,6 +161,8 @@ dp[i]=max{ dp[j] + 1 }，其中 0<=j<i，并且 arr[j]<arr[i]
 ```python
 def LIS(A):
   n = len(A)
+  if n <= 0: return 0
+
   dp = [0 for i in range(n)]
   dp[0] = 1
   
@@ -178,6 +206,11 @@ def perm(s):
   return res
 ```
 
+```python
+perm('abc')
+# ['abc', 'acb', 'bac', 'bca', 'cab', 'cba']
+```
+
 ### 7. 集合的所有子集
 
 ```python
@@ -208,6 +241,39 @@ def subset(s):
 
 算上空集的话一共 2^n 个，从 0 到 2^n ，将其转为二进制，与原始数组位置相对应，二进制位上为
 1的位置，是数组中留下来的数。
+```
+
+
+
+```python
+subset('abc') 
+# 打印i j的遍历顺序
+
+# 0 0
+# 0 1
+# 0 2
+# 1 0
+# 1 1
+# 1 2
+# 2 0
+# 2 1
+# 2 2
+# 3 0
+# 3 1
+# 3 2
+# 4 0
+# 4 1
+# 4 2
+# 5 0
+# 5 1
+# 5 2
+# 6 0
+# 6 1
+# 6 2
+# 7 0
+# 7 1
+# 7 2
+# [[], ['a'], ['b'], ['a', 'b'], ['v'], ['a', 'v'], ['b', 'v'], ['a', 'b', 'v']]
 ```
 
 ### 8. 最优编辑（插入、删除、替换）
@@ -244,6 +310,28 @@ def findMinCost(A, n, B, m, c0, c1, c2):
   return dp[-1][-1]
 ```
 
+或者：
+
+```python
+def findMinCost(A, n, B, m, c0, c1, c2):
+  if not n or not m: return 0
+  
+  dp = [[0 for i in range(m)] for j in range(n)]
+
+  for i in range(1, n):
+    dp[i][0] = i * c1
+  for j in range(1, m):
+    dp[0][j] = j * c0
+
+  for i in range(1, n ):
+    for j in range(1, m ):
+      if A[i] == B[j]:
+        dp[i][j] = dp[i - 1][j - 1]
+      else:
+        dp[i][j] = min(dp[i-1][j] + c1, dp[i][j-1] + c0, dp[i-1][j-1] + c2)
+  return dp[-1][-1]
+```
+
 ### 9. 走方格，多少种走法
 
 请编写一个函数（允许增加子函数），计算`n x m`的棋盘格子（n为横向的格子数，m为竖向的格子数）沿着各自边缘线从左上角走到右下角，总共有多少种走法，要求不能走回头路，即：只能往右和往下走，不能往左和往上走。
@@ -262,9 +350,16 @@ def solution(n, m):
 
   for i in range(1, n):
     for j in range(1, m):
+      # 核心
       res[i][j] = res[i-1][j] + res[i][j-1]
 
   return res[-1][-1]
+```
+
+
+```python
+solution(3, 3) 
+# 6
 ```
 
 

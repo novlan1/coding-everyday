@@ -38,6 +38,11 @@ def selectionSort(A):
 ```
 
 
+```python
+# 当 i 取0的时候，min_index = i = 0，j 从1开始就行了，所以 j 范围是从1开始
+# 另外，i 只需要到 A[n-2], j 需要到 A[n-1]，所以 i 范围是 (n - 1)，j 范围是 [i + 1, n]
+```
+
 ### 2. 冒泡排序
 
 1. 原理：比较两个相邻的元素，将值大的元素交换到右边
@@ -52,12 +57,24 @@ def bubbleSort(A):
   n = len(A)
   
   for i in range(n - 1):
+    # j 的范围是关键
     for j in range(n - i - 1):
       if A[j] > A[j + 1]:
         A[j], A[j + 1] = A[j + 1], A[j]
         
   return A
 ```
+
+
+```python
+当 i = 0, j 的范围是 [0, n - 1), j + 1 的范围是 [1, n)
+当 i = 1, j 的范围是 [0, n - 2), j + 1 的范围是 [1, n - 1)
+当 i = 2, j 的范围是 [0, n - 3), j + 1 的范围是 [1, n - 2)
+...
+
+范围越来越小
+```
+
 
 ### 3. 插入排序
 
@@ -72,6 +89,7 @@ def insertSort(A):
 ```
 
 优化插入排序
+
 ```python
 def insertSort(A):
   n = len(A)
