@@ -478,6 +478,38 @@ def ten2two(n):
   return int(''.join(res))
 ```
 
+JS实现：
+
+```js
+// 十进制转二进制
+function dec2Bin(n) {
+  const res = []
+  res.push(n % 2)
+  while (parseInt( n / 2 ) !== 0) {
+    n = parseInt(n / 2, 10)
+    res.push(n % 2)
+  }
+
+  res.reverse()
+  return parseInt(res.join(''))
+}
+
+// 十进制转16进制，其实只是把2换成了16
+function dec2Hex(n) {
+  const res = []
+  res.push(n % 16)
+  while (parseInt( n / 16 ) !== 0) {
+    n = parseInt(n / 16, 10)
+    res.push(n % 16)
+  }
+
+  res.reverse()
+  return parseInt(res.join(''))
+}
+```
+
+注意 JS 是`list.join('')`，python是`''.join(list)`
+
 
 ### 15. 最大连续数列和
 

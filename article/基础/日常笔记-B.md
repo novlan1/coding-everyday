@@ -247,5 +247,42 @@ browser.waitForTarget(
 
 也就是执行命令的时候新建一个目录，否则会非常混乱
 
-## three.js
+## JS下载文件
 
+用这个方法下载了pdf，参考[这里](https://www.jianshu.com/p/86f7f2f2dda1)
+
+```js
+function downloadFile(content, filename) {
+    var a = document.createElement('a')
+    var blob = new Blob([content])
+    var url = window.URL.createObjectURL(blob)
+    a.href = url
+    a.download = filename
+    a.click()
+    window.URL.revokeObjectURL(url)
+}
+
+function download(url) {
+    ajax(url, function(xhr) {
+        var filename = 'xxx.' + url.replace(/(.*\.)/, '') // 自定义文件名+后缀
+        downloadFile(xhr.response, filename)
+    }, {
+        responseType: 'blob'
+    })
+}
+
+function ajax(url, callback, options) {
+    window.URL = window.URL || window.webkitURL
+    var xhr = new XMLHttpRequest()
+    xhr.open('get', url, true)
+    if (options.responseType) {
+        xhr.responseType = options.responseType
+    }
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            callback(xhr)
+        }
+    }
+    xhr.send()
+}
+```
