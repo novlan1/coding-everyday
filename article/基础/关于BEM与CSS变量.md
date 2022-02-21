@@ -773,8 +773,6 @@ padding-top: env(safe-area-inset-top);
 ## 四、参考
 
 1. [BEM](http://getbem.com/)
-2. [浅析前端命名方法论--BEM](https://km.woa.com/group/22440/docs/show/168617)
-3. [BEM 使用指南](https://km.woa.com/group/41167/articles/show/385140)
 4. [属性选择器 class^=](https://blog.csdn.net/stklway/article/details/110656240)
 5. [iPhoneX 安全区域 safe-area-inset-*](https://www.jianshu.com/p/6c8151dc188e)
 
