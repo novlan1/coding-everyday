@@ -1,0 +1,36 @@
+<style>
+  #loading {
+    height: 4px;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    background: #6bc30d;
+    box-shadow: #6bc30d 1px 0 6px 1px;
+    animation: pulse 1s ease-out;
+  }
+
+  @-webkit-keyframes pulse {
+    30% {
+      width: 10%;
+      /* 盒子宽度为10% */
+      opacity: .6
+    }
+
+    60% {
+      width: 40%;
+      /* 盒子宽度为40% */
+      opacity: 0.6;
+    }
+
+    100% {
+      width: 100%;
+      /* 盒子宽度为100% */
+      opacity: 0.6
+    }
+  }
+</style>
+</head>
+
+<body>
+  <div id="loading">
+  </div>
