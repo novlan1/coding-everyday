@@ -1,4 +1,4 @@
-## VScode 设置代码片段
+## 一、VScode 设置代码片段
 
 1. shift + ctrl(command) + p，打开搜索栏，输入snippets（英文意思为片段），找到Preferences:Configure User Snippets
 2. 在打开的文件中输入以下内容，就完成了。$1代表第一个光标，$2代表第2个...
@@ -38,7 +38,7 @@
 1. [vsCode设置代码片段 ](https://www.cnblogs.com/aurora-ql/p/14888971.html)
 2. [vscode快速添加代码片段](https://blog.csdn.net/zhaohaibo_/article/details/104367573)
 
-## OAuth 2.0
+## 二、OAuth 2.0
 
 简单说，OAuth 就是一种授权机制。数据的所有者告诉系统，同意授权第三方应用进入系统，获取这些数据。系统从而产生一个短期的进入令牌（token），用来代替密码，供第三方应用使用。
 
@@ -70,14 +70,14 @@ A 网站允许 GitHub 登录的流程：
 5. GitHub 返回令牌.
 6. A 网站使用令牌，向 GitHub 请求用户数据。
 
-## TDesign
+## 三、TDesign
 
-### renderTNode
+### 1. renderTNode
 
 - 渲染 TNode，props 和 插槽同时处理。 
 - 同名优先处理插槽
 
-### TNode
+### 2. TNode
 
 TNode组件比较简单，就是渲染传入的content prop
 ```ts
@@ -86,7 +86,7 @@ TNodeComponent.props = ['content'];
 export default TNodeComponent;
 ```
 
-### Vue3中h()函数和createVNode()函数的使用
+### 3. Vue3中h()函数和createVNode()函数的使用
 
 使用方法：
 - h(标签, {属性},内容)
@@ -98,7 +98,7 @@ export default TNodeComponent;
 
 参考：https://blog.csdn.net/qq_17355709/article/details/112712786
 
-### ref获取html页面元素
+### 4. ref获取html页面元素
 
 ```vue
 <template>
@@ -127,7 +127,7 @@ export default defineComponent({
 </script>
 ```
 
-## Vite核心原理
+## 四、Vite核心原理
 
 
 当声明一个 script标签类型为 module 时,如
@@ -151,7 +151,7 @@ Vite其核心原理是利用浏览器现在已经支持ES6的import,碰见import
 Vite整个过程中没有对文件进行打包编译，做到了真正的按需加载，所以其运行速度比原始的webpack开发编译速度快出许多！
 
 
-## html2canvas和dom-to-image原理
+## 五、html2canvas和dom-to-image原理
 
 dom-to-image库主要使用的是 SVG 实现方式，简单来说就是先把 DOM转换为 SVG 然后再把 SVG 转换为图片。
 
@@ -181,7 +181,7 @@ html2canvas的解析过程, 大致的流程如下:
 5. 绘制数据
 
 
-## Array.prototype.fill方法
+## 六、Array.prototype.fill方法
 
 ```js
 new Array(3).fill({ type: 'text' })
@@ -190,7 +190,7 @@ new Array(3).fill({ type: 'text' })
 
 
 
-## provide、inject方式传值
+## 七、provide、inject方式传值
 
 祖先组件：
 
@@ -208,10 +208,12 @@ provide('tab-bar', {
 const { defaultIndex, activeValue, updateChild } = inject<any>('tab-bar');
 ```
 
-## hybrids 库用来创建原生的 web components
-## gray-matter 库可以用来解析 font-matter
+## 八、常用库
 
-## vite.config.js中说明自定义元素特征
+1. hybrids 库用来创建原生的 web components
+2. gray-matter 库可以用来解析 font-matter
+
+## 九、vite.config.js中说明自定义元素特征
 
 ```js
 plugins: [
@@ -227,7 +229,7 @@ plugins: [
 
 参考：https://vuejs.org/api/application.html#app-config-compileroptions
 
-## puppeteer
+## 十、puppeteer
 
 因为路由的二次跳转导致在之前的浏览器窗口中找不到对应的href。
 
@@ -243,11 +245,11 @@ browser.waitForTarget(
 参考：https://stackoverflow.com/questions/58851964/puppeteer-timeout-on-waitfortarget
 
 
-## devops私有构建机不要在/root目录下安装
+## 十一、devops私有构建机不要在/root目录下安装
 
 也就是执行命令的时候新建一个目录，否则会非常混乱
 
-## JS下载文件
+## 十二、JS下载文件
 
 用这个方法下载了pdf，参考[这里](https://www.jianshu.com/p/86f7f2f2dda1)
 
@@ -284,5 +286,126 @@ function ajax(url, callback, options) {
         }
     }
     xhr.send()
+}
+```
+
+
+## 十三、权限校验
+
+权限校验，无非是某个角色有没有某个按钮。
+
+```
+角色 => 按钮
+```
+
+复杂点，某个角色是否有某个gid下的某个status下的按钮。就是配置变深，还是可以从配置上获取是否有权限。
+
+数据结构：
+
+```js
+const tipMap = {
+  411: {
+    1010: {
+      left: 1,
+      operate: 'LEVEL',
+      showAuditToolTip: true, // 是否显示审核中气泡
+      tooltipTitle: '审核中',
+      auditList: [{
+        orgId: '411_taxofficer',
+        orgName: 'xxxx',
+      }],
+    },
+  },
+}
+```
+
+比如是否展示气泡：
+
+```js
+function judgeTip(matchInfo, auditStatus) {
+  const { gid } = matchInfo;
+  if (!tipMap[gid]?.[auditStatus]?.showAuditToolTip) return false;
+
+  return true;
+}
+
+showTip() {
+  return judgeTip(this.matchInfo, this.approveStatus) || this.approveStatus === REJECT_STATUS;
+}
+```
+
+获取气泡的title：
+
+```js
+toolTipTitle() {
+  if (this.approveStatus === REJECT_STATUS) {
+    return '驳回理由';
+  }
+  return tipMap[this.matchInfo.gid]?.[this.approveStatus]?.tooltipTitle || '';
+}
+```
+
+获取气泡内容：
+
+```js
+tooltipContent() {
+  if (this.approveStatus === REJECT_STATUS) {
+    return this.reason;
+  }
+  const gidInfo = tipMap[this.matchInfo?.gid] || {};
+  const statusInfo = gidInfo?.[this.approveStatus] || {};
+
+  const orgList = statusInfo?.auditList || [];
+  const curOrgIdList = orgList.map(item => item.orgId);
+  const hasAuditId = !!this.roleList.find(item => curOrgIdList.includes(item.org_id));
+  if (hasAuditId) {
+    return '需要您审核';
+  }
+  const { left: leftNum } = statusInfo;
+  return `还需【${orgList[0]?.orgName}】等${leftNum}个组织审核`;
+}
+```
+
+如果这个配置有多个用途，除了是否显示气泡，还控制显示底部按钮的类型：NORMAL、LEVEL。
+
+```js
+// 是否显示评级操作按钮
+showLevelBtn() {
+  const { matchInfo, roleList, applyStatus } = this;
+  const { gid } = matchInfo;
+  const tipMap = getTipMap();
+  if ([26, 425, 461].includes(gid)) {
+    const statusInfo = tipMap[gid]?.[applyStatus] || {};
+    if (statusInfo.operate === 'LEVEL') {
+      const auditOrgIdList = statusInfo.auditList.map(item => item.orgId);
+      const res = !!roleList.find(item => auditOrgIdList.includes(item.org_id));
+      return res;
+    }
+    return false;
+  }
+  return false;
+}
+```
+
+```js
+// 是否显示普通的通过/审核
+showNormalBtn() {
+  const { matchInfo, roleList, applyStatus } = this;
+  const { gid } = matchInfo;
+  const tipMap = getTipMap();
+
+  if ([26, 425, 461].includes(gid)) {
+    const statusInfo = tipMap[gid]?.[applyStatus] || {};
+    if (applyStatus == 100) {
+      return !!roleList.find(item => ['tipcustcare'].includes(item.org_id));
+    }
+    if (statusInfo.operate === 'NORMAL') {
+      const auditOrgIdList = statusInfo.auditList.map(item => item.orgId);
+      return !!roleList.find(item => auditOrgIdList.includes(item.org_id));
+    }
+    return false;
+  }
+  // 其他gid
+  return true;
 }
 ```
