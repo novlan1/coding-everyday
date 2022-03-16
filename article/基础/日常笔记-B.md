@@ -409,3 +409,195 @@ showNormalBtn() {
   return true;
 }
 ```
+
+## 十四、子类决定父类
+
+页面底部的操作按钮有多种显示类型，它是否显示是由子类是否显示决定的，而不是其他。
+
+比如子类有 showLevelBtn、showNormalBtn 两种，父类就用 `showLevelBtn && showNormalBtn` 判断，方便扩展。
+
+
+## 十五、slot
+
+slot的用法可以分为三类，分别是默认插槽、具名插槽和作用域插槽
+
+子组件中：
+1. 插槽用`<slot>`标签来确定渲染的位置，里面放如果父组件没传内容时的后备内容
+2. 具名插槽用name属性来表示插槽的名字，不传为默认插槽
+3. 作用域插槽在作用域上绑定属性来将子组件的信息传给父组件使用，这些属性会被挂在父组件`slot-scope`接受的对象上。
+
+
+```vue
+// Child.vue
+<template>
+  <div>
+    <main>
+    <!-- 默认插槽 -->
+        <slot>
+          <!-- slot内为后备内容 -->
+          <h3>没传内容</h3>
+        </slot>
+    </main>
+
+    <!-- 具名插槽 -->
+    <header>
+        <slot name="header">
+          <h3>没传header插槽</h3>
+        </slot>
+    </header>
+
+    <!-- 作用域插槽 -->
+    <footer>
+        <slot name="footer" testProps="子组件的值">
+          <h3>没传footer插槽</h3>
+        </slot>
+    <footer>
+  </div>
+</template>
+
+<style scoped>
+div{
+ border: 1px solid #000;  
+}
+</style>
+```
+
+父组件中在使用时：
+1. 默认插槽的话直接在子组件的标签内写入内容即可
+2. 具名插槽是在默认插槽的基础上加上slot属性，值为子组件插槽name属性值
+3. 作用域插槽则是通过slot-scope获取子组件的信息，在内容中使用。这里可以用解构语法去直接获取想要的属性
+
+```html
+// Parent.vue
+<child>
+  <!-- 默认插槽 -->
+  <div>默认插槽</div>  
+  <!-- 具名插槽 -->
+  <div slot="header">具名插槽header</div>
+  <!-- 作用域插槽 -->
+  <div slot="footer" slot-scope="slotProps">
+    {{slotProps.testProps}}
+  </div>
+</child>
+```
+
+在vue2.6中，上述的API被软废弃（3.0正式废弃），取而代之的是内置指令v-slot，可以缩写为【#】
+
+子组件用法保持不变，父组件中
+1. slot属性弃用，具名插槽通过指令参数v-slot:插槽名 的形式传入，可以简化为 #插槽名。
+2. slot-scope属性弃用，作用域插槽通过`v-slot:xxx="slotProps"`的`slotProps`来获取子组件传出的属性
+3. v-slot属性只能在`<template>`上使用，但在【只有默认插槽时】可以在组件标签上使用
+
+```html
+//Parent
+<template>
+  <child>
+   <!--默认插槽-->
+   <template v-slot>
+     <div>默认插槽</div>
+   </template>
+   <!--具名插槽-->
+   <template #header>
+     <div>具名插槽</div>
+   </template>
+   <!--作用域插槽-->
+   <template #footer="slotProps">
+     <div>
+      {{slotProps.testProps}}
+     </div>
+   </template>
+  <child>
+</template>
+```
+
+拓展用法：
+1. 同样可以通过解构获取 `v-slot={user}`
+2. 还可以重命名 `v-slot="{user: newName}"` 和定义默认值 `v-slot="{user = '默认值'}"`
+3. 插槽名可以是动态变化的 `v-slot:[slotName]`
+
+注意：
+1. 默认插槽名为default，可以省略default直接写`v-slot`，
+2. 缩写为#时不能不写参数，写成`#default`（这点所有指令都一样，v-bind、v-on）
+3. 多个插槽混用时，v-slot不能省略default
+
+## 十六、上传文件的files
+
+上传文件的files是从input这个HTMLElement对象上获取的，不是onchange时间的event上。
+
+## 十七、乱序
+
+随机打乱的基本实现方式：
+
+```js
+function shuffle(array) {
+  const arr = [...array];
+  let m = arr.length;
+  while (m > 1) {
+    const index = Math.floor(Math.random() * m);
+    m = m - 1;
+    [arr[m], arr[index]] = [arr[index], arr[m]];
+  }
+  return arr;
+}
+```
+
+就是从把最后一个和前面的随机一个交换，同时前面的范围不断缩小。
+
+有个需求是打乱队伍，并且打乱的是非轮空的队伍，也就是提前把轮空队伍拿出来。乱序之后，再在之前的位置插入轮空队伍。
+
+## 十八、数字与布尔的比较
+
+数字比布尔广，可以看到是布尔的超集，就像对象可以看作列表的超集。
+
+比如，定义`isPreview`为数字，预览赛程阶段是`1`，自定义赛程是`2`，报名结束为`0`，比单独定义`isPreview(boolean)`、`hasCustomedSche(boolean)`好一些。
+
+## 十九、动画分类
+
+动画分为帧动画（比如由几张图片组成）、过渡动画（比如属性）。
+
+
+Transition的四个属性
+
+1. 属性名称（property）
+2. 过度时间（duration）
+4. 时间函数（timing-function）
+3. 延迟时间（delay）
+
+分了整洁性，按这个顺序写很不错。
+
+
+1. display不能和transition一起使用
+2. transition后面尽量不跟all（影响读取速度和页面流畅性）
+3. 常见闪动 可以用perspective和backface-visibility（等3D元素）
+
+
+animation和transition的区别：
+
+1. animation可以定义播放次数（`iteration-count`）
+2. 播放方向(`direction`)即是否轮流播放和反向播放
+3. 停止播放的状态(`fill-mode`) 是否暂停
+
+animation解决了transition中`display:none`的bug
+
+## 二十、Vant笔记
+
+Vant 是通过`window.getComputedStyle(element).overflowY`是否包含`auto/scroll`，来判断一个元素是不是滚动的父元素的，也就是如果一个`element的overflowY`是`auto`或`scroll`，就是`scrollParent`。
+
+```js
+const overflowScrollReg = /scroll|auto/i;
+
+function getScrollParent(el, root) {
+  let node = el;
+
+  while (node && node !== root ) {
+    const { overflowY } = window.getComputedStyle(node);
+    if (overflowScrollReg.test(overflowY)) {
+      return node;
+    }
+    node = node.parentNode ;
+  }
+
+ return root
+}
+```
+
