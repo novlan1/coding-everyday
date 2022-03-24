@@ -32,6 +32,14 @@
 ]
 ```
 
+然后输入`green/red/yellow`就能快速打出下面内容了：
+
+```js
+console.log('\x1B[32m%s\x1B[0m', '绿色');
+console.log('\x1B[33m%s\x1B[0m', '黄色');
+console.log('\x1B[31m%s\x1B[0m', '红色');
+```
+
 
 
 参考：
@@ -601,3 +609,118 @@ function getScrollParent(el, root) {
 }
 ```
 
+## 音乐频谱图
+
+1. 使用 Audio API 创建 analyser，将音频流 stream 连接到 analyser
+2. 设置 analyser 的 fft 参数，以此获取音频数据
+3. 通过递归调用 requestAnimationFrame 来实现动画效果
+4. 使用 Canvas API 来绘制条形图以及小浮块，将这绘制操作放在 requestAnimationFrame 的回调中，从而展示动态的频谱图
+
+
+```ts
+// 开始可视化
+const visualize = (stream: MediaStream) => {
+  const canvasEl: HTMLCanvasElement | null = document.querySelector(selector);
+  if (!canvasEl) {
+    throw new Error('找不到 canvas');
+  }
+
+  // 创建解析器
+  audioCtxRef.current = new AudioContext()
+  analyserRef.current = audioCtxRef.current.createAnalyser();
+
+  // 获取音频源
+  const source = audioCtxRef.current.createMediaStreamSource(stream);
+  // 将音频源连接解析器
+  source.connect(analyserRef.current);
+
+  // 准备数据数组
+  analyserRef.current.fftSize = 256;
+  const bufferLength = analyserRef.current.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  // 开始递归画图
+  drawEachFrame(canvasEl, dataArray);
+}
+```
+
+主要涉及的API是`new AudioContext()`，然后微信环境不支持这个API。
+
+小浮块的高度的计算比较有意思，取的是浮块下降了的高度 dropHeight 以及被 bar 推高的高度 pushHeight 他们两的最大值就可以了 `floats[index] = Math.max(dropHeight, pushHeight)`。
+
+```js
+// 找到最大值，以及初始化高度
+dataArray.forEach((item, index) => {
+  // 默认值
+  floats[index] = floats[index] || FLOAT_HEIGHT;
+  // 处理当前值
+  const pushHeight = item + FLOAT_HEIGHT;
+  const dropHeight = floats[index] - DROP_DISTANCE;
+  // 取最大值
+  floats[index] = Math.max(dropHeight, pushHeight);
+})
+
+const barWidth = canvasWidth / dataArray.length;
+let x = 0;
+
+floats.forEach((floatItem: number) => {
+  const floatHeight = floatItem;
+
+  canvasCtx.fillStyle = '#3e47a0';
+  canvasCtx.fillRect(x, canvasHeight - floatHeight, barWidth, FLOAT_HEIGHT);
+
+  x += barWidth + BAR_GAP;
+})
+```
+
+bar的画法：
+- 画长方形的时候，原点是在左上角，所以 y 的值为 canvasHeight - barHeight，即 总高度 - 条形高度
+- 画下一个 bar 的时候，需要 + BORDER_WIDTH 来空出一个空隙，不然 bar 就都黏在一起了
+- 在 <canvas> 中画渐变，需要用 addColorStop 来实现
+
+```js
+const barWidth = canvasWidth / dataArray.length
+let x = 0;
+
+dataArray.forEach((dataItem) => {
+  const barHeight = dataItem;
+
+  // 添加渐变色
+  const gradient = canvasCtx.createLinearGradient(canvasWidth / 2, canvasHeight / 2, canvasWidth / 2, canvasHeight);
+  gradient.addColorStop(0, '#68b3ec');
+  gradient.addColorStop(0.5, '#4b5fc9');
+  gradient.addColorStop(1, '#68b3ec');
+
+  // 画 bar
+  canvasCtx.fillStyle = gradient;
+  canvasCtx.fillRect(x, canvasHeight - barHeight, barWidth, barHeight);
+
+  x += barWidth + BAR_GAP;
+})
+```
+
+
+参考：https://juejin.cn/post/7074015402812145677
+
+
+
+## 用WebRtc自拍
+
+创建一个video标签，`<video id="video">`
+
+然后用`navigator.mediaDevices.getUserMedia`，完成用户对摄像头的使用授权，还可以从返回值里直接拿到视频流：
+```js
+video.srcObject = await navigator.mediaDevices.getUserMedia({video: true, audio: false})
+video.play()
+```
+
+拍照的核心就下面一句话：
+
+```js
+const context = canvas.getContext('2d')
+context.drawImage(video, 0, 0, width, height);
+```
+
+
+
+参考：https://juejin.cn/post/7068890609414570021
