@@ -242,3 +242,6 @@ handleFetchDataParamFn: {
   default: null,
 },
 ```
+
+这里我用了[云函数](https://cloud.tencent.com/document/product/583)来mock数据，这样的模拟数据有个好处是不受登录态、token、refer等影响，保证数据的获取，同时保证筛选/分页等功能可用。这样接入低代码平台时也直观。
+
