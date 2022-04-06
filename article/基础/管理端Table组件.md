@@ -245,3 +245,24 @@ handleFetchDataParamFn: {
 
 这里我用了[云函数](https://cloud.tencent.com/document/product/583)来mock数据，这样的模拟数据有个好处是不受登录态、token、refer等影响，保证数据的获取，同时保证筛选/分页等功能可用。这样接入低代码平台时也直观。
 
+## 三、效果
+
+这样抽离组件、定义配置规范后，再接入管理端需求时，工期可由3小时降为2分钟。
+
+
+
+
+### 四、使用中的项目
+
+目前在[主播杯后台](https://igame.woa.com/coecology.igameoaweb.pvp-platform-cup-admin/#/act/manage)使用了此模板，后续会不断丰富Module组件，更多项目使用。地址：
+
+1. https://git.woa.com/coecology/igameoaweb/blob/develop/src/project/pvp-platform-cup-admin/views/act/manage/index.vue
+2. https://git.woa.com/coecology/igameoaweb/blob/develop/src/project/pvp-platform-cup-admin/views/anchor/manage/index.vue
+
+
+### 五、低代码
+
+低代码平台已经接入此组件，在低代码使用的好处是直观、方便修改props调试。
+
+
+
