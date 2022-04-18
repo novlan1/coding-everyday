@@ -252,7 +252,7 @@ handleFetchDataParamFn: {
 
 
 
-### 四、使用中的项目
+## 四、使用中的项目
 
 目前在[主播杯后台](https://igame.woa.com/coecology.igameoaweb.pvp-platform-cup-admin/#/act/manage)使用了此模板，后续会不断丰富Module组件，更多项目使用。地址：
 
@@ -260,9 +260,161 @@ handleFetchDataParamFn: {
 2. https://git.woa.com/coecology/igameoaweb/blob/develop/src/project/pvp-platform-cup-admin/views/anchor/manage/index.vue
 
 
-### 五、低代码
+## 五、低代码
 
 低代码平台已经接入此组件，在低代码使用的好处是直观、方便修改props调试。
 
+## 六、关于数据驱动
 
+最近做需求时有些体会：
+1. 一开始要设计好，否则一开始乱了，后面就没法收拾了。
+2. 写代码也要有远见，逻辑和UI尽量分离，指不定哪天，这套逻辑就要复用到其他端上，或者UI大变样。
+3. 前端大部分时间的工作是，处理数据、展示，处理数据花了大量的时间。
+
+下面是个UI和逻辑分离的例子，一开始重构把所有数据都写在了UI上：
+
+```html
+<ul class="rules-form">
+  <li>
+    <span class="rule-form-label">晋级名次：</span>
+    <div class="rule-form-content-right">
+      <p>这里是内容</p>
+    </div>
+  </li>
+  <li>
+    <span class="rule-form-label">分组规则：</span>
+    <div class="rule-form-content-right">
+      <p>队伍成员x人及以上</p>
+    </div>
+  </li>
+  <li>
+    <span class="rule-form-label">积分规则：</span>
+    <div class="rule-form-content-right">
+      <p>2021-04-21  14:30</p>
+    </div>
+  </li>
+  <li class="no-flex">
+    <span class="rule-form-label">团队赛排名分系统：</span>
+    <table class="rule-form-table">
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>排名分</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+```
+
+经过整理，其实可以抽象成下面的结构：
+
+```html
+<ul class="rules-form">
+  <li
+    v-for="(item, index) of briefRule.intro"
+    :key="`intro-${index}`"
+  >
+    <span class="rule-form-label">{{ item.label }}：</span>
+    <div class="rule-form-content-right">
+      <p>{{ item.value }}</p>
+    </div>
+  </li>
+  <li
+    v-for="(item, index) of briefRule.table"
+    :key="`table-${index}`"
+    class="no-flex"
+  >
+    <span class="rule-form-label">{{ item.title }}：</span>
+    <table class="rule-form-table">
+      <thead>
+        <tr>
+          <th
+            v-for="(head, headIdx) of item.heads"
+            :key="`head-${headIdx}`"
+          >
+            {{ head.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(data,dataIdx) of item.data"
+          :key="`data-${dataIdx}`"
+        >
+          <td
+            v-for="(headData,headDataIdx) of item.heads"
+            :key="`headData-${headDataIdx}`"
+          >
+            {{ data[headData.value] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+```
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2022/ui-logic-depart.png" width="500">
+
+
+其中用到的数据为briefRule，举例如下：
+
+```js
+{
+	"intro": [{
+		"label": "晋级名次",
+		"value": "分组内第1-10名晋级"
+	}, {
+		"label": "分组规则",
+		"value": "固定分组"
+	}, {
+		"label": "积分规则",
+		"value": "排名分、击杀分"
+	}],
+	"table": [{
+		"title": "个人赛排名分系统",
+		"heads": [{
+			"label": "排名",
+			"value": "rankDesc"
+		}, {
+			"label": "排名分",
+			"value": "rankscore"
+		}],
+		"data": [{
+			"startrank": 1,
+			"endrank": 1,
+			"rankscore": 20,
+			"rankDesc": 1
+		}, {
+			"startrank": 2,
+			"endrank": 2,
+			"rankscore": 19,
+			"rankDesc": 2
+		}]
+	}, {
+		"title": "个人赛击杀分系统",
+		"heads": [{
+			"label": "圈层",
+			"value": "areaDesc"
+		}, {
+			"label": "击杀分",
+			"value": "scoreDesc"
+		}],
+		"data": [{
+			"startarea": 0,
+			"endarea": 1,
+			"killscore": 0,
+			"areaDesc": "0 - 1",
+			"scoreDesc": 0
+		}]
+	}]
+}
+```
 

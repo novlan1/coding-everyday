@@ -194,6 +194,24 @@ def LIS(A):
 
 ![字符串全排列](../../../imgs/algorithm_permutation.png)
 
+```js
+function perm(s) {
+  const n = s.length;
+  if (n <= 1) return [s];
+
+  const res = [];
+
+  for (let i = 0; i < n; i++) {
+    const temp = perm(s.slice(0, i) + s.slice(i + 1));
+
+    for (let item of temp) {
+      res.push(s[i] + item);
+    }
+  }
+  return res;
+}
+```
+
 ```python
 def perm(s):
   n = len(s)
@@ -212,6 +230,27 @@ perm('abc')
 ```
 
 ### 7. 集合的所有子集
+
+```js
+function subset(s) {
+  if (!s.length) return;
+  const n = s.length;
+  const res = [];
+
+  for (let i = 0; i < 2 ** n; i++) {
+    const temp = [];
+
+    for (let j = 0; j < n; j++) {
+      if ((i >> j) & 1) {
+        temp.push(s[j]);
+      }
+    }
+    res.push(temp);
+  }
+  return res;
+}
+```
+
 
 ```python
 def subset(s):
@@ -275,6 +314,12 @@ subset('abc')
 # 7 2
 # [[], ['a'], ['b'], ['a', 'b'], ['v'], ['a', 'v'], ['b', 'v'], ['a', 'b', 'v']]
 ```
+
+
+- JS中数组添加元素是`push`，python中是`append`。
+- JS中求数组长度是`s.length`，python中是`len(s)`。
+
+
 
 ### 8. 最优编辑（插入、删除、替换）
 
