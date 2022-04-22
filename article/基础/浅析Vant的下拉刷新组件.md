@@ -314,3 +314,7 @@ HTMLElement属性：
 内容区域的宽高，不包括边框宽度值。包括滚动条的宽度（包括元素高度、内边距，不包括边框和外边距）
 - scrollWidth、scrollHeight
   整个内容区域的宽度(包括需拉动滚动条隐藏起来的那些部分) `scrollWidth = scrollTop+clientWidth`
+
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2022/clientX-offsetX.png" width="500">
+

@@ -23,6 +23,8 @@
 - [23. 判断两个有环单链表是否相交](#23-判断两个有环单链表是否相交)
 - [24. 判断单链表是否相交](#24-判断单链表是否相交)
 - [25. 环形单链表插值](#25-环形单链表插值)
+- [26. 从尾到头反过来返回每个节点的值（用数组返回）](#26-从尾到头反过来返回每个节点的值用数组返回)
+- [27. 链表两数相加](#27-链表两数相加)
 
 ## 1. 链表 <!-- omit in toc -->
 ### 1. 链表的实现
@@ -831,4 +833,55 @@ def insertV(A, nxt, val):
   node.next = cur
   
   return head
+```
+
+### 26. 从尾到头反过来返回每个节点的值（用数组返回）
+
+```js
+var reversePrint = function(head) {
+  const res = []
+  while (head) {
+      res.unshift(head.val)
+      head = head.next
+  }
+  return res
+};
+```
+
+### 27. 链表两数相加
+
+```js
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+  let carry = 0
+  const root = new ListNode(0)
+  let cursor = root
+
+  while (l1 !==null || l2 !== null || carry !== 0) {
+    const l1Val = l1 !== null ? l1.val : 0
+    const l2Val = l2 !== null ? l2.val : 0
+    const sumVal = l1Val + l2Val + carry;
+
+    carry = parseInt(sumVal / 10, 10)
+    const sumNode = new ListNode(sumVal % 10)
+
+    cursor.next = sumNode
+    cursor = sumNode
+
+    if (l1!==null) l1=l1.next
+    if (l2!==null) l2=l2.next
+  }
+  return root.next
+};
 ```
