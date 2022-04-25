@@ -1,3 +1,4 @@
+
 ## 一、husky和lint-staged
 
 husky继承了Git下所有的钩子，在触发钩子的时候，husky可以阻止不合法的commit、push等等。注意使用husky之前，必须先将代码放到git 仓库中，否则本地没有.git文件，就没有地方去继承钩子了。 
@@ -159,16 +160,16 @@ $ npx husky add .husky/prepare-commit-msg "exec < /dev/tty && npx git-cz --hook 
 $ npm install @commitlint/cli @commitlint/config-conventional -D
 ```
 
-在项目中.husky目录下添加一个prepare-commit-msg钩子：
+在项目中.husky目录下添加一个commit-msg钩子：
 
 ```bash
-$ npx husky add .husky/prepare-commit-msg 'npx --no-install commitlint --edit "$1"'
+$ npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
 ```
 
-项目根目录下新建一个commit.config.js：
+项目根目录下新建一个commitlint.config.js：
 
-```js
-module.exports = { extends: ['@commitlint/config-conventional'] };
+```bash
+$ echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js
 ```
 
 这样在git commit时会校验commit的内容。
