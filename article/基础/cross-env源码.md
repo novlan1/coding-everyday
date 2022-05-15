@@ -44,9 +44,9 @@ crossEnv(process.argv.slice(2))
 
 关于二者的不同，官方文档描述如下：
 
-`cron-env`执行命令cross-spawn，而`cron-env-shell`使用shellNode 的选项spawn。
+`cron-env`执行命令`cross-spawn`，而`cron-env-shell`使用`shellNode` 的选项`spawn`。
 
-cross-env-shell主要作用在是当需要在整个内联 shell 脚本中设置环境变量时，而不仅仅是一个命令。
+`cross-env-shell`主要作用在是当需要在整个内联 `shell` 脚本中设置环境变量时，而不仅仅是一个命令。
 
 例如，如果想让环境变量连续应用于多个命令，那么需要将它们用引号括起来并使用 `cross-env-shell`而不是`cross-env`.
 
@@ -278,4 +278,8 @@ function commandConvert(command, env, normalize = false) {
 module.exports = () =>
   process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE)
 ```
+
+## 三、总结
+
+`cross-env`核心还是调用了`cross-spawn`，只是把参数处理了，并把它传入。
 
