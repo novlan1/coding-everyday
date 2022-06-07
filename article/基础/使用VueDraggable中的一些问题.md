@@ -38,8 +38,8 @@ function getWindowScrollingElement() {
 另外，这里有个计算单位移动距离的vy和vx：
 
 ```js
-let vx = canScrollX &amp;&amp; (Math.abs(right - x) <= sens &amp;&amp; (scrollPosX + width) < scrollWidth) - (Math.abs(left - x) <= sens &amp;&amp; !!scrollPosX);
-let vy = canScrollY &amp;&amp; (Math.abs(bottom - y) <= sens &amp;&amp; (scrollPosY + height) < scrollHeight) - (Math.abs(top - y) <= sens &amp;&amp; !!scrollPosY);
+let vx = canScrollX && (Math.abs(right - x) <= sens && (scrollPosX + width) < scrollWidth) - (Math.abs(left - x) <= sens && !!scrollPosX);
+let vy = canScrollY && (Math.abs(bottom - y) <= sens && (scrollPosY + height) < scrollHeight) - (Math.abs(top - y) <= sens && !!scrollPosY);
 ```
 
 这里的top是`scrollEl.getBoundingClient()`的top，y是`touchEvent.touches[0]`的y。
@@ -49,9 +49,9 @@ let vy = canScrollY &amp;&amp; (Math.abs(bottom - y) <= sens &amp;&amp; (scrollP
 一个解决方法是将scrollSens设为较高的值，另一个方法是重新vy和vx的逻辑：
 
 ```js
-if (canScrollY &amp;&amp; y <= top) {
+if (canScrollY && y <= top) {
   vy = -1
-} else if (canScrollY &amp;&amp; y >= bottom &amp;&amp; scrollPosY + height < scrollHeight ) {
+} else if (canScrollY && y >= bottom && scrollPosY + height < scrollHeight ) {
   vy = 1
 }
 ```
