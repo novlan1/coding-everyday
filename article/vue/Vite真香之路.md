@@ -1,0 +1,251 @@
+## 一、开始
+
+近期将几个项目的脚手架从 Vue-CLI 替换成了 Vite，直呼真香，原来冷启动2分多钟，现在只要几秒，对于需要频繁切项目的人来说，真的是开发利器。
+
+当前 Vite 的优点不止于此，这篇文章不探讨 Vite 的优势，只记录下从 Vue-CLI 转 Vite 踩的一些坑。
+
+
+## 二、问题记录
+
+### 1. 环境变量
+
+
+
+Vite 在一个特殊的 import.meta.env 对象上暴露环境变量，Vue-CLI 是基于webpack，它是在 process.env 上挂载的。
+
+此外，还有一个不同点是，原来的 vue.config.js 是能直接通过 process.env 拿到环境变量的，vite.config.js 却不能直接拿到，需要开发者自己调用 loadEnv 加载。
+
+还有 Vite 只暴露以 VITE_ 开头的环境变量给客户端，Vue-CLI 中是 VUE_APP_ 开头。
+
+对应的处理如下，通过 define 替换全局变量，这种方式目前来看是安全的。
+
+```ts
+import { loadEnv } from 'vite';
+
+const ENV_PREFIX = ['VITE_', 'VUE_APP'];
+
+export default ({ mode, serverProxy }) => {
+  const envMap = loadEnv(mode, process.cwd(), ENV_PREFIX) || {};
+  const appDir = envMap.VUE_APP_DIR;
+
+  return defineConfig({
+    root: `${path.resolve(curDirname, `./src/${appDir}`)}/`,
+    define: {
+      'process.env': {
+        ...envMap,
+        NODE_ENV: mode,
+      },
+    },
+  })
+}
+```
+
+
+### 2. index.html处理
+
+Vite 中默认 index.html 在项目根目录下，也就是和 vite.config.js 同一层级，但是我们的大多数项目是 monorepo 模式，index.html 在 src/project/some-project下。
+
+解决方法是设置root:
+
+```ts
+{
+  root: `${path.resolve(curDirname, `./src/${appDir}`)}/`,
+}
+```
+
+但是，只有这个还不行，默认的 index.html 中是没有 `<script type="module" src="./src/project/some-project/main.js"></script>` 这一句的，所以要写个插件，当加载 index.html 时，动态插入这一句。
+
+打包的时候发现另一个问题，只打包出来 index.html，其他js等文件没有被打包，猜测是打包的时候找不到 main.js，于是给插件增加配置`enforce: pre`。
+
+下面是插件核心代码：
+
+```ts
+return {
+  name: 'vite-plugin-transform-html',
+  enforce: 'pre',
+  transformIndexHtml(html) {
+    return html.replace(
+      /<\/head>/,
+      `<script type="module" src="./main.js"></script>
+  </head>`,
+    );
+  },
+};
+```
+
+后面发现，生产环境不会触发`transformIndexHtml`方法，上面代码并没有效果，于是优化成：
+
+```ts
+const res = {
+  name: 'vite-plugin-transform-html',
+  enforce: 'pre',
+};
+
+if (mode === 'development') {
+  return {
+    ...res,
+    transformIndexHtml(code) {
+      return transformIndexHtml(code, mode);
+    },
+  };
+}
+
+return {
+  ...res,
+  transform(code, id) {
+    if (id?.endsWith('.html')) {
+      return transformIndexHtml(code, mode);
+    }
+  },
+};
+```
+
+
+
+### 3. 预构建缓存问题
+
+Vite有个预构建阶段，用于将`commonjs/UMD`模块转为ESM，和合并多个模块。就是把一些模块处理后放在`node_modules/.vite/deps`目录下，项目启动时直接引用这个目录下的内容。
+
+值得注意的是，这一阶段是有缓存的，且存在两处缓存，一处是`.vite/deps`下的缓存，一处是浏览器的缓存。如果发现修改了插件，但是观察不到效果，可以尝试`npx vite --fore`，以及禁用浏览器缓存。
+
+
+### 4. vue2/vue3并存
+
+
+有个公共库是同时支持vue2/vue3的，比如有个extend-comp功能，用来扩展组件，代码如下：
+
+```ts
+import Vue, { createApp } from 'vue';
+
+export function extendComp(arg: ExtendCompParam) {
+  if (Vue?.version?.startsWith?.('2')) {
+    return extendV2(arg);
+  }
+  if (typeof createApp === 'function') {
+    return extendV3(arg);
+  }
+  return extendV2(arg);
+}
+```
+
+它的顶部会尝试引用 createApp，如果是vue2的项目，它会报错，之前的兼容方案是扩展下vue的类型声明:
+
+```ts
+import 'vue/types/index';
+
+declare module 'vue/types/index' {
+  function createApp(c: any, d?: any): any;
+}
+```
+
+现在vite的预构建，会直接报错，因为vue依然没导出createApp，想到一个方式是写个插件在最底部加上createApp的导出，核心代码如下：
+
+```ts
+return {
+  transform(source, id) {
+    if (id.indexOf('vue.js') > -1 || id.indexOf('vue.runtime.esm.js') > -1) {
+      return `${source}
+
+  export const createApp = () => {}
+`;
+    }
+    return source;
+  },
+};
+```
+
+
+### 5. vue组件的动态导入
+
+
+vue动态导入有多种方式，Vite可以支持 `xxComp: ()=>import('xx.vue')`，不支持 `xxComp(resolve){ require(['xx.vue'], resolve) }`，可以手动改业务库，但我们的目标是尽可能少的改项目，所以也可以写个插件，用于替换源代码，核心代码如下：
+
+```ts
+return {
+  transform(source, id) {
+    if (id.indexOf('.vue') === -1) {
+      return source;
+    }
+    const reg = new RegExp(/([a-zA-Z]+?)\(resolve\)(?:\s*?)\{(?:\n\s*)require\(\['(.*?)'\],(?:\s*?)resolve\);(?:\n\s*)\}/, 'g');
+    const match = source.match(reg);
+    if (match?.[1] && match[2]) {
+      const res = source.replace(reg, (match, originA, originB) => `${originA}: () => import('${originB}')`);
+      return res;
+    }
+    return source;
+  },
+};
+```
+
+
+### 6. Vant样式按需加载
+
+这个问题只要使用一下`vite-plugin-style-import`就可以。
+
+```ts
+import {
+  createStyleImportPlugin,
+  VantResolve,
+} from 'vite-plugin-style-import';
+// ...
+plugins: [
+  createStyleImportPlugin({
+    resolves: [
+      VantResolve(),
+    ],
+  }),
+]
+```
+
+
+### 7. externals配置
+
+关于external的Vite插件众多，这里用的是`vite-plugin-externals`。
+
+```ts
+import { viteExternalsPlugin } from 'vite-plugin-externals';
+// ...
+plugins: [
+  viteExternalsPlugin({
+    vue: 'Vue',
+    'vue-router': 'VueRouter',
+    vuex: 'Vuex',
+    axios: 'axios',
+    'vue-lazyload': 'VueLazyload',
+  }),
+]
+```
+
+
+### 8. proxy配置
+
+部分项目需要配置proxy，配置如下。
+
+```ts
+const serverProxy = {
+  '/xxx-cgi': {
+    target: 'http://localhost:3000',
+    changeOrigin: true,
+    ws: true,
+    rewrite: path => path.replace(/^\/xxx-cgi/, ''),
+  },
+};
+// ...
+server: {
+  proxy: {
+    ...serverProxy,
+  },
+},
+
+```
+
+
+
+## 三、参考
+
+- [Vite中文文档](https://vitejs.cn/)
+- [vite 改变入口文件地址](https://www.csdn.net/tags/NtTaggwsNTA2OTUtYmxvZwO0O0OO0O0O.html)
+- [Vue动态加载组件的四种方式](https://blog.csdn.net/weixin_45645846/article/details/122725028)
+- [vite插件指北](https://juejin.cn/post/6979147163259371556)
+- [在 umi 项目中使用 vite](https://zhuanlan.zhihu.com/p/399998544)
+
