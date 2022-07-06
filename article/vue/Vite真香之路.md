@@ -7,6 +7,14 @@
 
 ## 二、问题记录
 
+提前说明下，以下问题的解决方法可能有多种，这里选用的是对业务库改动最小的，原因是：
+
+1. 一个项目往往有多个开发者，不希望改动会对之前的 Vue-CLI 启动或者打包造成影响
+2. 配置文件会抽取到基础库中，使用的项目会有很多，如果改动大意味着成本会很高，出错的概率也更大
+
+
+
+
 ### 1. 环境变量
 
 
@@ -236,8 +244,78 @@ server: {
     ...serverProxy,
   },
 },
-
 ```
+
+### 9. sass相关
+
+Vite 中要想支持scss文件，需要安装sass，注意不是node-sass，这会引起另一个问题，`/deep/`会报错，需要将 `/deep/` 换成 `v::deep`，这两个作用一样，都可以在scoped下修改子组件样式，一些文章说`v::deep`性能更佳。
+
+
+此外，某些项目有这种写法：
+
+```scss
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
+```
+
+这种引用方式Vite默认情况下是无法识别的，最简单的方式是改成：
+
+```scss
+$--font-path: "node_modules/element-ui/lib/theme-chalk/fonts";
+```
+
+### 10. BASE_URL
+
+之前index.html中的这种写法会报错：
+
+```html
+<link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+```
+
+报错信息为： 
+
+```bash
+[vite] Internal server error: URI malformed
+```
+
+解决方法是写个插件替换下：
+
+```ts
+res = code.replace(/<%=\s+BASE_URL\s+%>/g, baseDir);
+```
+
+
+### 11. 编译时动态加载对应的样式
+
+值得注意的是下面这行代码不会报错，所以当要找的样式文件不存在时，可以直接用空字符串替换。
+
+```html
+<style lang="scss" scoped src=""></style>
+```
+
+如何判断要找的文件存不存在呢，如何判断当前操作的文件目录呢？用`path.dirname(id)`就可以，相关插件代码如下：
+
+```ts
+transform(source, id) {
+  let res = source;
+
+  if (res.indexOf(STYLE_KEYWORD) !== -1) {
+    const styleName = getStyleName(appDir);
+    const curDir = path.dirname(id);
+
+    let pureCSSLink = `./css/${styleName}.scss`;
+    const cssLink = path.resolve(curDir, pureCSSLink);
+
+    const isExist = fs.existsSync(cssLink);
+    if (!isExist) {
+      pureCSSLink = '';
+    }
+
+    res = res.replace(new RegExp(STYLE_KEYWORD, 'g'), pureCSSLink);
+  }
+  return res;
+}
+```
+
 
 
 
@@ -248,4 +326,5 @@ server: {
 - [Vue动态加载组件的四种方式](https://blog.csdn.net/weixin_45645846/article/details/122725028)
 - [vite插件指北](https://juejin.cn/post/6979147163259371556)
 - [在 umi 项目中使用 vite](https://zhuanlan.zhihu.com/p/399998544)
+- [深度作用选择器>>>或/deep/或::v-deep](https://juejin.cn/post/6913200316314746894)
 
