@@ -317,6 +317,48 @@ transform(source, id) {
 ```
 
 
+### 12. 分包策略
+
+关于分包策略没有标准答案，每个项目都有自己的特点，目前我们项目采用的是这种：
+
+
+```ts
+const SPLIT_CHUNK_CONFIG = [
+  {
+    match: /[\\/]src[\\/]_?common(.*)/,
+    output: 'chunk-common',
+  },
+  {
+    match: /[\\/]src[\\/]_?component(.*)/,
+    output: 'chunk-component',
+  },
+  {
+    match: /[\\/]src[\\/]_?logic(.*)/,
+    output: 'chunk-logic',
+  },
+];
+const rollupOptions = {
+  output: {
+    chunkFileNames: 'assets/js/[name]-[hash].js',
+    entryFileNames: 'assets/js/[name]-[hash].js',
+    assetFileNames: 'assets/static/[name]-[hash].[ext]',
+    manualChunks(id) {
+      for (const item of SPLIT_CHUNK_CONFIG) {
+        const { match, output } = item;
+
+        if (match.test(id)) {
+          return output;
+        }
+      }
+
+      if (id.includes('node_modules')) {
+        return id.toString().split('node_modules/')[1].split('/')[0].toString();
+      }
+    },
+  },
+},
+```
+
 
 
 ## 三、参考

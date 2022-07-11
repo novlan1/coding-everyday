@@ -323,7 +323,7 @@ __webpack_require__.d = function(exports, name, getter) {
   }),
 
   "0a10":
-  (function(module, exports, __webpack_require__) {
+  (function(module, __webpack_exports__, __webpack_require__) {
     __webpack_require__.d(__webpack_exports__, "a", function() { return clearPersist; });
     function clearPersist() {console.log('==')}
   }),
@@ -478,7 +478,8 @@ function jsonpScriptSrc(chunkId) {
 
 本文分析了`webpack`的打包产物，讲解了运行时的模块加载机制，以及异步加载的实现原理。
 
+核心是先注册最开始的chunk、module，但不会立即执行，而是等到需要的module被加载后才执行，这样的好处是，不会因为某个chunk文件加载速度慢而导致报错。
+
 上面是`webpack`对普通的JS模块的运行机制，对于CSS模块的运行原理，也就是`css-loader`、`style-loader`做了什么，可以参考[下篇文章](https://juejin.cn/post/7054739510680092686/)。
 
 
-`
