@@ -248,7 +248,7 @@ server: {
 
 ### 9. sass相关
 
-Vite 中要想支持scss文件，需要安装sass，注意不是node-sass，这会引起另一个问题，`/deep/`会报错，需要将 `/deep/` 换成 `v::deep`，这两个作用一样，都可以在scoped下修改子组件样式，一些文章说`v::deep`性能更佳。
+Vite 中要想支持scss文件，需要安装sass，注意不是node-sass，这会引起另一个问题，`/deep/`会报错，需要将 `/deep/` 换成 `::v-deep`，这两个作用一样，都可以在scoped下修改子组件样式，一些文章说`::v-deep`性能更佳。
 
 
 此外，某些项目有这种写法：
@@ -359,6 +359,35 @@ const rollupOptions = {
 },
 ```
 
+### 13. Vue2中支持JSX
+
+在Vue-CLI中是默认支持Vue2+JSX的，也就是不需额外配置，但是vite+vue2项目中，如果直接写jsx会报错，报错信息如下：
+
+```
+[vite] Internal server error: Failed to parse source for import analysis because the content contains invalid JS syntax. Install @vitejs/plugin-vue to handle .vue files.
+```
+
+尽管上面提示让你安装`@vitejs/plugin-vue`这个库，但是这个是for Vue3 版本的，如果加上它，会报额外的的错误，说这个库仅服务于Vue3。
+
+那怎么办呢，很简单，在使用JSX的script的地方加上：
+
+```js
+<script lang="jsx">
+```
+
+然后在`vite.config.js`中，为`vite-plugin-vue2`这个插件增加`jsx: true`的选项。
+
+```ts
+import { createVuePlugin } from 'vite-plugin-vue2';
+
+// ...
+plugins: [
+  createVuePlugin({
+    jsx: true,
+  }),
+  // ...
+]
+```
 
 
 ## 三、参考
@@ -369,4 +398,5 @@ const rollupOptions = {
 - [vite插件指北](https://juejin.cn/post/6979147163259371556)
 - [在 umi 项目中使用 vite](https://zhuanlan.zhihu.com/p/399998544)
 - [深度作用选择器>>>或/deep/或::v-deep](https://juejin.cn/post/6913200316314746894)
+- [是否可以提供一个类似于@vitejs/plugin-vue-jsx的vite-vue2-jsx的plugins](https://github.com/vitejs/vite/issues/2189)
 
