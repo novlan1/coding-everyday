@@ -337,6 +337,7 @@ const SPLIT_CHUNK_CONFIG = [
     output: 'chunk-logic',
   },
 ];
+
 const rollupOptions = {
   output: {
     chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -388,6 +389,120 @@ plugins: [
   // ...
 ]
 ```
+
+
+### 14. qrcodejs2报错
+
+报错信息如下：
+
+```
+TypeError: Cannot read properties of undefined (reading '_android')
+```
+
+这个问题其实是判断的不严谨，已经有很多issue了，比如[159](https://github.com/davidshimjs/qrcodejs/issues/159)，也有人提了[PR](https://github.com/davidshimjs/qrcodejs/commit/68668bc3574152d2296c565674a22b5679896edb)，甚至合了，但是没发布版本。。
+
+
+```ts
+if (this._android && this._android <= 2.1) {
+  var factor = 1 / window.devicePixelRatio;
+  // ...
+}
+```
+
+
+知道了问题，解决办法就很多了，可以fork下，自己发个包，也可以写个Vite插件转换下代码。
+
+此外，有个问题是，在Vue-CLI中为什么不会报错呢？
+
+因为Vite中使用的是ESM模块，默认会使用严格模式，“禁止this指向全局对象”。而Vue-CLI中使用的是UMD方式加载，在浏览器中会顶层的this等于window，所以不会报错。
+
+
+
+### 15. 使用 path-browserify 
+
+不要在前端项目中使用：
+
+```ts
+import path from 'path'
+```
+
+会报错：
+
+```
+Error in render: "Error: Module "path" has been externalized for browser compatibility and cannot be accessed in client code."
+```
+
+而应该使用`path-browserify`：
+
+
+```ts
+import path from 'path-browserify';
+```
+
+如果是用 path.resolve 方法，这样还是不行的，因为 resolve 方法里面使用了 process.cwd 方法，而 Vite 是没有注入 process 这个变量的。
+
+有多个解决方法：
+1. 安装`process`包，然后在项目中执行 `window.process = process`，注意不要与vite.config.js中define变量冲突。
+2. 写个Vite插件用来转换源码，开发环境替换为真实的`process.cwd()`对应的字符串，生产环境替换成`/`
+3. 自己写`path.resolve`方法，不用第三方库
+
+```ts
+// 模拟path.resolve()
+function resolve(...paths) {
+  let resolvePath = '';
+  let isAbsolutePath = false;
+  let cwd;
+
+  for (let i = paths.length - 1; i >= -1; i--) {
+    let path;
+    if (isAbsolutePath) {
+      break;
+    }
+    if (i >= 0) {
+      path = paths[i];
+    } else {
+      if (cwd === undefined) {
+        cwd = process.cwd();
+      }
+      path = cwd;
+    }
+    if (!path) {
+      continue;
+    }
+    resolvePath = `${path}/${resolvePath}`;
+    isAbsolutePath = path.charCodeAt(0) === 47;
+  }
+  if (/^\/+$/.test(resolvePath)) {
+    resolvePath = resolvePath.replace(/(\/+)/, '/');
+  } else {
+    resolvePath = resolvePath.replace(/(?!^)\w+\/+\.{2}\//g, '')
+      .replace(/(?!^)\.\//g, '')
+      .replace(/\/+$/, '');
+  }
+  return resolvePath;
+}
+
+console.log(resolve('/aa', '../bb', 'cc', 'dd')); // => /bb/cc/dd
+console.log(resolve('/aa', '../bb', './cc', 'dd')); // =>  bb/cc/dd
+console.log(resolve('/', '/system', 'user', 'userIndex')); // => /system/user/userIndex
+console.log(resolve('', 'system', 'user', 'userIndex')); // => ${cwd}/system/user/userIndex
+```
+
+
+### 16. base设置
+
+base是开发或生产环境服务的公共基础路径，也就是文件引用路径，默认是`/`。合法的值包括以下几种：
+
+- 绝对 URL 路径名，例如 `/foo/`
+- 完整的 URL，例如 `https://foo.com/`
+- 空字符串或 `./`（用于开发环境）
+
+我们项目会把静态文件上传到CDN，所以生产环境会应该是第二种——完整的URL，所以可以这么设置：
+
+```ts
+base: envMap.VUE_APP_PUBLIC_PATH || './',
+```
+
 
 
 ## 三、参考
