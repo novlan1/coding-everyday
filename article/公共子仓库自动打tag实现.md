@@ -100,6 +100,47 @@ function main() {
   doStandardVerison 
 }
 ```
+__________
+
+后面有个项目打tag打错了，用了这个命令`standard-version --release-as patch -t $(date +release-%Y%m%d-v)`，标签形如`release-20220629-v0.1.88`，如何将他们改过来呢？
+
+`git show <tag_name>`可以拿到某个tag的commit，但是如果错误标签数目多，就比较麻烦。
+
+看到git上贴有标签和对应的commit，那直接获取就简单了。
+
+打新的tag：
+
+```ts
+const a = document.getElementsByClassName('tag-content') || [];
+
+const commands = [...a].map(item => {
+  let title = item.querySelector('.tag-title a b').innerHTML;
+  const commit = item.querySelector('.branch-commit a').innerHTML
+
+  if (!title.startsWith('release')) {
+    return ''
+  }
+  title = title.split('-')[2]
+  return `git tag ${title} ${commit}`
+}).filter(item => !!item)
+  .join('\n')
+  .concat('\ngit push --tags')
+```
+
+删除旧tag：
+
+```ts
+const commands2 = [...a].map(item => {
+  let title = item.querySelector('.tag-title a b').innerHTML;
+  const commit = item.querySelector('.branch-commit a').innerHTML
+  if (!title.startsWith('release')) {
+    return ''
+  }
+  return `git push origin --delete ${title}`
+}).filter(item => !!item)
+```
+
+
 
 
 参考：
