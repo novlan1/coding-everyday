@@ -49,5 +49,40 @@ Vue.use(VueLazyload, {
 总体的思路如下：
 
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2022/8/uni-app-v-lazy.png" width="1000">
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2022/8/uni-app-v-lazy.png" width="800">
 
+
+```html
+<img v-lazy="img"> 
+
+<!-- 会转为 -->
+<img :src="img">
+```
+
+
+如果提供 options.urlHandler，则用 urlHandler 包裹，比如：
+
+```html
+<img v-lazy="img"> 
+
+<!-- 会转为 -->
+<img :src="getCompressUrl(img)">
+```
+
+如果提供 size 和 urlHandler，则向 urlHandler 传递 size 参数，比如：
+```html
+<img v-lazy="img" size="50">
+
+<!-- 会转为 -->
+<img :src="getCompressUrl(img, 50, 50)">
+```
+
+
+以下几种size都是有效的：
+
+```html
+<img v-lazy="src" size="50">
+<img v-lazy="src" data-size="50">
+<img v-lazy="src" width="50" height="100">
+<img v-lazy="src" data-width="50" data-height="100">
+```
