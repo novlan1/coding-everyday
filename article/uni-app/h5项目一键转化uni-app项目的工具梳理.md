@@ -39,6 +39,8 @@ Eslint插件和Webpack loader内容有些重叠，有些功能既可以用Eslint
 5. 小程序和H5都可以支持
 
 
+下面我们分析下各种情况。
+
 - 第1种情况，应该用Eslint插件将B语法转为A。比如vue模板中`:childId="+childId"`和`:childId="parseInt(childId, 10)"`，这两种写法对性能几乎没影响。
 
 - 第2种情况，不应该用Eslint插件，因为会损失h5上的性能。比如动态加载组件，h5上是需要的，并且有一定性能提升。

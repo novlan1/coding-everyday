@@ -9,8 +9,8 @@
 
 移动分包组件，这里的组件分两种：
 
-1. 分包直接使用的组件
-2. 组件中引用的子组件，及其子子组件等
+- 分包直接使用的组件
+- 组件中引用的子组件，及其子子组件等
 
 
 
@@ -29,6 +29,7 @@
 
 另外，同一级的组件也可能存在引用关系，比如组件B引用组件A，组件d引用组件c等。
 
+
 第1种情况比较简单，不管是页面组件还是子子组件，只要只有一个分包使用，就可以将这个组件移动到分包内，然后替换这个组件的引用地址即可。
 
 上面例子中属于这种情况的组件包括：
@@ -38,8 +39,9 @@
 实际编码中，可以通过 getJsonFileMap 拿到组件map，就是所有组件和对应的usingComponents，需要先遍历这个map，生成所有组件递归引用关系。然后根据页面拉平，就是列举所有页面需要的所有子组件、子子组件。之后逆向判断一个组件被那些页面引用，也就是被哪些分包使用。
 
 
-第2种情况就想对复杂，引用关系不能全局替换，因为组件被移动到了多个分包内，需要在移动后的分包内进行引用关系替换。
+第2种情况就相对复杂，引用关系不能全局替换，因为组件被移动到了多个分包内，需要在移动后的分包内进行引用关系替换。
 
+因为多个分包共用同一个组件，所以操作的步骤应该是：复制组件到分包 => 修改引用 => 删除原组件
 
 
 ## 3. 核心代码
@@ -211,8 +213,6 @@ Object.keys(allUsingComponentMap).forEach((componentName) => {
    - 如果 disableList 中包含组件的路径和名称匹配到了，就不再处理
 
 
-注意，disableList 这个参数要小心使用，如果一个组件被强制留在了主包内，那么它的子组件也必须在主包内，否则会产生异常。
-
 
 
 ## 5. 效果
@@ -236,4 +236,47 @@ Object.keys(allUsingComponentMap).forEach((componentName) => {
 
 值得注意的是，如果组件有多个分包在使用，将它们都移动到分包内，会大幅增加总包的大小。这里需要根据实际情况，取个折中的值，来保证主包和总包都不要太大。
 
+
+
+## 6. 注意事项
+
+1. 引用关系替换
+
+
+引用关系替换时，要注意全部替换，否则会报错 component 找不到，即：
+
+```ts
+// 可以
+source = source.replaceAll(`${item[0]}`, `${item[1]}`);
+
+// 不可以
+// source = source.replaceAll(`${item[0]}'`, `${item[1]}'`);
+// source = source.replaceAll(`${item[0]}"`, `${item[1]}"`);
+
+```
+
+因为uni-app打包时会生成额外的代码，比如`../../local-component/ui/xx-create-component`，`xx-create-component`是声明了一个module，其内部就是调用createComponent。这种js也要替换，否则会产生异常。
+
+贴一下源码，方便查看：
+
+```ts
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    '../../views/match/local-component-xxx-create-component',
+    {
+        '../../views/match/local-component-xxx-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('543d')['createComponent'](__webpack_require__("f2a9"))
+        })
+    },
+    [['../../views/match/local-component-xxx-create-component']]
+]);
+```
+
+
+
+
+
+2. 父子组件
+
+
+disableList 这个参数要小心使用，如果一个组件被强制留在了主包内，那么它的子组件也必须在主包内，否则会产生异常。
 

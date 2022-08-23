@@ -1,6 +1,6 @@
 ## 1. 背景
 
-uni-app对JS文件的打包策略有提升空间，对于多个分包使用的JS会放到主包中，这会让主包变得特别大。因此需要将只有分包使用的JS文件转移到分包中，下面介绍下这个 webpack 插件的实现。
+uni-app对JS文件的打包策略有提升空间，对于多个分包使用的JS会放到主包中，这会让主包变得特别大。因此需要将只有分包使用的JS文件转移到分包中，下面介绍下这个 webpack 插件的实现。这个插件不是我写的，这里仅是分享下我的理解。
 
 
 ## 2. 实现原理
@@ -27,7 +27,7 @@ compilation.hooks.optimizeChunksAdvanced.tap('SplitUtilPlugin', () => {
     const chunks = module.getChunks();
     const matchSubPackages = findSubPackages(chunks);
     const isMain = hasMainPackage(chunks);
-    // 有分包在使用，但是主包没有使用，包含了上面的情况2和3
+    // 有分包在使用，但是主包没有使用，包含了上面的情况2
     if (matchSubPackages.size > 0 && !isMain) {
       this.moveFiles.set(module, {
         name: module.resource,
