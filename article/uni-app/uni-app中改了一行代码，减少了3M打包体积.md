@@ -85,7 +85,7 @@ import Dialog from 'src/common/widget/vant/dialog';
 
 ## 3. 扩展
 
-类型地，没被使用但被打包还有vue-router、vue-lazyload等，用类似的方法对它们进行了替换，替换后的打包分析如下：
+类似地，没被使用但被打包还有vue-router、vue-lazyload等，用类似的方法对它们进行了替换，替换后的打包分析如下：
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2022/8/uni-app-bundle-week-2.3.png" width="380">
 

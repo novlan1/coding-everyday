@@ -546,3 +546,42 @@ envVersion 取值有：develop，trial，release
 删除话，input 事件 `e.target.value === ''` 为 true
 
 
+## 22. uni-app中捕获事件
+
+有个需求，点击浮层外的DOM元素，关闭浮层，如果是h5的话，比较简单，核心是 dom 的 contains 事件：
+
+```ts
+document.addEventListener('click', this.onWatchClick);
+
+onWatchClick(e) {
+  const { menuPanel } = this.$refs;
+  if (menuPanel && this.showMenu && !menuPanel.contains(e.target)) {
+    this.onToggleShowMenu();
+  }
+}
+```
+
+到了小程序里，由于不能动态监听事件，只能在组件最外层去手动绑定事件，官方文档地址[在这里](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E7%BB%91%E5%AE%9A%E5%B9%B6%E9%98%BB%E6%AD%A2%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1)。
+
+由于捕获事件是在冒泡阶段之前触发，在下面的代码中，点击 inner view 会先后调用 handleTap2、handleTap4、handleTap3、handleTap1。
+
+```html
+<view id="outer" bind:touchstart="handleTap1" capture-bind:touchstart="handleTap2">
+  outer view
+  <view id="inner" bind:touchstart="handleTap3" capture-bind:touchstart="handleTap4">
+    inner view
+  </view>
+</view>
+```
+
+到了uni-app里，写成`capture-bind:touchstart`是不支持的，需要`@click`，我们的需求需要加`@click.capture = "onClickWrap"`:
+
+```ts
+onClickWrap() {
+  if (this.showMenu) {
+    this.showMenu = false;
+  }
+}
+```
+
+参考Vue[文档地址](https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers)，uni-app[文档地址](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6)。
