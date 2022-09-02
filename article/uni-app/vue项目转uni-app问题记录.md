@@ -90,6 +90,29 @@ uni-app 中 van-tab 使用 v-model 无效，会被转为
 />
 ```
 
+所以必须要想拿到改变后的tab，要写change事件，因为van-weapp默认更新的是 active 属性。
+
+```html
+<van-tabs active="{{ active }}" bind:change="onChange">
+
+</van-tabs>
+```
+
+```ts
+Page({
+  data: {
+    active: 1,
+  },
+
+  onChange(event) {
+    wx.showToast({
+      title: `切换到标签 ${event.detail.name}`,
+      icon: 'none',
+    });
+  },
+});
+```
+
 ### 3.3. 性能问题
 
 `tabMap[curTab]`不要写在template中，否则切换tab时会有延迟，可以写在computed中。
@@ -346,6 +369,11 @@ computed: {
 
 现在如果想要在一个新页面加上渐变导航，只需要引用 vuex 中的 mpHeaderBg 即可。
 
+### 7.5. 注意事项
+
+
+1. 上述方式其实是多个页面共享了同一个变量，也就是会存在多个页面互相影响的可能。
+2. 小程序重新进入某个页面，都会重新回到顶部，包括`page`和所有`scroll view`，所以要在`beforeDestroy`中重置`pageScrollTop`，这样也就消除了多个页面的互相影响。
 
 
 ## 8. 分包设置注意事项
@@ -476,11 +504,16 @@ Vue项目报上面这个错误，一般是props类型校验问题。这个搜索
 ## 18. scroll-view
 
 
-小程序内无法获取或改变一个普通view的scrollTop，只能用scroll-view。
+### 18.1. 基础设置
 
-这个标签需要设置scroll-y纵向滚动或者scroll-x横向滚动，默认都是false。
+小程序内无法获取或改变一个普通view的 scrollTop，只能用scroll-view。
+
+这个标签需要设置scroll-y 纵向滚动或者 scroll-x横 向滚动，默认都是false。
 
 enable-flex="true"是开始flex布局，默认为false。
+
+
+### 18.2. 动态scrollTo
 
 设置enhanced="true"后，可以通过下面代码动态改变其scrollTop。
 
@@ -497,6 +530,22 @@ function mpBackUp() {
       });
     });
 }
+```
+
+### 18.3. 动态scrollIntoView
+
+这个API的参数必须是 scrollView 的子元素，不能是子子元素。
+
+
+```ts
+this.createSelectorQuery()
+  .select('#scheduleTreeId')
+  .node()
+  .exec((res) => {
+    const scrollView = res[0]?.node;
+    if (!scrollView) return;
+    scrollView.scrollIntoView('.my-team-id-sche');
+  });
 ```
 
 ## 19. 获取小程序运行环境
@@ -584,4 +633,126 @@ onClickWrap() {
 }
 ```
 
+如果不加`.capture`，那么同一页面内的其他点击事件触发时，将不会收起浮层。
+
+
 参考Vue[文档地址](https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers)，uni-app[文档地址](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6)。
+
+
+## 23. fixed弹窗滑动时，下层页面也跟着滑动
+
+
+这里[有篇文章](http://t.zoukankan.com/zlfProgrammer-p-10750058.html)介绍的比较好。
+
+对于uni-app来说，最简单的方法应该是第一种，在弹窗外层元素加上事件`@touchmove.stop="preventTouchMove"`：
+
+```ts
+preventTouchMove() {
+  return;
+},
+```
+
+
+如果弹窗内部有滚动元素，则在滚动元素外层用`scroll-view`包裹。
+
+这个 scroll-view 的子孙元素不能添加 overflow: auto，否则无法滚动。
+
+
+另外，试了下在`page-meta`上加上 `page-style="height: 100%; overflow: 'hidden'"` 是不生效的。
+
+## 24. 安全区
+
+h5的时候有下面的样式，就是处理ios的刘海屏。
+
+```css
+body {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+  padding-left: constant(safe-area-inset-left);
+  padding-left: env(safe-area-inset-left);
+  padding-right: constant(safe-area-inset-right);
+  padding-right: env(safe-area-inset-right);
+  /* padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom); */
+}
+```
+
+在小程序中，这段样式需要去掉，否则会在自定义导航栏下面出现一条白框。
+
+在uni-app项目中，只要把上面代码移动到`index.html`中就可以了，因为只有h5项目才会使用这个`index.html`文件。
+
+## 25. uni-app不支持的语法
+
+uni-app不支持在Vue模板中使用下面的语法：
+
+```html
+<div
+  @onClickSche="onClickCycleSche({...$event,...finalScheItem})"
+/>
+```
+
+
+## 26. uni-app中的mounted与beforeDestroy
+
+uni-app 中的页面也可以触发 beforeDestroy，但是前提是路由出栈，但是如果是入栈就不会销毁页面，也就不会调用 beforeDestroy，并且重新进入也不会触发mounted。
+
+出栈发生的场景是点击了返回，入栈的场景是进入了新的页面。
+
+由于tabBar页面是第一个，所以永远不会被销毁，永远不会触发 beforeDestroy、destroyed 方法。
+
+
+相关文档：
+
+- [小程序页面路由](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html)
+- [uni-simple-router](https://hhyang.cn/v2/start/cross/codeRoute.html)
+
+## 27. uni-app页面生命周期执行顺序
+
+- beforeCreate 
+- created 
+- beforeMount 
+- onLoad 
+- onShow 
+- mounted  
+- onReady
+
+注意 beforeMount -> onLoad -> onShow -> mounted -> onReady
+
+由于子组件内没有 onShow，所以只能在页面级组件中写。如何在页面级组件中监听 onShow，然后传递给子组件做事情呢？
+
+可以使用ebus，onShow中触发事件，子组件中监听。如果子组件监听的时机是在mounted中，那么页面的第一次的onShow是监听不到的。
+
+
+```ts
+// 页面级组件
+onShow() {
+  this.$ebus.emit('onShow');
+},
+```
+
+```ts
+// 子组件
+this.$ebus.on('onShow', () => {
+  if (!this.firstEnter) {
+    this.checkViChange();
+  }
+});
+```
+
+相关文档：
+
+- [uni-app应用生命周期](https://uniapp.dcloud.net.cn/collocation/App.html#applifecycle)
+- [uni-app页面生命周期](https://uniapp.dcloud.net.cn/tutorial/page.html#lifecycle)
+- [小程序页面生命周期](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-life-cycle.html)
+
+
+## 28. 获取当前页面内部的某个方法
+
+用getCurrentPages获取当前页面curPage，使用curPage的$vm属性。
+
+```ts
+const pages = getCurrentPages();
+const curPage = pages[pages.length - 1];
+const path = curPage?.$vm?.getNavigatorPreviousPath?.();
+```
+
