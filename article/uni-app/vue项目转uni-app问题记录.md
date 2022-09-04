@@ -294,7 +294,9 @@ const uniSystemInfoMixin = {
     this.$store.commit('wxHeader/setPageScrollTop', parsedScrollTop);
   },
   beforeDestroy() {
-    this.$store.commit('wxHeader/setPageScrollTop', 0);
+    if (this.mpType === 'page') {
+      this.$store.commit('wxHeader/setPageScrollTop', 0);
+    }
   },
   methods: {
     onSetFontSize() {
