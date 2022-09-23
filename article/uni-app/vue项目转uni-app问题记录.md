@@ -641,7 +641,7 @@ onClickWrap() {
 参考Vue[文档地址](https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers)，uni-app[文档地址](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6)。
 
 
-## 23. fixed弹窗滑动时，下层页面也跟着滑动
+## 23. fixed弹窗滑动时，下层页面也跟着滑动（穿透问题）
 
 
 这里[有篇文章](http://t.zoukankan.com/zlfProgrammer-p-10750058.html)介绍的比较好。
@@ -758,3 +758,9 @@ const curPage = pages[pages.length - 1];
 const path = curPage?.$vm?.getNavigatorPreviousPath?.();
 ```
 
+## 29. uni-app在h5端默认开启scoped
+
+1. [官方文档](https://uniapp.dcloud.net.cn/matter.html#h5%E6%AD%A3%E5%B8%B8%E4%BD%86app%E5%BC%82%E5%B8%B8%E7%9A%84%E5%8F%AF%E8%83%BD%E6%80%A7)
+2. [相关文章](https://blog.csdn.net/qq_34825590/article/details/119412740)
+
+H5端为了隔离页面间的样式默认启用了 scoped，且无法取消
