@@ -1,7 +1,7 @@
 
 ## 1. travis
 
-首先注册travis，然后在项目中添加·.travis.yml`配置文件，配置教程可以参考[这篇文章](http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html)。
+首先注册travis，然后在项目中添加`.travis.yml`配置文件，配置教程可以参考[这篇文章](http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html)。
 
 ### 1.1. 内置变量
 
@@ -38,7 +38,7 @@ $ gem install travis
 
 如果报错`Could not find a valid gem 'rubygame' (>= 0) in any repository`，可以[参考这里](https://stackoverflow.com/questions/9962051/could-not-find-a-valid-gem-in-any-repository-rubygame-and-others)，执行一下下面的命令：
 
-````bash
+```bash
 $ gem sources --add https://rubygems.org/
 ```
 
@@ -63,7 +63,20 @@ $ travis encrypt GH_TOKEN=some_token --pro --add
 要在 travis 网站保存 CODECOV_ENV 变量，然后在`.travis.yml`中`after_success`里面加上 codecov 命令即可。
 
 
-## 3. 代码
+## 3. docdash
+
+
+docdash 是 jsdoc 文档一个模板，风格比较简洁，腾讯云IM的文档就是基于 docdash 构建的。
+
+需要指定一个配置文件，然后将 jsdoc 命令添加到 script 中即可。
+
+```json
+"scripts": {
+  "docs:gen": "jsdoc -c script/docs/jsdoc.json && cp script/docs/jsdoc.js docs",
+}
+```
+
+## 4. 代码
 
 .travis.yml
 
@@ -165,7 +178,71 @@ fi
 ```
 
 
-## 4. 参考资料
+jsdoc.json
+
+```json
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "source": {
+    "include": [
+      "src",
+      "README.md"
+    ],
+    "includePattern": "\\.(t|j)s$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/typescript"
+  ],
+  "opts": {
+    "template": "node_modules/docdash/",
+    "encoding": "utf8",
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true,
+    "idInHeadings": true
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true,
+      "includeDate": false,
+      "useLongnameInNav": true
+    }
+  },
+  "docdash": {
+    "static": true,
+    "sort": false,
+    "disqus": "",
+    "search": true,
+    "collapse": true,
+    "typedefs": true,
+    "commonNav": true,
+    "removeQuotes": "none",
+    "scripts": [
+      "./jsdoc.js"
+    ],
+    "menu": {
+      "Github repo": {
+        "href": "",
+        "target": "_blank",
+        "class": "menu-item",
+        "id": "repository"
+      }
+    }
+  }
+}
+```
+
+## 5. 参考资料
 
 - https://docs.travis-ci.com/user/encryption-keys/
 - http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html
