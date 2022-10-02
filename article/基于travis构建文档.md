@@ -1,7 +1,7 @@
 
 ## 1. travis
 
-首先注册travis，然后在项目中添加`.travis.yml`配置文件，配置教程可以参考[这篇文章](http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html)。
+首先注册[travis](https://www.travis-ci.com/)，然后在项目中添加`.travis.yml`配置文件，配置教程可以参考[这篇文章](http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html)。
 
 ### 1.1. 内置变量
 
@@ -76,7 +76,55 @@ docdash 是 jsdoc 文档一个模板，风格比较简洁，腾讯云IM的文档
 }
 ```
 
-## 4. 代码
+
+## 4. github actions
+
+
+利用`github actions`也可以实现CI/CD，代码如下：
+
+```yml
+# action 的名称
+name: Deploy GitHub Pages
+
+# 触发条件：在 push 到 main 分支后
+on:
+  push:
+    branches:
+      - master
+
+# 任务
+jobs:
+  build-and-deploy:
+    # 服务器环境：最新版 Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      # 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      # 生成静态文件
+      - name: Build
+        run: npm install && npm run docs:gen
+
+      # 部署到 GitHub Pages
+      - name: Deploy
+        # 使用别人写好的一个 action
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          # 这里的 ACCESS_TOKEN 名字需要和下文中的相对应
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          # 打包后的文件部署到哪个分支上
+          BRANCH: gh-pages
+          # 打包后的文件在哪里
+          FOLDER: docs
+```
+
+
+
+
+## 5. 代码
 
 .travis.yml
 
@@ -242,7 +290,7 @@ jsdoc.json
 }
 ```
 
-## 5. 参考资料
+## 6. 参考资料
 
 - https://docs.travis-ci.com/user/encryption-keys/
 - http://www.ruanyifeng.com/blog/2017/12/travis_ci_tutorial.html
