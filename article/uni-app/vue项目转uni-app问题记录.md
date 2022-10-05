@@ -1,24 +1,17 @@
-## 1. page-meta
+# 1. 逻辑
 
-```
-<page-meta :root-font-size="fontsize+'px'"></page-meta>
-```
+## 1.1. v-for
 
-page-meta只能是页面内的第一个节点，可以实现rem
+### 1.1.1. 基础
 
 
-## 2. v-for
-
-### 2.1. 基础
-
-
-- 在H5平台 使用 v-for 循环整数时和其他平台存在差异，如 v-for="(item, index) in 10" 中，在H5平台 item 从 1 开始，其他平台 item 从 0 开始，可使用第二个参数 index 来保持一致。
-- 在非H5平台 循环对象时不支持第三个参数，如 v-for="(value, name, index) in object" 中，index 参数是不支持的。
+- 在H5平台 使用 v-for 循环整数时和其他平台存在差异，如 `v-for="(item, index) in 10"` 中，在H5平台 item 从 1 开始，其他平台 item 从 0 开始，可使用第二个参数 index 来保持一致。
+- 在非H5平台 循环对象时不支持第三个参数，如 `v-for="(value, name, index) in object"` 中，index 参数是不支持的。
 - 小程序端数据为差量更新方式，由于小程序不支持删除对象属性，使用的设置值为 null 的方式替代，导致遍历时可能出现不符合预期的情况，需要自行过滤一下值为 null 的数据。
 
 文档地址[在这里](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)。
 
-###  2.2. v-for 的 key
+###  1.1.2. v-for 的 key
 
 小程序不支持字符串拼接，比如
 
@@ -26,7 +19,7 @@ page-meta只能是页面内的第一个节点，可以实现rem
 :key="`hold` + index"
 ```
 
-这样其实也是有问题的：
+这样其实也是有问题的，控制台会报错：
 
 ```html
 :key="`hold-${index}`"
@@ -64,107 +57,225 @@ key重复会造成挂载在组件上面的事件参数为undefined，从而不�
 2. https://www.jianshu.com/p/ec4c0c73bb83
 
 
+## 1.2. this指向问题
 
-## 3. van-tab
+### 1.2.1. prop为函数类型
 
-### 3.1. change事件参数
-
-uni-app中 vant-tab 的change事件暴露参数为event，需适配
-
-```ts
-this.curTab = e.detail.name;
-```
-
-
-### 3.2. v-model无效
-
-uni-app 中 van-tab 使用 v-model 无效，会被转为
-
-
-```html
-<view 
-  value="val" 
-  bind:change="__e" 
-  bind:input="__e"
-  data-event-opts="{{[['^change',[['onChangeStageTab']]],['^input',[['__set_model',['','curStageTab','$event',[]]]]]]}}"
-/>
-```
-
-所以必须要想拿到改变后的tab，要写change事件，因为van-weapp默认更新的是 active 属性。
-
-```html
-<van-tabs active="{{ active }}" bind:change="onChange">
-
-</van-tabs>
-```
-
-```ts
-Page({
-  data: {
-    active: 1,
-  },
-
-  onChange(event) {
-    wx.showToast({
-      title: `切换到标签 ${event.detail.name}`,
-      icon: 'none',
-    });
-  },
-});
-```
-
-### 3.3. 性能问题
-
-`tabMap[curTab]`不要写在template中，否则切换tab时会有延迟，可以写在computed中。
-
-
-```html
-<!-- 存在问题 -->
-<Comp 
-  :list="tabMap[curTab]"
-/>
-```
-
-
-
-```vue
-<!-- 推荐 -->
-<Comp 
-  :list="curList"
-/>
-
-computed: {
-  curList() {
-    const { tabMap, curTab } = this;
-    return tabMap[curTab]
-  }
-}
-```
-
-更好的方式是不依赖curTab
-
-```html
-:sche-list="stageScheMap[index]"
-```
-
-
-## 4. this指向问题
-
-### 4.1. prop为函数类型
-
-父组件把方法传给子组件后，该方法里的this是子组件的this而不是父组件的this。
+父组件把方法传给子组件后，该方法里的 this 是子组件的 this 而不是父组件的 this。
 
 这个[链接](https://ask.dcloud.net.cn/question/97718)提到了相同的问题，一个解决方法是在外层声明`gThis`，然后在 `mounted` 或 `updated` 中将this 赋值给 gThis，`gThis = this`。
 
-### 4.2. vant组件
+### 1.2.2. vant组件
 
 有时候vant-weapp的组件报this指向问题，但在真机或其他人的电脑上就没事，可以尝试把小程序基础库版本降低下，比如调整到 2.23.0。有时候不一定是自己代码的问题。
 
 
 相关链接：https://ask.dcloud.net.cn/question/97718
 
+## 1.3. list挂载属性
 
-## 5. slot问题
+
+之前在list上挂载属性，比如`list = []; list.a = 1`，是可以传递给子组件的，但是uni-app编译后则不可以。
+
+
+## 1.4. Vue TypeError: Right-hand side of 'instanceof' is not an object
+
+Vue项目报上面这个错误，一般是props类型校验问题。这个搜索引擎一搜就能知道。
+
+## 1.5. uni-app传递对象props，对象中的function会被丢掉
+
+
+写在对象中的 function 会被丢掉，需要改成 $emit，但是直接写 Function 类型的 props 是可以的。
+
+相关链接：
+- https://ask.dcloud.net.cn/question/72570
+- https://ask.dcloud.net.cn/question/70659
+
+## 1.6. input的focus
+
+小程序中需要手动指定 focus，没有js调用的API。
+
+删除时，input 事件 `e.target.value === ''` 为 true
+
+
+
+## 1.7. uni-app中捕获事件
+
+有个需求，点击浮层外的DOM元素，关闭浮层，如果是h5的话，比较简单，核心是 dom 的 contains 事件：
+
+```ts
+document.addEventListener('click', this.onWatchClick);
+
+onWatchClick(e) {
+  const { menuPanel } = this.$refs;
+  if (menuPanel && this.showMenu && !menuPanel.contains(e.target)) {
+    this.onToggleShowMenu();
+  }
+}
+```
+
+到了小程序里，由于不能动态监听事件，只能在组件最外层去手动绑定事件，官方文档地址[在这里](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E7%BB%91%E5%AE%9A%E5%B9%B6%E9%98%BB%E6%AD%A2%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1)。
+
+由于捕获事件是在冒泡阶段之前触发，在下面的代码中，点击 inner view 会先后调用 handleTap2、handleTap4、handleTap3、handleTap1。
+
+```html
+<view id="outer" bind:touchstart="handleTap1" capture-bind:touchstart="handleTap2">
+  outer view
+  <view id="inner" bind:touchstart="handleTap3" capture-bind:touchstart="handleTap4">
+    inner view
+  </view>
+</view>
+```
+
+到了uni-app里，写成`capture-bind:touchstart`是不支持的，需要`@click`，我们的需求需要加`@click.capture = "onClickWrap"`:
+
+```ts
+onClickWrap() {
+  if (this.showMenu) {
+    this.showMenu = false;
+  }
+}
+```
+
+如果不加`.capture`，那么同一页面内的其他点击事件触发时，将不会收起浮层。
+
+
+参考：
+- [Vue文档地址](https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers)
+- [uni-app文档地址](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6)。
+
+
+
+## 1.8. uni-app不支持的语法
+
+uni-app不支持在Vue模板中使用下面的语法：
+
+```html
+<div
+  @onClickSche="onClickCycleSche({...$event,...finalScheItem})"
+/>
+```
+
+## 1.9. uni-app中的mounted与beforeDestroy
+
+uni-app 中的页面也可以触发 beforeDestroy，但是前提是路由出栈，但是如果是入栈就不会销毁页面，也就不会调用 beforeDestroy，并且重新进入也不会触发mounted。
+
+出栈发生的场景是点击了返回，入栈的场景是进入了新的页面。
+
+由于tabBar页面是第一个，所以永远不会被销毁，永远不会触发 beforeDestroy、destroyed 方法。
+
+
+相关文档：
+
+- [小程序页面路由](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html)
+- [uni-simple-router](https://hhyang.cn/v2/start/cross/codeRoute.html)
+
+## 1.10. uni-app页面生命周期执行顺序
+
+- beforeCreate 
+- created 
+- beforeMount 
+- onLoad 
+- onShow 
+- mounted  
+- onReady
+
+注意 beforeMount -> onLoad -> onShow -> mounted -> onReady
+
+由于子组件内没有 onShow，所以只能在页面级组件中写。如何在页面级组件中监听 onShow，然后传递给子组件做事情呢？
+
+可以使用ebus，onShow中触发事件，子组件中监听。如果子组件监听的时机是在mounted中，那么页面的第一次的onShow是监听不到的。
+
+
+```ts
+// 页面级组件
+onShow() {
+  this.$ebus.emit('onShow');
+},
+```
+
+```ts
+// 子组件
+this.$ebus.on('onShow', () => {
+  if (!this.firstEnter) {
+    this.checkViChange();
+  }
+});
+```
+
+相关文档：
+
+- [uni-app应用生命周期](https://uniapp.dcloud.net.cn/collocation/App.html#applifecycle)
+- [uni-app页面生命周期](https://uniapp.dcloud.net.cn/tutorial/page.html#lifecycle)
+- [小程序页面生命周期](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-life-cycle.html)
+
+
+## 1.11. 获取当前页面内部的某个方法
+
+用 getCurrentPages 获取当前页面 curPage，使用 curPage 的 $vm 属性。
+
+```ts
+const pages = getCurrentPages();
+const curPage = pages[pages.length - 1];
+const path = curPage?.$vm?.getNavigatorPreviousPath?.();
+```
+
+
+# 2. 样式
+
+## 2.1. fixed弹窗滑动时，下层页面也跟着滑动（穿透问题）
+
+
+这里[有篇文章](http://t.zoukankan.com/zlfProgrammer-p-10750058.html)介绍的比较好。
+
+对于uni-app来说，最简单的方法应该是第一种，在弹窗外层元素加上事件`@touchmove.stop="preventTouchMove"`：
+
+```ts
+preventTouchMove() {
+  return;
+},
+```
+
+
+如果弹窗内部有滚动元素，则在滚动元素外层用`scroll-view`包裹。
+
+这个 scroll-view 的子孙元素不能添加 overflow: auto，否则无法滚动。
+
+
+另外，试了下在`page-meta`上加上 `page-style="height: 100%; overflow: 'hidden'"` 是不生效的。
+
+## 2.2. 安全区
+
+h5的时候有下面的样式，就是处理ios的刘海屏。
+
+```css
+body {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+  padding-left: constant(safe-area-inset-left);
+  padding-left: env(safe-area-inset-left);
+  padding-right: constant(safe-area-inset-right);
+  padding-right: env(safe-area-inset-right);
+  /* padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom); */
+}
+```
+
+在小程序中，这段样式需要去掉，否则会在自定义导航栏下面出现一条白框。
+
+在uni-app项目中，只要把上面代码移动到`index.html`中就可以了，因为只有h5项目才会使用这个`index.html`文件。
+
+
+## 2.3. page-meta
+
+```
+<page-meta :root-font-size="fontsize+'px'"></page-meta>
+```
+
+page-meta只能是页面内的第一个节点，可以实现rem
+
+
+## 2.4. slot问题
 
 uni-app是支持具名插槽的，有一点需要注意，对于写在slot标签上的类名，h5会下发到slot内部的外层元素上，而小程序则会创建view元素，在这个元素上添加类名。
 
@@ -220,176 +331,7 @@ options: {
 },
 ```
 
-
-
-## 6. list挂载属性
-
-
-之前在list上挂载属性，比如`list = []; list.a = 1`，是可以传递给子组件的，但是uni-app编译后则不可以。
-
-
-
-
-## 7. 渐变导航与onPageScroll
-
-
-项目多在多个页面上加自定义导航栏，还要有渐变效果，就是随着页面上滑，导航栏透明度由0逐渐变为1。这里面有几个基本点需要注意下。
-
-
-### 7.1. page的样式
-
-page不能是height: 100%，可以设置height: auto，这样才可以触发onPageScroll。
-
-### 7.2. onPageScroll
-
-
-只有page才有 onPageScroll 事件。试验发现，mixin 和页面内都写了 onPageScroll 的话，都会触发。
-
-如果把它放在mixin中，写成下面这样，可能会有问题：
-
-```ts
-data() {
-  return {
-    pageScrollTop: 0,
-  };
-},
-onPageScroll({ scrollTop }) {
-  this.pageScrollTop = scrollTop || 0;
-},
-```
-
-因为自定义导航栏不一定要在页面级组件上，很多页面都是写在子组件里，而mixin是各个组件各自维护了一份data，所以无法传递。这也是Vue组件和小程序组件的不同之处。
-
-解决方法有多个：
-- 将 onPageScroll 写在页面级组件上，然后获取到 scrollTop 后传给子组件，这种方法太麻烦
-- onPageScroll 依然写在 mixin 中，保存 scrollTop 到 vuex 的 state 中，然后在页面或者组件中获取这个 state
-
-
-### 7.3. 性能问题
-
-
-这里面还有两个性能相关的点要注意下：
-
-1. 只有页面级组件或者个别组件需要用的数据，不要放在 mixin 的 data/computed 中。因为 mixin 是所有组件的混入，并且 uni-app 中所有 data 和 computed 都会作为渲染依赖，不管用没用到，可能会引起很多性能开销。
-2. onPageScroll 中不要做复杂逻辑，不要频繁调用setData，在uni-app中就是不要频繁更新data。因为小程序是双线程通信，逻辑层更改数据要先到native层，再传到渲染层，中间可能还有JSON.stringify等操作。
-
-
-
-### 7.4. 方案
-
-综上，目前采用的方案是：
-
-mixin中，监听 onPageScroll，因为这个在只会在当前页面触发，子组件会被忽略，所以写在这里并不影响性能。
-
-```ts
-const uniSystemInfoMixin = {
-  onPageScroll({ scrollTop }) {
-    const mpHeaderHeight = this.$store?.state?.wxHeader?.mpHeaderHeight || 44;
-    const pageScrollTop = this.$store?.state?.wxHeader?.pageScrollTop || 44;
-    // 提升性能，超过范围的就不再commit
-    const parsedScrollTop = scrollTop > mpHeaderHeight ? mpHeaderHeight : scrollTop;
-    if (parsedScrollTop === mpHeaderHeight && pageScrollTop === mpHeaderHeight) {
-      return;
-    }
-    this.$store.commit('wxHeader/setPageScrollTop', parsedScrollTop);
-  },
-  beforeDestroy() {
-    if (this.mpType === 'page') {
-      this.$store.commit('wxHeader/setPageScrollTop', 0);
-    }
-  },
-  methods: {
-    onSetFontSize() {
-      const that = this ;
-      if (that.mpType === 'page') {
-        try {
-          uni.getSystemInfo({
-            success(res) {
-              const mpHeaderHeight = res.statusBarHeight + 44;
-              that.$store.commit('wxHeader/setMpHeaderHeight', mpHeaderHeight);
-            },
-          });
-        } catch (err) {
-        }
-      }
-    },
-  },
-};
-```
-
-vuex 中保存 pageScrollTop、mpHeaderHeight，及一个衍生变量 mpHeaderBg。
-
-```ts
-const wxHeaderStore = {
-  namespaced: true,
-  state: () => ({
-    pageScrollTop: 0,
-    mpHeaderHeight: 44,
-  }),
-  mutations: {
-    setPageScrollTop(state, pageScrollTop = 0) {
-      state.pageScrollTop = pageScrollTop;
-    },
-    setMpHeaderHeight(state, mpHeaderHeight) {
-      state.mpHeaderHeight = mpHeaderHeight;
-    },
-  },
-  getters: {
-    mpHeaderHeightStr(state) {
-      return `${state.mpHeaderHeight}px`;
-    },
-    mpHeaderBg(state) {
-      const { pageScrollTop, mpHeaderHeight } = state;
-      return `rgba(255, 255, 255, ${Math.min(1, pageScrollTop / mpHeaderHeight)})`;
-    },
-  },
-};
-```
-
-然后，需要使用 mpHeaderBg 的页面，自己去引用 vuex 中的变量：
-
-```html
-<SomeComp
-  :header-bg="mpHeaderBg"
-/>
-
-<style>
-page {
-  height: auto;
-}
-</style>
-```
-
-```ts
-computed: {
-  mpHeaderBg() {
-    return this?.$store?.getters?.['wxHeader/mpHeaderBg'] || '';
-  },
-}
-```
-
-
-现在如果想要在一个新页面加上渐变导航，只需要引用 vuex 中的 mpHeaderBg 即可。
-
-### 7.5. 注意事项
-
-
-1. 上述方式其实是多个页面共享了同一个变量，也就是会存在多个页面互相影响的可能。
-2. 小程序重新进入某个页面，都会重新回到顶部，包括`page`和所有`scroll view`，所以要在`beforeDestroy`中重置`pageScrollTop`，这样也就消除了多个页面的互相影响。
-
-
-## 8. 分包设置注意事项
-
-pages.json 用的分包一定要用到，不要root写了，path是空，或者path不全，因为没写全的会被放到主包内，会在包分析中失败。
-
-另外，假设 views/A 只是 views/B 的一个子组件，不要在 pages.json 中声明一个分包 root 为 views/A。
-
-## 9. main.js不要引用router
-
-因为这会导致所有js都会打包到主包里的 common/main.js 中
-
-
-## 10. 样式隔离
+## 2.5. 样式隔离
 
 主要涉及 styleIsolation 属性。文档地址[在这里](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/wxml-wxss.html#%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F%E9%9A%94%E7%A6%BB)。
 
@@ -400,67 +342,17 @@ styleIsolation 选项支持以下取值：
 - shared **表示页面 wxss 样式将影响到自定义组件，自定义组件 wxss 中指定的样式也会影响页面和其他设置了 apply-shared 或 shared 的自定义组件**。（这个选项在插件中不可用。
 
 
-使用后两者时，要注意组件间样式的相互影响。
-
-如果这个一个组件构造器用于构造页面 ，则这个组件的 styleIsolation 默认值为 shared ，且还有以下几个额外的样式隔离选项可用：
-
-- page-isolated 表示在这个页面禁用 app.wxss ，同时，页面的 wxss 不会影响到其他自定义组件；
-- page-apply-shared 表示在这个页面禁用 app.wxss ，同时，页面 wxss 样式不会影响到其他自定义组件，但设为 shared 的自定义组件会影响到页面；
-- page-shared 表示在这个页面禁用 app.wxss ，同时，页面 wxss 样式会影响到其他设为 apply-shared 或 shared 的自定义组件，也会受到设为 shared 的自定义组件的影响。
 
 
+## 2.6. uni-app在h5端默认开启scoped
 
-## 11. loader上下文
+H5端为了隔离页面间的样式默认启用了 scoped，且无法取消
 
-
-
-loader 中，可以用 this.resourcePath 获取文件路径，文档地址[在这里](https://www.webpackjs.com/api/loaders/)。其他可能会用到的爆款：
-
-- this.context，模块所在的目录
-- this.loaders，所有 loader 组成的数组
-- this.emitFile，产生一个文件
-
-## 12. 一个组件被import两次，对应的js就会编译错误
-
-啥时候一个组件会被 import 两次呢，动态加载，比如`() => import('./xxx.comp')`
-
-## 13. path-to-regexp库使用时，keys不能是const
-
-示例代码：
-
-```ts
-import pathToRegexp from 'path-to-regexp';
-
-// eslint-disable-next-line prefer-const
-let keys = [];
-const regexp = pathToRegexp(item, keys);
-const match = path.match(regexp);
-```
+1. [官方文档](https://uniapp.dcloud.net.cn/matter.html#h5%E6%AD%A3%E5%B8%B8%E4%BD%86app%E5%BC%82%E5%B8%B8%E7%9A%84%E5%8F%AF%E8%83%BD%E6%80%A7)
+2. [相关文章](https://blog.csdn.net/qq_34825590/article/details/119412740)
 
 
-
-## 14. Vue TypeError: Right-hand side of 'instanceof' is not an object
-
-Vue项目报上面这个错误，一般是props类型校验问题。这个搜索引擎一搜就能知道。
-
-
-## 15. uni-app传递对象props，对象中的function会被丢掉
-
-
-写在对象中的 function 会被丢掉，需要改成 $emit，但是测试了下，直接写 Function 类型的 props 是可以的。
-
-相关链接：
-- https://ask.dcloud.net.cn/question/72570
-- https://ask.dcloud.net.cn/question/70659
-
-## 16. 微信小程序体验版数据加载不了，打开调试模式下才行
-
-检查下面几项：域名已经备案、https已经配置、ssl证书在1.2以上版本、小程序后台已经配置服务器域名
-
-
-
-
-## 17. style
+## 2.7. 不要在 class、style 中使用复杂对象
 
 不能在 class、style 中直接使用 函数、data、计算属性 的对象，比如：
 
@@ -503,68 +395,8 @@ Vue项目报上面这个错误，一般是props类型校验问题。这个搜索
 />
 ```
 
-## 18. scroll-view
 
-
-### 18.1. 基础设置
-
-小程序内无法获取或改变一个普通view的 scrollTop，只能用scroll-view。
-
-这个标签需要设置scroll-y 纵向滚动或者 scroll-x横 向滚动，默认都是false。
-
-enable-flex="true"是开始flex布局，默认为false。
-
-
-### 18.2. 动态scrollTo
-
-设置enhanced="true"后，可以通过下面代码动态改变其scrollTop。
-
-```ts
-function mpBackUp() {
-  this.createSelectorQuery()
-    .select('#scheduleTreeId')
-    .node()
-    .exec((res) => {
-      const scrollView = res[0]?.node;
-      if (!scrollView) return;
-      scrollView.scrollTo({
-        top: 0,
-      });
-    });
-}
-```
-
-### 18.3. 动态scrollIntoView
-
-这个API的参数必须是 scrollView 的子元素，不能是子子元素。
-
-
-```ts
-this.createSelectorQuery()
-  .select('#scheduleTreeId')
-  .node()
-  .exec((res) => {
-    const scrollView = res[0]?.node;
-    if (!scrollView) return;
-    scrollView.scrollIntoView('.my-team-id-sche');
-  });
-```
-
-## 19. 获取小程序运行环境
-
-```ts
-const { envVersion = '', version = '', appId = '' } = wx?.getAccountInfoSync?.()?.miniProgram || {};
-const { SDKVersion = '', platform = '' } = __wxConfig as any;
-```
-
-envVersion 取值有：develop，trial，release
-
-类似的参数还有version、platform等，可以看上面代码。
-
-
-
-
-## 20. v-if vs v-show
+## 2.8. v-if vs v-show
 
 都知道v-show比v-if性能高，但是uni-app不支持v-show，对于dom节点特别大的页面来说，切换tab只能用v-show，v-if太卡。
 
@@ -589,178 +421,201 @@ envVersion 取值有：develop，trial，release
 </style>
 ```
 
-
-## 21. input的focus
-
-小程序中需要手动指定 focus，没有js调用的API。
-
-删除话，input 事件 `e.target.value === ''` 为 true
+# 3. vant
 
 
-## 22. uni-app中捕获事件
 
-有个需求，点击浮层外的DOM元素，关闭浮层，如果是h5的话，比较简单，核心是 dom 的 contains 事件：
+
+
+
+## 3.1. van-tab
+
+### 3.1.1. change事件参数
+
+uni-app中 vant-tab 的change事件暴露参数为event，需适配
 
 ```ts
-document.addEventListener('click', this.onWatchClick);
-
-onWatchClick(e) {
-  const { menuPanel } = this.$refs;
-  if (menuPanel && this.showMenu && !menuPanel.contains(e.target)) {
-    this.onToggleShowMenu();
-  }
-}
+this.curTab = e.detail.name;
 ```
 
-到了小程序里，由于不能动态监听事件，只能在组件最外层去手动绑定事件，官方文档地址[在这里](https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html#%E7%BB%91%E5%AE%9A%E5%B9%B6%E9%98%BB%E6%AD%A2%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1)。
 
-由于捕获事件是在冒泡阶段之前触发，在下面的代码中，点击 inner view 会先后调用 handleTap2、handleTap4、handleTap3、handleTap1。
+### 3.1.2. v-model无效
+
+uni-app 中 van-tab 使用 v-model 无效，会被转为
+
 
 ```html
-<view id="outer" bind:touchstart="handleTap1" capture-bind:touchstart="handleTap2">
-  outer view
-  <view id="inner" bind:touchstart="handleTap3" capture-bind:touchstart="handleTap4">
-    inner view
-  </view>
-</view>
+<view 
+  value="val" 
+  bind:change="__e" 
+  bind:input="__e"
+  data-event-opts="{{[['^change',[['onChangeStageTab']]],['^input',[['__set_model',['','curStageTab','$event',[]]]]]]}}"
+/>
 ```
 
-到了uni-app里，写成`capture-bind:touchstart`是不支持的，需要`@click`，我们的需求需要加`@click.capture = "onClickWrap"`:
-
-```ts
-onClickWrap() {
-  if (this.showMenu) {
-    this.showMenu = false;
-  }
-}
-```
-
-如果不加`.capture`，那么同一页面内的其他点击事件触发时，将不会收起浮层。
-
-
-参考Vue[文档地址](https://cn.vuejs.org/guide/essentials/event-handling.html#event-modifiers)，uni-app[文档地址](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6)。
-
-
-## 23. fixed弹窗滑动时，下层页面也跟着滑动（穿透问题）
-
-
-这里[有篇文章](http://t.zoukankan.com/zlfProgrammer-p-10750058.html)介绍的比较好。
-
-对于uni-app来说，最简单的方法应该是第一种，在弹窗外层元素加上事件`@touchmove.stop="preventTouchMove"`：
-
-```ts
-preventTouchMove() {
-  return;
-},
-```
-
-
-如果弹窗内部有滚动元素，则在滚动元素外层用`scroll-view`包裹。
-
-这个 scroll-view 的子孙元素不能添加 overflow: auto，否则无法滚动。
-
-
-另外，试了下在`page-meta`上加上 `page-style="height: 100%; overflow: 'hidden'"` 是不生效的。
-
-## 24. 安全区
-
-h5的时候有下面的样式，就是处理ios的刘海屏。
-
-```css
-body {
-  padding-top: constant(safe-area-inset-top);
-  padding-top: env(safe-area-inset-top);
-  padding-left: constant(safe-area-inset-left);
-  padding-left: env(safe-area-inset-left);
-  padding-right: constant(safe-area-inset-right);
-  padding-right: env(safe-area-inset-right);
-  /* padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom); */
-}
-```
-
-在小程序中，这段样式需要去掉，否则会在自定义导航栏下面出现一条白框。
-
-在uni-app项目中，只要把上面代码移动到`index.html`中就可以了，因为只有h5项目才会使用这个`index.html`文件。
-
-## 25. uni-app不支持的语法
-
-uni-app不支持在Vue模板中使用下面的语法：
+所以必须要想拿到改变后的tab，要写change事件，因为van-weapp默认更新的是 active 属性。
 
 ```html
-<div
-  @onClickSche="onClickCycleSche({...$event,...finalScheItem})"
+<van-tabs active="{{ active }}" bind:change="onChange">
+
+</van-tabs>
+```
+
+```ts
+Page({
+  data: {
+    active: 1,
+  },
+
+  onChange(event) {
+    wx.showToast({
+      title: `切换到标签 ${event.detail.name}`,
+      icon: 'none',
+    });
+  },
+});
+```
+
+### 3.1.3. 性能问题
+
+`tabMap[curTab]`不要写在template中，否则切换tab时会有延迟，也不要写在 computed 中，最好不依赖 curTab。
+
+
+```html
+<!-- 存在问题 -->
+<Comp 
+  :list="tabMap[curTab]"
 />
 ```
 
 
-## 26. uni-app中的mounted与beforeDestroy
 
-uni-app 中的页面也可以触发 beforeDestroy，但是前提是路由出栈，但是如果是入栈就不会销毁页面，也就不会调用 beforeDestroy，并且重新进入也不会触发mounted。
+```vue
+<!-- 不推荐 -->
+<Comp 
+  :list="curList"
+/>
 
-出栈发生的场景是点击了返回，入栈的场景是进入了新的页面。
-
-由于tabBar页面是第一个，所以永远不会被销毁，永远不会触发 beforeDestroy、destroyed 方法。
-
-
-相关文档：
-
-- [小程序页面路由](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html)
-- [uni-simple-router](https://hhyang.cn/v2/start/cross/codeRoute.html)
-
-## 27. uni-app页面生命周期执行顺序
-
-- beforeCreate 
-- created 
-- beforeMount 
-- onLoad 
-- onShow 
-- mounted  
-- onReady
-
-注意 beforeMount -> onLoad -> onShow -> mounted -> onReady
-
-由于子组件内没有 onShow，所以只能在页面级组件中写。如何在页面级组件中监听 onShow，然后传递给子组件做事情呢？
-
-可以使用ebus，onShow中触发事件，子组件中监听。如果子组件监听的时机是在mounted中，那么页面的第一次的onShow是监听不到的。
-
-
-```ts
-// 页面级组件
-onShow() {
-  this.$ebus.emit('onShow');
-},
-```
-
-```ts
-// 子组件
-this.$ebus.on('onShow', () => {
-  if (!this.firstEnter) {
-    this.checkViChange();
+computed: {
+  curList() {
+    const { tabMap, curTab } = this;
+    return tabMap[curTab]
   }
-});
+}
 ```
 
-相关文档：
+更好的方式是不依赖curTab
 
-- [uni-app应用生命周期](https://uniapp.dcloud.net.cn/collocation/App.html#applifecycle)
-- [uni-app页面生命周期](https://uniapp.dcloud.net.cn/tutorial/page.html#lifecycle)
-- [小程序页面生命周期](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-life-cycle.html)
+```html
+:sche-list="stageScheMap[index]"
+```
 
 
-## 28. 获取当前页面内部的某个方法
+# 4. 构建
 
-用getCurrentPages获取当前页面curPage，使用curPage的$vm属性。
+## 4.1. 分包设置注意事项
+
+pages.json 用的分包一定要用到，不要root写了，path是空，或者path不全，因为没写全的会被放到主包内，会在包分析中失败。
+
+另外，假设 views/A 只是 views/B 的一个子组件，不要在 pages.json 中声明一个分包 root 为 views/A。
+
+
+## 4.2. main.js不要引用router
+
+因为这会导致所有js都会打包到主包里的 common/main.js 中
+
+
+## 4.3. loader上下文
+
+
+
+loader 中，可以用 this.resourcePath 获取文件路径，文档地址[在这里](https://www.webpackjs.com/api/loaders/)。其他可能会用到的爆款：
+
+- this.context，模块所在的目录
+- this.loaders，所有 loader 组成的数组
+- this.emitFile，产生一个文件
+
+## 4.4. 一个组件被import两次，对应的js就会编译错误
+
+啥时候一个组件会被 import 两次呢，动态加载，比如`() => import('./xxx.comp')`
+
+
+
+## 4.5. path-to-regexp库使用时，keys不能是const
+
+示例代码：
 
 ```ts
-const pages = getCurrentPages();
-const curPage = pages[pages.length - 1];
-const path = curPage?.$vm?.getNavigatorPreviousPath?.();
+import pathToRegexp from 'path-to-regexp';
+
+// eslint-disable-next-line prefer-const
+let keys = [];
+const regexp = pathToRegexp(item, keys);
+const match = path.match(regexp);
 ```
 
-## 29. uni-app在h5端默认开启scoped
+## 4.6. 微信小程序体验版数据加载不了，打开调试模式下才行
 
-1. [官方文档](https://uniapp.dcloud.net.cn/matter.html#h5%E6%AD%A3%E5%B8%B8%E4%BD%86app%E5%BC%82%E5%B8%B8%E7%9A%84%E5%8F%AF%E8%83%BD%E6%80%A7)
-2. [相关文章](https://blog.csdn.net/qq_34825590/article/details/119412740)
+检查下面几项：域名已经备案、https已经配置、ssl证书在1.2以上版本、小程序后台已经配置服务器域名
 
-H5端为了隔离页面间的样式默认启用了 scoped，且无法取消
+
+# 5. 小程序特殊标签&API
+
+## 5.1. scroll-view
+
+
+### 5.1.1. 基础设置
+
+小程序内无法获取或改变一个普通view的 scrollTop，只能用scroll-view。
+
+这个标签需要设置scroll-y 纵向滚动或者 scroll-x横 向滚动，默认都是false。
+
+enable-flex="true"是开始flex布局，默认为false。
+
+
+### 5.1.2. 动态scrollTo
+
+设置enhanced="true"后，可以通过下面代码动态改变其scrollTop。
+
+```ts
+function mpBackUp() {
+  this.createSelectorQuery()
+    .select('#scheduleTreeId')
+    .node()
+    .exec((res) => {
+      const scrollView = res[0]?.node;
+      if (!scrollView) return;
+      scrollView.scrollTo({
+        top: 0,
+      });
+    });
+}
+```
+
+### 5.1.3. 动态scrollIntoView
+
+这个API的参数必须是 scrollView 的子元素，不能是子子元素。
+
+
+```ts
+this.createSelectorQuery()
+  .select('#scheduleTreeId')
+  .node()
+  .exec((res) => {
+    const scrollView = res[0]?.node;
+    if (!scrollView) return;
+    scrollView.scrollIntoView('.my-team-id-sche');
+  });
+```
+
+## 5.2. 获取小程序运行环境
+
+```ts
+const { envVersion = '', version = '', appId = '' } = wx?.getAccountInfoSync?.()?.miniProgram || {};
+const { SDKVersion = '', platform = '' } = __wxConfig as any;
+```
+
+envVersion 取值有：develop，trial，release
+
+类似的参数还有version、platform等，可以看上面代码。
+
