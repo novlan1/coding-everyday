@@ -76,6 +76,29 @@ docdash 是 jsdoc 文档一个模板，风格比较简洁，腾讯云IM的文档
 }
 ```
 
+相对于之前的jsdoc转markdown，然后用vuepress，docdash的优势有：
+- 全部基于jsdoc，简单易维护，不用先转markdown再转文档；
+- API目录扁平化，一目了然；
+- 支持搜索（vuepress也支持）；
+- 支持一键查看源代码；
+- 导航栏可按模块分类，方便查看
+
+vuepress更适合大项目，比如vue这种，对于一个中小型的API文档，docdash这种jsdoc模板足矣。
+
+docdash使用注意事项：
+
+1. class注释不要写在`class`上面，而要写在`constructor`上，否则docdash 会把其中 `static` 方法文档生成两份。
+2. 多个文件如果`@module`名称一样的话，会生成多个相同的`section`，可以写脚本去掉重复的`section`
+3. 如果一个声明了`@class`或者`@constructor`的文件没有引入并使用外部模块，`global`和`classes`两大部分中会有重复的方法。
+   此时可以通过`import`一个模块然后将其导出解决，比如
+
+```ts
+export { bootstrap } from '../bootstrap';
+```
+
+4. 不要用`export class JsDocHandler`，而是`export { JsDocHandler }`，否则导航会变成`JsDocHandler#JsDocHandler`。
+
+
 
 ## 4. github actions
 
