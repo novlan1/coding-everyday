@@ -529,7 +529,7 @@ pages.json 用的分包一定要用到，不要root写了，path是空，或者p
 
 
 
-loader 中，可以用 this.resourcePath 获取文件路径，文档地址[在这里](https://www.webpackjs.com/api/loaders/)。其他可能会用到的爆款：
+loader 中，可以用 this.resourcePath 获取文件路径，文档地址[在这里](https://www.webpackjs.com/api/loaders/)。其他可能会用到的包括：
 
 - this.context，模块所在的目录
 - this.loaders，所有 loader 组成的数组
@@ -618,4 +618,36 @@ const { SDKVersion = '', platform = '' } = __wxConfig as any;
 envVersion 取值有：develop，trial，release
 
 类似的参数还有version、platform等，可以看上面代码。
+
+
+## 跳转腾讯文档小程序
+
+
+注意是`pages/detail/detail`，不可以是`pages/detail/detail.html`，否则第一次跳成功，后面跳会失败。
+
+```ts
+if (url.startsWith('https://docs.qq.com')) {
+  uni.navigateToMiniProgram({
+    appId: 'wxd45c635d754dbf59',
+    path: `pages/detail/detail?url=${url}`,
+    success() {
+    },
+    fail() {
+    },
+  });
+  return;
+}
+```
+
+
+
+# 6. 同时开发
+
+
+1、h5和小程序同时开发一个需求时，推荐先做h5，因为h5编译快，api规范，相对来讲开发者更熟悉。
+
+2、发现h5事件正常但是小程序不正常，检查`v-for`的`key`是否有重复
+
+3、发现h5样式正常，但是小程序不正常，检查是否使用了`()=>import('')`
+
 

@@ -280,3 +280,18 @@ source = source.replaceAll(`${item[0]}`, `${item[1]}`);
 
 disableList 这个参数要小心使用，如果一个组件被强制留在了主包内，那么它的子组件也必须在主包内，否则会产生异常。
 
+
+3. windows系统与mac系统兼容
+
+引用关系替换需要注意平台兼容性，`path.sep`可以获取不同平台的分隔符，`mac`是`/`，windows是`\\`，第一个反斜杠是转义。
+
+```ts
+const sourceRef = path.resolve(target.replace(outputDir, ''), fileName);
+// 错误
+
+
+const sourceRef = path.join(target.replace(outputDir, ''), fileName)
+      .split(path.sep)
+      .join('/');
+// 正常
+```
