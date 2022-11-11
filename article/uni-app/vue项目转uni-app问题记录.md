@@ -1,3 +1,5 @@
+[[toc]]
+
 # 1. 逻辑
 
 ## 1.1. v-for
@@ -558,6 +560,57 @@ const match = path.match(regexp);
 
 检查下面几项：域名已经备案、https已经配置、ssl证书在1.2以上版本、小程序后台已经配置服务器域名
 
+## 4.7. npm包打包错误
+
+src/project/user/pages.json这种形式的项目，如果引用npm包的组件会打包错误，原因是里面使用的路径是绝对路径，示例如下：
+
+```ts
+//# sourceMappingURL=../../../../Documents/node-modules/@ttt/press-ui/press-icon/press-icon.js.map
+;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    '../../node-modules/@ttt/press-ui/press-icon/press-icon-create-component',
+    {
+        '../../node-modules/@ttt/press-ui/press-icon/press-icon-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('1')['createComponent'](__webpack_require__("/Users/mike/Documents/web/src/node-modules/@ttt/press-ui/press-icon/press-icon"))
+        })
+    },
+    [['../../node-modules/@ttt/press-ui/press-icon/press-icon-create-component']]
+]);
+```
+
+需要将`__webpack_require__("/Users/mike/Documents/web/src/node-modules/@ttt/press-ui/press-icon/press-icon")`替换为`__webpack_require__("123")`
+
+其中的123是文件内部的组件模块。这里一开始犯了个错误，用`Object.keys[0]`的方式来获取对象的第一个`key`，其实是有问题的。
+
+>js对象key为数字时，其元素会自动排序
+
+如下例：
+
+```ts
+const obj = {2:2, 0:0}
+console.log(Object.keys(obj))
+// 0 2
+
+for (let item in obj) console.log(item)
+// 0 2
+```
+
+那如何找到真正的模块名吗？通过对比发现，`dev`环境下真正的`key`对应的模块中都有`a["default"]=b.exports`，`prod`环境下真正的key对应的模块中都有`__webpack_exports__["default"\]=(component.exports)`，这样通过正则就可以找到对应的`key`了
+
+```ts
+export function findKey(obj) {
+  const prodReg = /\w\["default"\]\s*=\s*\w\.exports/;
+  const devReg = /__webpack_exports__\["default"\]\s*=\s*\(component\.exports\)/;
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in obj) {
+    const content = obj[key];
+    if (prodReg.test(content) || devReg.test(content)) {
+      return key;
+    }
+  }
+  throw new Error('没找到对应的key，无法替换绝对路径');
+}
+```
 
 # 5. 小程序特殊标签&API
 
@@ -620,7 +673,7 @@ envVersion 取值有：develop，trial，release
 类似的参数还有version、platform等，可以看上面代码。
 
 
-## 跳转腾讯文档小程序
+## 5.3. 跳转腾讯文档小程序
 
 
 注意是`pages/detail/detail`，不可以是`pages/detail/detail.html`，否则第一次跳成功，后面跳会失败。
