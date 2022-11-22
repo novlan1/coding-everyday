@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="target" style="width: 50%; background: green;"></div>
+  <script>
+    const target = document.querySelector('#target');
+
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        const { width } = target.getBoundingClientRect();
+        target.style.height = width * 0.5 + 'px';
+      });
+    });
+    // 如果在一个动画帧内，ResizeObserver不能处理所有的observations，就会触发这个ResizeObserver loop limit exceeded。
+
+    resizeObserver.observe(target);
+
+    window.onerror = (message) => {
+      console.error(message);
+    }
+  </script>
+</body>
+
+</html>
