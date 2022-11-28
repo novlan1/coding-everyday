@@ -1,4 +1,4 @@
-## uni-icons
+## 1. uni-icons
 
 uni-icons本质用的是字体文件，所以不支持多色，用字体的优势是比较普适，因为小程序不支持svg。
 
@@ -43,7 +43,7 @@ uni-icons主要代码如下：
 
 我们项目没使用uni-icons，而是另一个iconfont库，原理一样，小程序中`iconfont.css`写在了项目中，H5的`iconfont.css`使用了外链。
 
-## uni-transition
+## 2. uni-transition
 
 uni-transition核心是用了uni.createAnimation这个方法。
 
@@ -51,7 +51,7 @@ uni-transition核心是用了uni.createAnimation这个方法。
 
 用了setTimeout，来延迟执行操作。
 
-## picker
+## 3. uni-picker-view
 
 uni-app内置picker-view，其DOM结构如下：
 
@@ -71,10 +71,14 @@ uni-app内置picker-view，其DOM结构如下：
 
 两层嵌套：
 
+```
 - uni-picker-view
   - uni-resize-sensor
   - uni-picker-view-wrapper
     - 实际内容
+```
+
+### 3.1. uni-picker-view-column
 
 uni-app内置picker-view-column，其DOM结构如下：
 
@@ -106,17 +110,22 @@ uni-app内置picker-view-column，其DOM结构如下：
 
 也可以当作两层嵌套吧：
 
+```
 - uni-picker-view-column
   - uni-picker-view-group
   - uni-picker-view-indicator
     - uni-resize-sensor
   - uni-picker-view-content
     - 实际内容
+```
 
-## van-tabs
+
+## 4. van-tabs
 
 了解van-tabs的结构，看似荒诞，其实在日常开发中是很有用的。
 
+
+```
 - tabs
   - sticky
     - tabs__wrap
@@ -131,8 +140,12 @@ uni-app内置picker-view-column，其DOM结构如下：
   - tabs__content，实际内容包裹层，touch事件
     - tabs__track，可以加 animated
       - slot，即tab__pane
+```
+
 
 底下线偏移距离逻辑，先加上累计的宽度，再加上多出来的一半：
+
+
 
 ```ts
  let lineOffsetLeft = rects
@@ -143,15 +156,17 @@ lineOffsetLeft
   += (rect.width - lineRect.width) / 2 + (ellipsis ? 0 : 8);
 ```
 
-## van-sticky
+## 5. van-sticky
 
 结构如下：
 
+```
 - van-sticky
   - van-sticky-wrap
     - slot
+```
 
-### 不含容器
+### 5.1. 不含容器
 
 滚动的时候，如果`offsetTop > root.top`，则说明需要固定了，这里的`root`就是`van-sticky`。
 
@@ -168,7 +183,7 @@ if (offsetTop >= root.top) {
 }
 ```
 
-### 容器内
+### 5.2. 容器内
 
 当sticky组件在容器内，会存在下面三种情况：
 
@@ -200,7 +215,13 @@ if (root && container && offsetTop + root.height > container.height + container.
 }
 ```
 
-## picker
+### 5.3. 滚动
+
+H5监听滚动是先获取了scroller，就是overflowY为auto或者scroll的父元素，然后监听其scroll事件。
+
+小程序监听滚动是在page.onPageScroll中添加一个回调。
+
+## 6. van-picker
 
 ```ts
 this.$emit('change', {
@@ -212,15 +233,18 @@ this.$emit('change', {
 
 不能暴露“picker: this”，微信小程序会报错，“ Property or method "toJSON" is not defined on the instance but referenced during render.”。
 
-## loading
+## 7. van-loading
 
+```
 - loading
   - loading__spinner
     - loading_dot，只有loadingType为spinner才有，循环12个
   - loading__text
     - slot, 文本
+```
 
-### circular动画
+
+### 7.1. circular动画
 
 circular类型的loading，就是一个1/4的圆，然后一个旋转动画。
 
@@ -260,7 +284,7 @@ currentColor是CSS3中的变量，它表示“当前的标签所继承的文字�
 }
 ```
 
-### spinner动画
+### 7.2. spinner动画
 
 spinner动画就是12条线，360度平均分布，透明度渐变，然后再加上旋转动画。
 
