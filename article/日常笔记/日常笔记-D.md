@@ -1769,11 +1769,6 @@ $ git rm -r --f dir   # 删除本地文件
 
 参考：[git取消文件跟踪](https://www.cnblogs.com/zhuchenglin/p/7128383.html)
 
-### 5. 几个正则
-
-- `'^$'`头尾相连，表示空行
-- `\w`匹配字类字符，包括下划线，等于 `[0-9a-zA-Z_]`
-- `\b`匹配单词的分隔，`grep ''\bx\b' passwd`
 
 
 ### 6. 基础图的区别
