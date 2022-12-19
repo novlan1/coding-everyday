@@ -81,7 +81,7 @@ BEM规范的一大优势在于可读性更好，就是通过类名就能知道�
 .nav{}
 .nav__item{}
 .nav--blue{}
-.nav--item__hand{}
+.nav__item--hand{}
 ```
 
 这几个class名很明显能看出各个块儿的作用，顶级快儿是nav，它有一些元素比如item，item又有一些属性，例如blue，但是如果写成常规的css就会很难看得出它们的关系：

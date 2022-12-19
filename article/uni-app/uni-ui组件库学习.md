@@ -167,6 +167,8 @@ lineOffsetLeft
     - slot
 ```
 
+为什么是两层结构呢，因为如果一层的，原来的位置高度会塌陷。
+
 ### 5.1. 不含容器
 
 滚动的时候，如果`offsetTop > root.top`，则说明需要固定了，这里的`root`就是`van-sticky`。
@@ -300,6 +302,19 @@ spinner动画就是12条线，360度平均分布，透明度渐变，然后再�
 }
 ```
 
+用 less 实现：
+
+```less
+.generate(@n, @i: 1) when (@i =< @n) {
+  .van-loading__dot:nth-of-type(@{i}) {
+    transform: rotate(@i * 30deg);
+    opacity: 1 - (0.75 / 12) * (@i - 1);
+  }
+  .generate(@n, (@i + 1));
+}
+.generate(12);
+```
+
 spinner的旋转动画，是steps类型的，也就是不是顺畅的，是一帧一帧的。steps(12)就是截取其中的12帧。可以修改steps的值，从小到大，有利于加深对steps的理解。
 
 ```scss
@@ -307,3 +322,28 @@ spinner的旋转动画，是steps类型的，也就是不是顺畅的，是一�
   animation-timing-function: steps(12);
 }
 ```
+## transition
+
+vant-weapp的transition基本是模拟了vue的transition，也有6个状态：
+
+<img width="500" src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article%2F2022%2F12%2Fvue-transition.png">
+
+1. v-enter-from（v2版本名为v-enter）：进入动画的起始状态。在元素插入之前添加，在元素插入完成后的下一帧移除。
+
+
+2. v-enter-active：进入动画的生效状态。应用于整个进入动画阶段。在元素被插入之前添加，在过渡或动画完成之后移除。这个 class 可以被用来定义进入动画的持续时间、延迟与速度曲线类型。
+
+
+3. v-enter-to：进入动画的结束状态。在元素插入完成后的下一帧被添加 (也就是 v-enter-from 被移除的同时)，在过渡或动画完成之后移除。
+
+4. v-leave-from（v2版本名为v-leave）：离开动画的起始状态。在离开过渡效果被触发时立即添加，在一帧后被移除。
+
+5. v-leave-active：离开动画的生效状态。应用于整个离开动画阶段。在离开过渡效果被触发时立即添加，在过渡或动画完成之后移除。这个 class 可以被用来定义离开动画的持续时间、延迟与速度曲线类型。
+
+6. v-leave-to：离开动画的结束状态。在一个离开动画被触发后的下一帧被添加 (也就是 v-leave-from 被移除的同时)，在过渡或动画完成之后移除。
+
+## button
+
+loading 和 disable 都是 unclickable
+
+
