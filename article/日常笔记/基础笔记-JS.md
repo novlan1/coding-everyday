@@ -1,4 +1,4 @@
-## 获取相对路径
+## 1. 获取相对路径
 
 ```ts
 const filePath = '/Users/mike/Documents/press-ui/node_modules/css-loader/dist/runtime/api.js';
@@ -8,7 +8,7 @@ const res = path.relative(process.cwd(), filePath);
 // 如果filePath是绝对路径，这个方式可以获取其绝对路径
 ```
 
-## js对象元素自动排序
+## 2. js对象元素自动排序
 
 js对象key为数字时，其元素会自动排序
 
@@ -23,7 +23,7 @@ for (let item in obj) console.log(item)
 
 参考：https://juejin.cn/post/7041049741458669576
 
-## script error
+## 3. script error
 
 服务器端如果没有设置 CORS，普通的跨域`<script>`标签，将只向`window.onerror`反馈尽量少的内容。
 
