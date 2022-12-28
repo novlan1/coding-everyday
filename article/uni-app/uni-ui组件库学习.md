@@ -322,7 +322,7 @@ spinner的旋转动画，是steps类型的，也就是不是顺畅的，是一�
   animation-timing-function: steps(12);
 }
 ```
-## transition
+## 8. transition
 
 vant-weapp的transition基本是模拟了vue的transition，也有6个状态：
 
@@ -342,7 +342,7 @@ vant-weapp的transition基本是模拟了vue的transition，也有6个状态：
 
 6. v-leave-to：离开动画的结束状态。在一个离开动画被触发后的下一帧被添加 (也就是 v-leave-from 被移除的同时)，在过渡或动画完成之后移除。
 
-## button
+## 9. button
 
 loading 和 disable 都是 unclickable
 
