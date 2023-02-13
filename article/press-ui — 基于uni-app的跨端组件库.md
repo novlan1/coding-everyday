@@ -2,13 +2,13 @@
 
 ## 1. 开始
 
-介绍一款基于 uni-app 的跨端组件库——[press-ui](https://mobile.woa.com/press-ui/)，也可用于普通H5项目。API与 vant 一致，可以看作是 uni-app 版本的 vant。
+介绍一款基于 `uni-app` 的跨端组件库——[press-ui](https://mobile.woa.com/press-ui/)，也可用于普通H5项目。API 与 `vant` 一致，可以看作是 `uni-app` 版本的 vant。
 
 
-为什么不用uni-ui或者uview等组件库呢？有两个原因：
+为什么不用`uni-ui`或者`uview`等组件库呢？有两个原因：
 
-1. 我们项目是从H5项目转成uni-app项目的，项目比较大，改动成本高。
-2. uni-ui、uview这些库的API易用性较差，与vant相比差距大。
+1. 我们项目是从H5项目转成`uni-app`项目的，项目比较大，改动成本高。
+2. `uni-ui`、`uview`这些库的API易用性较差，与`vant`相比差距大。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-demo-screenshot.png" width="300" >
 
@@ -53,6 +53,7 @@ npm i @tencent/press-ui
 <template>
   <PressMessageDetail />
 </template>
+```
 
 ```ts
 <script>
@@ -79,10 +80,10 @@ module.exports = {
 ## 4. 如何用于普通H5项目
 
 
-press-ui 比普通的组件只是多了条件编译，所以加一个支持条件编译的loader就可以解决了，loader代码地址在[这里](https://git.woa.com/pmd-mobile/support/uni-plugin-light/tree/master/loader/ifdef-loader)。
+`press-ui` 比普通的组件只是多了条件编译，所以加一个支持条件编译的`loader`就可以解决了，`loader`代码地址在[这里](https://git.woa.com/pmd-mobile/support/uni-plugin-light/tree/master/loader/ifdef-loader)。
 
 
-loader使用方法如下：
+`loader`使用方法如下：
 
 1. 安装 npm 包：
 
@@ -114,7 +115,7 @@ module.export = {
 
 ## 5. 共建
 
-press-ui 项目地址在[这里](https://git.woa.com/pmd-mobile/support/press-ui)，文档在[这里](https://mobile.woa.com/press-ui/)。
+`press-ui` 项目地址在[这里](https://git.woa.com/pmd-mobile/support/press-ui)，文档在[这里](https://mobile.woa.com/press-ui/)。
 
 欢迎体验、试用、共建，可以加入群聊，二维码过期可以私聊加入。
 
