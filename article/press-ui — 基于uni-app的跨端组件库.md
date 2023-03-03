@@ -119,4 +119,4 @@ module.export = {
 
 欢迎体验、试用、共建，可以加入群聊，二维码过期可以私聊加入。
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-chat-group.png" width="300">
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-chat-group-new.png" width="300">
