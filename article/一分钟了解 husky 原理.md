@@ -94,10 +94,10 @@ export function add(file: string, cmd: string): void {
 }
 ```
 
+## 4. 结语
 
+对`husky`的原理介绍到这就结束了，是不是很简单？
 
-参考：
+有兴趣的可以自己读下[源码](https://github.com/typicode/husky)，说不定有其他收获。
 
-- https://github.com/typicode/husky
-- https://juejin.cn/post/6879955438482227207
 
