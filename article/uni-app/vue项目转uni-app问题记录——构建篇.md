@@ -115,3 +115,13 @@ uni-app 打包的 publicPath 需要写到 manifest 中，写到 `vue.config.js` 
 ```
 
 
+## 9. 支持typescript
+
+`uni-app`的`Vue2`版本要想支持`typescript`，只需要安装：
+
+```json
+"@vue/cli-plugin-typescript": "~4.5.19",
+```
+
+以及配置下`tsconfig.json`。
+
