@@ -31,7 +31,17 @@
 
 这里我让项目每个分支每个环境分别对应一个机器人，当一个分支废弃后，这个机器人就可以释放给其他分支使用。
 
+另外，`develop`、`release`这两个分支是不会废弃的，其对应的机器人是固定的，可以体现在流水线中，如：
+
+- wx_ci__esports_11__release__test
+- wx_ci__esports_12__release__release
+- wx_ci__esports_13__develop__test
+- wx_ci__esports_14__develop__release
+
+为什么不让最重要的`release`分支的机器人序号为1呢？因为1是默认机器人的位置，这会导致`release`版本很容易被覆盖。
+
 同时其他配置项也可以统一保管起来，比如腾讯云密钥、小程序密钥等，方便维护。
+
 
 ### 2.3. 自动重试
 
