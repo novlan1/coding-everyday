@@ -5,6 +5,7 @@
 介绍一款基于 `uni-app` 的跨端组件库——[press-ui](https://mobile.woa.com/press-ui/)，也可用于普通H5项目。API 与 `vant` 一致，可以看作是 `uni-app` 版本的 vant。
 
 
+
 为什么不用`uni-ui`或者`uview`等组件库呢？有两个原因：
 
 1. 我们项目是从H5项目转成`uni-app`项目的，项目比较大，改动成本高。
@@ -13,7 +14,9 @@
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-demo-screenshot.png" width="300" >
 
 
-## 2. 特点
+## 2. 介绍
+
+### 2.1. 基础介绍
 
 1. 50+ 基础组件
 2. 支持H5、微信小程序、QQ小程序
@@ -34,8 +37,32 @@
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-doc-screenshot.png" width="800" >
 
 
+### 2.2. 解决痛点
+
+
+`press-ui`主要解决了以下痛点：
+
+1. 可支持包含`vant`的H5项目平滑迁移至`uni-app`项目，只需要改下引用地址和组件名称。
+2. 丰富的组件类型，以及易用的API，让`uni-app`开发变得简单。
+3. 支持国际化、主题定制等，组件灵活性更强
+
+
+
+
+### 2.3. 应用场景
+
+`press-ui`可应用于`uni-app`项目，或者普通的H5项目，目前已应用在王者赛宝、HoK Club、赛宝pro等项目中。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/4/pvp-esports-screenshort.png" width="300">
+
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/4/hok-club-screenshot.png" width="300">
+
 
 ## 3. 如何使用
+
+### 3.1. 用于uni-app项目
+
 
 1. 安装npm包
 
@@ -77,7 +104,7 @@ module.exports = {
 }
 ```
 
-## 4. 如何用于普通H5项目
+### 3.2. 用于普通H5项目
 
 
 `press-ui` 比普通的组件只是多了条件编译，所以加一个支持条件编译的`loader`就可以解决了，`loader`代码地址在[这里](https://git.woa.com/pmd-mobile/support/uni-plugin-light/tree/master/loader/ifdef-loader)。
@@ -113,9 +140,25 @@ module.export = {
 }
 ```
 
-## 5. 共建
+## 4. 共建
 
 `press-ui` 项目地址在[这里](https://git.woa.com/pmd-mobile/support/press-ui)，文档在[这里](https://mobile.woa.com/press-ui/)。
+
+
+### 4.1. 后续规划
+
+`press-ui`后续规划包括：
+
+- 支持`Android`、`iOS`
+- 优化构建流程和开发体验
+- 减小`npm`包大小
+- 样式梳理，提取变量并减少不必要样式引入
+- 接入`swiper`、`list`等组件
+- 对外开源
+
+
+### 4.2. 共建
+
 
 欢迎体验、试用、共建，可以加入群聊，二维码过期可以私聊加入。
 
