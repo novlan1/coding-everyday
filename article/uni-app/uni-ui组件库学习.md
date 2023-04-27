@@ -140,7 +140,7 @@ uni-app内置picker-view-column，其DOM结构如下：
       - slot (name="nav-right")
   - tabs__content，实际内容包裹层，touch事件
     - tabs__track，可以加 animated
-      - slot，即tab__pane
+      - tab__pane
 ```
 
 

@@ -1,0 +1,16 @@
+参考：https://blog.csdn.net/weixin_45012003/article/details/106979238
+
+
+现在很简单，申请免费证书后，可以自动部署，就是上传`per.key`和`per.pem`到远程服务器上。
+
+填写内容：
+
+- 证书路径：`/etc/nginx/cert/uwayfly.2021.pem`
+- 私钥路径：`/etc/nginx/cert/uwayfly.2021.key`
+
+然后重启服务：
+
+```bash
+nginx -s reload
+```
+

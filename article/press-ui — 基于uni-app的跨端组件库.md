@@ -18,23 +18,23 @@
 
 ### 2.1. 基础介绍
 
-1. 50+ 基础组件
-2. 支持H5、微信小程序、QQ小程序
-3. 零外部依赖，不依赖三方 npm 包
-4. 丰富的文档和示例
-5. 支持主题定制
-6. 支持国际化
+1. 70+ 基础组件，覆盖移动端主流场景
+2. 支持基于`uni-app`的H5、微信小程序、QQ小程序
+3. 支持普通H5项目
+4. 零外部依赖，不依赖三方 npm 包
+5. 提供丰富的中英文文档和组件示例
+6. 支持主题定制，内置 600+ 个主题变量
+7. 支持国际化，内置 16+ 种语言包
 
 
-三端Demo体验地址：
-
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/qrcode/press-ui-demo-qrcode-3.png" width="700">
-
-文档地址：
-
-[https://mobile.woa.com/press-ui/](https://mobile.woa.com/press-ui/)
+文档地址：[https://mobile.woa.com/press-ui/](https://mobile.woa.com/press-ui/)
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-doc-screenshot.png" width="800" >
+
+
+三端示例体验地址：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/qrcode/press-ui-demo-qrcode-3.png" width="700">
 
 
 ### 2.2. 解决痛点
@@ -152,8 +152,6 @@ module.export = {
 - 支持`Android`、`iOS`
 - 优化构建流程和开发体验
 - 减小`npm`包大小
-- 样式梳理，提取变量并减少不必要样式引入
-- 接入`swiper`、`list`等组件
 - 对外开源
 
 
@@ -162,4 +160,4 @@ module.export = {
 
 欢迎体验、试用、共建，可以加入群聊，二维码过期可以私聊加入。
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-chat-group-new.png" width="300">
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/img/chat-group/caht-group-20230425.png" width="300">
