@@ -241,7 +241,7 @@ watcher.close();
 1. 转化小程序版本的`vant`，即`vant-weapp`
 2. 将`wxml/wxss/js/json`转为`vue`文件，即`uni-app`编译的逆操作
 3. API 替换为`uni-app`的通用类型
-4. 条件编译处理A PI 差异部分
+4. 条件编译处理 API 差异部分
 
 
 
