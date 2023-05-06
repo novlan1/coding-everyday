@@ -194,7 +194,7 @@ module.export = {
 
 `src/packages`下就是由这些组件文件夹和一些公共文件构成。
 
-上面的组织结构并不能直接用，还需要把`README.md`移动到`docs`中，把`demo.vue`移动到`src/pages`中。这里我写了脚本用来监听这些文件变动，发生变动后就把它们拷贝到需要的位置上，命令为`npm run docs:watch`。
+上面的组织结构并不能直接用，还需要把`README.md`移动到`docs`中，把`demo.vue`移动到`src/pages`中。这里我写了脚本用来监听这些文件变动，发生变动后就把它们拷贝到需要的位置上，命令为`npm run dispatch`。
 
 
 ### 5.2. 监听文件变化
@@ -236,7 +236,7 @@ watcher.close();
 
 `press-ui`的组件并不都是从零开始写的，而是来源于`vant`和项目自身沉淀的组件。
 
-对于vant组件转化，实现方式如下：
+对于`vant`组件转化，实现方式如下：
 
 1. 转化小程序版本的`vant`，即`vant-weapp`
 2. 将`wxml/wxss/js/json`转为`vue`文件，即`uni-app`编译的逆操作
@@ -244,6 +244,7 @@ watcher.close();
 4. 条件编译处理 API 差异部分
 
 
+这样做的好处是，可以大大提升组件编写效率，且 API 保持与`vant`一致，从而方便用户由`h5`项目平滑迁移到`uni-app`项目。
 
 
 ### 5.4. BEM
@@ -272,18 +273,44 @@ npm run new:comp
 
 然后交互式的输入组件英文名、中文名等内容即可。
 
-为了维护方便，内部会有一个`comp-config.json`文件，保存了所有的组件信息，包括名称、类型等。文档和示例的路由配置都是从这个文件生成。
+为了维护方便，内部会有一个`component-config.json`文件，保存了所有的组件信息，包括名称、类型等。文档和示例的路由配置都是从这个文件生成。
 
 这样的好处是要删除一个组件时，只要改变这个配置文件，然后执行`npm run gen:config`即可，同理，对于组件名称变动、类型变动也是一样的。
+
+
 
 这个配置文件相当于一个收口，可以很方便的管理文档和示例。
 
 
-### 5.6. children循环引用
+```ts
+function main() {
+  writeDocSidebar();
+  writeDemoIndexConfig();
+  writeDemoPagesJson();
+  writeDemoTitleI18n();
+}
+```
+
+
+可以看出，这个配置主要驱动了：
+
+- 文档的`sidebar`
+- 示例的首页列表
+- 示例的`pages.json`
+- 示例的`i18n`配置
+
+### 5.6. 类名兼容
+
+`press-ui`的类名前缀统一为`press-`，而`vant`的类名前缀为`van-`，对于老项目，`press-ui`提供了一种兼容方案，允许不改动之前的样式文件。
+
+使用方式为，给组件添加一个属性：`extra-class-prefix="van-"`。
+
+
+### 5.7. children循环引用
 
 循环引用的对象不要放在`data/computed`中，直接在`created`中声明，比如`press-tabs`中的`children`。
 
-### 5.7. 跨组件通信
+### 5.8. 跨组件通信
 
 `vant-weapp`用的是`reletion`，`press-ui`用的是`provide/inject`，也可以用`eventBus`。
 
