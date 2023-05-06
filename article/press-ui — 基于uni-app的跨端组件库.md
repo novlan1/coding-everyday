@@ -2,7 +2,7 @@
 
 ## 1. 开始
 
-介绍一款基于 `uni-app` 的跨端组件库——[press-ui](https://mobile.woa.com/press-ui/)，也可用于普通H5项目。API 与 `vant` 一致，可以看作是 `uni-app` 版本的 vant。
+介绍一款基于 `uni-app` 的跨端组件库——[press-ui](https://novlan1.github.io/press-ui/)，也可用于普通H5项目。API 与 `vant` 一致，可以看作是 `uni-app` 版本的 vant。
 
 
 
@@ -27,7 +27,7 @@
 7. 支持国际化，内置 16+ 种语言包
 
 
-文档地址：[https://mobile.woa.com/press-ui/](https://mobile.woa.com/press-ui/)
+文档地址：[https://novlan1.github.io/press-ui/](https://novlan1.github.io/press-ui/)
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-ui-doc-screenshot.png" width="800" >
 
@@ -68,7 +68,7 @@
 
 
 ```bash
-npm i @tencent/press-ui
+npm i press-ui
 ```
 
 
@@ -84,7 +84,7 @@ npm i @tencent/press-ui
 
 ```ts
 <script>
-import PressMessageDetail from '@tencent/press-ui/press-message-detail/press-message-detail.vue'
+import PressMessageDetail from 'press-ui/press-message-detail/press-message-detail.vue'
 
 export default {
   components: {
@@ -100,14 +100,14 @@ export default {
 
 ```js
 module.exports = {
-  transpileDependencies: ['@tencent/press-ui'],
+  transpileDependencies: ['press-ui'],
 }
 ```
 
 ### 3.2. 用于普通H5项目
 
 
-`press-ui` 比普通的组件只是多了条件编译，所以加一个支持条件编译的`loader`就可以解决了，`loader`代码地址在[这里](https://git.woa.com/pmd-mobile/support/uni-plugin-light/tree/master/loader/ifdef-loader)。
+`press-ui` 比普通的组件只是多了条件编译，所以加一个支持条件编译的`loader`就可以解决了，`loader`代码地址在[这里](https://github.com/novlan1/uni-plugin-light/tree/master/loader/ifdef-loader)。
 
 
 `loader`使用方法如下：
@@ -115,20 +115,20 @@ module.exports = {
 1. 安装 npm 包：
 
 ```bash
-npm i @tencent/uni-plugin-light -D
+npm i uni-plugin-light -D
 ```
 
 2. 在 `vue.config.js` 中添加如下设置：
 
 ```js
-const LOADER_IFDEF = '@tencent/uni-plugin-light/lib/loader/ifdef-loader';
+const LOADER_IFDEF = 'uni-plugin-light/lib/loader/ifdef-loader';
 
 module.export = {
   chainWebpack(config) {
     config.module
       .rule('ifdef-loader')
       // 根据项目实际配置文件类型
-      .test(/@tencent\/press-ui.*(\.vue|\.ts|\.js|\.css|\.scss)$/)
+      .test(/press-ui.*(\.vue|\.ts|\.js|\.css|\.scss)$/)
       .use(LOADER_IFDEF)
       .loader(LOADER_IFDEF)
       .options({
@@ -142,7 +142,7 @@ module.export = {
 
 ## 4. 共建
 
-`press-ui` 项目地址在[这里](https://git.woa.com/pmd-mobile/support/press-ui)，文档在[这里](https://mobile.woa.com/press-ui/)。
+`press-ui` 项目地址在[这里](https://github.com/novlan1/press-ui)，文档在[这里](https://novlan1.github.io/press-ui/)。
 
 
 ### 4.1. 后续规划
