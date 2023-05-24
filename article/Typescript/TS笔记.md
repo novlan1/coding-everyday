@@ -23,6 +23,10 @@ import Toast from 'src/common/widget/toast';
 const { showToast } = Toast;
 ```
 
+即使你在 TS 文件中全是用的 `any`，这种路径问题也可以发现，但换成 JS 文件就不可以。
+
+这种路径错误提示，以及类型提示，可以让我们大胆的对项目进行重构，提升改代码的信心。
+
 ### 1.2. 未判空
 
 ```ts
@@ -45,6 +49,8 @@ jumpToPage(url) {
 
 ### 1.3. 参数问题
 
+发现参数类型问题：
+
 ```ts
 closeIFrame() {
   // sessionStorage.setItem的第二个参数应是字符串类型
@@ -58,13 +64,85 @@ closeIFrame() {
 }
 ```
 
+还可以及时发现废弃属性，修改有问题的代码。避免改动一处代码，却漏了与之关联的地方。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/5/own_mike_1e84a1843ce1524907.png" width="500"> 
+
+
+## 2. 在js文件中进行ts检查
+
+项目的`config.js`在`webpack`编译时也需要，所以暂时不能改成 `ts`，如何让它接受`ts`类型约束，增加代码健壮性，以及避免无序扩张呢？
+
+`ts` 中的 `@ts-check` 可以在 `js` 文件中进行类型检查，并且是以注释形式，非侵入式，可以安全的在 `js` 项目中使用。
+
+首先，需要在 `js` 文件头部加上 `// @ts-check`。
+
+这样定义对象类型：
+
+```js
+/**
+ * @typedef {Object} SpecialType - creates a new type named 'SpecialType'
+ * @property {string} prop1 - a string property of SpecialType
+ * @property {number} prop2 - a number property of SpecialType
+ * @property {number=} prop3 - an optional number property of SpecialType
+ * @prop {number} [prop4] - an optional number property of SpecialType
+ * @prop {number} [prop5=42] - an optional number property of SpecialType with default
+ */
+
+/** @type {SpecialType} */
+const specialTypeObject = {};
+specialTypeObject.prop3 = 2;
+```
+
+
+也可以使用导入类型从其他文件导入声明：
+
+
+```js
+// @filename: types.d.ts
+export type Pet = {
+  name: string,
+};
+ 
+// @filename: main.js
+/**
+ * @param {import("./types").Pet} p
+ */
+function walk(p) {
+  console.log(`Walking ${p.name}...`);
+}
+```
+
+导入类型可以在类型别名声明中使用：
+
+```js
+/**
+ * @typedef {import("../../common/types/config").ConfigType} ConfigType
+ */
+
+
+/**
+ * @type {ConfigType}
+ */
+const config = {
+  // ...
+};
+```
+
+参考：
+- https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html
+- https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#type
+
+
+
+
 下面讲一下 TS 基本的使用。
 
-## 2. interface VS type
+## 3. interface VS type
 
-### 2.1. 相同点
+### 3.1. 相同点
 
-#### 2.1.1. 都可以描述一个对象或者函数
+#### 3.1.1. 都可以描述一个对象或者函数
 
 ```ts
 // interface
@@ -87,7 +165,7 @@ type User = {
 type SetUser = (name: string, age: number)=> void;
 ```
 
-#### 2.1.2. 都允许拓展（extends）
+#### 3.1.2. 都允许拓展（extends）
 
 `interface` 和 `type` 都可以拓展，并且两者并不是相互独立的，也就是说 `interface` 可以 `extends type`, `type` 也可以 `extends interface`。 虽然效果差不多，但是两者语法不同。
 
@@ -127,9 +205,9 @@ type User = Name & {
 ```
 
 
-### 2.2. 不同点
+### 3.2. 不同点
 
-#### 2.2.1. type 可以而 interface 不行
+#### 3.2.1. type 可以而 interface 不行
 
 `type` 可以声明基本类型别名，联合类型，元组等类型
 
@@ -171,7 +249,7 @@ type Coordinates = Pair<number>;
 type Tree<T> = T | { left: Tree<T>, right: Tree<T> };
 ```
 
-#### 2.2.2. interface 可以而 type 不行
+#### 3.2.2. interface 可以而 type 不行
 
 `interface` 能够声明合并
 
@@ -202,9 +280,9 @@ User 接口为 {
 
 
 
-## 3. 联合类型、交叉类型
+## 4. 联合类型、交叉类型
 
-### 3.1. 联合类型 Union types
+### 4.1. 联合类型 Union types
 
 联合类型表示取值可以为多种类型中的一种，使用 `|` 分割每个类型。
 
@@ -233,7 +311,7 @@ type EventNames = 'click' | 'scroll' | 'mousemove';
 以上`1 | 2`, `true | false`, `'click' | 'scroll' | 'mousemove'`被称为字面量类型，分别为数字、布尔、字符串字面量类型，可以用来约束取值只能是其中几个值中的一个。
 
 
-### 3.2. 交叉类型 Intersection types
+### 4.2. 交叉类型 Intersection types
 
 交叉类型是将多个类型合并为一个类型，使用 `&` 定义交叉类型。
 
@@ -347,9 +425,9 @@ var abc = {
 };
 ```
 
-## 4. 运算符
+## 5. 运算符
 
-### 4.1. 非空断言运算符 !
+### 5.1. 非空断言运算符 !
 
 这个运算符可以用在变量名或者函数名之后，用来强调对应的元素是非 `null | undefined` 的
 
@@ -379,15 +457,15 @@ function Demo(): JSX.Elememt {
 }
 ```
 
-### 4.2. 空值合并运算符 ??、可选链操作符 ?.
+### 5.2. 空值合并运算符 ??、可选链操作符 ?.
 
 这两个比较简单，JS中也有。
 
 
-## 5. 操作符
+## 6. 操作符
 
 
-### 5.1. 获取类型的键 keyof
+### 6.1. 获取类型的键 keyof
 
 `keyof` 可以获取一个类型所有键值，返回一个联合类型，如下：
 
@@ -414,7 +492,7 @@ function getValue (p: Person, k: keyof Person) {
 ```
 
 
-### 5.2. 获取实例的类型 typeof
+### 6.2. 获取实例的类型 typeof
 
 `typeof` 是获取一个对象/实例的类型，如下：
 
@@ -443,7 +521,7 @@ type PersonKey = keyof typeof me;   // 'name' | 'age'
 类型 = typeof 实例对象
 ```
 
-### 5.3. 遍历属性 in
+### 6.3. 遍历属性 in
 
 `in` 只能用在类型的定义中，可以对枚举类型进行遍历，如下：
 
@@ -462,7 +540,7 @@ const obj: TypeToNumber<Person> = { name: 10, age: 10 }
 
 
 
-## 6. 泛型推断 infer
+## 7. 泛型推断 infer
 
 `infer` 的中文是“推断”的意思，一般是搭配上面的泛型条件语句使用的，所谓推断，**就是你不用预先指定在泛型列表中，在运行时会自动判断**，不过你得先预定义好整体的结构。举个例子
 
@@ -483,7 +561,7 @@ type Three = Foo<{a: number, t: () => void}> // () => void，泛型定义是参�
 `infer` 用来`对满足的泛型类型进行子类型的抽取`，有很多高级的泛型工具也巧妙的使用了这个方法。
 
 
-## 7. extends
+## 8. extends
 
 `extends` 在TS中有下面几种用途：
 
@@ -491,7 +569,7 @@ type Three = Foo<{a: number, t: () => void}> // () => void，泛型定义是参�
 - 泛型约束
 - 分配
 
-### 7.1. 继承
+### 8.1. 继承
 
 ```ts
 class Animal {
@@ -532,7 +610,7 @@ dog.sayHello(); // => Hello, I am a dog!
  // Dog => { name: string; bark(): void }
  ```
 
-### 7.2. 泛型约束
+### 8.2. 泛型约束
 
 在书写泛型的时候，我们往往需要对类型参数作一定的限制，比如希望传入的参数都有 `name` 属性的数组我们可以这么写：
 
@@ -543,7 +621,7 @@ function getCNames<T extends { name: string }>(entities: T[]):string[] {
 ```
 
 
-### 7.3. 条件类型与高阶类型
+### 8.3. 条件类型与高阶类型
 
 
 `extends` 还有一大用途就是用来判断一个类型是不是可以分配给另一个类型，这在写高级类型的时候非常有用
@@ -594,9 +672,9 @@ let demo: Diff<"a" | "b" | "d", "d" | "f">;
 最后得出结果 `"a" | "b"`
 
 
-## 8. 内置别名
+## 9. 内置别名
 
-### 8.1. Partial/Required/Readonly
+### 9.1. Partial/Required/Readonly
 
 - `Partial<Type>` – 所有属性变成可选
 - `Required<Type>` – 所有属性变成必选
@@ -628,7 +706,7 @@ type Readonly<T> = {
 };
 ```
 
-### 8.2. Pick/Omit
+### 9.2. Pick/Omit
 
 `Pick` 和 `Omit` 分别是删除和保留 `Map` 的一部分。
 
@@ -747,7 +825,7 @@ type Props = ExtractPropTypes<typeof propsOptions>
 ```
 
 
-### 8.3. Extract/Exclude
+### 9.3. Extract/Exclude
 
 - `Extract<Type, Union>` 从联合类型 `Type` 中挑出 `Union` 的子类型
 - `Exclude<Type, ExcludedUnion>` 从联合类型 `Type` 中排除 `Union` 的子类型
@@ -797,7 +875,7 @@ type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>
 
 
 
-### 8.4. Record
+### 9.4. Record
 
 
 - `Record<key type, value type>` 
@@ -876,7 +954,7 @@ listeners = listeners || emptyObject
 ```
 
 
-### 8.5. NonNullable
+### 9.5. NonNullable
 
 
 - `NonNullable<Type>` - 排除空值
@@ -916,7 +994,7 @@ export function isDef<T>(v: T): v is NonNullable<T> {
 - https://www.jianshu.com/p/af2ab3bac90d
 
 
-### 8.6. ReturnType/InstanceType
+### 9.6. ReturnType/InstanceType
 
 - `ReturnType<Type>` 推断返回类型
 - `InstanceType<Type>` 推断构造函数返回类型
@@ -961,7 +1039,7 @@ export interface VueConstructor<V extends Vue = Vue> {
 
 
 
-### 8.7. Parameters/ConstructorParameters
+### 9.7. Parameters/ConstructorParameters
 
 - `Parameters<Type>` 推导函数参数
 - `ConstructorParameters<Type>` 推导构造函数参数
@@ -996,7 +1074,7 @@ type T4 = ConstructorParameters<any>;
 
 
 
-## 9. unknown
+## 10. unknown
 
 TypeScript 3.0 引入了新的 `unknown` 类型，它是 `any` 类型对应的安全类型。
 
@@ -1054,7 +1132,7 @@ value[0][1];    // Error
 TypeScript 不允许我们对类型为 `unknown` 的值执行任意操作。相反，我们必须首先执行某种类型检查以缩小我们正在使用的值的类型范围，比如 `typeof` 运算符，`instanceof` 运算符，或者类型断言。
 
 
-### 9.1. 联合类型中的 unknown 类型
+### 10.1. 联合类型中的 unknown 类型
 
 在联合类型中，`unknown` 类型会吸收任何类型。这就意味着如果任一组成类型是 `unknown`，联合类型也会相当于 `unknown`：
 
@@ -1073,7 +1151,7 @@ type UnionType5 = unknown | any;  // any
 
 所以为什么 `unknown` 可以吸收任何类型（`any` 类型除外）？让我们来想想 `unknown | string` 这个例子。这个类型可以表示任何 `unknown` 类型或者 `string` 类型的值。就像我们之前了解到的，所有类型的值都可以被定义为 `unknown` 类型，其中也包括了所有的 string 类型，因此，`unknown | string` 就是表示和 `unknown` 类型本身相同的值集。因此，编译器可以将联合类型简化为 `unknown` 类型。
 
-### 9.2. 交叉类型中的 unknown 类型
+### 10.2. 交叉类型中的 unknown 类型
 
 在交叉类型中，任何类型都可以吸收 `unknown` 类型。这意味着将任何类型与 `unknown` 相交不会改变结果类型：
 
@@ -1088,7 +1166,7 @@ type IntersectionType5 = unknown & any;        // any
 让我们回顾一下 `IntersectionType3：unknown & string` 类型表示所有可以被同时赋值给 unknown 和 string 类型的值。由于每种类型都可以赋值给 unknown 类型，所以在交叉类型中包含 unknown 不会改变结果。我们将只剩下 string 类型。
 
 
-### 9.3. unknown 可以使用的运算符
+### 10.3. unknown 可以使用的运算符
 
 `unknown` 类型的值不能用作大多数运算符的操作数。这是因为如果我们不知道我们正在使用的值的类型，大多数运算符不太可能产生有意义的结果。
 
@@ -1116,7 +1194,7 @@ function fn(x: unknown) {
 如果要对类型为 `unknown` 的值使用任何其他运算符，则必须先指定类型（或使用类型断言强制编译器信任你）。
 
 
-### 9.4. 实际例子
+### 10.4. 实际例子
 
 `vue` 源码中 `unknown` 使用地方很多，比如 `isRef`：
 
@@ -1144,7 +1222,7 @@ if (isRef(foo)) {
 }
 ```
 
-## 10. never
+## 11. never
 
 `typescript` 的 `never` 类型代表永不存在的值的类型，它只能被赋值为 `never`。
 
@@ -1152,7 +1230,7 @@ if (isRef(foo)) {
 
 
 
-### 10.1. 与 void 的区别
+### 11.1. 与 void 的区别
 
 
 在 TS 中 `void` 至少包含了以下几个子类型：
@@ -1170,7 +1248,7 @@ const v: void // 等同于 undefined | null
 const v: void // 等同于 undefined
 ```
 
-### 10.2. 完全无返回值
+### 11.2. 完全无返回值
 
 而 `never` 是完全没有返回值的类型，只有一种情况会如此：代码阻断。
 
@@ -1187,7 +1265,7 @@ function error(message: string): never {
 
 
 
-### 10.3. 所有类型的子类型
+### 11.3. 所有类型的子类型
 
 `never` 是所有类型的子类型，因此可以理解为：所有的函数的返回值都包含 `never` 类型：
 
@@ -1213,7 +1291,7 @@ Type ne = never
 ```
 
 
-### 10.4. 联合类型与交叉类型
+### 11.4. 联合类型与交叉类型
 
 
 由于 `never` 是任何类型的子类型，任意类型与 `never` 联合不受影响：
@@ -1232,7 +1310,7 @@ type T2 = string & never;   // never
 
 
 
-## 11. 逆变、协变、双向协变、不变
+## 12. 逆变、协变、双向协变、不变
 
 
 关于协变、逆变、父子类型，这里有篇很好的[文章](https://juejin.cn/post/7019565189624250404)。
@@ -1244,7 +1322,7 @@ type T2 = string & never;   // never
 - 双向协变 (Bivariant)：表示`Comp<T>`类型双向兼容。
 - 不变 (Invariant)：表示`Comp<T>`双向都不兼容。
 
-### 11.1. 父子类型
+### 12.1. 父子类型
 
 - 在类型系统中，属性更多的类型是子类型。
 - 在集合论中，属性更少的集合是子集。
@@ -1269,7 +1347,7 @@ child = parent
 ```
 
 
-### 11.2. 协变
+### 12.2. 协变
 
 举例：
 
@@ -1333,7 +1411,7 @@ dog = animal
 
 
 
-### 11.3. 逆变
+### 12.3. 逆变
 
 ```ts
 // Contravariant --strictFunctionTypes true
@@ -1397,7 +1475,7 @@ visitAnimal = (animal: Animal): Dog => {
 ```
 
 
-### 11.4. 双向协变
+### 12.4. 双向协变
 
 
 
@@ -1412,7 +1490,7 @@ biSuperType = biSubType;
 ```
 
 
-### 11.5. 不变
+### 12.5. 不变
 
 ```ts
 // Invariant --strictFunctionTypes true
@@ -1427,22 +1505,22 @@ inSuperType = inSubType;
 
 
 
-## 12. 其他
+## 13. 其他
 
 
-### 12.1. ScriptHost
+### 13.1. ScriptHost
 
 TS配置文件中`lib`有个选项是 `ScriptHost`，它的含义是 `APIs for the Windows Script Hosting System`
 
 参考: https://www.typescriptlang.org/tsconfig
 
 
-### 12.2. allowJS
+### 13.2. allowJS
 
 `tsconfig.json`的`allowJS`设置为`true`，否则 JS 文件中引用 TS 文件没有方法类型智能提示。
 
 
-### 12.3. Exclude
+### 13.3. Exclude
 
 
 `exclude`只是告诉Typescript这不是你的源代码，不要去转译和检查它。但是 Typescript 还是会去`node_modules`中查找第三方库的声明文件，这个行为也可以通过`types` 或 `typesRoots` 选项配置。
@@ -1452,7 +1530,7 @@ TS配置文件中`lib`有个选项是 `ScriptHost`，它的含义是 `APIs for t
 `--skipLibCheck boolean`，`false` 忽略所有的声明文件（ `*.d.ts`）的类型检查。
 
 
-### 12.4. declare
+### 13.4. declare
 
 在 `declare` 的最广为人知的用处就是给第三方js库来做类型定义，让 `typescript` 明白 `js` 引入的用法，但是还有一些用法例如: 
 
