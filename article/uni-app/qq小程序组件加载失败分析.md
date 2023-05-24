@@ -1,6 +1,6 @@
 ## 1. 问题
 
-qq小程序使用JS分发和组件分发插件后，有些页面会白屏，打开调试器，会看到下面的报错：
+qq小程序（基于uni-app）使用JS分发和组件分发插件后，有些页面会白屏，打开调试器，会看到下面的报错：
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/5/own_mike_a0f5dfd42aa98ffea0.jpg" width="500">
 
