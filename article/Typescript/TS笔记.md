@@ -197,7 +197,7 @@ User 接口为 {
 
 
 总结下，主要有两点区别：
-- `interface` 右边只能是 `data shapes`,而 `type` 右边涵盖的范围更大，还可以是联合类型（`A |Ｂ`） 、基本类型、交叉类型（`Ａ＆B`）、元组等，也可以使用 `typeof`。
+- `interface` 右边只能是 `data shapes`,而 `type` 右边涵盖的范围更大，还可以是联合类型（`A |Ｂ`） 、基本类型、交叉类型（`Ａ＆B`）、元组等，也可以使用 `typeof` 、`keyof`。
 - `interface` 支持声明合并，`type` 不支持声明合并。
 
 
@@ -1071,7 +1071,7 @@ type UnionType4 = unknown | number[];   // unknown
 type UnionType5 = unknown | any;  // any
 ```
 
-所以为什么 unknown 可以吸收任何类型（any 类型除外）？让我们来想想 unknown | string 这个例子。这个类型可以表示任何 unkown 类型或者 string 类型的值。就像我们之前了解到的，所有类型的值都可以被定义为 unknown 类型，其中也包括了所有的 string 类型，因此，unknown | string 就是表示和 unknown 类型本身相同的值集。因此，编译器可以将联合类型简化为 unknown 类型。
+所以为什么 `unknown` 可以吸收任何类型（`any` 类型除外）？让我们来想想 `unknown | string` 这个例子。这个类型可以表示任何 `unknown` 类型或者 `string` 类型的值。就像我们之前了解到的，所有类型的值都可以被定义为 `unknown` 类型，其中也包括了所有的 string 类型，因此，`unknown | string` 就是表示和 `unknown` 类型本身相同的值集。因此，编译器可以将联合类型简化为 `unknown` 类型。
 
 ### 9.2. 交叉类型中的 unknown 类型
 
@@ -1114,6 +1114,35 @@ function fn(x: unknown) {
 ```
 
 如果要对类型为 `unknown` 的值使用任何其他运算符，则必须先指定类型（或使用类型断言强制编译器信任你）。
+
+
+### 9.4. 实际例子
+
+`vue` 源码中 `unknown` 使用地方很多，比如 `isRef`：
+
+```ts
+export interface Ref<T = any> {
+  value: T
+  [RefSymbol]: true
+  dep?: Dep
+  [RefFlag]: true
+}
+export function isRef<T>(r: Ref<T> | unknown): r is Ref<T>
+export function isRef(r: any): r is Ref {
+  return !!(r && (r as Ref).__v_isRef === true)
+}
+```
+
+这里还用到了重载和类型谓词`is`，`isDef` 返回值是一个类型判定 (`type predicate`)，这意味着 `isRef` 可以被用作类型守卫：
+
+
+```ts
+let foo: unknown
+if (isRef(foo)) {
+  // foo 的类型被收窄为了 Ref<unknown>
+  foo.value
+}
+```
 
 ## 10. never
 
