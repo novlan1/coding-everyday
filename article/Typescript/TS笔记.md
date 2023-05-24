@@ -281,8 +281,7 @@ interface B {
 
 type Person =  A & B;  
 let person: Person = { name: 'xman', age: 18, height: '60kg', id: 1};
-// Type 'number' is not assignable to type 'number & string'.  
-// Type 'number' is not assignable to type 'string'.
+// 不能将类型“number”分配给类型“never”
 ```
 
 以上代码提示 `id` 属性值出现类型错误。
@@ -468,10 +467,10 @@ const obj: TypeToNumber<Person> = { name: 10, age: 10 }
 `infer` 的中文是“推断”的意思，一般是搭配上面的泛型条件语句使用的，所谓推断，**就是你不用预先指定在泛型列表中，在运行时会自动判断**，不过你得先预定义好整体的结构。举个例子
 
 ```ts
-type Foo<T> = T extends {t: infer Test} ? Test: string
+type Foo<T> = T extends { t: infer Test } ? Test: string
 ```
 
-首选看 `extends` 后面的内容，`{ t: infer Test }`可以看成是一个包含t属性的类型定义，这个 `t` 属性的 `value` 类型通过 `infer` 进行推断后会赋值给 Test 类型，如果泛型实际参数符合`{ t: infer Test }`的定义那么返回的就是 `Test` 类型，否则默认给缺省的 `string` 类型。
+首选看 `extends` 后面的内容，`{ t: infer Test }` 可以看成是一个包含t属性的类型定义，这个 `t` 属性的 `value` 类型通过 `infer` 进行推断后会赋值给 `Test` 类型，如果泛型实际参数符合 `{ t: infer Test }` 的定义那么返回的就是 `Test` 类型，否则默认给缺省的 `string` 类型。
 
 举个例子加深下理解：
 
@@ -592,7 +591,7 @@ let demo: Diff<"a" | "b" | "d", "d" | "f">;
 - `"b"` 不是 `"d" | "f"` 的子集，取` "b"`
 - `"d"` 是 `"d" | "f"` 的子集，取 `never`
 
-最后得出结果 "a" | "b"
+最后得出结果 `"a" | "b"`
 
 
 ## 8. 内置别名
@@ -911,7 +910,7 @@ export function isDef<T>(v: T): v is NonNullable<T> {
 
 上面的 `v is NonNullable<T>` 会收窄 `v` 的类型为非空类型，方便后面使用。
 
-关于类型谓词 `is` 可以参考：
+类型谓词 `is` 是实现类型保护的方式之一，可以参考：
 
 - https://segmentfault.com/a/1190000022052209
 - https://www.jianshu.com/p/af2ab3bac90d
