@@ -1320,6 +1320,44 @@ type T2 = string & never;   // never
 ```
 
 
+### 11.5. 判断 isNever
+
+```ts
+// a is true
+type a = never extends never ? true : false;
+
+// b is never
+type isNever<T> = T extends never ? true : false
+type b = isNever<never>
+```
+
+
+因为 `never` 是一个特殊的联合类型，它没有任何一个成员，而根据 [Distributive Conditional Types](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types)，联合类型作为泛型传入后，会分开计算和合起来，例如：
+
+```ts
+// c = isNever<string> | isNever<number>
+type c = isNever<string | number>
+```
+
+因此当输入 `never` 时，因为他一个成员都没有，自然也不需要计算了，直接返回 `never`。
+
+不想使用 `Distributive Conditional Types` 时，可以在泛型前后加上括号即可:
+
+
+```ts
+type ToArrayNonDist<Type> = [Type] extends [any] ? Type[] : never;
+
+// 'StrArrOrNumArr' is no longer a union.
+// type StrArrOrNumArr = (string | number)[]
+type StrArrOrNumArr = ToArrayNonDist<string | number>;
+```
+
+判断 `IsNever`:
+
+```ts
+type IsNever<T> = [T] extends [never] ? true : false;
+```
+
 
 ## 12. 逆变、协变、双向协变、不变
 
