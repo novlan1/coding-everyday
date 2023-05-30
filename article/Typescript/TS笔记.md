@@ -572,7 +572,140 @@ type Three = Foo<{a: number, t: () => void}> // () => void，泛型定义是参�
 `infer` 用来`对满足的泛型类型进行子类型的抽取`，有很多高级的泛型工具也巧妙的使用了这个方法。
 
 
-## 8. extends
+## 8. 枚举
+
+ts 中枚举既是值，又是类型。
+
+### 8.1. 基本使用
+
+基本使用如下：
+
+```ts
+enum Direction {
+  Up,
+  Down,
+  Left,
+  Right
+}
+
+console.log(Direction.Up)        // 0
+console.log(Direction.Down)      // 1
+console.log(Direction.Left)      // 2
+console.log(Direction.Right)     // 3
+
+console.log(Direction[0])      // Up
+console.log(Direction[1])      // Down
+console.log(Direction[2])      // Left
+console.log(Direction[3])      // Right
+```
+
+数字从0开始递增，并且可以**反向映射**。
+
+也可以**手动赋值**：
+
+```ts
+// 这样就从1开始递增了
+enum ItemStatus {
+    Buy = 1,
+    Send,
+    Receive
+}
+
+console.log(ItemStatus['Buy'])      // 1
+console.log(ItemStatus['Send'])     // 2
+console.log(ItemStatus['Receive'])  // 3
+```
+
+还可以使用**字符串枚举**
+
+```ts
+enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
+}
+
+const value = 'UP'
+if (value === Direction.Up) {
+  // do something
+}
+```
+
+### 8.2. 常量枚举
+
+```ts
+const enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
+}
+
+const value = 'UP'
+if (value === Direction.Up) {
+    // do something
+}
+```
+
+编译后会去掉枚举的对象，上面会编译为：
+
+```ts
+const value = 'UP';
+if (value === 'UP' /* Up */) {
+    // do something
+}
+```
+并且不可以使用以下语法：
+
+```ts
+Object.values(Direction)
+```
+
+
+### 8.3. 用对象模拟枚举
+
+```ts
+const ColorEnum = {
+  Green: 'GreenValue',
+  /** 蓝色 */
+  Blue: 'BlueValue',
+  /** 红色 */
+  Red: 'RedValue',
+} as const
+
+// 轻松抽取key
+type ColorEnumKeys = keyof typeof ColorEnum
+// "Green" | "Blue" | "Red"
+
+// 轻松抽取value
+type ColorEnumValues = (typeof ColorEnum)[keyof typeof ColorEnum]
+// "GreenValue" | "BlueValue" | "RedValue"
+```
+
+### 8.4. 反向映射原理
+
+直接看编译后的代码：
+
+```ts
+var Direction;
+(function (Direction) {
+    Direction[Direction["Up"] = 6] = "Up";
+    Direction[Direction["Down"] = 7] = "Down";
+    Direction[Direction["Left"] = 8] = "Left";
+    Direction[Direction["Right"] = 9] = "Right";
+})(Direction || (Direction = {}));
+```
+
+比如上面的例子，`Direction`的一个枚举项对应了两个属性：`Direction['Up'] = 6， Direction[6] = 'Up'`
+
+
+参考：
+
+- https://juejin.cn/post/7205875448567808059
+- https://juejin.cn/post/7066203227758755871
+
+## 9. extends
 
 `extends` 在TS中有下面几种用途：
 
@@ -580,7 +713,7 @@ type Three = Foo<{a: number, t: () => void}> // () => void，泛型定义是参�
 - 泛型约束
 - 分配
 
-### 8.1. 继承
+### 9.1. 继承
 
 ```ts
 class Animal {
@@ -621,7 +754,7 @@ dog.sayHello(); // => Hello, I am a dog!
  // Dog => { name: string; bark(): void }
  ```
 
-### 8.2. 泛型约束
+### 9.2. 泛型约束
 
 在书写泛型的时候，我们往往需要对类型参数作一定的限制，比如希望传入的参数都有 `name` 属性的数组我们可以这么写：
 
@@ -632,7 +765,7 @@ function getCNames<T extends { name: string }>(entities: T[]):string[] {
 ```
 
 
-### 8.3. 条件类型与高阶类型
+### 9.3. 条件类型与高阶类型
 
 
 `extends` 还有一大用途就是用来判断一个类型是不是可以分配给另一个类型，这在写高级类型的时候非常有用
@@ -683,9 +816,9 @@ let demo: Diff<"a" | "b" | "d", "d" | "f">;
 最后得出结果 `"a" | "b"`
 
 
-## 9. 内置别名
+## 10. 内置别名
 
-### 9.1. Partial/Required/Readonly
+### 10.1. Partial/Required/Readonly
 
 - `Partial<Type>` – 所有属性变成可选
 - `Required<Type>` – 所有属性变成必选
@@ -717,7 +850,7 @@ type Readonly<T> = {
 };
 ```
 
-### 9.2. Pick/Omit
+### 10.2. Pick/Omit
 
 `Pick` 和 `Omit` 分别是删除和保留 `Map` 的一部分。
 
@@ -836,7 +969,7 @@ type Props = ExtractPropTypes<typeof propsOptions>
 ```
 
 
-### 9.3. Extract/Exclude
+### 10.3. Extract/Exclude
 
 - `Extract<Type, Union>` 从联合类型 `Type` 中挑出 `Union` 的子类型
 - `Exclude<Type, ExcludedUnion>` 从联合类型 `Type` 中排除 `Union` 的子类型
@@ -886,7 +1019,7 @@ type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>
 
 
 
-### 9.4. Record
+### 10.4. Record
 
 
 - `Record<key type, value type>` 
@@ -965,7 +1098,7 @@ listeners = listeners || emptyObject
 ```
 
 
-### 9.5. NonNullable
+### 10.5. NonNullable
 
 
 - `NonNullable<Type>` - 排除空值
@@ -1005,7 +1138,7 @@ export function isDef<T>(v: T): v is NonNullable<T> {
 - https://www.jianshu.com/p/af2ab3bac90d
 
 
-### 9.6. ReturnType/InstanceType
+### 10.6. ReturnType/InstanceType
 
 - `ReturnType<Type>` 推断返回类型
 - `InstanceType<Type>` 推断构造函数返回类型
@@ -1050,7 +1183,7 @@ export interface VueConstructor<V extends Vue = Vue> {
 
 
 
-### 9.7. Parameters/ConstructorParameters
+### 10.7. Parameters/ConstructorParameters
 
 - `Parameters<Type>` 推导函数参数
 - `ConstructorParameters<Type>` 推导构造函数参数
@@ -1085,7 +1218,7 @@ type T4 = ConstructorParameters<any>;
 
 
 
-## 10. unknown
+## 11. unknown
 
 TypeScript 3.0 引入了新的 `unknown` 类型，它是 `any` 类型对应的安全类型。
 
@@ -1143,7 +1276,7 @@ value[0][1];    // Error
 TypeScript 不允许我们对类型为 `unknown` 的值执行任意操作。相反，我们必须首先执行某种类型检查以缩小我们正在使用的值的类型范围，比如 `typeof` 运算符，`instanceof` 运算符，或者类型断言。
 
 
-### 10.1. 联合类型中的 unknown 类型
+### 11.1. 联合类型中的 unknown 类型
 
 在联合类型中，`unknown` 类型会吸收任何类型。这就意味着如果任一组成类型是 `unknown`，联合类型也会相当于 `unknown`：
 
@@ -1162,7 +1295,7 @@ type UnionType5 = unknown | any;  // any
 
 所以为什么 `unknown` 可以吸收任何类型（`any` 类型除外）？让我们来想想 `unknown | string` 这个例子。这个类型可以表示任何 `unknown` 类型或者 `string` 类型的值。就像我们之前了解到的，所有类型的值都可以被定义为 `unknown` 类型，其中也包括了所有的 string 类型，因此，`unknown | string` 就是表示和 `unknown` 类型本身相同的值集。因此，编译器可以将联合类型简化为 `unknown` 类型。
 
-### 10.2. 交叉类型中的 unknown 类型
+### 11.2. 交叉类型中的 unknown 类型
 
 在交叉类型中，任何类型都可以吸收 `unknown` 类型。这意味着将任何类型与 `unknown` 相交不会改变结果类型：
 
@@ -1177,7 +1310,7 @@ type IntersectionType5 = unknown & any;        // any
 让我们回顾一下 `IntersectionType3：unknown & string` 类型表示所有可以被同时赋值给 unknown 和 string 类型的值。由于每种类型都可以赋值给 unknown 类型，所以在交叉类型中包含 unknown 不会改变结果。我们将只剩下 string 类型。
 
 
-### 10.3. unknown 可以使用的运算符
+### 11.3. unknown 可以使用的运算符
 
 `unknown` 类型的值不能用作大多数运算符的操作数。这是因为如果我们不知道我们正在使用的值的类型，大多数运算符不太可能产生有意义的结果。
 
@@ -1205,7 +1338,7 @@ function fn(x: unknown) {
 如果要对类型为 `unknown` 的值使用任何其他运算符，则必须先指定类型（或使用类型断言强制编译器信任你）。
 
 
-### 10.4. 实际例子
+### 11.4. 实际例子
 
 `vue` 源码中 `unknown` 使用地方很多，比如 `isRef`：
 
@@ -1233,7 +1366,7 @@ if (isRef(foo)) {
 }
 ```
 
-## 11. never
+## 12. never
 
 `typescript` 的 `never` 类型代表永不存在的值的类型，它只能被赋值为 `never`。
 
@@ -1241,7 +1374,7 @@ if (isRef(foo)) {
 
 
 
-### 11.1. 与 void 的区别
+### 12.1. 与 void 的区别
 
 
 在 TS 中 `void` 至少包含了以下几个子类型：
@@ -1259,7 +1392,7 @@ const v: void // 等同于 undefined | null
 const v: void // 等同于 undefined
 ```
 
-### 11.2. 完全无返回值
+### 12.2. 完全无返回值
 
 而 `never` 是完全没有返回值的类型，只有一种情况会如此：代码阻断。
 
@@ -1276,7 +1409,7 @@ function error(message: string): never {
 
 
 
-### 11.3. 所有类型的子类型
+### 12.3. 所有类型的子类型
 
 `never` 是所有类型的子类型，因此可以理解为：所有的函数的返回值都包含 `never` 类型：
 
@@ -1302,7 +1435,7 @@ Type ne = never
 ```
 
 
-### 11.4. 联合类型与交叉类型
+### 12.4. 联合类型与交叉类型
 
 
 由于 `never` 是任何类型的子类型，任意类型与 `never` 联合不受影响：
@@ -1320,7 +1453,7 @@ type T2 = string & never;   // never
 ```
 
 
-### 11.5. 判断 isNever
+### 12.5. 判断 isNever
 
 ```ts
 // a is true
@@ -1359,7 +1492,7 @@ type IsNever<T> = [T] extends [never] ? true : false;
 ```
 
 
-## 12. 逆变、协变、双向协变、不变
+## 13. 逆变、协变、双向协变、不变
 
 
 关于协变、逆变、父子类型，这里有篇很好的[文章](https://juejin.cn/post/7019565189624250404)。
@@ -1371,7 +1504,7 @@ type IsNever<T> = [T] extends [never] ? true : false;
 - 双向协变 (Bivariant)：表示`Comp<T>`类型双向兼容。
 - 不变 (Invariant)：表示`Comp<T>`双向都不兼容。
 
-### 12.1. 父子类型
+### 13.1. 父子类型
 
 - 在类型系统中，属性更多的类型是子类型。
 - 在集合论中，属性更少的集合是子集。
@@ -1396,7 +1529,7 @@ child = parent
 ```
 
 
-### 12.2. 协变
+### 13.2. 协变
 
 举例：
 
@@ -1460,7 +1593,7 @@ dog = animal
 
 
 
-### 12.3. 逆变
+### 13.3. 逆变
 
 ```ts
 // Contravariant --strictFunctionTypes true
@@ -1524,7 +1657,7 @@ visitAnimal = (animal: Animal): Dog => {
 ```
 
 
-### 12.4. 双向协变
+### 13.4. 双向协变
 
 
 
@@ -1539,7 +1672,7 @@ biSuperType = biSubType;
 ```
 
 
-### 12.5. 不变
+### 13.5. 不变
 
 ```ts
 // Invariant --strictFunctionTypes true
@@ -1554,22 +1687,22 @@ inSuperType = inSubType;
 
 
 
-## 13. 其他
+## 14. 其他
 
 
-### 13.1. ScriptHost
+### 14.1. ScriptHost
 
 TS配置文件中`lib`有个选项是 `ScriptHost`，它的含义是 `APIs for the Windows Script Hosting System`
 
 参考: https://www.typescriptlang.org/tsconfig
 
 
-### 13.2. allowJS
+### 14.2. allowJS
 
 `tsconfig.json`的`allowJS`设置为`true`，否则 JS 文件中引用 TS 文件没有方法类型智能提示。
 
 
-### 13.3. exclude
+### 14.3. exclude
 
 
 `exclude`只是告诉Typescript这不是你的源代码，不要去转译和检查它。但是 Typescript 还是会去`node_modules`中查找第三方库的声明文件，这个行为也可以通过`types` 或 `typesRoots` 选项配置。
@@ -1579,7 +1712,7 @@ TS配置文件中`lib`有个选项是 `ScriptHost`，它的含义是 `APIs for t
 `--skipLibCheck boolean`，`false` 忽略所有的声明文件（ `*.d.ts`）的类型检查。
 
 
-### 13.4. declare
+### 14.4. declare
 
 在 `declare` 的最广为人知的用处就是给第三方js库来做类型定义，让 `typescript` 明白 `js` 引入的用法，但是还有一些用法例如: 
 
