@@ -305,12 +305,70 @@ function main() {
 
 使用方式为，给组件添加一个属性：`extra-class-prefix="van-"`。
 
+### 5.7. API平滑升级方案
 
-### 5.7. children循环引用
+组件API，可分为`props`和`event`。`event`的话直接多`emit`新的就好了，`props`的话需要先判断新旧`prop`的值是否为默认值。
+
+如果哪一个不等则使用那一个，新`prop`优先级大于旧`prop`。如果都相等，就用新`prop`的值。
+
+注意，这里的相等不能是简单的`===`，需要考虑引用类型。
+
+此外，还要考虑取子属性的场景，比如`this.a.b.c`。
+
+```ts
+export function getPropOrData({
+  isFunctionMode,
+  functionModeData,
+  allProps,
+  propsKeyMap = {},
+  context,
+  key,
+}: {
+  isFunctionMode: boolean;
+  functionModeData: Record<string, any>;
+  allProps: PropType;
+  propsKeyMap: Record<string, string>;
+  context: any;
+  key: string;
+}) {
+  if (!isFunctionMode) {
+    const oldKey = propsKeyMap[key];
+    // 存在旧的key
+    if (oldKey) {
+      const oldDefaultValue = getDefaultValue(allProps, oldKey);
+      const newDefaultValue = getDefaultValue(allProps, key);
+
+      if (!isObjectEqual(context[key], newDefaultValue)) {
+        return findObjectDeepValue(context, key);
+      }
+      if (!isObjectEqual(context[oldKey], oldDefaultValue)) {
+        return findObjectDeepValue(context, oldKey);
+      }
+      return findObjectDeepValue(context, key);
+    }
+    return findObjectDeepValue(context, key);
+  }
+  return findObjectDeepValue(functionModeData, key);
+}
+
+
+function findObjectDeepValue(obj: Record<string, any>, key: string) {
+  const list = key.split('.');
+  let cur = obj;
+  for (let i = 0; i < list.length;i++) {
+    cur = cur[list[i]];
+    if (!cur) return;
+  }
+  return cur;
+}
+```
+
+
+### 5.8. children循环引用
 
 循环引用的对象不要放在`data/computed`中，直接在`created`中声明，比如`press-tabs`中的`children`。
 
-### 5.8. 跨组件通信
+### 5.9. 跨组件通信
 
 `vant-weapp`用的是`reletion`，`press-ui`用的是`provide/inject`，也可以用`eventBus`。
 

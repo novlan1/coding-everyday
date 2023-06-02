@@ -1587,9 +1587,9 @@ animal = dog
 dog = animal
 ```
 
-在上面的代码中，dog 能够赋值给 animal。根据鸭子类型理论，只要一个类型包含 age，我就可以认为它是一个和 Animal 兼容的类型。因此 dog 可以成功赋值给 animal，而对于多出来的 bark() 方法，可以忽略不计。
+在上面的代码中，`dog` 能够赋值给 `animal`。根据鸭子类型理论，只要一个类型包含 `age`，我就可以认为它是一个和 `Animal` 兼容的类型。因此 `dog` 可以成功赋值给 `animal`，而对于多出来的 `bark()` 方法，可以忽略不计。
 ​
-反过来，animal 却不能赋值给 dog。因为 dog 要求的是 Dog 类型， 必须包含 age 和 bark，而 Animal 不满足这个条件。
+反过来，`animal` 却不能赋值给 `dog`。因为 `dog` 要求的是 `Dog` 类型， 必须包含 `age` 和 `bark`，而 `Animal` 不满足这个条件。
 
 
 
