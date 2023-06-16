@@ -1,13 +1,13 @@
-## 一、开始
+## 1. 一、开始
 
 本文探究了关于 Vue 实例的几个问题，及其内在原因。
 
 在 Vue 组件中的 `methods` 方法、`mounted` 等生命周期中，可以通过 `this` 访问 Vue 组件的实例，其中 `this.$root` 指向根实例。
 
 
-## 二、问题
+## 2. 二、问题
 
-### 1. 关于 _uid
+### 2.1. 关于 _uid
 
 `_uid` 就是 Vue 实例的唯一 ID，每新建一个 Vue 对象，`_uid` 就会加1。打印下 Vue 根实例：
 
@@ -143,7 +143,7 @@ this.$ebus.off('onRegister', this.showRegisterDialog);
 
 
 
-### 2. 为什么 Vue.mixin 要在实例化之前才生效？
+### 2.2. 为什么 Vue.mixin 要在实例化之前才生效？
 
 看下面代码：
 
@@ -252,3 +252,13 @@ function initMethods (vm: Component, methods: Object) {
 <img src="http://doc.uwayfly.com/vue-instance-3.png" width="900">
 
 上图中的 `getActReward`、`getTaskReward` 等就是实例上的方法。
+
+
+### 2.3. vnode
+
+`vm._vnode` 和 `vm.$vnode` 的关系就是一种父子关系，用代码表达就是：
+
+```ts
+vm._vnode.parent === vm.$vnode
+```
+

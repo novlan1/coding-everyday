@@ -125,3 +125,47 @@ uni-app 打包的 publicPath 需要写到 manifest 中，写到 `vue.config.js` 
 
 以及配置下`tsconfig.json`。
 
+## 10. 扩展新平台
+
+比如支持国际化，可以在`package.json`配置：
+
+```json
+{
+"uni-app": {
+    "scripts": {
+      "overseas": {
+        "title": "海外版",
+        "browser": "",
+        "env": {
+          "UNI_PLATFORM": "h5",
+          "VUE_APP_I18N": "overseas"
+        },
+        "define": {
+          "OVERSEAS": true
+        }
+      }
+    }
+  }
+}
+```
+
+然后代码中条件编译可以这么写：
+
+
+```html
+<!-- #ifndef OVERSEAS -->
+<text class="text">
+  {{ $t('连击') }}
+</text>
+<!-- #endif -->
+```
+
+构建时候这样执行：
+
+```bash
+sudo npm run env dev:custom overseas
+```
+
+
+参考：https://uniapp.dcloud.net.cn/collocation/package.html
+

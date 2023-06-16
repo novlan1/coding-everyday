@@ -104,7 +104,7 @@ if (url.startsWith('https://docs.qq.com')) {
 
 ## 3.1. 不支持 virtualHost
 
-qq小程序不支持 virtualHost，类似 `press-tabs press-tab`，`press-tabbar press-tabbar-item`，有些写在子元素根标签的样式不生效，比如`width: 100%`, `flex: 1`，`flex-shrink: 0`等。
+qq小程序不支持 `virtualHost`，类似 `press-tabs press-tab`，`press-tabbar press-tabbar-item`，有些写在子元素根标签的样式不生效，比如`width: 100%`, `flex: 1`，`flex-shrink: 0`等。
 
 这类css属性的特点是必须和特定的父元素在一起才行，所以需要额外设置下。可以用这种方式：
 
@@ -118,7 +118,11 @@ qq小程序不支持 virtualHost，类似 `press-tabs press-tab`，`press-tabbar
 }
 ```
 
-## 3.2. 动态设置style时，该有的空格不能缺
+## 3.2. 不支持console.table
+
+需要自己`polyfill`下。
+
+## 3.3. 动态设置style时，该有的空格不能缺
 
 比如下面这个：
 
@@ -138,7 +142,7 @@ computed: {
 
 如果 translate3d 中没有空格的话，会设置不生效。
 
-## 3.3. scroll-view
+## 3.4. scroll-view
 
 qq小程序 `scroll-view` 不支持 `enable-flex`
 

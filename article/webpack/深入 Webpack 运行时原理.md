@@ -1,9 +1,9 @@
-## 一、开始
+## 1. 开始
 
 `webpack`打包产物可分为两种，一种是项目代码，一种是支持其运行的代码，前者可称为`module chunk`，后者可称为`runtime chunk`，即运行时代码。本文分析下`webpack`的运行时原理。
 
 其实`webpack`的运行时代码是十分类似跑一个NodeJS项目，`webpack`打包并没有将所有代码不分青红皂白的放在一起，而是模块化管理，其中一个原因是作用域的隔离，下面就来分析下`webpack`如何实现打包产物的模块化的。
-## 二、运行时分析
+## 2. 运行时分析
 
 `webpack`进行如下配置，可以得到分离的`runtime chunk`。
 
@@ -14,7 +14,7 @@ optimization: {
 },
 ```
 
-### 1. `__webpack_require__`
+### 2.1. `__webpack_require__`
 
 `__webpack_require__`类似`NodeJS`中的`require`方法，作用是加载并执行某个模块。
 
@@ -49,12 +49,12 @@ function __webpack_require__(moduleId) {
 ```
 
 
-### 2. 如何解决前端的同步依赖
+### 2.2. 如何解决前端的同步依赖
 
 当我们已经获取了模块内容后（但模块还未执行），我们就将其暂存在`modules`对象中，键就是`webpack`的`moduleId`。等到需要使用`__webpack_require__`引用模块时，发现缓存中没有，则从`modules`对象中取出暂存的模块并执行。
 
 
-### 3. `module chunk`
+### 2.3. `module chunk`
 
 看下`module chunk`的模式：
 
@@ -85,7 +85,7 @@ function __webpack_require__(moduleId) {
 执行某些模块需要保证一些`chunk`已经加载是因为，该模块所依赖的其他模块可能并不在当前`chunk`中，而`webpack`在编译期会通过依赖分析自动将依赖模块的所属`chunkId`注入到此处。
 
 
-### 4. `webpackJsonpCallback`
+### 2.4. `webpackJsonpCallback`
 
 `window["webpackJsonp"]`上的`.push()`方法已经被修改为了`webpackJsonpCallback()`方法，它的作用是：
 1. 注册`chunk`
@@ -131,7 +131,7 @@ function webpackJsonpCallback(data) {
 };
 ```
 
-### 5. `checkDeferredModules`
+### 2.5. `checkDeferredModules`
 
 `deferredModules`是一个二维数组，每一项的第一个元素是希望加载的模块，其他元素是前置依赖的`chunk`，比如`[["b3af","runtime","chunk-libs"]]`。
 
@@ -157,7 +157,7 @@ function checkDeferredModules() {
 }
 ```
 
-### 6. `__webpack_require__.d`
+### 2.6. `__webpack_require__.d`
 
 `__webpack_require__.d`是一个辅助函数，作用是导出`exports`内容，其实就是给`exports`这个对象赋值属性。
 
@@ -169,7 +169,7 @@ __webpack_require__.d = function(exports, name, getter) {
 };
 ```
 
-## 三、例子
+## 3. 例子
 
 看一个`webpack`的`v4`真实打包产物：
 
@@ -299,6 +299,8 @@ __webpack_require__.d = function(exports, name, getter) {
 ```
 
 1. 先加载`runtime.js`，由于其是自执行函数，会在全局注册`webpackJsonpCallback`、`checkDeferredModules`、`installedModules`、`installedChunks`、`deferredModules`、`__webpack_require__``、__webpack_require__.e`、` window["webpackJsonp"]`及其`push`方法，然后执行了`checkDeferredModules`方法，由于此时`deferredModules`为空数组，所以并没有影响。
+
+
 2. 加载`chunk-libs.js`文件，其内容为
 
 ```js
@@ -310,6 +312,7 @@ __webpack_require__.d = function(exports, name, getter) {
 ```
 
 也就是执行`webpackJsonpCallback`方法，其中，执行`installedChunks[chunk-libs] = 0`，注册`fdbc`、`00d8`等模块到`modules`中。执行`checkDeferredModules`，但是`deferredModules`为空数组，所以也没影响。
+
 3. 加载`main.js`文件，其内容为：
 
 ```js
@@ -337,9 +340,9 @@ __webpack_require__.d = function(exports, name, getter) {
 
 
 
-## 四、异步加载
+## 4. 异步加载
 
-### 1. 代码转换
+### 4.1. 代码转换
 
 `vue-router`设置`component: ()=>import('test.vue')`，会被转为：
 
@@ -375,7 +378,7 @@ __webpack_require__.e("home-1")
 既然`module chunk`已经执行，那么表明异步依赖已经就绪，于是在`then`方法中执行`__webpack_require__`引用`test.js`模块（`webpack`编译后`moduleId`为`module-home-3`）并返回。这样在第二个`then`方法中就可以正常使用该模块了。
 
 
-### 2. `__webpack_require__.e`
+### 4.2. `__webpack_require__.e`
 
 ```js
 __webpack_require__.e = function requireEnsure(chunkId) {
@@ -459,7 +462,7 @@ __webpack_require__.e = function requireEnsure(chunkId) {
 
 
 
-### 3. `jsonpScriptSrc`
+### 4.3. `jsonpScriptSrc`
 
 `jsonpScriptSrc`是个工具函数，会根据传入的`chunkId`返回对应的文件名称，比如`chunk-c8c18dc8`对应的文件名是`chunk-c8c18dc8.a6e840a3.js`，`chunk-comm~31712516`对应的文件名是`chunk-comm~31712516.b8e68ca0.js`。
 
@@ -470,11 +473,62 @@ function jsonpScriptSrc(chunkId) {
 }
 ```
 
-## 五、流程图
+## 5. 流程图
 
 <img src="http://doc.uwayfly.com/webpack-runtime.png" width="900">
 
-## 六、总结
+
+## 6. 简写说明
+
+挂载在`__webpack_require__`的一些方法：
+
+```ts
+// 入口模块的ID
+__webpack_require__.s = the module id of the entry point
+
+//模块缓存对象 {} id:{ exports /id/loaded}
+__webpack_require__.c = the module cache
+
+// 所有构建生成的模块 []
+__webpack_require__.m = the module functions
+
+// 公共路径，为所有资源指定一个基础路径
+__webpack_require__.p = the bundle public path
+// 
+__webpack_require__.i = the identity function used for harmony imports
+
+// 异步模块加载函数，如果没有再缓存模块中 则用jsonscriptsrc 加载  
+__webpack_require__.e = the chunk ensure function
+
+// 设定getter 辅助函数而已
+__webpack_require__.d = the exported property define getter function
+
+// 辅助函数而已 Object.prototype.hasOwnProperty.call
+__webpack_require__.o = Object.prototype.hasOwnProperty.call
+
+// 给exports设定attr __esModule
+__webpack_require__.r = define compatibility on export
+
+// 用于取值，伪造namespace
+__webpack_require__.t = create a fake namespace object
+
+// 用于兼容性取值（esmodule 取default， 非esmodule 直接返回module)
+__webpack_require__.n = compatibility get default export
+
+// hash
+__webpack_require__.h = the webpack hash
+
+// 
+__webpack_require__.w = an object containing all installed WebAssembly.Instance export objects keyed by module id
+
+// 异步加载失败处理函数 辅助函数而已
+__webpack_require__.oe = the uncaught error handler for the webpack runtime
+
+// 表明脚本需要安全加载 CSP策略
+__webpack_require__.nc = the script nonce
+```
+
+## 7. 总结
 
 本文分析了`webpack`的打包产物，讲解了运行时的模块加载机制，以及异步加载的实现原理。
 

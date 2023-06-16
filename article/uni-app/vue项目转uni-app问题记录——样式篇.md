@@ -274,15 +274,54 @@ uni-app 小程序 `:empty`，可能会存在问题，slot 即使父组件不传�
 自定义组件渲染差异
 
 
-微信（可以使用virtualHost配置）/QQ/百度/字节跳动这四家小程序，自定义组件在渲染时会比App/H5端多一级节点，在写样式时需要注意：
+微信（可以使用`virtualHost`配置）/QQ/百度/字节跳动这四家小程序，自定义组件在渲染时会比App/H5端多一级节点，在写样式时需要注意：
 
-1. 使用flex布局时，直接给自定义组件的父元素设置为display:flex不能影响到自定义组件内部的根节点，需要设置当前自定义组件为display:flex才可以。
-2. 在自定义组件内部设置根元素高度为100%，不能撑满自定义组件父元素。需要同时设置当前自定义组件高度为100%才可以。
-支付宝小程序默认启用了virtualHost配置不会插入节点，一般不存在如上问题。
+1. 使用`flex`布局时，直接给自定义组件的父元素设置为·不能影响到自定义组件内部的根节点，需要设置当前自定义组件为`display:flex`才可以。
+2. 在自定义组件内部设置根元素高度为`100%`，不能撑满自定义组件父元素。需要同时设置当前自定义组件高度为`100%`才可以。
 
 
-参考：[uni-app官网](https://uniapp.dcloud.net.cn/matter.html#%E5%90%84%E5%AE%B6%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%E4%B8%8D%E5%90%8C-%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8%E7%9A%84%E5%B9%B3%E5%8F%B0%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98)
+支付宝小程序默认启用了 virtualHost 配置不会插入节点，一般不存在如上问题。
 
+
+参考：[uni-app官网](https://uniapp.dcloud.net.cn/matter.html)
+
+
+
+
+## 1.14. 条件编译
+
+样式文件中的条件编译需要用`/* */`包裹，不能用`/**  */`包裹。
+
+下图左边不生效，右边才生效。
+
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/6/own_mike_9637fa73dedc6e87b0.png" width="500">
+
+
+## 1.15. 样式转化
+
+对`page`设置的样式，在h5中会被转成`uni-page-body`：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/6/own_mike_af5205041bba65884d.png" width="700">
+
+对`html`和`body`设置的样式，在小程序中会被转成`page`：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/6/own_mike_1018511e52a1f96ed5.png" width="700">
+
+
+
+
+## 1.16. 多行省略号兼容性
+
+不是`uni-app`项目独有的问题，这里也记录下。
+
+多行省略号只能支持 `webkit` 内核浏览器, IE系就不兼容，所以对于多行省略号是不能用`stylelint`的默认规则。
+
+- 溢出隐藏：`overflow: hidden;`
+- 省略号：`text-overflow: ellipsis; display: -webkit-box;`
+- 弹性盒模型：
+  设置弹性盒子的子元素的排列方式 ：`-webkit-box-orient: vertical;`
+  设置显示文本的行数：`-webkit-line-clamp: 3;` (最多显示3行)
 
 
 
