@@ -309,6 +309,7 @@ uni-app 小程序 `:empty`，可能会存在问题，slot 即使父组件不传�
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/6/own_mike_1018511e52a1f96ed5.png" width="700">
 
 
+对于这些容易造成歧义、容易产生误解，理解成本较高的转化样式，建议使用条件编译，只在本平台写本台可识别的样式，减少这种转化。
 
 
 ## 1.16. 多行省略号兼容性
@@ -323,6 +324,42 @@ uni-app 小程序 `:empty`，可能会存在问题，slot 即使父组件不传�
   设置弹性盒子的子元素的排列方式 ：`-webkit-box-orient: vertical;`
   设置显示文本的行数：`-webkit-line-clamp: 3;` (最多显示3行)
 
+
+
+## 1.17. page大部分情况下都应该为overflow:hidden
+
+### 1.17.1. page
+
+移动端，不论是h5还是小程序，大部分页面应该设置为`height: 100%;overflow: hidden;`，这样整个页面才不会跟着滑动，才不会漏出最底层，用户体验才好点。
+
+如果是渐变式导航，则相反，`page`需要设置为`height: auto`，这样才会触发`onPageScroll`事件。此外，想让`page`滚动，那么`page`下的第一层的高度要大于一屏才可以，也就是不能在`demo-wrap`上设置`height: 100%`，可以给`height: auto`，或具体的高度。
+
+除了需要`onPageScroll`事件的，其他都建议`page`设置为`overflow: hidden`。
+
+设置`page`为`overflow:hidden`还有个好处，不用再给`page`设置额外的背景色了，反正看不见，只关心页面就行了，没铺满的就铺满即可。
+
+### 1.17.2. demo-wrap
+
+既然`page`设置了`overflow:hidden`，那么`page`下的第一个元素如果超出了屏幕高度，则需要设置`overflow: auto;height: 100%;`，否则就会显示不全。
+
+如果不加`demo-wrap`，则页面在h5下可以滚动，在小程序下不可以滚动。因为h5中`uni-page-body`设置了`overflow:auto`，而小程序没有这个中间层。
+
+### 1.17.3. press-ui
+
+对于`press-ui`示例项目：
+
+- H5中`html/body`设置了`height: 100%;overflow:hidden`，`uni-page-body`设置了`height: 100%;overflow:auto`
+- 小程序中，`page`设置了`height: 100%;overflow:hidden;`，页面顶层需要滚动的`dom`，加上类名`demo-wrap`，其样式为`height: 100%；overflow: auto;`。
+
+小程序下页面级别的`vue`文件中，对`page`的样式设置：
+
+- 小程序下，不能加`scoped`，否则无效。
+- H5下，加了`scoped`，`page`转化的`uni-page-body`样式是生效的。
+
+
+## 1.18. 安全区
+
+什么时候需要适配安全区呢，底部是`tabbar`、购买按钮、输入框等不随页面滚动的元素。
 
 
 
