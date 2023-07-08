@@ -1738,8 +1738,30 @@ declare global {
 2. 第二种用法就是如果我们想去改变第三方库中的类型定义，那么我们可以通过`declare`的类型融合，比如在`Express`中，里面暴露出来了`Express.Request`的全局变量，然后如果我们自己再定义一个全局的 `namespace Express{ interface Request:{{ name:string }}`，这样就可以做到类型的融合，将第三方库中的`Request`类型给改写掉，这个功能在我们写中间件的时候比较有用，我们就可以改写`request`里面的类型定义。
 
 
+### 14.5. TS文件用rollup打包时报错`Typescript error "Cannot write file ... because it would overwrite input file"`
 
-参考： 
+
+
+
+需要保证打包后的目录，排除在`ts`编译的目录之外。
+
+
+```json
+// tsconfig.json
+{
+  "include": [
+    "src", // 不要写 "./**/*"
+  ],
+}
+```
+
+
+或者设置`allowJS`为`false`.
+
+参考：https://stackoverflow.com/questions/42609768/typescript-error-cannot-write-file-because-it-would-overwrite-input-file
+
+## 15. 参考资料
+
 - [理清 TypeScript 的 interface 与 type 的区别](https://juejin.cn/post/7093132160747438117)
 - [Typescript 中的 interface 和 type 到底有什么区别](https://juejin.cn/post/6844903749501059085)
 - [TypeScript基础之联合类型、交叉类型、类型别名](https://juejin.cn/post/7106080500577468429)
