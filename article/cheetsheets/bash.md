@@ -71,3 +71,14 @@ DEV_HOST_PWD=N
 
 查看大体积文件夹 `du -h --max-depth=1`
 
+## 7. 防火墙
+
+
+```bash
+systemctl status firewalld  # 查看防火墙设置
+systemctl stop iptables     # 关闭iptables
+systemctl stop firewalld    # 关闭防火墙
+
+service docker start        # 启动docker服务
+service docker status       # 查看docker运行状态
+```
