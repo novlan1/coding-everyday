@@ -362,6 +362,28 @@ uni-app 小程序 `:empty`，可能会存在问题，slot 即使父组件不传�
 什么时候需要适配安全区呢，底部是`tabbar`、购买按钮、输入框等不随页面滚动的元素。
 
 
+## 1.19. 页面样式
+
+归类，页面一定要有统一的包裹层`class`。好处是方便维护。
+
+
+## 1.20. 动态class
+
+小程序不支持这个
+
+```html
+  :class="`tip-match-schedule-tab-item--scroll-${col - scrollTime}`"
+```
+
+但是支持这个
+
+```html
+  :class="[`tip-match-schedule-tab-item--scroll-${col - scrollTime}`]"
+```
+
+
+
+
 
 # 2. vant
 

@@ -764,6 +764,10 @@ function getCNames<T extends { name: string }>(entities: T[]):string[] {
 }
 ```
 
+`T` 泛型做参数类型，一般都是加`extends`限制下参数的，不然想传啥就传啥，不就等于`any`了。
+
+函数，元组，对象，`extends {}` 都是 `true`。
+
 
 ### 9.3. 条件类型与高阶类型
 

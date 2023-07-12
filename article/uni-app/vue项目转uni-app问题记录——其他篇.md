@@ -49,6 +49,15 @@ this.createSelectorQuery()
   });
 ```
 
+### 1.1.4. 嵌套slot
+
+`scroll-view`中嵌套`slot`后，`scroll-into-view`不生效，参考:
+
+1. https://developers.weixin.qq.com/community/develop/doc/0006ca373801c8a733d816af256800
+2. https://developers.weixin.qq.com/community/develop/doc/00080caa80c200d35d0ffe0bb51c00
+
+
+
 ## 1.2. 获取小程序运行环境
 
 ```ts
@@ -86,6 +95,45 @@ if (url.startsWith('https://docs.qq.com')) {
 ## 1.4. wx.relaunch
 
 `wx.relaunch({url: url})`，关闭所有页面，重新打开当前页面，不会执行 `App.vue` 的 `beforeDestory`、`mounted` 方法。
+
+
+## 1.5. 小程序props
+
+小程序中`props`是对象的话，如果其有个属性值是`function`，只有初次赋值有效，后面替换的话，不会生效。就是不会替换成功，一直是初始的那个值。
+
+
+## 1.6. undefined
+
+`uni-app`的小程序中如果对象为`undefined`时，渲染结果就是`undefined`，但是h5就会为空字符串，比如：
+
+```html
+<div> {{ item.awardStatusDesc || '' }} </div>
+```
+
+这里后面最好加 `||''`
+
+
+## 1.7. key
+
+`:key="`section-${index}`"`这样的`key`没生效，编译后的`wxml`没有`wx:key`。
+
+下面这样的可以才生效：
+
+```html
+:key="getUniqueKey('nav', idx)"
+```
+
+```ts
+getUniqueKey(a, b) {
+  return `${a}-${b}`;
+},
+```
+
+## 1.8. 选择子组件元素
+
+```ts
+this.createSelectorQuery().select(`.wrap >>> #${id}`);
+```
 
 
 

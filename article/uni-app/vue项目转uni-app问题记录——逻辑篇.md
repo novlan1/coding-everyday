@@ -152,7 +152,7 @@ onClickWrap() {
 ### 8.1. 扩展运算符
 
 
-uni-app不支持在Vue模板中使用下面的语法：
+`uni-app`不支持在Vue模板中使用下面的语法：
 
 ```html
 <div
@@ -161,17 +161,17 @@ uni-app不支持在Vue模板中使用下面的语法：
 ```
 ### 8.2. 两个&&
 
-uni-app小程序不能用 `<comp :a="b&&c&&d" />` 识别不出来，可以用 `computed` 属性。
+`uni-app`小程序不能用 `<comp :a="b&&c&&d" />` 识别不出来，可以用 `computed` 属性。
 
 
 
 ## 9. uni-app中的mounted与beforeDestroy
 
-uni-app 中的页面也可以触发 beforeDestroy，但是前提是路由出栈，但是如果是入栈就不会销毁页面，也就不会调用 beforeDestroy，并且重新进入也不会触发mounted。
+uni-app 中的页面也可以触发 `beforeDestroy`，但是前提是路由出栈，但是如果是入栈就不会销毁页面，也就不会调用 `beforeDestroy`，并且重新进入也不会触发`mounted`。
 
 出栈发生的场景是点击了返回，入栈的场景是进入了新的页面。
 
-由于tabBar页面是第一个，所以永远不会被销毁，永远不会触发 beforeDestroy、destroyed 方法。
+由于`tabBar`页面是第一个，所以永远不会被销毁，永远不会触发 `beforeDestroy`、`destroyed` 方法。
 
 
 相关文档：
@@ -189,11 +189,11 @@ uni-app 中的页面也可以触发 beforeDestroy，但是前提是路由出栈�
 - mounted  
 - onReady
 
-注意 beforeMount -> onLoad -> onShow -> mounted -> onReady
+注意 `beforeMount -> onLoad -> onShow -> mounted -> onReady`
 
-由于子组件内没有 onShow，所以只能在页面级组件中写。如何在页面级组件中监听 onShow，然后传递给子组件做事情呢？
+由于子组件内没有 `onShow`，所以只能在页面级组件中写。如何在页面级组件中监听 `onShow`，然后传递给子组件做事情呢？
 
-可以使用ebus，onShow中触发事件，子组件中监听。如果子组件监听的时机是在mounted中，那么页面的第一次的onShow是监听不到的。
+可以使用`ebus`，`onShow`中触发事件，子组件中监听。如果子组件监听的时机是在`mounted`中，那么页面的第一次的`onShow`是监听不到的。
 
 
 ```ts
@@ -335,7 +335,7 @@ Vue.component('MatchPicker', MatchPicker);
 
 ## 17. scroll事件
 
-scroll的event.detail示例
+`scroll`的`event.detail`示例
 
 ```js
 deltaX: 0
@@ -346,7 +346,7 @@ scrollTop: 32.91862487792969
 scrollWidth: 375
 ```
 
-rect 示例
+`rect` 示例
 
 ```ts
 bottom: 599
@@ -357,5 +357,13 @@ left: 0
 right: 375
 top: 64
 width: 375
+```
+
+## 18. computed中不要用sort方法
+
+`vue`的`computed`中不要对`dom`直接用的对象进行`sort`，或者vuex中的数据，`sort`方法是改变原来数组的，会造成无限循环，报错：
+
+```
+You may have an infinite update loop in a component render function.
 ```
 
