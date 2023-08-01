@@ -29,7 +29,7 @@ Host my
 ```
 
 
-- Host后面是别名，u92的话就可以通过“ssh u92” 进行登录
+- Host后面是别名，group的话就可以通过“ssh group” 进行登录
 - HostName为IP
 - Port为端口
 - User为用户名
