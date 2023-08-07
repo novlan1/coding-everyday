@@ -1703,7 +1703,7 @@ TS配置文件中`lib`有个选项是 `ScriptHost`，它的含义是 `APIs for t
 
 ### 14.2. allowJS
 
-`tsconfig.json`的`allowJS`设置为`true`，否则 JS 文件中引用 TS 文件没有方法类型智能提示。
+`tsconfig.json`的`allowJS`设置为`true`，否则 JS 文件中引用 TS 文件没有方法类型智能提示，包括 vue 文件中的 script 部分。
 
 
 ### 14.3. exclude
