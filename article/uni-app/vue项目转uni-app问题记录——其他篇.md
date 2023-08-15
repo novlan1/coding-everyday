@@ -135,6 +135,23 @@ getUniqueKey(a, b) {
 this.createSelectorQuery().select(`.wrap >>> #${id}`);
 ```
 
+## 1.9. qs版本过高时，微信小程序报错
+
+报错内容：
+
+```
+Reflect.apply requires the first argument be a function
+```
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/8/own_mike_bbddb032816df0fe51.jpg" width="375">
+
+解决：`qs`从`6.11.2`降级到`6.5.2`时，亲测正常。
+
+
+参考：
+1. https://developers.weixin.qq.com/community/develop/doc/0000acb32a08f0aa8ddd47b6b51800
+
+
 
 
 
