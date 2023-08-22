@@ -122,6 +122,13 @@ parserOptions: {
  
 ```
 
+### 4.5. miniprogram-ci
+
+小程序的CI工具用pnpm的时候有问题。
+
+https://developers.weixin.qq.com/community/develop/doc/000e284b7d4bc09b194d0748356800
+
+
 
 ## 5. 效果对比
 
