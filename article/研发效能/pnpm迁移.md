@@ -124,7 +124,7 @@ parserOptions: {
 
 ### 4.5. miniprogram-ci
 
-小程序的CI工具用pnpm的时候有问题。
+小程序的CI工具用pnpm的时候有问题，问了相关开发人员，目前并不支持。
 
 https://developers.weixin.qq.com/community/develop/doc/000e284b7d4bc09b194d0748356800
 
@@ -137,7 +137,7 @@ https://developers.weixin.qq.com/community/develop/doc/000e284b7d4bc09b194d07483
 
 但问题是多个分支使用的是同一条流水线，而不同分支上的依赖很有可能不同，比如`press-ui`就处于持续迭代阶段，所以用`pnpm`优化还是有必要的。
 
-全量安装的话，之前耗时：
+全量安装的话，能节省`90s`左右，之前耗时：
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/8/own_mike_c1021396214509dde6.png" width="300">
 

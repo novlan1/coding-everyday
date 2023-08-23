@@ -2,9 +2,9 @@
 
 ## 1. 开始
 
-总体上是通过`css`变量实现的，给暗黑模式一套不同的面板即可。
+暗黑模式总体上是通过`css`变量实现的，给其一套不同的面板即可。
 
-使用者只需要修改`html`的`theme-mode`属性即可：
+使用者只需要修改`html`的`theme-mode`属性：
 
 ```ts
 // 设置暗色模式
@@ -15,7 +15,7 @@ document.documentElement.removeAttribute('theme-mode');
 
 ## 2. 文档示例
 
-由于这个切换是放在组件里的，没有事件抛出来，开发者如何监听呢，如何在示例`iframe`中拿到当前的模式呢？
+由于模式切换是放在组件里的，没有事件抛出来，开发者如何监听呢，如何在示例`iframe`中拿到当前的模式呢？
 
 可以用`MutationObserver`。
 
@@ -52,7 +52,7 @@ export default defineComponent({
 })
 ```
 
-`iframe`初始化的时机不定，所以在`mobile iframe`内部对自己进行`mode`的设定。
+`iframe`初始化的时机不定，可以在`mobile iframe`初始化时，在内部对自己进行`mode`的设定。
 
 ```ts
 export default defineComponent({
