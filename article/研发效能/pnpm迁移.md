@@ -130,6 +130,18 @@ https://developers.weixin.qq.com/community/develop/doc/000e284b7d4bc09b194d07483
 
 
 
+### 4.6. vue-loader版本
+
+`vue-loader`需要安装15版本，否则会报错：
+
+```
+Syntax Error: Error: @vitejs/plugin-vue requires vue (>=3.2.13) or @vue/compiler-sfc to be present in the dependency tree.
+```
+
+参考[这里](https://stackoverflow.com/questions/64117281/error-vue-loader-requires-vue-compiler-sfc-to-be-present-in-the-dependency-tr)
+
+
+
 ## 5. 效果对比
 
 
