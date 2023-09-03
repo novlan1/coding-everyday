@@ -14,7 +14,9 @@
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/qrcode/press-ui-demo-qrcode-3.png" width="600">
 
-在沉淀组件的过程中，想到一个点，有没有可能让 Press UI 也用于普通Vue项目呢，也就是不是基于uni-app的项目，这样就不用写两套代码了。
+在做一个普通Vue项目（非`uni-app`环境）需求时，需要一个组件，在 Press UI 已经有了，可不可以直接用 Press UI 内的呢？这样就不用写两套代码了。
+
+进而想一下，能否让所有组件都支持普通Vue项目呢？
 
 ## 2. 思路
 
@@ -83,13 +85,13 @@ Press UI 要想跨第n+1端，需要一个环境来调试并检验成果。由�
 
 `uni-app`使用的Vue是修改过的，并非Vue官方版本，因为在渲染等方面有差异。
 
-1. uni-shadow-root
+### 4.1. uni-shadow-root
 
 `uni-shadow-root`替换成`div`有坑点，可能会导致一些场景无法滑动，比如`press-tab`。
 
 小程序下`uni-shadow-root`的`display`默认值是`inline`，也就是子元素展示高度(比如内容`1700px`)不会超过父元素高度(比如`300px`)，但是换成`div`后，对应的`view`的`display`属性值为`block`，其高度是子元素完整的高度（`1700px`）。
 
-2. 插值语法
+### 4.2. 插值语法
 
 `uni-app`项目中，插值前后的空格是被抹掉的，而Vue是保留的。举个例子：
 
@@ -113,10 +115,113 @@ Press UI 要想跨第n+1端，需要一个环境来调试并检验成果。由�
 
 这个不同在`white-space`被设置成`pre-wrap`等属性时显示出来。
 
-3. image
+### 4.3. image
 
 将`image`替换为`img`标签时，需处理属性`mode`。
 
+### 4.4. IntersectionObserver
+
+这个API在`Calendar`组件中用到了，当月份滑动的时候，父组件获取当前月份，来展示对应的标题。
+
+具体是如何判断呢？如果某个月份的顶部小于父组件的顶部时，意味着它滑到了当前视口。
+
+```ts
+initRect() {
+  if (this.contentObserver != null) {
+    this.contentObserver.disconnect();
+  }
+  const rootSelector = '.press-calendar__body';
+  const selector = '.month';
+  const threshold = [0, 0.1, 0.9, 1];
+  const observeAll = true;
+
+  if (intersectionObserverPloyFill({
+    selector,
+    options: {
+      threshold,
+      observeAll,
+      root: document.querySelector(rootSelector),
+    },
+    callback: (changes) => {
+      for (const change of changes) {
+        if (change.boundingClientRect.top <= change.rootBounds.top) {
+          this.subtitle = formatMonthTitle(+change.target.dataset.date);
+        }
+      }
+    },
+  })) {
+    return;
+  }
+
+
+  const contentObserver = uni.createIntersectionObserver(this, {
+    thresholds: threshold,
+    observeAll,
+  });
+
+  this.contentObserver = contentObserver;
+  contentObserver.relativeTo(rootSelector);
+
+  contentObserver.observe(selector, (res) => {
+    if (res.boundingClientRect.top <= res.relativeRect.top) {
+      this.subtitle = formatMonthTitle(res.dataset.date);
+    }
+  });
+},
+```
+
+```ts
+export function intersectionObserverPloyFill({
+  selector,
+  callback,
+  options,
+}) {
+  if (isNotInUni()) {
+    const io = new IntersectionObserver(callback, options);
+    const target = document.querySelectorAll(selector);
+    target.forEach((element) => {
+      io.observe(element);
+    });
+    return true;
+  }
+  return false;
+}
+```
+
+### 4.5. 输入框高度自适应
+
+
+`textarea`的`autosize`属性在`uni-app`项目中是封装好的，如果自己实现呢？
+
+可以监听输入框的`scrollHeight`，如果其发生了变化，那么说明输入的文字行数也发生了变化，然后把这个`scrollHeight`当作`height`赋值给`textarea`即可。
+
+```ts
+adjustSize() {
+  const { input } = this.$refs;
+  if (!(this.type === 'textarea' && this.autosize) || !input) {
+    return;
+  }
+
+  const scrollTop = getRootScrollTop();
+  input.style.height = 'auto';
+
+  let height = input.scrollHeight;
+  if (isObject(this.autosize)) {
+    const { maxHeight, minHeight } = this.autosize;
+    if (maxHeight) {
+      height = Math.min(height, maxHeight);
+    }
+    if (minHeight) {
+      height = Math.max(height, minHeight);
+    }
+  }
+
+  if (height) {
+    input.style.height = `${height}px`;
+    setRootScrollTop(scrollTop);
+  }
+},
+```
 
 
 ## 5. 效果
