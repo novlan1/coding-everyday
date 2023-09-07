@@ -223,6 +223,23 @@ adjustSize() {
 },
 ```
 
+### 4.6. event.detail
+
+`uni-app`中获取`scrollTop`等属性是通过`event.detail`，而普通Vue项目是通过`event.target`。
+
+### 4.7. dataset
+
+`uni-app`会把`event.target.dataset`的数字转为`number`类型，而普通Vue项目一直是`string`。
+
+
+```html
+<div
+  v-for="(item,index) in (options)"
+  :key="item.index"
+  :data-index="index"
+>
+</div>
+```
 
 ## 5. 效果
 
