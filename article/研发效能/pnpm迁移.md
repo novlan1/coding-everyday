@@ -141,6 +141,23 @@ Syntax Error: Error: @vitejs/plugin-vue requires vue (>=3.2.13) or @vue/compiler
 参考[这里](https://stackoverflow.com/questions/64117281/error-vue-loader-requires-vue-compiler-sfc-to-be-present-in-the-dependency-tr)
 
 
+### file-type
+
+报错：
+
+```
+Error [ERR_REQUIRE_ESM]: Must use import to load ES Module
+```
+
+解决：
+
+```bash
+npm i file-type@16.5.3
+```
+
+
+参考：https://github.com/sindresorhus/file-type/issues/535
+
 
 ## 5. 效果对比
 

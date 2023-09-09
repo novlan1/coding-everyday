@@ -209,7 +209,7 @@ computed: {
 
 ## 3.4. scroll-view
 
-qq小程序 `scroll-view` 不支持 `enable-flex`
+qq小程序 `scroll-view` 不支持 `enable-flex`，手动写`display: flex`也不行。
 
 ```scss
 .tip-match-pk-schedule-item {

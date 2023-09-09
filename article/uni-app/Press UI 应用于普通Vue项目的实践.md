@@ -241,6 +241,19 @@ adjustSize() {
 </div>
 ```
 
+### uni-page-head 兼容
+
+`uni-page-head` 是`position: fixed`的元素，高度`44px`，在它下面加个同等高度的`uni-placeholder`，这样下面的元素就不会顶上去了，好处是对其他元素样式无侵入。
+
+```scss
+.uni-placeholder {
+  width: 100%;
+  height: 44px;
+  height: calc(44px + constant(safe-area-inset-top));
+  height: calc(44px + env(safe-area-inset-top));
+}
+```
+
 ## 5. 效果
 
 目前 Press UI 的`schedule-tree`、`area`组件在普通Vue项目中使用，实现了一套代码`n+1`端复用，`n`是`uni-app`赋予的，`1`是本次扩展的。
