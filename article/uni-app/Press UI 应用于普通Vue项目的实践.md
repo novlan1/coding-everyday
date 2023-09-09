@@ -254,6 +254,19 @@ adjustSize() {
 }
 ```
 
+### top-window
+
+
+`uni-app`中如果有`top-window`，也就是`uni-page-head`那层级，计算`boundingClientRect`时，是会去除`top-window`的高度的，也就是会少`44px`。
+
+```ts
+uni.createSelectorQuery().in(this);
+item
+  .select(`#seq-${this.curSelItem}`)
+  .boundingClientRect((res) => {})
+  .exec();
+```
+
 ## 5. 效果
 
 目前 Press UI 的`schedule-tree`、`area`组件在普通Vue项目中使用，实现了一套代码`n+1`端复用，`n`是`uni-app`赋予的，`1`是本次扩展的。
