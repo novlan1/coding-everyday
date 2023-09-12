@@ -141,7 +141,7 @@ Syntax Error: Error: @vitejs/plugin-vue requires vue (>=3.2.13) or @vue/compiler
 参考[这里](https://stackoverflow.com/questions/64117281/error-vue-loader-requires-vue-compiler-sfc-to-be-present-in-the-dependency-tr)
 
 
-### file-type
+### 4.7. file-type
 
 报错：
 

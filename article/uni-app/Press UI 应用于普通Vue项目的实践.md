@@ -241,7 +241,7 @@ adjustSize() {
 </div>
 ```
 
-### uni-page-head 兼容
+### 4.8. uni-page-head 兼容
 
 `uni-page-head` 是`position: fixed`的元素，高度`44px`，在它下面加个同等高度的`uni-placeholder`，这样下面的元素就不会顶上去了，好处是对其他元素样式无侵入。
 
@@ -254,7 +254,7 @@ adjustSize() {
 }
 ```
 
-### top-window
+### 4.9. top-window
 
 
 `uni-app`中如果有`top-window`，也就是`uni-page-head`那层级，计算`boundingClientRect`时，是会去除`top-window`的高度的，也就是会少`44px`。

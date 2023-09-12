@@ -1,3 +1,5 @@
+[TOC]
+
 ## 1. 开始
 
 经常看见一些地方说某些npm包存在漏洞，具体是哪里有漏洞呢，会危害到哪方面呢，是以什么方式造成的呢？
@@ -143,7 +145,7 @@ app.listen(PORT, ()=> {
 - https://security.netapp.com/advisory/ntap-20220804-0001/
 - https://github.com/advisories/GHSA-phwq-j96m-2c2q
 
-## qs
+## 6. qs
 
 qs是字符串解析库，使用非常广泛。
 
