@@ -152,6 +152,38 @@ Reflect.apply requires the first argument be a function
 1. https://developers.weixin.qq.com/community/develop/doc/0000acb32a08f0aa8ddd47b6b51800
 
 
+## 1.10. click.native
+
+`click.native`可以监听组件根元素的原生事件，但是需要注意子组件的根元素，不要已经用`click.stop`监听了，否则`click`事件不生效。
+
+
+下面是错误使用示例。
+
+父组件：
+
+```html
+<press-cell
+  @click.native="onOptionTap(item)"
+>
+  xxx
+</press-cell>
+```
+
+子组件：
+
+```html
+<template>
+  <div
+    @click.stop="onClick"
+  >
+    xxx
+  </div>
+</template>
+```
+
+参考：
+1. https://blog.csdn.net/qq_25906119/article/details/128839414
+2. https://ask.dcloud.net.cn/question/76184
 
 
 
