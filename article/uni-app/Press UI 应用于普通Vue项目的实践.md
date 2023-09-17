@@ -276,3 +276,12 @@ item
 
 有些组件还实现了5端复用，除了H5、微信小程序、QQ小程序、普通H5外，还兼容了PC端。不过这种兼容并非是平台级别的，更多是UI展示和事件的处理。
 
+## 6. 总结
+
+总结下 Press UI 是如何兼容非 uni-app 环境的普通 Vue 项目的。
+
+- 将 Press UI 作为 submodule，搭建 Press UI Pure 工程，进行调试和验证
+- 对于模板标签，尽量用浏览器原生标签，并仿 uni-app 实现 scroll-view、swiper、swiper-item 等核心组件
+- 对于 uni 相关API，利用浏览器原生API，自己实现一套功能一样的
+- 对于某些相同API，但 uni-app 环境和普通 Vue 项目表现不一致的，也进行兼容
+- 利用条件编译，减少代码冗余，减小代码体积

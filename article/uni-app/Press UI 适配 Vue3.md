@@ -100,11 +100,11 @@ dialog.set = (...args: any[]) => {
 
 ### 4.4. $children废弃
 
-Vue3 中已废弃`$children`，需要改成`$refs`。
+Vue3 中已废弃 `$children`，需要改成 `$refs`。
 
-Press UI 中可函数调用的组件，都是用的`$children`，都需兼容使用 ref 的场景。
+Press UI 中可函数调用的组件，都是用的 `$children`，都需兼容使用 ref 的场景。
 
-同时，使用 Vue3 的开发者，在预埋组件的时候，需要埋 ref，而不是 id。
+同时，使用 Press UI 的开发者，在预埋组件的时候，需要埋 ref，而不是 id。
 
 之前：
 
@@ -172,7 +172,7 @@ export function toProvideThis(key) {
       provide(key, instance.ctx);
       return instance;
     },
-  // #endif
+    // #endif
   };
 }
 
@@ -203,7 +203,11 @@ Vue3 现在提供了一个`emits`选项，类似于现有`props`选项，可用�
 
 强烈建议使用`emits`记录每个组件发出的所有事件。
 
->注意，emits 选项会影响一个监听器被解析为组件事件监听器，还是原生 DOM 事件监听器。被声明为组件事件的监听器不会被透传到组件的根元素上，且将从组件的 $attrs 对象中移除
+>注意，emits 选项会影响一个监听器被解析为组件事件监听器，还是原生 DOM 事件监听器。被声明为组件事件的监听器不会被透传到组件的根元素上，且将从组件的 $attrs 对象中移除。
+
+简单来说就是，没在子组件`emits`中声明，但在父组件用到的监听器，就会把这些当作**子组件根元素的原生事件监听器**。
+
+同时，Vue3 也废弃了 `.native` 修饰符。
 
 实际开发中，遇到一个案例。`press-swipe-cell`中如果没将`click`在`emits`暴露，父组件的`@click`事件有时会触发两次，多出来的那一次就是在根节点上的事件。
 
@@ -213,7 +217,12 @@ Vue3 现在提供了一个`emits`选项，类似于现有`props`选项，可用�
 1. https://cn.vuejs.org/api/options-state.html#emits
 2. https://zh.uniapp.dcloud.io/tutorial/migration-to-vue3.html#%E4%BA%8B%E4%BB%B6%E7%9A%84%E9%80%82%E9%85%8D
 
+### 4.8. 生命周期兼容
 
+- destroyed 修改为 unmounted
+- beforeDestroy 修改为 beforeUnmount
+
+Press UI 采用的是两种写法共存。
 
 ## 5. template语法兼容
 
@@ -301,6 +310,70 @@ Vue2 中的`slot="xxx"`语法，需要转成 `v-slot:xxx`，或者`#xxx`
 </template>
 ```
 
+### 5.4. v-model
+
+Vue3 的 v-model 相对 Vue2 来说 ，有了较大的改变。可以使用多 model,相应语法也有变化。
+
+用于自定义组件时，Vue3 的 `v-model` `prop` 和事件默认名称已更改 `props.value` 修改为 `props.modelValue`，`event.value` 修改为 `update:modelValue`。
+
+Press UI 的适配方法是先引入通用适配器，然后少量改动组件。
+
+```ts
+export const vModelMixin = {
+  props: {
+    // #ifndef VUE3
+    value: {
+      type: [String, Boolean],
+      default: '',
+    },
+    // #endif
+    // #ifdef VUE3
+    modelValue: {
+      type: [String, Boolean],
+      default: '',
+    },
+    // #endif
+  },
+  computed: {
+    realModelValue() {
+      let result = '';
+
+      // #ifndef VUE3
+      // @ts-ignore
+      result = this.value;
+      // #endif
+
+      // #ifdef VUE3
+      // @ts-ignore
+      result = this.modelValue;
+      // #endif
+      return result;
+    },
+  },
+  methods: {
+    emitModelValue(this: any, value) {
+      // #ifndef VUE3
+      this.$emit('input', value);
+      // #endif
+
+      // #ifdef VUE3
+      this.$emit('update:modelValue', value);
+      // #endif
+    },
+  },
+
+};
+```
+
+组件改动：
+
+- 使用 `value` 的地方改成 `realModelValue`
+- 抛出 `input` 事件改成 `this.emitModelValue(value)`
+
+参考：
+1. https://zh.uniapp.dcloud.io/tutorial/migration-to-vue3.html#v-model-%E7%9A%84%E9%80%82%E9%85%8D
+2. https://v3-migration.vuejs.org/zh/breaking-changes/v-model.html
+
 ## 6. 工程适配
 
 
@@ -361,6 +434,14 @@ to silence this error.
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/9/own_mike_ccae70ddaae15082b8.png" width="300">
 
 ## 8. 总结
+
+总结一下 Press UI 是如何支持 Vue3 的。
+
+- 将 Press UI 作为 submodule，搭建 Press UI V3 工程，进行调试和验证
+- 编写适配代码，同时兼容 Vue2 和 Vue3 语法
+- 对于某些相同API，但 Vue2 和 Vue3 表现不一致的，也进行兼容
+- 利用条件编译，减少代码冗余，减少代码体积
+- 编写 Vite 相关插件，支持 Press UI 工程
 
 其实 Press UI 适配 Vue3 的大部分工作就是做一些适配器，从上面遇到的问题可以看出，Vue3 相对 Vue2，大部分 `template` 语法是向下兼容的，但 `script` 语法大部分是 `breaking` 的。
 
