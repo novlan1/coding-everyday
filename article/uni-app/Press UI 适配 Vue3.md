@@ -427,6 +427,31 @@ to silence this error.
 2. https://stackoverflow.com/questions/75449286/how-to-fix-flag-importsnotusedasvalues-is-deprecated-and-will-stop-functionin
 
 
+### 6.4. tree-shaking
+
+Vue3 在 H5 平台发行时，会默认开启 `tree-shaking`，仅打包明确使用的api，比如`uni.request()`这种使用方式，而动态调用的方式不识别。
+
+```ts
+const method='request';
+uni[method]()`
+```
+
+如果要关闭 `tree-shaking`，可以在 `manifest.json` 中配置：
+
+```json
+"h5": {  
+  "optimization": {  
+      "treeShaking": {  
+        "enable": false  
+    }
+  }
+}
+```
+
+其实，个人感觉这种 `tree-shaking` 有很大隐患，太过隐晦，很容易踩坑。
+
+参考： https://ask.dcloud.net.cn/question/142426
+
 ## 7. 效果
 
 下图是适配 Vue3 的示例：
