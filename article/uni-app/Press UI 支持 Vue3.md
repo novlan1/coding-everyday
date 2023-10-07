@@ -370,6 +370,14 @@ export const vModelMixin = {
 - 使用 `value` 的地方改成 `realModelValue`
 - 抛出 `input` 事件改成 `this.emitModelValue(value)`
 
+Press UI 中适配了 `v-model` 的的组件有：
+
+
+- press-list
+- press-message-board
+- press-field
+
+
 参考：
 1. https://zh.uniapp.dcloud.io/tutorial/migration-to-vue3.html#v-model-%E7%9A%84%E9%80%82%E9%85%8D
 2. https://v3-migration.vuejs.org/zh/breaking-changes/v-model.html
