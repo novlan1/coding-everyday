@@ -21,13 +21,13 @@ vue create -p dcloudio/uni-preset-vue my-project
 
 
 
+## 3. 遇到的问题
 
-
-### 2.1. MacOS 配置adb
+### 3.1. MacOS 配置adb
 
 工欲善其事，必先利其器。兼容 App 需要先下载 Xcode 和配置 `adb` 等。
 
-先下载 Android stdio，然后配置环境变量。
+先下载 Android Studio，然后配置环境变量。
 
 ```bash
 vim ~/.bash_profile
@@ -58,7 +58,7 @@ export ANDROID_NDK=${ANDROID_HOME}/ndk-bundle
 - https://www.jianshu.com/p/744fc5946627
 
 
-### 2.2. VScode支持 nvue 文件高亮显示
+### 3.2. VScode支持 nvue 文件高亮显示
 
 只需要将 `nvue` 文件当成 `vue` 文件处理即可。
 
@@ -68,7 +68,7 @@ export ANDROID_NDK=${ANDROID_HOME}/ndk-bundle
 
 参考：https://blog.51cto.com/gblfy/5652539
 
-### 2.3. sass 报错，可选参数需在必需参数之后
+### 3.3. sass 报错，可选参数需在必需参数之后
 
 ```bash
 assError: required parameters must precede optional parameters
@@ -83,7 +83,7 @@ assError: required parameters must precede optional parameters
 @mixin halfBorder($color: $color-gray-3, $borderRadius: 1px) {}
 ```
 
-### 2.4. TS配置
+### 3.4. TS配置
 
 HBuilderX 可以有自己的`tsconfig.json`，需注意不能配置为 `noEmit: true`
 
@@ -92,7 +92,7 @@ Error: TypeScript emitted no output for
 ```
 
 
-### 2.5. 偶现错误
+### 3.5. 偶现错误
 
 ```bash
 reportJSException >>>> exception function:createInstanceContext, exception:JavaScript execute error!Uncaught ReferenceError: uni is not defined
@@ -102,7 +102,7 @@ reportJSException >>>> exception function:createInstanceContext, exception:JavaS
 
 这个应该是 HBuilderX 自己的问题，一个解决办法是，在 VScode 中执行 `npm run dev:h5`，然后 HBuilderX 会自动重新编译，这时候报错会消除。
 
-### 2.6. 组件上的方法
+### 3.6. 组件上的方法
 
 函数式调用组件时，需要在组件外获取组件内方法，之前采用方法是判断环境是否为 H5，其和小程序的策略不同：
 
@@ -137,7 +137,7 @@ const setData = dialog[func] || dialog.$vm[func];
 ```
 
 
-### 2.7. 链接协议
+### 3.7. 链接协议
 
 App 端不支持省略 `http` 协议，也就是不能：
 
@@ -154,7 +154,7 @@ export default {
 
 链接补充上 `https:` 即可。
 
-### 2.8. key
+### 3.8. key
 
 遇到下面的报错，调试了很久，网上查到的资料要么是动态引用、要么是变量为空未兼容，但是 Press UI 并不存在这些情况。
 
@@ -176,21 +176,23 @@ Not found -1;-1,1,0,2;-1;-1,1,0,2,2,3-1;undefined at view.umd.min.js:1
 
 这个问题的坑点在于，报错信息极其隐晦，很难定位真正有问题的地方。
 
-### 2.9. onPageScroll
+### 3.9. onPageScroll
 
 Press UI 中还在使用 page 的滚动的组件只有 press-sticky 了，在 APP 端 onPageScroll 目前并未生效。
 
-## 3. 体验
+## 4. 体验
 
 目前 Press UI 组件已兼容 App，可扫码下面二维码下载安装，体验安卓版本。
 
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/apk/press-ui-apk-main.png" width="200px"/>
 
 iOS 证书制作要花钱，等有钱了再说～
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/apk/press-ui-apk-main.png" width="200px"/>
+目前 Press UI 支持的产品矩阵如下：
 
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/10/own_mike_13f3281f0a188e0fbd.png" width="600">
 
-## 原理
+## 5. 原理
 
 从上面解决的问题可以看到，Press UI 兼容 App 所做的的适配相对比较少，其实是 uni-app 底层已经适配好了。
 

@@ -185,6 +185,22 @@ Reflect.apply requires the first argument be a function
 1. https://blog.csdn.net/qq_25906119/article/details/128839414
 2. https://ask.dcloud.net.cn/question/76184
 
+## 1.11. 不要滥用原生标签
+
+
+`uni-app` 项目自定义组件标签不能使用原生标签，比如不能用 ListView，否则透传的参数，会变成 `$event`。
+
+```ts
+onFilterClicked(event) {
+  // #ifndef H5
+  event = event?.detail?.__args__?.[0] || event;
+  // #endif
+  this.$emit('onFilterClicked', event);
+},
+```
+
+上面这种兼容是丑陋的，容易遗忘，应该避免。
+
 
 
 # 2. 同时开发
