@@ -7,3 +7,6 @@
 
 
 
+@vue/cli-plugin-unit-jest
+
+4.x 的版本有问题，可以安装 5.x 的。
