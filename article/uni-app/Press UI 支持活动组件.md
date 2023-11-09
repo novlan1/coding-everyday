@@ -1,0 +1,174 @@
+
+
+## 1. 开始
+
+[Press UI](https://h5.igame.qq.com/pmd-mobile.support.press-ui.press-ui/) 近期迁入了活动组件，这里记录下遇到的问题、解决方法以及一些思考。
+
+何为活动组件？这里指的是展示类的某业务组件。
+
+## 2. 样式
+
+样式处理是迁移的重点。关于样式，要处理以下几点：
+
+1. 如何在示例工程中动态切换样式，使得开发者、使用者都方便调试
+2. 如何动态隐藏 @TIP_STYLE_NAME 引入的样式，满足同一页面同一组件在不同位置有不同表现
+3. 如何让组件在拥有默认样式的同时，又可以随时去掉
+4. 如何改造之前的写法到BEM
+
+下面一个个说。
+
+### 2.1. 动态切换样式
+
+要做到运行时动态切换样式，样式文件一定是打包进去的，可以是一个外链形式，也可以直接打到一起。
+
+这里是示例工程，就直接打包到一起了。
+
+本质是条件动态引入样式。页面切换参数后，给 body 更改 class，组件 Scss 中监听此 class，然后引入不同样式。
+
+这里用了 loader，是因为样式类型特别多。崇尚刀耕火种的，也可以自己写。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/11/own_mike_4c2a77c7fa33d7f435.png" width="500"/>
+
+### 2.2. 动态隐藏 @TIP_STYLE_NAME 样式
+
+之前通过 @TIP_STYLE_NAME 引入的样式，可以通过传入 hideTipStyle 来隐藏。
+
+Press UI 通过在组件顶部加类名（注意不是结构），以及样式中控制，比如：
+
+```html
+<div
+  v-if="show"
+  :class="[getActClass('cover'), {
+    'press-act--hidden-tip': hideTipStyle,
+  }, 'press-act']"
+>
+</div>
+```
+
+```scss
+.press-act:not(.press-act--hidden-tip) {
+
+  .press__btn--small-primary {
+    display: inline-block;
+  }
+}
+```
+
+需要注意：
+
+1. 样式加了1级后，优先级会变，可能会造成局部异常
+2. 之前的顶部类名要兼容，可在对应的样式文件中搜索 `[^&].tip-comp-cover`，替换为 `&.tip-comp-cover`
+3. `@import` 语句不能写在非顶部，也就是包裹起来的部分，否则父组件可能引用不到变量，可以全局搜 `\n@`，找到后移到顶部
+
+
+### 2.3. 支持隐藏默认样式
+
+设置 `hideBaseStyle` 为 `true` 后，组件内在 `body` 上添加 `{component}--hidden` 的类名，组件样式据此判断是否加载默认样式。
+
+```scss
+body:not(.press-act-explain-dialog--hidden) {
+  @import "./css/pvp-vertical.scss";
+}
+```
+
+注意，条件形的动态导入样式只能写在 Vue 文件中，不能写在 Scss 中，否则小程序报错，应该是 uni-app 兼容的不够好。
+
+```scss
+.xxx {
+  @import 'a.scss';
+}
+```
+
+上面方法小程序上有兼容性问题，后面考虑直接在组件根元素上挂载类名。
+
+### 2.4. BEM 改造
+
+想清楚为什么做比怎么做更重要。
+
+BEM 好处有：
+
+1. 见名知义，也就是结构和状态一看便知，可读性高
+2. 可读性高就意味着易维护
+
+BEM 改造中需要注意：
+
+1. 组件库公共样式中，改造后的类名应全局保持一致
+2. 要兼容旧的写法，默认使用新写法
+3. 只有 Vue 文件需要写两套类名，Scss 文件不需要，因为加了 scoped 后， Scss 文件不会作用到外部
+
+具体实现的话，不能纯手工替换，效率低是其次，更危险的是容易出错。
+
+这里采用脚本+人工的方式。脚本用来提取类名以及替换，人工定义新类名，并“CR”脚本替换后的代码。
+
+主要步骤：
+
+1. 脚本提取 Vue 文件类名，生成列表
+2. 人工给出新旧类名对应关系，尽量一一对应，不要一对多或者多对一，并注意公共样式类名
+3. 脚本修改 Vue 文件，用统一方法替换旧类名，注意这里是兼容写法
+4. 脚本修改 Scss 文件，替换旧类名
+5. 检查代码，检查示例工程，提交
+
+
+## 3. 其他
+
+### 3.1. TIP_STYLE_NAME
+
+对于老的关键词编译，Press UI 本次并未改动，依然可以加载一种或多种游戏的样式。
+
+
+### 3.2. 组件沉淀规范
+
+1. 文档 props 字段为横杠写法，不能为驼峰
+
+正确写法：
+
+| 参数           | 说明             | 类型      | 默认值  |
+| -------------- | ---------------- | --------- | ------- |
+| show-pic       | 是否显示图片     | _boolean_ | `false` |
+| props-data     | 弹窗数据         | _Object_  | -       |
+| show-close-btn | 是否显示关闭图标 | _boolean_ | `true`  |
+
+错误写法：
+
+| 参数         | 说明             | 类型      | 默认值  |
+| ------------ | ---------------- | --------- | ------- |
+| showPic      | 是否显示图片     | _boolean_ | `false` |
+| propsData    | 弹窗数据         | _Object_  | -       |
+| showCloseBtn | 是否显示关闭图标 | _boolean_ | `true`  |
+
+
+2. 文档 props 默认值
+
+`string/array/object`，默认为空/空数组/空对象时，一律写为`-`，不要写 `''`/`[]`/`{}`，冗余且没意义。
+
+3. 复杂对象 props
+
+必须注明每个字段的类型，如下：
+
+```ts
+type IPropsData = {
+  dialogClass?: string; // 弹窗额外类名
+  storePic?: string; // 商户图片
+  storeName?: string; // 商户名称
+
+  title?: string;
+  content: string;
+  subContent?: string // 额外说明文案
+  isGold?: boolean; // subContent 是否添加 -gold 类名
+
+  btnText?: string; // 确认按钮文案
+  cancelBtnText?: string; // 取消按钮文案
+  btnClass?: string; // 确认按钮额外类名
+  cancelBtnClass?: string; // 取消按钮额外类名
+  
+  hasHook?: boolean; // 是否有对勾Dom
+}
+```
+
+### 3.3. 文档与示例通信
+
+示例页面切换样式类型后，通过 `postMessage` 通知文档更改横竖屏，达到更好的展示效果。
+
+自定义参数中的 Picker，会判断页面高度，自动更改横竖屏类型。
+
+
