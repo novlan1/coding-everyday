@@ -11,9 +11,9 @@
 样式处理是迁移的重点。关于样式，要处理以下几点：
 
 1. 如何在示例工程中动态切换样式，使得开发者、使用者都方便调试
-2. 如何动态隐藏 @TIP_STYLE_NAME 引入的样式，满足同一页面同一组件在不同位置有不同表现
+2. 如何动态隐藏 `@TIP_STYLE_NAME` 引入的样式，满足同一页面同一组件在不同位置有不同表现
 3. 如何让组件在拥有默认样式的同时，又可以随时去掉
-4. 如何改造之前的写法到BEM
+4. 如何改造之前的写法到 BEM
 
 下面一个个说。
 
@@ -23,15 +23,28 @@
 
 这里是示例工程，就直接打包到一起了。
 
-本质是条件动态引入样式。页面切换参数后，给 body 更改 class，组件 Scss 中监听此 class，然后引入不同样式。
+本质是条件动态引入样式。页面切换参数后，给 `body` 更改 `class`，组件 `Scss` 中监听此 `class`，然后引入不同样式。
 
-这里用了 loader，是因为样式类型特别多。崇尚刀耕火种的，也可以自己写。
+这里用了 `loader`，是因为样式类型特别多。崇尚刀耕火种的，也可以自己写。
+
+插入内容示例如下：
+
+```scss
+body.press-act-award-dialog--type-pvp {
+  @import "./css/pvp.scss";
+}
+
+body.press-act-award-dialog--type-gp {
+  @import "./css/gp.scss";
+}
+```
+
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/11/own_mike_4c2a77c7fa33d7f435.png" width="500"/>
 
 ### 2.2. 动态隐藏 @TIP_STYLE_NAME 样式
 
-之前通过 @TIP_STYLE_NAME 引入的样式，可以通过传入 hideTipStyle 来隐藏。
+之前通过 `@TIP_STYLE_NAME` 引入的样式，可以通过传入 `hideTipStyle` 来隐藏。
 
 Press UI 通过在组件顶部加类名（注意不是结构），以及样式中控制，比如：
 
@@ -56,7 +69,7 @@ Press UI 通过在组件顶部加类名（注意不是结构），以及样式�
 
 需要注意：
 
-1. 样式加了1级后，优先级会变，可能会造成局部异常
+1. 样式加了一级后，优先级会变，可能会造成局部异常
 2. 之前的顶部类名要兼容，可在对应的样式文件中搜索 `[^&].tip-comp-cover`，替换为 `&.tip-comp-cover`
 3. `@import` 语句不能写在非顶部，也就是包裹起来的部分，否则父组件可能引用不到变量，可以全局搜 `\n@`，找到后移到顶部
 
@@ -71,7 +84,7 @@ body:not(.press-act-explain-dialog--hidden) {
 }
 ```
 
-注意，条件形的动态导入样式只能写在 Vue 文件中，不能写在 Scss 中，否则小程序报错，应该是 uni-app 兼容的不够好。
+注意，条件形的动态导入样式只能写在 Vue 文件中，不能写在 `Scss` 中，否则小程序报错，应该是 `uni-app` 兼容的不够好。
 
 ```scss
 .xxx {
@@ -107,6 +120,46 @@ BEM 改造中需要注意：
 3. 脚本修改 Vue 文件，用统一方法替换旧类名，注意这里是兼容写法
 4. 脚本修改 Scss 文件，替换旧类名
 5. 检查代码，检查示例工程，提交
+
+
+映射表示例如下：
+
+```ts
+export const TIP_CLASS_MAP = {
+  benefit: 'tip-act-welfare-item',
+  top: 'tip-act-welfare-top',
+
+  'shop-icon': 'tip-act-welfare-shop-icon',
+  'shop-name': 'tip-act-welfare-shop',
+  'shop-desc': 'tip-act-welfare-range',
+}
+```
+
+类名获取核心函数如下，优先新类名，支持旧类名：
+
+```ts
+export function getActClass(useTipClass, tipClassMap, args) {
+  const list = getClassList(args);
+
+  const tipClasses = list.map(item => (item ? tipClassMap[item] || '' : ''));
+  const pressClasses = list.map((item) => {
+    const reg = new RegExp(`^${PREFIX}`);
+    if (!item) {
+      return '';
+    }
+    if (reg.test(item)) {
+      return item;
+    }
+    return `${PREFIX}${item}`;
+  });
+
+  if (!useTipClass) {
+    return pressClasses.join(' ');
+  }
+
+  return [...pressClasses, ...tipClasses].join(' ');
+}
+```
 
 
 ## 3. 其他
