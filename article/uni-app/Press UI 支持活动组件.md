@@ -234,3 +234,41 @@ type IPropsData = {
 自定义参数中的 Picker，会判断页面高度，自动更改横竖屏类型。
 
 
+## 4. 打包
+
+Press UI 组件的使用方式一直都是源码方式，也就是在 `vue.config.js` 中添加 `transpileDependencies` 配置，现在支持了将组件打包成 `js` 文件，方便在普通 H5 项目中使用。下面记录下实现方式、遇到的问题及解决办法。
+
+实现上参考了 element-ui 和 vant 的打包，支持每个组件单独打包，以及所有组件打包到一起（all in one），并支持按需加载。
+
+遇到的问题如下：
+
+### 4.1. font-face
+
+`@font-face` 中的 `url` 需要加引号，如果不加的话，在 `scss` `中没问题，css` 中引入会失败。
+
+### 4.2. icon 乱码
+
+伪类 `content` 中的内容在编码后会变成乱码，尽管在 `html` 中可以正常显示，但是在 `css` 文件中都是无法预览、无法修改的。
+
+这个问题困扰了挺多人，一些人说是 `dart-scss` 的问题，换成 `node-scss` 可以解决。这里我直接将这部分 `icon` 用 `css` 实现了，不用 `scss`，也解决了这个问题。
+
+参考：
+
+- https://webpack.docschina.org/loaders/sass-loader/#sassoptions
+- https://github.com/PanJiaChen/vue-element-admin/issues/3526
+
+
+### 4.3. css 相关的loader
+
+`style-loader` 的作用是在 `html` 中插入 `style` 标签，单组件分别打包时，也就是和 `MiniCssExtractPlugin.loader` 搭配时不需要，如果使用会报错：
+
+```bash
+window is not defined
+# or
+document is not defined
+```
+
+
+参考： 
+
+- https://github.com/webpack-contrib/style-loader/issues/461
