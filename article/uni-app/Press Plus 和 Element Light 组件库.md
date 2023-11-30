@@ -257,4 +257,28 @@ export default {
 其实这种方式完全得益于 Vue 语法自身的灵活性，组件的一切都可以由外界传入，可以一边指定名称，一边指定里面的内容。
 
 
+## 3. 版本控制
+
+有时，组件库的一些更新是需要测试和验证的，需要发 `alpha` 或 `beta` 版本，那么一个问题是，当用户执行 `npm i @tencent/press-plus@latest` 时，会装上 `alpha` 版本或者 `beta` 版本吗？
+
+答案是可能会，取决于**发布时是否添加标签**。
+
+`npm install xxx@latest` 的 `latest` 是一个发布标签，而类似 `1.0.0-beta.0` 中的 `beta` 是版本标识，如果你想发布一个测试版本，不希望普通用户下载，只希望测试人员安装，则需要在 `npm publish` 指定标签，比如 `npm publish --tag beta`，不指定的话，这个 `tag` 就是 `latest`。
+
+```bash
+npm publish --tag beta
+```
+
+可以通过 `npm view @tencent/press-ui` 或者 `npm dist-tag ls @tencent/press-ui` 命令查看 `npm` 包有哪些发布标签，及对应的版本。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/12/own_mike_eb54cab8d8f8b35a4b.png" width="600" />
+
+此外，还可以通过 `npm dist-tag add <package-spec (with version)> [<tag>]` 或者 `npm dist-tag rm <package-spec> <tag>` 对发布标签进行增删改。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2023/12/own_mike_bb5f9176ff021178a2.png" width="500" />
+
+参考：
+- https://docs.npmjs.com/cli/v10/commands/npm-dist-tag
+- https://github.com/iuap-design/blog/issues/248
+- https://juejin.cn/post/7133175128988319775
 
