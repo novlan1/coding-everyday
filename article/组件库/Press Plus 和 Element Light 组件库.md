@@ -22,6 +22,30 @@
 2. 脚本同步代码
 3. 配置驱动，不同的地方，单独放到配置文件夹下
 
+### 1.3. 标准
+
+`Press Plus` 相比 `Press UI`，会在以下几个方面降低标准：
+
+1. 根据业务自身需要，进行 `Vue3` 的适配
+2. 根据业务自身需要，进行非 `uni-app` 环境的适配
+3. 根据业务自身需要，进行**国际化支持**
+
+上述几点在 `Press UI` 中是全量支持的。
+
+`Press Plus` 和 `Press UI` 都必须遵守的规范包括：
+
+1. 严格的代码规范
+2. BEM 规范，且类名需以 `press` 开头
+3. 详尽的文档、丰富的示例
+
+### 1.4. 过渡
+
+业务组件过渡注意事项：
+
+- `Press UI` **在下个大版本前，都不会删除业务组件**，确保业务侧升级 `Press UI` 时，无大量改动
+- 业务组件的更新，要在 `Press Plus` 中进行，`Press UI` 不再维护、新增业务组件
+
+
 ## 2. Element Light
 
 缺个 PC 组件库，由于组内大部分项目都是 Vue 的，所以基于 `Element UI` 搭建了 [Element Light](https://h5.igame.qq.com/pmd-mobile.support.element-light.element-light/#/zh-CN)，旨在沉淀更多业务组件、二次封装基础组件。
