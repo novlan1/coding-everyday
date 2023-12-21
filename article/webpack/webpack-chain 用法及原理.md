@@ -598,3 +598,10 @@ config.module
 1. [我曾为配置 webpack 感到痛不欲生](https://juejin.cn/post/6950076780669566983)
 2. [前端工程化：webpack-chain](https://juejin.cn/post/6844904138954801166)
 
+----
+
+在同一个规则rule的条件下，其规则rule中的loader都是后写的先执行。
+
+参考：https://blog.csdn.net/wang_js_amateyr/article/details/107257441
+
+2023.12.18 补充。
