@@ -382,6 +382,31 @@ Press UI 中适配了 `v-model` 的的组件有：
 1. https://zh.uniapp.dcloud.io/tutorial/migration-to-vue3.html#v-model-%E7%9A%84%E9%80%82%E9%85%8D
 2. https://v3-migration.vuejs.org/zh/breaking-changes/v-model.html
 
+
+### 5.5. 移除.sync
+
+Vue3 已经移除了 .sync 语法，可以直接用 v-model:title 的方式。Press UI 中如何兼容呢？
+
+对于这种已经废弃的语法，Press UI 只能取二者的交集，也即是最普通的方式实现。
+
+之前：
+
+```html
+<ComponentA
+  :show.sync="showAddressPopup"
+/>
+```
+
+现在：
+
+```html
+<ComponentA
+  :show="showAddressPopup"
+  @update:show="value => showAddressPopup = value"
+/>aw
+```
+
+
 ## 6. 工程适配
 
 
