@@ -1,6 +1,6 @@
 - [1. 链表的实现](#1-链表的实现)
 - [2. 翻转链表](#2-翻转链表)
-- [3. K 个一组翻转链表 [Leetcode - 25]](#3-k-个一组翻转链表-leetcode---25)
+- [3. K 个一组翻转链表 - Leetcode - 25](#3-k-个一组翻转链表---leetcode---25)
 - [4. 两两交换链表中的节点](#4-两两交换链表中的节点)
 - [5. 模拟`git rebase`的第一步，找到最近的公共节点](#5-模拟git-rebase的第一步找到最近的公共节点)
 - [6. 判断两个无环单链表是否相交](#6-判断两个无环单链表是否相交)
@@ -48,6 +48,36 @@ class LinkedList:
         head = head.next
       head.next = node
 ```
+
+```js
+class Node {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null;
+  }
+
+  add(val) {
+    const node = new Node(val)
+    
+    if (!this.head) {
+      this.head = node
+    } else {
+      let head = this.head;
+      while (head.next) {
+        head = head.next;
+      }
+      head.next = node;
+    }
+  }
+}
+```
+
 ### 2. 翻转链表
 ```
 输入一个链表，翻转链表后，输出新链表的表头。
@@ -80,7 +110,21 @@ def reverseList2(head):
   return p
 ```
 
-### 3. K 个一组翻转链表 [Leetcode - 25]
+```js
+function reverseList(head) {
+  let pre = null;
+  while (head) {
+    const nextNode = head.next;
+    head.next = pre;
+    pre = head
+    head = nextNode;
+  }
+  return pre
+}
+```
+
+
+### 3. K 个一组翻转链表 - Leetcode - 25
 ```
 1. 设置一个头结点的前一个节点 hair，设置 tail，含义是指向子链表的尾部，一开始等于 hair。
 2. 每k个一组，找到tail的位置，并记下tail.next，设为nxt。
