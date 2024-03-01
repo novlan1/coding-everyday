@@ -20,6 +20,7 @@
   "homepage": "https://github.com/novlan1/coding-everyday#readme",
   "devDependencies": {
     "eslint-config-light": "^1.0.2",
+    "press-ui": "^1.3.6",
     "vuepress": "^1.8.0"
   }
 }
