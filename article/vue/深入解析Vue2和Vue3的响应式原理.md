@@ -1,3 +1,5 @@
+[toc]
+
 ## 一、Vue2 解析
 
 本次分析的Vue2版本为2.6。
@@ -483,3 +485,58 @@ computed 的实现比较复杂，因为涉及到 computed 依赖的对象发生�
 7. [vue3源码分析（三）—— 响应式系统（reactivity）](https://blog.csdn.net/qq_36131788/article/details/118995492)
 8. [Vue3 深度解析](https://blog.csdn.net/weixin_37543731/article/details/103268732)
 9. [watch、computed在实现原理上有什么不同](https://juejin.cn/post/6914614502436814862)
+
+
+
+-------
+
+20240301 更新
+
+-------
+
+
+
+
+
+### 为什么引入 Watcher
+
+Vue 中定义一个 Watcher 类来表示观察订阅依赖。至于为啥引入Watcher，《深入浅出vue.js》给出了很好的解释:
+
+当属性发生变化后，我们要通知用到数据的地方，而使用这个数据的地方有很多，而且类型还不一样，既有可能是模板，也有可能是用户写的一个watch,这时需要抽象出一个能集中处理这些情况的类。然后，我们在依赖收集阶段只收集这个封装好的类的实例进来，通知也只通知它一个，再由它负责通知其他地方。
+
+「依赖收集的目的是:」 将观察者 Watcher 对象存放到当前闭包中的订阅者 Dep 的 subs 中。形成如下所示的这样一个关系（图参考《剖析 Vue.js 内部运行机制》）。
+
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_3099b1207f542cb05e.png" width="600">
+
+
+
+### Watcher 和 Observer 的理解
+
+Watcher 是依赖，Dep 是依赖列表，Observer 是观察者
+
+Watcher 是靠近模版一侧，或者是自定义的 Watcher。而 Observer 是对开发者声明的 data，进行响应式劫持，get 中会把 Watcher 放到 dep.subs中， set 时会依次触发 sub 的 notify，来更新视图
+
+data 的每一个 key，在 Observer 劫持时，都有一个独立的 Dep 对象
+
+Watcher 只在构造函数中对 Dep.target 赋值一次 this，也就可以防止重复被收集。
+
+「依赖的本质：」
+
+所谓的依赖，其实就是Watcher。
+
+至于如何收集依赖，总结起来就一句话:
+
+在getter中收集依赖（收集Watch当如Dep中），在setter中触发依赖。先收集依赖，即把用到该数据的地方收集起来，然后等属性发生变化时，把之前收集好的依赖循环触发一遍就行了。
+
+
+### Dep 和 Watcher 的关系
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_af2a5ba272a89d2ab4.webp" width="600">
+
+
+Observer 负责将数据转换成 getter/setter 形式； Dep 负责管理数据的依赖列表；是一个发布订阅模式，上游对接 Observer，下游对接 Watcher Watcher 是实际上的数据依赖，负责将数据的变化转发到外界(渲染、回调)； 首先将 data 传入 Observer 转成 getter/setter 形式；当 Watcher 实例读取数据时，会触发 getter，被收集到 Dep 仓库中；当数据更新时，触发 setter，通知 Dep 仓库中的所有 Watcher 实例更新，Watcher 实例负责通知外界
+
+- Dep 负责收集所有相关的的订阅者 Watcher ，具体谁不用管，具体有多少也不用管，只需要根据 target 指向的计算去收集订阅其消息的 Watcher 即可，然后做好消息发布 notify 即可。
+- Watcher 负责订阅 Dep ，并在订阅的时候让 Dep 进行收集，接收到 Dep 发布的消息时，做好其 update 操作即可。
+
