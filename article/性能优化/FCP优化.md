@@ -33,9 +33,20 @@
 2. 不要用 `loading` 图片，因为图片加载也需要时间，可以直接用样式控制
 
 
+优化前后对比：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_c81912937dc60ddc63.gif" width="390">
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_0859b921d06460329c.gif" width="390">
+
 优化效果，FCP降低到 1.7 秒。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_2825bf6c9816b208ec.png" width="500">
 
+
+
 体验地址：https://h5-test.nes.smoba.qq.com/pvpesport.web.user.develop/#/
 体验方法：模拟弱网
+
+
+多说一句，这个指标是有实际意义的，有 loading 的用户体验会好很多，用户可以知道这个页面是可以反应的。像小程序第一次加载以及分包加载，也都有 loading。
