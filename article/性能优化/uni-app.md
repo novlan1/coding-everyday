@@ -1,3 +1,9 @@
+### 现状
+
+目前性能比较差，lighthouse 得分只有63。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_eb8b3c6b49e47273e1.png" width="500">
+
 ### SplitChunks 优化
 
 uni-app 源码中，`packages/vue-cli-plugin-uni/lib/h5/index.js`可以看到`uni-app`给出的`chunk`配置。
@@ -56,8 +62,9 @@ optimization: {
 2. `maxInitialRequests` 表示入口的最大并行请求数，它应该设置较大的数值，默认是3，当你拆出来的 `chunks` 比较多，这个数字根本不够用，造成的结果就是设置的 `cacheGroups` 不生效。
 
 
-优化完 `index.html` 的 `chunks`，`lightHouse` 的性能得分从 `64` 上升到 `70` 分。
+优化完 `index.html` 的 `chunks`，`lightHouse` 的性能得分从 `63` 上升到 `70` 分。
 
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_cebfda6d0b7f4391f5.png" width="500">
 
 参考：
 
