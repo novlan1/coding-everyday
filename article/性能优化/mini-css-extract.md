@@ -59,7 +59,7 @@ __webpack_require__.e = function requireEnsure(chunkId) {
 
 一看里面有 `document` 就知道肯定不会运行到，因为小程序没有 `document`。
 
-那为什么会有异步 `css` 呢，因为 `uni-app` 为了防止 `css` 和 `js` 打包到一起，会把所有的 `css` 引入变成异步。而 `mini-css-extract-plugin` 作用是把组件的 `css` 分离到单独的 `wxss` 文件。
+那为什么会有异步 `css` 呢，是 `vue-cli` 的 `css.extract` 这个属性被强制设置成了 `true`。而 `mini-css-extract-plugin` 作用是把组件的 `css` 分离到单独的 `wxss` 文件。
 
 能不能禁用掉 `mini-css-extract-plugin` 呢？不可以，因为 `wxss` 就生成不出来了。只需要把生成的上面的异步加载 `css` 的代码去掉即可。
 
