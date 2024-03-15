@@ -61,7 +61,12 @@ if (router.options.platform === 'h5') {
 // #endif
 ```
 
-通过这几步的减包，效果如下，减少了 `9K`。
+通过这几步的减包，效果如下，减少了 `12K+`。
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_862fac8fe0d40c7c45.png" width="600">
 
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_bdc2989b2584089ea8.png" width="500">
+
+
+使用后：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_cef137382dfcbe8f89.png" width="500">
