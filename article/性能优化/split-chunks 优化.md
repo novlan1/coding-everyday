@@ -55,12 +55,7 @@ pages: {
     publicPath,
     chunks: [
       'uni-h5',
-      'press-ui',
-      'vant',
-      'tim-js-sdk',
-      'aegis-web-sdk',
       'core-js',
-      'vue-cli-plugin-uni',
       'chunk-vendors',
       'index',
     ],
@@ -68,40 +63,16 @@ pages: {
 },
 chainWebpack(config: any) {
   config.optimization.splitChunks({
-    // chunks: 'all',
     minChunks: 1,
-    maxInitialRequests: 30,
-    maxAsyncRequests: 30,
+    maxInitialRequests: 10,
 
     cacheGroups: {
-      press_ui: {
-        name: 'press-ui',
-        test: /[\\/]node_modules[\\/]_?@tencent[\\/]_?press-ui(.*)/,
-        priority: 10,
-        chunks: 'initial',
-        reuseExistingChunk: true,
-        // minSize: 0,
-      },
-      vant: {
-        name: 'vant',
-        test: /[\\/]node_modules[\\/]_??vant(.*)/,
-        priority: 11,
-        chunks: 'initial',
-        reuseExistingChunk: true,
-      },
       tim_js_sdk: {
         name: 'tim-js-sdk',
         test: /[\\/]node_modules[\\/]_?tim-js-sdk(.*)/,
         priority: 15,
-        chunks: 'initial',
+        chunks: 'all',
         // minSize: 0,
-        reuseExistingChunk: true,
-      },
-      aegis_web_sdk: {
-        name: 'aegis-web-sdk',
-        test: /[\\/]node_modules[\\/]_?@tencent[\\/]_?aegis-web-sdk(.*)/,
-        priority: 20,
-        chunks: 'initial',
         reuseExistingChunk: true,
       },
       uni_h5: {
@@ -109,13 +80,6 @@ chainWebpack(config: any) {
         test: /uni-h5[\\/]_?dist[\\/]_?index\.umd\.min\.js/,
         chunks: 'initial',
         priority: 5,
-        reuseExistingChunk: true,
-      },
-      vue_cli_plugin_uni: {
-        name: 'vue-cli-plugin-uni',
-        test: /vue-cli-plugin-uni[\\/]_?packages/,
-        chunks: 'initial',
-        priority: 30,
         reuseExistingChunk: true,
       },
       core_js: {
@@ -130,13 +94,6 @@ chainWebpack(config: any) {
         test: /[\\/]node_modules[\\/]/,
         priority: -10,
         chunks: 'initial',
-        reuseExistingChunk: true,
-      },
-      index_home: {
-        name: 'index-home',
-        test: path.resolve('src/project/user/views/index'),
-        priority: 60,
-        chunks: 'all',
         reuseExistingChunk: true,
       },
       default: {
@@ -171,6 +128,8 @@ chainWebpack(config: any) {
 效果：
 
 通过 `splitCHunks` 的拆分，一些内容不变的包的 `hash` 不会变，从而充分利用了缓存。不过这一点并不能通过 `lighthouse` 得分进行量化，还需要结合实际观察。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_6762ea38e9be77e2d7.png" width="600" />
 
 参考：
 
