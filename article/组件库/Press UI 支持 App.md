@@ -57,8 +57,27 @@ export ANDROID_NDK=${ANDROID_HOME}/ndk-bundle
 - https://blog.csdn.net/xiaoyue_/article/details/132020304
 - https://www.jianshu.com/p/744fc5946627
 
+### 3.2. iOS 打包
 
-### 3.2. VScode支持 nvue 文件高亮显示
+iOS 打包需要证书，包括证书密码、证书profile文件、密钥证书。
+
+打包后会生成 ipa 文件。可以将这个文件上传到 devcloud，然后用“归档构件“插件，生成二维码。
+
+上传命令示例：
+
+```bash
+set -ex
+
+# 文件路径
+FILE=/Users/yang/Downloads/press-ui.ipa
+# 目标
+TARGET_PATH=/data/workspace/p-30ff30b405b24a228b4fa22cb05b7db3/src
+
+scp -P 36000 -r $FILE root@my:$TARGET_PATH
+```
+
+
+### 3.3. VScode支持 nvue 文件高亮显示
 
 只需要将 `nvue` 文件当成 `vue` 文件处理即可。
 
@@ -68,7 +87,7 @@ export ANDROID_NDK=${ANDROID_HOME}/ndk-bundle
 
 参考：https://blog.51cto.com/gblfy/5652539
 
-### 3.3. sass 报错，可选参数需在必需参数之后
+### 3.4. sass 报错，可选参数需在必需参数之后
 
 ```bash
 assError: required parameters must precede optional parameters
@@ -83,7 +102,7 @@ assError: required parameters must precede optional parameters
 @mixin halfBorder($color: $color-gray-3, $borderRadius: 1px) {}
 ```
 
-### 3.4. TS配置
+### 3.5. TS配置
 
 HBuilderX 可以有自己的`tsconfig.json`，需注意不能配置为 `noEmit: true`
 
@@ -92,7 +111,7 @@ Error: TypeScript emitted no output for
 ```
 
 
-### 3.5. 偶现错误
+### 3.6. 偶现错误
 
 ```bash
 reportJSException >>>> exception function:createInstanceContext, exception:JavaScript execute error!Uncaught ReferenceError: uni is not defined
@@ -102,7 +121,7 @@ reportJSException >>>> exception function:createInstanceContext, exception:JavaS
 
 这个应该是 HBuilderX 自己的问题，一个解决办法是，在 VScode 中执行 `npm run dev:h5`，然后 HBuilderX 会自动重新编译，这时候报错会消除。
 
-### 3.6. 组件上的方法
+### 3.7. 组件上的方法
 
 函数式调用组件时，需要在组件外获取组件内方法，之前采用方法是判断环境是否为 H5，其和小程序的策略不同：
 
@@ -137,7 +156,7 @@ const setData = dialog[func] || dialog.$vm[func];
 ```
 
 
-### 3.7. 链接协议
+### 3.8. 链接协议
 
 App 端不支持省略 `http` 协议，也就是不能：
 
@@ -154,7 +173,7 @@ export default {
 
 链接补充上 `https:` 即可。
 
-### 3.8. key
+### 3.9. key
 
 遇到下面的报错，调试了很久，网上查到的资料要么是动态引用、要么是变量为空未兼容，但是 Press UI 并不存在这些情况。
 
@@ -176,7 +195,7 @@ Not found -1;-1,1,0,2;-1;-1,1,0,2,2,3-1;undefined at view.umd.min.js:1
 
 这个问题的坑点在于，报错信息极其隐晦，很难定位真正有问题的地方。
 
-### 3.9. onPageScroll
+### 3.10. onPageScroll
 
 Press UI 中还在使用 page 的滚动的组件只有 press-sticky 了，在 APP 端 onPageScroll 目前并未生效。
 
