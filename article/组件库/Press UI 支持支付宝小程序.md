@@ -133,12 +133,11 @@ export default {
 
 支付宝小程序并没有。
 
-### 2.3. page 下第1层元素设置 100% 无效
+### 2.3. page 设置 100% 无效
 
-`page` 设置 `100%`，其下的第1个子元素，比如 `.demo-wrap`，也设置 100%，并没有撑满。
+`page` 设置 `100%` 无效，其高度实际为子元素高度，子元素高度大，则会撑开，高度小，则不满。
 
 可以将 `page` 改成 `100vh`。
-
 
 
 ### 2.4. 路径上只能有1个::v-deep
@@ -214,3 +213,83 @@ onLoad() {
 ### 3.2. 不支持 scrollIntoView
 
 支付宝小程序和QQ小程序都不支持函数式的设置 `scroll-top`，也就是不支持 `node.scrollIntoView`，只能在模板上设置 `scroll-top`。
+
+
+
+### 3.3. createIntersectionObserver
+
+支付宝小程序的 createIntersectionObserver 有以下不同：
+
+1. 不支持传入组件实例，下面的 `this` 仅是为了统一 API
+2. 不支持在自定义组件上的 `class`
+3. 需要显式设置 `dataset` 为 `true`，才能拿到 `Dom` 上的数据
+
+```js
+const contentObserver = uni.createIntersectionObserver(this, {
+  thresholds: threshold,
+  observeAll,
+  dataset: true,
+});
+```
+
+## 4. 组件理解
+
+记录自己对一些组件的理解。
+
+### 4.1. index-bar
+
+一看到 `bar`，就知道是边栏，`index-bar` 就是索引栏，所以这个组件的核心就是可点击的那一小列，并不是指的整个页面，默认放到右侧，就跟微信里的一样。
+
+那么主体放哪里呢，组件需要监听主体的滚动，所以用 `scroll-view` 套住，并放在 `index-bar` 的 `slot` 内。这里的核心就是要把主体放到 `index-bar` 的 `slot` 内，因为用户可以自定义主体内容，组件只需要关心其滚动行为。
+
+到这里基本的组件结构就呼之欲出了，伪代码如下。
+
+```html
+<div>
+  <scroll-view>
+   <slot/>
+  </scroll-view>
+  <div 
+    v-for="(item, index) of indexList" 
+    :key="item"
+  >
+  </div>
+</div>
+```
+
+光有这个还不够，还需要提供一个 `index-anchor`，也就是锚点。主体滚动时，顶部会固定不同的内容，也就是 `fixed`，同时右侧 `index-bar` 的激活内容也跟着变。
+
+用户可以将 `index-anchor` 穿插在主体内容中，并用 `index-bar` 包裹：
+
+```html
+<press-index-bar>
+  <div>
+    <press-index-anchor index="A" />
+    <press-cell title="文本" />
+    <press-cell title="文本" />
+    <press-cell title="文本" />
+  </div>
+
+  <div>
+    <press-index-anchor index="B" />
+    <press-cell title="文本" />
+    <press-cell title="文本" />
+    <press-cell title="文本" />
+  </div>
+
+  ...
+</press-index-bar>
+```
+
+还有一个细节，`scroll-view` 滚动时，判断 `active` 索引的核心逻辑如下。从后往前数，，激活态就是第一个满足下面这个条件的，`scrollTop < child[i].top`。
+
+
+## 总结
+
+下面是可预览的 Press UI 的产品矩阵：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press%2Fimg%2Fpress-demo-cluster.gif" width="700">
+
+下面是 Press UI 所有可提供的服务：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/img/services.gif" width="600">
