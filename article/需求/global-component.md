@@ -25,3 +25,12 @@ export default {
 }
 ```
 
+还是因为 global-component 是多例的原因，同时注意要在路由变化的时候，将弹窗关闭。
+
+```ts
+watch: {
+  $route(to, from) {
+    this.showPopupImage = false;
+  }
+```
+

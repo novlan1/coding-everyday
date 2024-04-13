@@ -1,16 +1,18 @@
+## 1. 开始
+
 记录一些坑。
 
-## 1. 模板部分
+## 2. 模板部分
 
 
-### 1.1. $slots.xxx 判断是否有插入内容无效
+### 2.1. $slots.xxx 判断是否有插入内容无效
 
 在 `template` 中，其他平台可以通过 `$slots.default` 判断是否有插入内容，而支付宝小程序不支持。
 
 比如，`press-field` 使用的 `press-cell` 需要改造。
 
 
-### 1.2. 子元素 slot 的 v-if
+### 2.2. 子元素 slot 的 v-if
 
 `press-toast` 预埋时，会显示一道杠，发现是 `press-toast--text` 元素被渲染出来了，而其他平台没有。
 
@@ -31,7 +33,7 @@
 </press-transition>
 ```
 
-### 1.3. 模板行内箭头函数
+### 2.3. 模板行内箭头函数
 
 支付宝不支持如下写法：
 
@@ -70,7 +72,7 @@ export default {
 }
 ```
 
-### 1.4. 形如 name="" 会被当成 boolean 类型
+### 2.4. 形如 name="" 会被当成 boolean 类型
 
 组件如果要接受 `string` 类型的 `name`，其他平台传入 `name=""` 没任何问题，支付宝则会把它当成 `true`，可以这样修改：
 
@@ -78,24 +80,24 @@ export default {
 <press-transition :name="``" />
 ```
 
-### 1.5. press-icon 不应该用 click.stop
+### 2.5. press-icon 不应该用 click.stop
 
-图标组件不应该用 click.stop，否则使用它的所有地方都要声明 click 事件，比较容易出粗。
+图标组件不应该用 click.stop，否则使用它的所有地方都要声明 click 事件，比较容易出错。
 
 
-### 1.6. 自定义组件的 click.stop 无效
+### 2.6. 自定义组件的 click.stop 无效
 
-比如 `press-button` 上使用 `click.stop` 无效，需要去掉 `.stop`。
+比如 `press-button` 上使用 `click.stop` 无效，按钮点击事件不触发，需要去掉 `.stop`。
 
-### 1.7. canvas的id
+### 2.7. canvas的id
 
 `canvas` 的 `id` 不能相同，否则绘制的时候会因为错位而闪烁。
 
 
 
-## 2. 样式部分
+## 3. 样式部分
 
-### 2.1. 自定义组件的样式
+### 3.1. 自定义组件的样式
 
 还是在 `toast` 组件中，引用的自定义组件，上面声明了 `class`，对它进行的样式声明无效。
 
@@ -124,23 +126,23 @@ export default {
 顺便说下，微信小程序的 `custom-class` 样式和子组件的自身样式的优先级，不能确定，即使你加了类名，提高比重，一样不能提升其优先级，除非用 `!important`。[参考这里](https://developers.weixin.qq.com/community/develop/doc/000046750e80180c07b63826151400)。
 
 
-所以最终改成这种方案，组件自己的 `class`、`v-deep`、个性化的组件 `class` 提升。
+所以最终改成这种方案，组件自己的 `class`、`v-deep`，也就是条件编译 + `custom-class`。
 
 
-### 2.2. scroll-view 默认宽度
+### 3.2. scroll-view 默认宽度
 
 微信小程序和 `uni-app` 的 h5 下的 `scroll-view` 都是 `width: 100%`;
 
 支付宝小程序并没有。
 
-### 2.3. page 设置 100% 无效
+### 3.3. page 设置 100% 无效
 
 `page` 设置 `100%` 无效，其高度实际为子元素高度，子元素高度大，则会撑开，高度小，则不满。
 
 可以将 `page` 改成 `100vh`。
 
 
-### 2.4. 路径上只能有1个::v-deep
+### 3.4. 路径上只能有1个::v-deep
 
 `scss` 选择器路径上只能有1个 `::v-deep`，其他不会被转化。
 
@@ -178,21 +180,31 @@ export default {
 
 多了一个 `::v-deep`，由于原生 CSS 并不认识它，所以样式不生效。
 
-### 2.5. swiper-item 高度
+### 3.5. swiper-item 高度
 
 支付宝小程序 `swiper-item` 高度只能由子元素高度，不能自主设置 `style=“height: 100%”`。
 
 所以 `image-preview` 组件的图片需要增加一个包裹层，设置为 `100%`。
 
 
-### 2.6. 滚动穿透
+### 3.6. 滚动穿透
 
 可以[参考这里](https://open.alipay.com/portal/forum/post/24301024)，滚动时，将页面设置为 `fixed`。
 
+但组件库还是要提供基础的体验，实践下来发现在 `press-overlay`, `press-popup` 等元素添加 `touch-action:none;` 属性即可。
 
-## 3. 脚本部分
+如果用户内嵌了其他元素，可以自行设置 `touch-action:none;`
 
-### 3.1. 导航栏设置
+另外，`@touchmove.stop.prevent="noop"` 在支付宝小程序是无效的，在 H5、微信小程序、QQ小程序中有效。
+
+
+### 3.7. Picker 滚动
+
+Picker 在支付宝小程序中， 要用 `scroll view`，而不是 `div`，并设置 `scroll-y` 为 `true`，否则 `Picker` 滚动的时候页面也跟着滚动。
+
+## 4. 脚本部分
+
+### 4.1. 导航栏设置
 
 支付宝的导航栏支持的颜色比较少，可以放到脚本中。比如下面就是放到 mixin 中，每个页面的 onLoad 时，都会执行。
 
@@ -210,13 +222,13 @@ onLoad() {
 ```
 
 
-### 3.2. 不支持 scrollIntoView
+### 4.2. 不支持 scrollIntoView
 
 支付宝小程序和QQ小程序都不支持函数式的设置 `scroll-top`，也就是不支持 `node.scrollIntoView`，只能在模板上设置 `scroll-top`。
 
 
 
-### 3.3. createIntersectionObserver
+### 4.3. createIntersectionObserver
 
 支付宝小程序的 createIntersectionObserver 有以下不同：
 
@@ -232,11 +244,11 @@ const contentObserver = uni.createIntersectionObserver(this, {
 });
 ```
 
-## 4. 组件理解
+## 5. 组件理解
 
 记录自己对一些组件的理解。
 
-### 4.1. index-bar
+### 5.1. index-bar
 
 一看到 `bar`，就知道是边栏，`index-bar` 就是索引栏，所以这个组件的核心就是可点击的那一小列，并不是指的整个页面，默认放到右侧，就跟微信里的一样。
 
@@ -281,10 +293,10 @@ const contentObserver = uni.createIntersectionObserver(this, {
 </press-index-bar>
 ```
 
-还有一个细节，`scroll-view` 滚动时，判断 `active` 索引的核心逻辑如下。从后往前数，，激活态就是第一个满足下面这个条件的，`scrollTop < child[i].top`。
+还有一个细节，`scroll-view` 滚动时，判断 `active` 索引的核心逻辑如下。从后往前数，激活态就是第一个满足下面这个条件的，`scrollTop < child[i].top`。
 
 
-## 总结
+## 6. 总结
 
 下面是可预览的 Press UI 的产品矩阵：
 
@@ -293,3 +305,5 @@ const contentObserver = uni.createIntersectionObserver(this, {
 下面是 Press UI 所有可提供的服务：
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/press/img/services.gif" width="600">
+
+官网地址：[https://h5.igame.qq.com/pmd-mobile.support.press-ui.press-ui](https://h5.igame.qq.com/pmd-mobile.support.press-ui.press-ui)

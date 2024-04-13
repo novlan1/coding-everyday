@@ -1,8 +1,10 @@
-最近遇到一个问题，基于 `uni-app` 的一个项目，在H5下，不同的 `query` 参数页面仍然被缓存，但是项目中并没有发现 `keep-alive`。
+### 1. 内部的 keep-alive
 
-原因是 uni-app 内部做了 `keep-alive`，源码在这里：`src/platforms/h5/components/app/index.vue`。
+最近遇到一个问题，基于 `uni-app` 的一个项目，在 H5 下，不同的 `query` 参数页面仍然被缓存，但是项目中并没有发现 `keep-alive`。
 
-简单来说，就是 uni-app 想在 H5 平台也模拟小程序的入栈、出栈，当页面返回时，不用再次刷新。其内部有个核心变量 `keepAliveInclude`，当页面跳转时候，根据类型对 `keepAliveInclude` 做入栈和出栈。
+查看源码，发现原因是 `uni-app` 内部自己做了 `keep-alive`，源码在这里：`src/platforms/h5/components/app/index.vue`。
+
+简单来说，就是 `uni-app` 想在 H5 平台也模拟小程序的入栈、出栈，当页面返回时，不用再次刷新。其内部有个核心变量 `keepAliveInclude`，当页面跳转时候，根据不同的跳转类型，对 `keepAliveInclude` 做入栈和出栈。
 
 ```js
 function beforeEach (to, from, next, routes) {
@@ -86,6 +88,49 @@ function beforeEach (to, from, next, routes) {
 
 可以监听 `keepAliveInclude`，当发现其没有想要常驻的页面的时候，就 `push` 一下。
 
+### 2. keepAliveInclude
+
+`uni-app` 内部的 `router` 还有个 `params.__id__` 的概念。路由跳转的时候，这个 `__id__` 会加到 `name`，作为路由的唯一标识，如果不加就自动生成。
+
+```ts
+function addKeepAliveInclude (componentName) {
+  if (this.keepAliveInclude.indexOf(componentName) === -1) { // 目标页面,自动 include
+    this.keepAliveInclude.push(componentName)
+  }
+}
+
+function beforeEach (to, from, next, routes) {
+  currentPages = getCurrentPages(true) // 每次 beforeEach 时获取当前currentPages，因为 afterEach 之后，获取不到上一个 page 了，导致无法调用 onUnload
+  const fromId = from.params.__id__
+  const toId = to.params.__id__
+  const toName = to.meta.name + '-' + toId
+
+  // 其他判断逻辑
+  addKeepAliveInclude.call(this, toName)
+}
+```
+
+`location.params__id__` 的生成逻辑如下，优先取 `meta.id`，否则取 `router.id`。
+
+```ts
+if (record && record.meta && record.meta.id) {
+  location.params.__id__ = record.meta.id;
+} else if (!location.params.__id__) {
+  location.params.__id__ = router.id;
+}
+```
+
+`keepAliveInclude` 有两个阶段会生成，一是上面提到的路由跳转，二是初始化的时候，我们看下初始化时候的生成逻辑。
+
+```ts
+if (entryRoute.meta.name) {
+  if (entryRoute.meta.id) {
+    keepAliveInclude.push(entryRoute.meta.name + '-' + entryRoute.meta.id)
+  } else {
+    keepAliveInclude.push(entryRoute.meta.name + '-' + (minId + 1))
+  }
+}
+```
 
 
 参考：https://ask.dcloud.net.cn/question/148194

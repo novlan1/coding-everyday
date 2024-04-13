@@ -16,7 +16,7 @@ QQ小程序在 iOS 下不支持 openLocation，而 webview 的方式又没法添
 
 也就是 `A webview `打开 `B url`，`B url` 是空壳子，装的是 `C url`。
 
-注意几点，B 不能加登录态校验，且注意 `html title`，因为 `webview` 会网页 `title` 当作 `navigationTitle`。
+注意几点，B 不能加登录态校验，且注意 `html title`，因为 `webview` 会将嵌入网页的 `title` 当作 `navigationTitle`。
 
 ### 独立分包白屏
 
@@ -30,3 +30,21 @@ import { NUMBER_CHI_MAP } from '@xxx/t-comm/lib/base/number/number';
 
 这个 `case` 的解决办法是，自己写 `NUMBER_CHI_MAP`。
 
+
+### 路由简化
+
+统一路由跳转使用方式，之前在另一个项目中用啥方式的都有，需要各种兜底。本项目又用了微前端，处理起来会更麻烦。
+
+为了减少后续维护成本，统一路由跳转使用方式，只能用 `path`、`query`。
+
+
+```ts
+this.$router.push({
+  path: '/single-match-detail',
+  query: {
+    siteId,
+    parentId,
+    childId,
+  },
+});
+```
