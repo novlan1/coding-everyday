@@ -33,16 +33,16 @@ const request4 = () =>
 
 const addRequest = scheduler(2);
 addRequest(request1).then(res => {
-  console.log(res);
+  console.log('A',res);
 });
 addRequest(request2).then(res => {
-  console.log(res);
+  console.log('B',res);
 });
 addRequest(request3).then(res => {
-  console.log(res);
+  console.log('C',res);
 });
 addRequest(request4).then(res => {
-  console.log(res);
+  console.log('D',res);
 });
 
 
