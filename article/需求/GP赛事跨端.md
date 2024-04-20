@@ -95,7 +95,7 @@ QQ小程序在 iOS 下不支持 `openLocation`，而 `webview` 的方式又没�
 
 采用的方法是，打开一个自己的 `webview` 页面，就是有权限加校验文件，内部嵌套地图 `apis.map.qq.com` 的地址。
 
-也就是 `A webview `打开 `B url`，`B url` 是空壳子，装的是 `C url`。
+也就是 `A webview` 打开 `B url`，`B url` 是空壳子，装的是 `C url`。
 
 注意几点，B 不能加登录态校验，且注意 `html title`，因为 `webview` 会将嵌入网页的 `title` 当作 `navigationTitle`。
 
