@@ -4,6 +4,7 @@
 
 ## 2. 记录
 
+
 ### 2.1. 登录态
 
 前提是我们的小程序要合入对方的小程序，然而，对方不给小程序密钥。
@@ -44,7 +45,7 @@ function loginInGPGameMP() {
 }
 ```
 
-### 2.3. appId 申请
+### 2.3. appId 转换关系申请
 
 由于采用 msdk 登录态，所以需要申请"宿主小程序"到"人生"的转换关系。
 
@@ -99,5 +100,47 @@ QQ小程序在 iOS 下不支持 `openLocation`，而 `webview` 的方式又没�
 
 注意几点，B 不能加登录态校验，且注意 `html title`，因为 `webview` 会将嵌入网页的 `title` 当作 `navigationTitle`。
 
-后面发现这个方法没有，iOS 下依旧会报域名校验错误。
+后面发现这个方法没用，iOS 下依旧会报域名校验错误。
+
+### 2.8. 独立分包 + 微前端
+
+核心逻辑。
+
+相比普通分包，个人感觉更多是工程上的好处，不用担心和主应用互相影响，不会增加主应用主包大小，不用互相扯皮。
+
+使用 `guru` 后，通信方式需要用框架给的，或者放到 `storage` 中。不过我们的业务大部分用不到，核心点在于全局组件和全局逻辑放在了 `global-component` 和 `main.js` 中，这意味着每个独立分包（这里也是子应用）都有自己的登录态、全局组件、全局变量，根本不需要通信。不过应该始终记住此限制，遇到问题时能及时发现。
+
+### 2.9. 动态切换后端环境
+
+借鉴了宿主小程序，实现了运行时切换后端环境，这样就不用打包两份了。
+
+不过，这里也是目前唯一需要子应用间通信的地方，因为每个子应用的 `window.isTestNet` 都是独立的，解决办法是在 `main.js` 中代理 `window.isTestNet`。
+
+
+```ts
+function hookTestNet() {
+  const STORAGE_KEY = 'DZS_MATCH_NET_ENV_DEBUG';
+
+  Object.defineProperty(window, 'isTestNet', {
+    get() {
+      const result = wx.getStorageSync(STORAGE_KEY) === 'test';
+      return result;
+    },
+    set(value) {
+      wx.setStorageSync(STORAGE_KEY, value ? 'test' : 'release');
+    },
+  });
+}
+
+// #ifndef H5
+hookTestNet();
+// #endif
+```
+
+
+### 2.10. 拉起游戏
+
+核心逻辑，包括微信、QQ小程序的拉起。
+
+已沉淀到 press-plus 中。
 
