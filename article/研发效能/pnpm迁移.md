@@ -159,6 +159,10 @@ npm i file-type@16.5.3
 参考：https://github.com/sindresorhus/file-type/issues/535
 
 
+### 4.8. vue-jest
+
+vue-jest@3.0.7版本安装失败，需要按照 vue-jest@4。
+
 ## 5. 效果对比
 
 
