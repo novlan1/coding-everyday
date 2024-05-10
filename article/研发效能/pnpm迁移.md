@@ -77,6 +77,7 @@ Syntax Error: TypeError: loaderUtils.getOptions is not a function
  @ multi ./node_modules/.pnpm/webpack-dev-server@3.11.3_webpack@4.46.0/node_modules/webpack-dev-server/client?https://192.168.1.17:443&sockPath=/sockjs-node (webpack)/hot/dev-server.js ./src/project/tgs/main.js
 ```
 
+也不能是3，只能是1或者2。
 
 ### 4.2. PostCSS
 
