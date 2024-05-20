@@ -37,3 +37,19 @@ H5 部分
 9.  `initGlobalAppData`，设置一些全局变量，比如 `window.app.firstChannel`
 10. `initXss`，注册 `Vue.prototype.xss`
 11. `pmdInitConfig`，注册传入的 `config`
+
+
+改动或优化点：
+
+`initRouter` 中，`SimpleVueRouter(options)` 方法中, `getRoutes` 会不再使用 `ROUTES`，而是先尝试使用设置的，然后使用 `ROUTES`，也就是如果传入了 `routerMap`，就会用 `routerMap`。
+
+另外，`initRouter` 大致逻辑如下，如果是小程序，或者设置了 `options.SimpleVueRouter` 为 `true`，则使用 `uni-simple-router`，否则使用 `vue-router`。如果你是非 uni-app 项目的话，则要使用 `vue-router`，就必须传入 `routerMap` 了。
+
+
+加了 `routerInterCeptor` 方法的执行，跳转的时候 H5 加了 `type`，小程序的时候 `params、query` 混合。
+
+```ts
+if (options.SimpleVueRouter && app.$router) {
+  routerInterCeptor(app.$router);
+}
+```
