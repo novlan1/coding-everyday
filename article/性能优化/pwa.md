@@ -1,22 +1,23 @@
+[TOC]
+
 ### 1. 开始
 
-Service Worker本质上也是浏览器缓存资源用的，只不过他不仅仅是cache，也是通过worker的方式来进一步优化。Service Worker 基于h5的web worker，所以绝对不会阻碍当前js线程的执行，sw最重要的工作原理就是
+Service Worker 本质上也是浏览器缓存资源用的，只不过他不仅仅是 `cache`，也是通过 `worker` 的方式来进一步优化。Service Worker 基于 h5 的 web worker，所以绝对不会阻碍当前 js 线程的执行，sw 最重要的工作原理就是
 
 - 后台线程：独立于当前网页线程；
-- 网络代理：在网页发起请求时代理，来缓存文件——因为service worker中涉及到请求拦截，出于对安全问题的考虑，所以必须使用HTTPS协议来保障安全
+- 网络代理：在网页发起请求时代理，来缓存文件——因为 Service Worker 中涉及到请求拦截，出于对安全问题的考虑，所以必须使用 HTTPS 协议来保障安全
 
 注意点：
 
-- Service worker运行在worker上下文，因此它不能访问DOM。相对于驱动应用的主JavaScript线程，它运行在其他线程中，所以不会造成阻塞。它设计为完全异步，同步API（如XHR和localStorage）不能在service worker中使用。
-- 不同于普通Worker，Service Worker 是一个浏览器中的进程而不是浏览器内核下的线程（Service Worker是走的另外的线程,可以理解为在浏览器背后默默运行的一个线程,或者说是独立于当前页面的一段运行在浏览器后台进程里的脚本。）因此它在被注册安装之后，能够被在多个页面中使用，也不会因为页面的关闭而被销毁。
-- 出于对安全问题的考虑，Service Worker 只能被使用在 https 或者本地的 localhost 环境下。
+- Service worker 运行在 worker 上下文，因此它不能访问 DOM。相对于驱动应用的主 JavaScript 线程，它运行在其他线程中，所以不会造成阻塞。它**设计为完全异步**，同步API（如 XHR 和 localStorage）不能在 service worker 中使用。
+- 不同于普通 Worker，Service Worker 是一个**浏览器中的进程而不是浏览器内核下的线程**（Service Worker是走的另外的线程,可以理解为在浏览器背后默默运行的一个线程,或者说是独立于当前页面的一段运行在浏览器后台进程里的脚本。）因此它在被注册安装之后，**能够被在多个页面中使用，也不会因为页面的关闭而被销毁**。
+- 出于对安全问题的考虑，Service Worker **只能被使用在 https 或者本地的 localhost 环境**下。
 
 ### 2. Service Worker的使用
 
 #### 2.1. register
 
-要使用Service worker，首先需要注册一个sw，通知浏览器为该页面分配一块内存，然后sw就会进入安装阶段。
-
+要使用 Service worker，首先需要注册一个 sw，通知浏览器为该页面分配一块内存，然后 sw 就会进入安装阶段。
 
 ```ts
 navigator.serviceWorker.register(path,object）
@@ -48,12 +49,11 @@ navigator.serviceWorker.register(path,object）
 })
 ```
 
-前面提到过，由于sw会监听和代理所有的请求，所以sw的作用域就显得额外的重要了，比如说我们只想监听我们专题页的所有请求，就在注册时指定路径：`navigator.serviceWorker.register('/topics/sw.js')`;这样就只会对topics/下面的路径进行优化。
-
+前面提到过，由于 sw 会监听和代理所有的请求，所以 sw 的作用域就显得额外的重要了，比如说我们只想监听我们专题页的所有请求，就在注册时指定路径：`navigator.serviceWorker.register('/topics/sw.js')`;这样就只会对 `topics/` 下面的路径进行优化。
 
 #### 2.2. installing
 
-注册完 Service Worker 之后，浏览器会为我们自动安装它，因此我们就可以在 service worker 文件中监听它的 install 事件了。
+注册完 Service Worker 之后，浏览器会为我们自动安装它，因此我们就可以在 Service Worker 文件中监听它的 `install` 事件了。
 
 ```js
 //service worker安装成功后开始缓存所需的资源
@@ -86,28 +86,26 @@ self.addEventListener('install', (event)=> {
 }
 ```
 
-安装时，sw就开始缓存文件了，会检查所有文件的缓存状态，如果都已经缓存了，则安装成功，进入下一阶段。
+安装时，sw 就开始缓存文件了，会检查所有文件的缓存状态，如果都已经缓存了，则安装成功，进入下一阶段。
 
 #### 2.3. activated
 
-同样的，Service Worker 在安装完成后会被激活，所以我们也可监听 activate 事件。这时，我们可以在 Chorme 的开发者工具中看到我们注册的 Service Worker。
+同样的，Service Worker 在安装完成后会被激活，所以我们也可监听 `activate` 事件。这时，我们可以在 Chrome 的开发者工具中看到我们注册的 Service Worker。
 
-如果是第一次加载sw，在安装后，会直接进入activated阶段，而如果sw进行更新，情况就会显得复杂一些。流程如下：
+如果是第一次加载 sw，在安装后，会直接进入 `activated` 阶段，而如果sw进行更新，情况就会显得复杂一些。流程如下：
 
-- 首先老的sw为A，新的sw版本为B。
-- B进入 install 阶段，而A还处于工作状态，所以B进入 waiting 阶段。只有等到A被 terminated 后，B才能正常替换A的工作。
+- 首先老的 sw 为A，新的 sw 版本为B。
+- B 进入 install 阶段，而 A 还处于工作状态，所以 B 进入 `waiting` 阶段。只有等到 A 被 `terminated` 后，B 才能正常替换A的工作。
 
-这个 terminated 的时机有如下几种方式：
+这个 `terminated` 的时机有如下几种方式：
 
 1. 关闭浏览器一段时间；
-2. 手动清除serviceworker；
+2. 手动清除 Service Worker；
 3. 在sw安装时直接跳过waiting阶段
 
+然后就进入了 `activated` 阶段，激活 sw 工作。
 
-然后就进入了activated阶段，激活sw工作。
-
-activated阶段可以做很多有意义的事情，比如更新存储在cache中的key和value：
-
+`activated` 阶段可以做很多有意义的事情，比如更新存储在 cache 中的 key 和 value：
 
 ```js
 var CACHE_PREFIX = 'cms-sw-cache';
@@ -136,16 +134,15 @@ self.addEventListener('activate', function(event) {
 });
 ```
 
-
-#### idle
+#### 2.4. idle
 
 这个空闲状态一般是不可见的，这种一般说明sw的事情都处理完毕了，然后处于闲置状态了。
 
-浏览器会周期性的轮询，去释放处于idle的sw占用的资源。
+浏览器会周期性的轮询，去释放处于 `idle` 的 sw 占用的资源。
 
-#### fetch
+#### 2.5. fetch
 
-该阶段是sw最为关键的一个阶段，用于拦截代理所有指定的请求，并进行对应的操作。
+该阶段是 sw 最为关键的一个阶段，用于拦截代理所有指定的请求，并进行对应的操作。
 
 所有的缓存部分，都是在该阶段，这里举一个简单的例子：
 
@@ -166,10 +163,9 @@ self.addEventListener('fetch', function(event) {
 });
 ```
 
-service worker 生命周期图
+Service Worker 生命周期图
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/5/own_mike_1cd3e000315251ce4d.png" width="600" />
-
 
 ### 3. 缓存策略
 
@@ -187,21 +183,15 @@ service worker 生命周期图
 
 如果你的应用需要频繁的网络请求，Network first 将是一个理想的方案。**如果网络可用，那么应用中的每个请求将通过网络请求，并保存为缓存，一旦网络不可用，就会使用缓存中的内容**。
 
-
 #### 3.4. Network Only
 
-
 不对请求进行缓存，只使用网络请求的资源。这种 Strategies 的应用场景一般是想要对网络请求进行特殊的控制。
-
-
 
 #### 3.5. Cache Only
 
 不走网络请求，资源仅从缓存中获取。这是一种在 Workbox 中不太常见的 Strategies。除非应用已经做了很好的预缓存。
 
-
 ### 4. workbox-webpack-plugin 配置
-
 
 ```js
 new WorkboxPlugin.GenerateSW({
@@ -216,19 +206,14 @@ new WorkboxPlugin.GenerateSW({
 
 ### 5. 业务
 
-
 要注意：
 
-1. 之前所有 js 都上云，然后删掉 dist 下的 js 文件，而 `service-worker` 必须在同域下，所以需要针对它放开
-2. html 不能缓存，注意在配置文件中排除
+1. 之前所有 `js` 都上云，然后删掉 `dist` 下的 `js` 文件，而 `service-worker` 必须在同域下，所以需要针对它放开
+2. `html` 不能缓存，注意在配置文件中排除
 3. 要有一键降级方案，如果线上有问题，可以通过远程改配置，取消掉所有的 `service-worker` 缓存
-4. workbox 文件默认会单独打包，造成上云镜像越来越大
-
-
+4. `workbox` 文件默认会单独打包，造成上云镜像越来越大，需要修改成 `inline`
 
 参考：
 
-
-workbox-webpack-plugin文档：https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin?hl=zh-cn
-文章： https://cloud.tencent.com/developer/article/1841684
-
+- workbox-webpack-plugin文档：<https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin?hl=zh-cn>
+- 文章： <https://cloud.tencent.com/developer/article/1841684>
