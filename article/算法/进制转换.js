@@ -1,3 +1,8 @@
+// 除 16 取余法
+// 不断余16，得到的 hexes[index]，加上之前的 hex
+// num 除 16
+// 注意是向下去整，就是“商”
+
 // 10进制转16进制
 function int2Hex(num) {
   if (num == 0){
@@ -11,6 +16,7 @@ function int2Hex(num) {
   }
   return hex;
 }
+
 
 console.log(int2Hex(16))
 console.log(int2Hex(32))
