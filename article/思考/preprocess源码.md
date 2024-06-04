@@ -1,12 +1,12 @@
 ### 1. 开始
 
-preprocess 是条件编译的核心，可以用来解析 ifdef, ifndef, endif 等关键词，当然还可以处理 include、echo 等。
+`preprocess` 是条件编译的核心，可以用来解析 `ifdef, ifndef, endif` 等关键词，当然还可以处理 `include、echo` 等。
 
 ### 2. preprocessor
 
 #### 2.1. replace
 
-内部有个 replace 方法，会根据正则 rule，依次解析 source，并传递给回调函数 processor，processor 可以是任意处理器。
+内部有个 `replace` 方法，会根据正则 `rule`，依次解析 `source`，并传递给回调函数 `processor`，`processor` 可以是任意处理器。
 
 ```ts
 function replace(rv: string, rule: any, processor: any) {
@@ -27,13 +27,14 @@ function replace(rv: string, rule: any, processor: any) {
 
 #### 2.2. processIncludeDirective
 
-先看 processIncludeDirective，这个可以处理 #include 以及 #include-static。
+先看 `processIncludeDirective`，这个可以处理 `#include` 以及 `#include-static`。
 
 ```ts
-  // 使用的地方
-  rv = replace(rv, opts.type.include, processIncludeDirective.bind(null, false, context, opts));
+// 使用的地方
+rv = replace(rv, opts.type.include, processIncludeDirective.bind(null, false, context, opts));
+```
 
-
+```ts
 // 工具方法，读取文件内容
 function getFileContents(path: string, failSilent: boolean, requesterPath: string) {
   try {
@@ -98,7 +99,7 @@ function processIncludeDirective(
 // #include abc
 ```
 
-上面的 file 就是 abc，获取到文件内容后，拼接到 linePrefix 后面。如果不是 #include-static，就递归处理获取到的文件内容。
+上面的 `file` 就是 `abc`，获取到文件内容后，拼接到 `linePrefix` 后面。如果不是 `#include-static`，就递归处理获取到的文件内容。
 
 #### 2.3. ifdef
 
@@ -139,11 +140,11 @@ if (opts.type.if) {
 }
 ```
 
-先调用 replaceRecursive，递归处理正则。这里用了 xregexp 三方库的 matchRecursive 方法，用来方便的递归。
+先调用 `replaceRecursive`，递归处理正则。这里用了 `xregexp` 三方库的 `matchRecursive` 方法，用来方便的递归。
 
 #### 2.4. replaceRecursive
 
-以下面这段字符串为例，看看 matchRecursive 方法返回了什么：
+以下面这段字符串为例，看看 `matchRecursive` 方法返回了什么：
 
 ```ts
 const content = `
@@ -172,7 +173,7 @@ const matches = XRegExp.matchRecursive(content, rule.start, rule.end, 'gmi', {
 });
 ```
 
-matches 结果如下，就是对字符串根据正则进行了分割。
+`matches` 结果如下，就是对字符串根据正则进行了分割。
 
 ```ts
 [
@@ -193,7 +194,7 @@ matches 结果如下，就是对字符串根据正则进行了分割。
 ]
 ```
 
-replaceRecursive 方法对遍历 matches，走到 right 时，对捕获到的 matchGroup.match 进行递归处理：
+`replaceRecursive` 方法对遍历 `matches`，走到 `right` 时，对捕获到的 `matchGroup.match` 进行递归处理：
 
 
 ```ts
@@ -229,7 +230,7 @@ return matches.reduce((builder: string, match: {
 
 #### 2.5. processor
 
-不同的 preprocessOptions.type 对应的 上面的 processor 不同，对于 if，就会判断是否满足条件，如果满足条件，则返回 `recurse(include)`，即 `matchReplacePass(matchGroup.match)`
+不同的 `preprocessOptions.type` 对应的上面的 `processor` 不同，对于 `if`，就会判断是否满足条件，如果满足条件，则返回 `recurse(include)`，即 `matchReplacePass(matchGroup.match)`
 
 ```ts
 switch (variant) {
@@ -255,7 +256,7 @@ switch (variant) {
 }
 ```
 
-对于 exclude 类型的 preprocessOptions.type，如果满足条件的话，就会排除 recurse(include)。
+对于 `exclude` 类型的 `preprocessOptions.type`，如果满足条件的话，就会排除` recurse(include)`。
 
 ```ts
 if (opts.type.exclude) {
@@ -271,10 +272,10 @@ if (opts.type.exclude) {
 }
 ```
 
-对于 extend 类型的 preprocessOptions.type，如果满足条件的话，
+对于 `extend` 类型的 `preprocessOptions.type`，如果满足条件的话，
 
 
-`echo` 类型的话，就会获取对应的 value，然后拼接。
+`echo` 类型的话，就会获取对应的 `value`，然后拼接。
 
 ```ts
 rv = replace(rv, opts.type.echo, (match: any, variable: string) => {
@@ -287,9 +288,11 @@ rv = replace(rv, opts.type.echo, (match: any, variable: string) => {
 });
 ```
 
+其他类型就不一一列举了，大同小异。
+
 ### 3. 一些有用的片段
 
-获取 eol 以及 替换 eol：
+获取 `eol` 以及 替换 `eol`：
 
 ```ts
 function getEolType(source: string) {
@@ -339,7 +342,7 @@ function restoreEol(normalizedSource: string, originalEol: string) {
 
 ### 4. 总结
 
-如果有前后两个关键词，比如 ifdef/endif, exclude/endexclude，就用 replaceRecursive，否则就用 replace。
+如果有前后两个关键词，比如 `ifdef/endif`, `exclude/endexclude`，就用 `replaceRecursive`，否则就用 `replace`。
 
 核心有以下几个：
 
