@@ -1,6 +1,6 @@
 OMI 是一个开发 WebComponents 的框架
 
-## Web Components
+## 1. Web Components
 
 Web Components包括以下三个主要技术：
 
@@ -42,7 +42,7 @@ class MyElement extends Component {
 }
 ```
 
-## Constructable Stylesheets
+## 2. Constructable Stylesheets
 
 Constructable Stylesheets 是 Web Components 的黄金搭档。在使用 Shadow DOM 时创建和分布可重复使用的样式的一种方式，既降低了尺寸，还能提高性能。
 
@@ -80,7 +80,183 @@ customElements.define('my-element', class extends HTMLElement {
 在这个例子中，我们创建了一个样式表 sheet，然后在 my-element 组件的 Shadow DOM 中应用了这个样式表。无论我们创建了多少个 my-element 组件，样式表的代码都只需要加载一次。
 
 
+## 3. omi
+
+### 3.1. ?raw
+
+vite 中可用这种方式加载字符串
+
+### 3.2. props
+
+`render` 函数接收 `props`
+
+`static defaultProps` 来设置默认值，使用 `static propTypes` 来设置类型:
+
+也可以合并到 `static props` 一起定义
+
+### 3.3. css
+
+```ts
+static css = 'h1 { color: red }' 
+```
+
+也可以是数组
+
+```ts
+static css = [style, 'h3 { color: red; }']
+```
+
+### 3.4. 事件
+
+和 React 一样
+
+```tsx
+class x {
+  onClick = (evt) => {
+    alert('Hello Omi!')
+  }
+
+  render() {
+    return (
+      <h1 onClick={this.onClick}></h1>
+    )
+  }
+}
+```
+
+通过 fire 触发事件，对应 Vue 中的 emit
+
+```ts
+onClick = event => {
+  this.fire('my-event', { name: 'yang' })
+}
+
+render() {
+  return (
+    <h1 onClick={this.onClick}></h1>
+  )
+}
+```
+
+外层使用者绑定事件，通过 event.detail 拿到参数
+
+```tsx
+<my-element onMyEvent={(event) => alert(event.detail.name)}></my-element>
+```
+
+或者通过 addEventListener
+
+```ts
+myElement.addEventListener('my-event', () => {})
+```
+
+### 3.5. slot
+
+`slot` 不能和 `static isLightDom = true` 同时使用，否则子元素样式失效，可以使用 `props.children`。
+
+### 3.6. Ref
+
+想在 JS 中获取元素
+
+```ts
+onClick = () => {
+  console.log(this.myRef)
+}
+
+render() {
+  return (
+    <h1 ref={e => { this.myRef = e}}></h1>
+  )
+}
+```
+
+提前赋值
+
+
+```ts
+onClick = () => {
+  console.log(this.myRef)
+}
+
+myRef = e => this.myRef = e;
+
+render() {
+  return (
+    <h1 ref={this.myRef}></h1>
+  )
+}
+```
+
+createRef 方法
+
+```ts
+onClick = () => {
+  console.log(this.myRef.current)
+}
+
+myRef = createRef()
+
+render() {
+  return (
+    <h1 ref={this.myRef}></h1>
+  )
+}
+```
+
+
+
+### 3.7. provide/inject
+
+```ts
+innerValue = signal([]);
+provide = {
+  name: 'yang',
+  value: innerValue, // 不要传递 innerValue.value，会丢失响应式
+}
+```
+
+```ts
+inject = ['name']
+render() {
+  return (
+    <h1>{this.injection.name}</h1>
+  )
+}
+```
+
+
+### 3.8. 接口多继承
+
+实现类型的时候会用到接口多继承，比如
+
+```ts
+export interface PopupProps extends TdPopupProps, StyledProps {
+  expandAnimation?: boolean;
+  updateScrollTop?: (content: HTMLElement) => void;
+}
+```
+
+## 4. 组件
+
+tdesign-web-components 正用 omi 搭建。
+
+### 4.1. collapse
+
+由 Collapse 和 CollapsePanel 两个组件构成，CollapsePanel 是前者的插槽内容。CollapsePanel 由 `header、body` 构成，`header` 由 `left/content/right` 构成。
+
+
+
+### 4.2. slider
+
+先拆出 `slider-button`、`slider-mark`。
+
+`slider` 中的刻度是 `slider-stops`，刻度和标记一一对应，也就是 `stops` 和 `mark` 内的元素都是 `markList` 循环而来。
+
+
+
 参考：
 
 1. https://juejin.cn/post/7298248624701358090
+2. https://www.jianshu.com/p/32f786f25cb2
+
 
