@@ -236,6 +236,27 @@ export interface PopupProps extends TdPopupProps, StyledProps {
 }
 ```
 
+### 3.9. computed 无法响应式更新
+
+不要使用 computed，而是使用 get 方法，否则无法监听 props 的变化
+
+
+```ts
+// 正确的
+get currentPos() {
+  const { value, min, rangeDiff } = this.props;
+  const result = `${(((value.value as number) - min) / rangeDiff) * 100}%`;
+  return result;
+}
+
+// 错误的
+currentPos = computed(() => {
+  const { value, min, rangeDiff } = this.props;
+  const result = `${(((value.value as number) - min) / rangeDiff) * 100}%`;
+  return result;
+});
+```
+
 ## 4. 组件
 
 tdesign-web-components 正用 omi 搭建。
@@ -243,6 +264,10 @@ tdesign-web-components 正用 omi 搭建。
 ### 4.1. collapse
 
 由 Collapse 和 CollapsePanel 两个组件构成，CollapsePanel 是前者的插槽内容。CollapsePanel 由 `header、body` 构成，`header` 由 `left/content/right` 构成。
+
+
+动画用了 omi-transition，给它提了个[PR](https://github.com/Tencent/omi/pull/891)，加上了 beforeEnter, enter 等方法的 dom 参数。
+
 
 
 
@@ -253,6 +278,9 @@ tdesign-web-components 正用 omi 搭建。
 `slider` 中的刻度是 `slider-stops`，刻度和标记一一对应，也就是 `stops` 和 `mark` 内的元素都是 `markList` 循环而来。
 
 
+### 4.3. popup
+
+内部使用了 @popperjs/core。
 
 参考：
 
