@@ -269,6 +269,8 @@ tdesign-web-components 正用 omi 搭建。
 动画用了 omi-transition，给它提了个[PR](https://github.com/Tencent/omi/pull/891)，加上了 beforeEnter, enter 等方法的 dom 参数。
 
 
+t-fake-arrow，注意这个箭头的动画，不要加 isActive 的 class，容易造成动画旋转角度出问题。
+
 
 
 ### 4.2. slider
