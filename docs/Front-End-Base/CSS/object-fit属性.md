@@ -14,4 +14,4 @@
 
 注意：`scale-down`具有动态属性：当实际图片尺寸大于容器尺寸时，表现为`contain`属性的结果；当实际图片尺寸小于容器尺寸时，表现为`none`属性的结果
 
-![object-fit](../../imgs/object_fit.png)
+![object-fit](/imgs/object_fit.png)

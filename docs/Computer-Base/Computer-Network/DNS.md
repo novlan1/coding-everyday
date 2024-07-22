@@ -31,15 +31,15 @@ DNS（`Domain Name System`）域名系统：
 
 
 顶级域分为**国家**和**通用**两种：
-![DNS](../../imgs/network_DNS.png)
-![DNS](../../imgs/network_DNS2.png)
+![DNS](/imgs/network_DNS.png)
+![DNS](/imgs/network_DNS2.png)
 
 域名服务器：
 1. 根域名服务器
 2. 顶级域名服务器
 3. 本地域名服务器
   
-![DNS](../../imgs/network_DNS3.png)
+![DNS](/imgs/network_DNS3.png)
 
 
 ### DHCP协议

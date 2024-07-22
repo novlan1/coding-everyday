@@ -63,7 +63,7 @@
 - `Last-Modified`是服务器下发的，`If-Modified-Since`是浏览器发送到的，记录的时间，有可能时间变了，内容不变
 - `Etag`是变的是内容才会再次请求，对应的是`If-None-Match`
 
-<img src='../../imgs/b_s_cache.png' height='500'/>
+<img src='/imgs/b_s_cache.png' height='500'/>
 
 1. 图上说的「`Etag`? -> 否」是指没有 `ETag`，而不是 `ETag` 不同。
 2. 图上的错误则是，`RFC` 规定，如果 `ETag` 和 `Last-Modified` 都有，则必须一次性都发给服务器，没有优先级。

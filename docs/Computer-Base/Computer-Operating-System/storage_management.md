@@ -40,7 +40,7 @@
 #### 1.4. 内存回收的过程
 四种情况：
 
-![内存回收](../../imgs/os_memory_take_back.png)
+![内存回收](/imgs/os_memory_take_back.png)
 
 - 第一种，回收区在空闲区**后面**：
   - 不需要新建空闲链表节点
@@ -76,7 +76,7 @@
 1. 页面大小应该适中，过大难以分配，过小内存碎片过多
 2. 页面大小通常是`512B~8kB`
 
-![内存碎片](../../imgs/small_memory_fragment.png)
+![内存碎片](/imgs/small_memory_fragment.png)
 
 ##### 2.2.1. 什么是分页机制？
 - 操作系统为了**高效管理内存，减少碎片**
@@ -87,12 +87,12 @@
 
 页表记录进程逻辑空间与物理空间的映射，**页面号和字块号**的映射关系。地址中**页号**相当于**字号**、**页内偏移**相当于**字块内偏移**
 
-![什么是分页机制](../../imgs/linux_memory_page.png)
-![页式存储管理](../../imgs/os_page_memory_manage.png)
+![什么是分页机制](/imgs/linux_memory_page.png)
+![页式存储管理](/imgs/os_page_memory_manage.png)
 
 多级页表，减少页表占用的空间，按需取页表，加载到内存中：
 
-![多级页表](../../imgs/os_multi_page_memory_manage.png)
+![多级页表](/imgs/os_multi_page_memory_manage.png)
 
 问题：有一段连续的逻辑分布在多个页面中，将大大降低执行效率
 
@@ -113,9 +113,9 @@
 2. 基址（起始地址）
 3. 段长
 
-![什么是分段机制](../../imgs/linux_memory_segment.png)
+![什么是分段机制](/imgs/linux_memory_segment.png)
 
-![段式存储管理](../../imgs/os_photograph_memory_manage.png)
+![段式存储管理](/imgs/os_photograph_memory_manage.png)
 
 段式存储和页式存储的对比：
 1. 段式存储和页式存储都离散地管理了进程的逻辑空间
@@ -137,7 +137,7 @@
 
 示例：
 
-![段页式存储管理](../../imgs/os_page_photograph_memory_manage.png)
+![段页式存储管理](/imgs/os_page_photograph_memory_manage.png)
 
 
 ##### 2.4.1. 什么是内存抖动（颠簸）？
@@ -170,7 +170,7 @@
 - 系统似乎提供了比实际内存大得多的容量，称之为虚拟内存
 
 
-![虚拟内存](../../imgs/os_vitual_memory.png)
+![虚拟内存](/imgs/os_vitual_memory.png)
 
 
 

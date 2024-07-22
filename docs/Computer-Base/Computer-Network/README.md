@@ -19,11 +19,11 @@
 
 广域网、城域网、局域网
  
-|分类|英文|范围|区域|
-|---|---|---|---|
-|广域网|WAN(Wide Area Network)|几十到几千公里|跨省、跨国|
-|城域网|MAN(Metro. Area Netork)|5km-50km|城市间|
-|局域网|LAN(Local Area Network)|1km以内|地区内|
+| 分类   | 英文                    | 范围           | 区域       |
+| ------ | ----------------------- | -------------- | ---------- |
+| 广域网 | WAN(Wide Area Network)  | 几十到几千公里 | 跨省、跨国 |
+| 城域网 | MAN(Metro. Area Netork) | 5km-50km       | 城市间     |
+| 局域网 | LAN(Local Area Network) | 1km以内        | 地区内     |
 
 
 
@@ -77,11 +77,11 @@
 6. 表示层：对数据进行翻译、加密和压缩（表示协议数据单元PPDU）
 7. 应用层：允许访问OSI环境的手段（应用协议数据单元APDU）
 
-![七层网络](../../imgs/network_seven_layers.png)
+![七层网络](/imgs/network_seven_layers.png)
 
 
 路由器没有经过传输层，只到达了网络层：
-![网络层](../../imgs/network_layers.png)
+![网络层](/imgs/network_layers.png)
 
 ### 现代互联网的网络拓扑
 
@@ -89,7 +89,7 @@
 - 主干ISP
 - 地区ISP：
 
-![现代互联网的网络拓扑](../../imgs/network_topology.png)
+![现代互联网的网络拓扑](/imgs/network_topology.png)
 
 两种模式：
 - CS模式（客户端、服务端）

@@ -6,10 +6,10 @@
 ## 1. React 的生命周期
 
 16.0之前的生命周期：
-![](../../imgs/react_old_lifecycle.png)
+![](/imgs/react_old_lifecycle.png)
 
 16.4之后的生命周期：
-![](../../imgs/react_new_lifecycle.png)
+![](/imgs/react_new_lifecycle.png)
 
 
 React 16之后有三个生命周期被废弃(但并未删除)

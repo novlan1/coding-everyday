@@ -11,7 +11,7 @@
 - [ ] 可以**报告错误信息或者异常情况**
 - [ ] 辅助IP协议
 
- ![ICMP协议](../../imgs/icmp_protocol.png)
+ ![ICMP协议](/imgs/icmp_protocol.png)
 
 
 
@@ -20,12 +20,12 @@ ICMP协议报文首部：
 2. 代码
 3. 校验和
   
-![ICMP协议](../../imgs/icmp_protocol_header.png)
+![ICMP协议](/imgs/icmp_protocol_header.png)
  
 
 ICMP报文封装**在IP报文里面传输**，并且在IP报文首部的**协议字段填充字段值为1**，代表**ICMP**：
  
- ![ICMP协议](../../imgs/icmp_protocol2.png)
+ ![ICMP协议](/imgs/icmp_protocol2.png)
 
 
 ICMP两种类型：
@@ -34,12 +34,12 @@ ICMP两种类型：
 
 差错报告报文，类型和具体代码：
  
- ![ICMP协议](../../imgs/icmp_protocol3.png)
+ ![ICMP协议](/imgs/icmp_protocol3.png)
 
 
 询问报文，验证网络是否互通或者对时间同步：
  
- ![ICMP协议](../../imgs/icmp_protocol4.png)
+ ![ICMP协议](/imgs/icmp_protocol4.png)
 
 
 

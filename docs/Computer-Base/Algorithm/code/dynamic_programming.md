@@ -192,7 +192,7 @@ def LIS(A):
 递归的出口，就是只剩一个字符的时候，递归的循环过程，就是从每个子串的第二个字符开始依次与第一个字符交换，然后继续处理子串，如果有重复的，然后对结果使用 set 去重就可以了
 ```
 
-![字符串全排列](../../../imgs/algorithm_permutation.png)
+![字符串全排列](/imgs/algorithm_permutation.png)
 
 ```js
 function perm(s) {
@@ -856,7 +856,7 @@ src = 0, dst = 2, k = 1
 输出: 200
 解释: 
 城市航班图如下
-![城市航班图](../../../imgs/dynamic_k_flight.png)
+![城市航班图](/imgs/dynamic_k_flight.png)
 
 从城市 0 到城市 2 在 1 站中转以内的最便宜价格是 200，如图中红色所示。
 示例 2:

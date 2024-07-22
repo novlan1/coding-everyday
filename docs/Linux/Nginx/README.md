@@ -96,7 +96,7 @@ send_timeout 10;
 
 ### 1.6. 配置`https`以及`http`自动跳转到`https`
 
-![https配置](../../imgs/nginx_https_config.png)
+![https配置](/imgs/nginx_https_config.png)
 
 
 

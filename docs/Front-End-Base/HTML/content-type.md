@@ -21,20 +21,20 @@ form表单中可以定义`enctype`属性，该属性的含义是在发送到服�
 - 如果请求类型type是GET的话，那么格式化的字符串将直接拼接在`url`后发送到服务端； 
 - 如果请求类型是POST, 那么格式化的字符串将放在`http body`的`Form Data`中发送。
 
-<img src='../../imgs/content_type_urlencoded.png' height='250' />
+<img src='/imgs/content_type_urlencoded.png' height='250' />
 
 
 #### 1.2. `multipart/form-data`
 使用表单上传文件时，必须指定表单的 `enctype`属性值为 `multipart/form-data`. 请求体被分割成多部分，每部分使用 `--boundary`分割；
 
-<img src='../../imgs/content_type_multipart.png' height='250' />
+<img src='/imgs/content_type_multipart.png' height='250' />
 
 
 
 #### 1.3. `application/json`
 在http请求中，`Content-Type`都是默认的值 `application/x-www-form-urlencoded`, 这种编码格式的特点是：`name/value`值对，每组之间使用`&`连接，而`name`与`value`之间是使用 `=` 连接，比如 `key=xxx&name=111&password=123456; `键值对一般的情况下是没有什么问题的，但是在一些复杂的情况下，比如需要传一个复杂的json对象，也就是对象**嵌套**数组的情况下，建议使用`application/json`传递比较好，
 
-<img src='../../imgs/content_type_json.png' height='250' />
+<img src='/imgs/content_type_json.png' height='250' />
 
 如上我们可以看到json格式提交的数据会显示 `Request Payload;`
 

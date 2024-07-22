@@ -207,11 +207,11 @@ foobar();
 执行全局代码时，会产生一个执行上下文环境，每次调用函数都又会产生执行上下文环境。当函数调用完成时，这个上下文环境以及其中的数据都会被消除，再重新回到全局上下文环境。处于活动状态的执行上下文环境只有一个。
 其实这是一个压栈出栈的过程——执行上下文栈。
 
-![执行上下文栈](../../../imgs/js_process_environment.png)
+![执行上下文栈](/imgs/js_process_environment.png)
 
 函数中调用其他函数：
 
-![执行上下文栈](../../../imgs/js_process_environment_iter.png)
+![执行上下文栈](/imgs/js_process_environment_iter.png)
 
 ### 1.8. this使用场景
 

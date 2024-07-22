@@ -25,9 +25,9 @@
 
 **TCP协议头部，固定20个字节，UDP头部只有8个字节，IP协议头部20个字节**：
 
-![TCP header](../../imgs/TCP_header.png)
+![TCP header](/imgs/TCP_header.png)
 
-![TCP header](../../imgs/TCP_header2.png)
+![TCP header](/imgs/TCP_header2.png)
 
 对于 TCP 头部来说，以下几个字段是很重要的:
 
@@ -59,7 +59,7 @@
   - **最多40字节（60-20）**
   - 支持未来的拓展
 
-![TCP](../../imgs/tcp_header_symbol.jpg)
+![TCP](/imgs/tcp_header_symbol.jpg)
 
 ### 2. 可靠传输的基本原理
 
@@ -71,19 +71,19 @@
 
 
 停止等待协议，无差错的情况：
-![停止等待协议](../../imgs/TCP_stop_wait.png)
+![停止等待协议](/imgs/TCP_stop_wait.png)
 
 
 出差错的情况，超时重传，包括**接收方没有收到发送方**的消息：
-![停止等待协议](../../imgs/TCP_stop_wait2.png)
+![停止等待协议](/imgs/TCP_stop_wait2.png)
  
 
 超时重传，**发送方没有收到接收方**的确认信息：
-![停止等待协议](../../imgs/TCP_stop_wait3.png)
+![停止等待协议](/imgs/TCP_stop_wait3.png)
  
 
 超时重传，**确认消息很久才收到**：
-![停止等待协议](../../imgs/TCP_stop_wait4.png)
+![停止等待协议](/imgs/TCP_stop_wait4.png)
  
 
 
@@ -108,11 +108,11 @@
 
 **滑动窗口，收到前面的确认消息，滑动窗口向前移动**，把滑动窗口内的未发送消息发送出去：
 
-![滑动窗口](../../imgs/TCP_sliding_window.png)
+![滑动窗口](/imgs/TCP_sliding_window.png)
 
 并不需要对每一个报文都确认，而采用**累计确认**的方法。如**收到了5的确认消息**，则认为**1-5的消息都已经收到了，就把滑动窗口往前移动5格**：
  
-![滑动窗口](../../imgs/TCP_sliding_window2.png)
+![滑动窗口](/imgs/TCP_sliding_window2.png)
 
 
 ### 3. TCP协议的可靠传输
@@ -126,14 +126,14 @@
 
 窗口内又可分为**已发送未确认**和**可用窗口**，由于没收到前面的确认所以不能往前移动：
 
-![滑动窗口](../../imgs/TCP_ARQ.png)
+![滑动窗口](/imgs/TCP_ARQ.png)
 
 有可能窗口内都是已发送未确认，**可用窗口=0**。
 
 
 **没有按序收到确认消息**，即收到后面的确认消息，但是没收到前面的，超时后，会**从前面开始重传**，效率低：
  
-![滑动窗口](../../imgs/TCP_ARQ2.png)
+![滑动窗口](/imgs/TCP_ARQ2.png)
 
 
 选择重传：
@@ -157,7 +157,7 @@ TCP选项最多40个字节（60-20），即最多10个序号，指定的是需�
 
 通过窗口大小控制对方发送速率：
 
-![滑动窗口](../../imgs/TCP_sliding_window3.png)
+![滑动窗口](/imgs/TCP_sliding_window3.png)
 
 
 如果**丢失了最后的确认窗口变大（不为0）的消息**，就会导致**死锁**，发送方一直等到对方窗口变大，接收方一直等待对方发送消息
@@ -197,14 +197,14 @@ TCP选项最多40个字节（60-20），即最多10个序号，指定的是需�
 
 二者结合，先进行慢启动算法，再进行拥塞避免算法：
  
-![TCP协议的拥塞控制](../../imgs/TCP_congestion_control.png)
+![TCP协议的拥塞控制](/imgs/TCP_congestion_control.png)
 
 上述过程就像一个人贪婪的过程
 
 
 ### 6. TCP连接的三次握手
 
-![三次握手](../../imgs/TCP_three-handshake2.png)
+![三次握手](/imgs/TCP_three-handshake2.png)
 
 简单的说：
 
@@ -228,7 +228,7 @@ TCP选项最多40个字节（60-20），即最多10个序号，指定的是需�
 - [ ] **本来这是一个早已失效的报文段,但`server`收到此失效的连接请求报文段后，就误认为是`client`再次发出的一个新的连接请求**。
 
 
-![为什么需要第三次握手](../../imgs/TCP_connection_example.png)
+![为什么需要第三次握手](/imgs/TCP_connection_example.png)
 
 虚线是假设两次握手就建立连接
 
@@ -236,7 +236,7 @@ TCP选项最多40个字节（60-20），即最多10个序号，指定的是需�
 
 比三次握手多出来的是**第二次挥手**，意思是我收到了，但是我现在还没传完，等会关闭
 
-![四次挥手](../../imgs/tcp_four_bye.png)
+![四次挥手](/imgs/tcp_four_bye.png)
 
 TCP 是全双工的，在断开连接时两端都需要发送 FIN 和 ACK。
 

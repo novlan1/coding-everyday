@@ -65,7 +65,7 @@ const Comp = dynamic(import('components/test'))
 
 
 ### 7. Next 流程
-![Next 流程](../../imgs/nextjs_process.jpg)
+![Next 流程](/imgs/nextjs_process.jpg)
 
 
 ### 8. Next 集成redux

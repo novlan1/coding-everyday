@@ -28,5 +28,5 @@
 7. `offsetX` 鼠标相对于事件源左上角X轴的坐标
 8. `offsetY` 鼠标相对于**事件源左上角**Y轴的坐标
 
-![clientWidth和offsetWidth的区别](../../imgs/clientWidth_offsetWidth_diff.png)
+![clientWidth和offsetWidth的区别](/imgs/clientWidth_offsetWidth_diff.png)
 

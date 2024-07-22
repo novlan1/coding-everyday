@@ -84,7 +84,7 @@
     overflow: hidden;
   }
 
-  .user-wrap .user-fake-avatar{
+  .user-wrap .user-fake-avatar {
     width: 50px;
     height: 50px;
     line-height: 50px;
@@ -310,8 +310,8 @@
     <div class="chat-left">
       <div class="user-wrap">
         <span class="user-fake-avatar" id='userFakeAvatar'>
-          <!-- <img src='../../imgs/eventloop.jpg' class="avatar" /> -->
-          
+          <!-- <img src='/imgs/eventloop.jpg' class="avatar" /> -->
+
         </span>
         <span class="nickname" id='userNickname'></span>
       </div>
@@ -319,7 +319,7 @@
       <div class="friends-list">
         <div class="friend-item">
           <span class='friend-avatar-wrap'>
-            <img src='../../imgs/eventloop.jpg' class="avatar" />
+            <img src='/imgs/eventloop.jpg' class="avatar" />
           </span>
           <span class="friend-main-wrap">
             <span class="friend-nickname-wrap">
@@ -347,7 +347,7 @@
         微博管理员
       </div>
       <div class="chat-info" id='chatInfo'>
-        
+
       </div>
       <div class="publish-wrap">
         <textarea></textarea>
@@ -366,7 +366,7 @@
     let ws
     let currentValue = ''
     let currentUserInfo = {
-      avatar: '../../imgs/eventloop.jpg',
+      avatar: '/imgs/eventloop.jpg',
       nickname: 'test',
     }
     const chatInfoDom = document.getElementById('chatInfo')
@@ -433,7 +433,7 @@
     window.onload = function () {
       window.addEventListener('keyup', onKeyUp)
       window.addEventListener('keydown', onKeyDown)
-      
+
       getUserInfo()
       initWebSocket()
       onChangeChatInfo()
@@ -442,7 +442,7 @@
     function getUserInfo() {
       let _user = localStorage.getItem('_user') || ''
       if (!_user) {
-        _user = nameList[parseInt(Math.random()*(nameList.length))]
+        _user = nameList[parseInt(Math.random() * (nameList.length))]
         localStorage.setItem('_user', _user)
       }
       currentUserInfo = {
@@ -468,7 +468,7 @@
 
         ws.onmessage = function (evt) {
           var received_msg = evt.data;
-          console.log(typeof(received_msg))
+          console.log(typeof (received_msg))
           try {
             let res = JSON.parse(received_msg)
             if (res.nickname !== currentUserInfo.nickname) {
@@ -476,8 +476,8 @@
               chatList.push(res)
               onChangeChatInfo()
             }
-            
-          } catch(e) {
+
+          } catch (e) {
             console.log(e)
           }
           console.log("数据已接收...", received_msg);
@@ -496,7 +496,7 @@
     }
 
     function onKeyUp(e) {
-      
+
       if (e.keyCode === 13) {
         e.preventDefault()
         currentValue = e.target.value
@@ -507,18 +507,18 @@
           fromMyself: true,
           content: currentValue,
         }
-        
+
         ws.send(JSON.stringify(newItem))
         chatList.push(newItem)
         onChangeChatInfo()
       }
-      
+
     }
 
     function onChangeChatInfo() {
       let newChatItems = ''
       for (let item of chatList) {
-        newChatItems +=`<div class='chat-item'>
+        newChatItems += `<div class='chat-item'>
           <div class='chat-time'>${item.time}</div>
             <div class='chat-content-wrap ${item.fromMyself ? 'from-myself' : ''}'>
               <span class="fake-chat-avatar-wrap">
@@ -553,7 +553,7 @@
       const month = date.getMonth() + 1
       return `${addZero(month)}-${addZero(day)} ${addZero(hour)}:${addZero(minute)}`
     }
-    
+
     function addZero(num) {
       num = '' + num
       if (num.length < 2) {

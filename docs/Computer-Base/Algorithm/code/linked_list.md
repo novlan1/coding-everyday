@@ -698,7 +698,7 @@ def isPalindrome(head):
 
 给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
 
-![链表中环的入口结点](../../../imgs/linked_list_circle_entry.png)
+![链表中环的入口结点](/imgs/linked_list_circle_entry.png)
 
 1. 链表起始点到环的入口点距离为`L`，环周长为`R`，环的入口点到快慢指针相遇位置为`X`，红色位置为相遇点
 2. 快指针走的距离：`F=L+X+n*R`
@@ -902,7 +902,7 @@ def listDivide(head, val):
 
 ### 24. 判断两个有环单链表是否相交
 
-![判断两个有环单链表是否相交](../../../imgs/linked_list_circle_inter.png)
+![判断两个有环单链表是否相交](/imgs/linked_list_circle_inter.png)
 
 思路：
 
@@ -983,7 +983,7 @@ def findCircle(head):
 返回：{1,2,3,4,5,7}
 ```
 
-![环形单链表插值](../../../imgs/linked_list_circle_insert_value.png)
+![环形单链表插值](/imgs/linked_list_circle_insert_value.png)
 
 ```python
 def insertV(A, nxt, val):

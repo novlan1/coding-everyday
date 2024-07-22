@@ -76,7 +76,7 @@
 
 ### 2. 冯诺依曼体系
 
-![冯诺依曼体系](../../imgs/computer_feng_system.png)
+![冯诺依曼体系](/imgs/computer_feng_system.png)
 - 将**程序指令和数据**一起存储的计算机设计概念结构
 - 存储程序指令，设计通用电路
 - 必须有存储器、控制器、运算器、输入设备、输出设备
@@ -113,7 +113,7 @@
 
 ### 4. 计算机的层次
 
-![计算机的层次](../../imgs/computer_layers.png)
+![计算机的层次](/imgs/computer_layers.png)
 
 实际机器：
 - [ ] 硬件逻辑层：门、触发器等逻辑电路组成，属于电子工程的领域
@@ -139,7 +139,7 @@
 - 8比特 = 1字节
 - `Byte < KB < MB < GB < TB < PB < EB`
 
-![计算机的计算单位](../../imgs/computer_unit.jpg)
+![计算机的计算单位](/imgs/computer_unit.jpg)
 
 硬盘商一般用10进位标记容量，所以买的硬盘小于标注的大小
 
@@ -169,7 +169,7 @@ ASCII码：
 - [ ] `33`个不可打印字符
 - [ ] `33+95` = `128` = `2^7`
 
-![ASCII码](../../imgs/ASCII.png)
+![ASCII码](/imgs/ASCII.png)
 
 问题：很多符号无法表示
 
@@ -180,7 +180,7 @@ Extended ASCII码：
 - [ ] 带音标的欧洲字符
 - [ ] 其他常用符号、表格符等
 
-![Extended ASCII码](../../imgs/extended_ASCII.jpg)
+![Extended ASCII码](/imgs/extended_ASCII.jpg)
 
 字符编码集的国际化：
 - 语言多样性
@@ -229,9 +229,9 @@ USB  `Universal Serial Bus`，通用串行总线
 - 计时器定时查询
 - 独立请求，每个设备均有总线独立连接仲裁器，可独立发送请求和接收
 
-![链式查询](../../imgs/computer_bus_link.png)
-![计时器定时查询](../../imgs/computer_bus_timer.png)
-![独立请求](../../imgs/computer_bus_independent.png)
+![链式查询](/imgs/computer_bus_link.png)
+![计时器定时查询](/imgs/computer_bus_timer.png)
+![独立请求](/imgs/computer_bus_independent.png)
 
 
 ### 8. 输入输出设备
@@ -254,10 +254,10 @@ CPU与IO设备的通信（CPU速度与IO速度不一致）
 
 
 IO设备发送中断信号，CPU响应中断（可能不立即响应）：
-![中断信号](../../imgs/computer_io_suspend.png)
+![中断信号](/imgs/computer_io_suspend.png)
 
 DMA：
-![DMA](../../imgs/computer_io_DMA.png)
+![DMA](/imgs/computer_io_DMA.png)
 
 
 ### 9. 存储器
@@ -284,7 +284,7 @@ DMA：
 - 存储容量
 - 价格
 
-![存储器](../../imgs/computer_storage.png)
+![存储器](/imgs/computer_storage.png)
 
 缓存-主存层次
 - [ ] 原理：局部性原理（最重要的很少，集中）
@@ -310,7 +310,7 @@ DMA：
 - [ ] 32位系统，至多支持4GB的内存（地址总线），`2^32 = 4^30 = 4GB`
 - [ ] 64位系统，`2^64=2^34*2^30=2^34GB`
 
-![主存和辅存](../../imgs/computer_storage_structure.png)
+![主存和辅存](/imgs/computer_storage_structure.png)
 
 
 ##### 9.1.2. 辅助存储器——磁盘
@@ -333,13 +333,13 @@ DMA：
 
 假设一个字有`32`位，一个字块共`B`个字，主存共`M`个字块，`B*M`=主存总字数，`B*M*32`=主存总容量(`bits`)
 
-![字块](../../imgs/computer_block.png)
+![字块](/imgs/computer_block.png)
 
 字的地址包含两个部分：
 - 前`m`位指定字块的地址（`2^m=M`）
 - 后`b`位指定字在字块中的地址（`2^b=B`）
 
-![字块](../../imgs/computer_block_example.png)
+![字块](/imgs/computer_block_example.png)
 
 高速缓存内部的存储结构与主存类似，有字块和字的概念，但是缓存的容量（字块数）远小于主存容量，缓存里的数据是主存数据的复制
 
@@ -363,7 +363,7 @@ CPU需要的数据不在缓存里时，需要去主存拿
 - [ ] 访问`Cache`-主存系统平均时间：`ta = htc + (1-h)tm`
 - [ ] 所以，访问效率`e=tc/ta = tc/(htc + (1-h)tm)`
 
-![高速缓存](../../imgs/computer_cache_example.png)
+![高速缓存](/imgs/computer_cache_example.png)
 
 
 ### 10. 缓存替换策略
@@ -377,7 +377,7 @@ CPU需要的数据不在缓存里时，需要去主存拿
 
 `LRU`举例：
 
-![LRU](../../imgs/computer_LRU_example.png)
+![LRU](/imgs/computer_LRU_example.png)
 
 
 ### 11. 指令系统
@@ -391,13 +391,13 @@ CPU需要的数据不在缓存里时，需要去主存拿
    - 分**三地址指令**、**二地址指令**和**一地址指令**
 
 三地址指令，比如【把结果放到地址三，比如加法操作，`a+b=c`】：
-![三地址指令](../../imgs/computer_command_three.png)
+![三地址指令](/imgs/computer_command_three.png)
 
 二地址指令：
-![二地址指令](../../imgs/computer_command_two.png)
+![二地址指令](/imgs/computer_command_two.png)
 
 一地址指令，自己对自己的操作，或者一个操作数的默认行为，比如**自增**：
-![一地址指令](../../imgs/computer_command_one.png)
+![一地址指令](/imgs/computer_command_one.png)
 
 
 还有**零地址指令**：
@@ -444,7 +444,7 @@ CPU需要的数据不在缓存里时，需要去主存拿
      - 直接寻址（地址码直接给出操作数在主存的位置）
      - 间接寻址（地址码给出的是操作数地址的地址）
 
-![机器指令的寻址方式](../../imgs/computer_command_search_address.png)
+![机器指令的寻址方式](/imgs/computer_command_search_address.png)
  
 类比：
 1. 立即寻址相当于我天生有钱
@@ -454,7 +454,7 @@ CPU需要的数据不在缓存里时，需要去主存拿
 ### 12. 控制器
 协调和控制计算机的运行
  
-![控制器](../../imgs/computer_controller.png)
+![控制器](/imgs/computer_controller.png)
 
 程序计数器：
 - [ ] 用来存储下一条指令的地址
@@ -496,7 +496,7 @@ CPU需要的数据不在缓存里时，需要去主存拿
 ### 13. 运算器
 用来进行数据运算加工
 
-![运算器](../../imgs/computer_calculator.png)
+![运算器](/imgs/computer_calculator.png)
 
 
 数据缓冲器：
@@ -512,7 +512,7 @@ CPU需要的数据不在缓存里时，需要去主存拿
 
 
 ALU：
-![ALU](../../imgs/computer_ALU.png)
+![ALU](/imgs/computer_ALU.png)
 
 
 **状态字**寄存器：
@@ -535,12 +535,12 @@ ALU：
 
 右上角是高速缓存，右下角是控制器，左边是运算器
 
-![计算机指令的执行过程](../../imgs/computer_command_process.png)
+![计算机指令的执行过程](/imgs/computer_command_process.png)
 
 
 指令执行过程（具体）：
  
-![计算机指令的执行过程](../../imgs/computer_command_process_concrete.png)
+![计算机指令的执行过程](/imgs/computer_command_process_concrete.png)
 
 
 问题：CPU综合利用率不高（控制器和运算器不能同时工作）
@@ -550,8 +550,8 @@ CPU的流水线设计：
 - [ ] 多个产品可以同时被加工
 - [ ] 在同一时刻，不同产品均位于不同的加工阶段
 
-![CPU的流水线设计](../../imgs/computer_command_water.jpg)
-![CPU的流水线设计](../../imgs/computer_command_water_example.png)
+![CPU的流水线设计](/imgs/computer_command_water.jpg)
+![CPU的流水线设计](/imgs/computer_command_water_example.png)
  
 
  
@@ -563,14 +563,14 @@ CPU的流水线设计：
 
 小数的二进制转十进制：
 
-![小数的二进制转十进制](../../imgs/computer_binary_system.png)
+![小数的二进制转十进制](/imgs/computer_binary_system.png)
 
 
 
 - 整数的十进制转二进制（**重复相除法**）：不断除以2，得到余数和商x，继续除以2，直到商为0，最后将所有的余数 倒过来。`10=>1010`
 - 小数的十进制转二进制（**重复相乘法**），不断乘以2，取出1，得到x，继续乘2取1，直到x为0：
 
-![小数的二进制转十进制](../../imgs/computer_binary_system2.png)
+![小数的二进制转十进制](/imgs/computer_binary_system2.png)
 
 
 
@@ -591,20 +591,20 @@ CPU的流水线设计：
 - 正数代替负数表示
 - 加法代替减法，从而消除减法（但没有解决）
 
-![原码、补码、反码](../../imgs/complemental_code.png)
+![原码、补码、反码](/imgs/complemental_code.png)
 
 反码：
-![原码、补码、反码](../../imgs/ones_complement_code.png)
+![原码、补码、反码](/imgs/ones_complement_code.png)
 
 
 规律：
-![原码、补码、反码](../../imgs/complemental_code2.jpg)
+![原码、补码、反码](/imgs/complemental_code2.jpg)
 
 - 正数的原码、补码、反码一样
 - **负数的反码**等于**原码 除符号位外按位取反**
 - **负数的补码等于反码+1**
 
-![原码、补码、反码](../../imgs/complemental_code3.png)
+![原码、补码、反码](/imgs/complemental_code3.png)
 
 
 
@@ -626,17 +626,17 @@ CPU的流水线设计：
 #### 17.2. 浮点数
 
 浮点数的表示格式：
-![浮点数](../../imgs/floating_number.png)
+![浮点数](/imgs/floating_number.png)
 
 注意：
 - 尾数必须使用纯小数
 
 举例：
-![浮点数](../../imgs/floating_number_example.png)
+![浮点数](/imgs/floating_number_example.png)
 
 
 浮点数的表示范围：
-![浮点数](../../imgs/floating_number2.png)
+![浮点数](/imgs/floating_number2.png)
 
 
 浮点数分类：
@@ -651,10 +651,10 @@ CPU的流水线设计：
 
 举例，只有第一个正确：
 
-![浮点数](../../imgs/floating_number_example2.png)
+![浮点数](/imgs/floating_number_example2.png)
 
 举例：
-![浮点数](../../imgs/floating_number_example3.png)
+![浮点数](/imgs/floating_number_example3.png)
 
 
 定点数和浮点数的对比：
@@ -670,23 +670,23 @@ CPU的流水线设计：
 注意：
 - 数值位与符号位 一同运算，并将符号位产生的进位自然丢掉
 
-![定点数](../../imgs/fixed_point_number.png) 
+![定点数](/imgs/fixed_point_number.png) 
 
 
 举例：
-![定点数](../../imgs/fixed_point_number_example.png) 
+![定点数](/imgs/fixed_point_number_example.png) 
 
-![定点数](../../imgs/fixed_point_number_example2.png) 
+![定点数](/imgs/fixed_point_number_example2.png) 
 
 判断溢出，双符号位判断法：
 - [ ] 单符号位表示变成双符号位：`0=>00`, `1=>11`
 - [ ] 双符号位产生的进位丢弃
 - [ ] 结果的双符号位不同则表示溢出
 
-![定点数](../../imgs/fixed_point_number_example3.png) 
+![定点数](/imgs/fixed_point_number_example3.png) 
 
 #### 18.2. 定点数减法
-![定点数](../../imgs/fixed_point_number2.png) 
+![定点数](/imgs/fixed_point_number2.png) 
 
 
 `-B`的补码等于`B`的补码 连同符号位 按位取反，末位加一
@@ -707,7 +707,7 @@ CPU的流水线设计：
 - 阶码按**小阶看齐大阶**的原则
 
 
-![浮点数](../../imgs/floating_number_format.png) 
+![浮点数](/imgs/floating_number_format.png) 
 
 
 #### 19.2. 尾数求和
@@ -715,7 +715,7 @@ CPU的流水线设计：
 - [ ] `A-B = A + (-B)`
 
 
-![尾数求和](../../imgs/floating_number_tail_plus.png)
+![尾数求和](/imgs/floating_number_tail_plus.png)
 
 
 #### 19.3. 尾数规格化
@@ -727,15 +727,15 @@ CPU的流水线设计：
 - [ ] 右移的话则需要进行舍入操作
 
 
-![尾数规格化](../../imgs/floating_number_tail_format.png)
+![尾数规格化](/imgs/floating_number_tail_format.png)
 
-![尾数规格化](../../imgs/floating_number_tail_format2.png)
+![尾数规格化](/imgs/floating_number_tail_format2.png)
 
 #### 19.4. 舍入
 - [ ] 0舍1入法（二进制的四舍五入）。若舍去的是1需要加1，若舍去的是0不需要加1。记得阶码加1
 - [ ] 可能溢出
 
-![舍入](../../imgs/floating_number_roundoff.png)
+![舍入](/imgs/floating_number_roundoff.png)
 
 
 
@@ -747,7 +747,7 @@ CPU的流水线设计：
 整个过程：
 
 
-![浮点数](../../imgs/floating_number_plus_process.png)
+![浮点数](/imgs/floating_number_plus_process.png)
 
 
 ### 20. 浮点数的乘除法操作
@@ -755,13 +755,13 @@ CPU的流水线设计：
 #### 20.1. 乘法
 - [ ] 阶码相加，尾数求积
  
-![乘法](../../imgs/floating_number_multiplication.png)
+![乘法](/imgs/floating_number_multiplication.png)
 
 
 #### 20.2. 除法
 - [ ] 阶码相减，尾数求商
 
-![除法](../../imgs/floating_number_division.png)
+![除法](/imgs/floating_number_division.png)
  
 #### 20.3. 乘除法过程与加减法相同：
 1. 阶码运算

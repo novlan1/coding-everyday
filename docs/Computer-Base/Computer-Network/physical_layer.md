@@ -44,7 +44,7 @@
 - 波分复用
 - 码分复用
 
-![分用-复用技术](../../imgs/network_physical_layer_repeat.png)
+![分用-复用技术](/imgs/network_physical_layer_repeat.png)
 
 
 **用信道的设备少时，可以复用信道**，太多则不应该使用，否则会导致拥塞

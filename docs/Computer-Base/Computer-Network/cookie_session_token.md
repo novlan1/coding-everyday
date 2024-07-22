@@ -35,7 +35,7 @@ set-cookie: value[; expires=date][; domain=domain][; path=path][; secure]
 - 下次请求会自动带上
 - 键值对，可设置多个
 
-![set cookie](../../imgs/set_cookie.jpg)
+![set cookie](/imgs/set_cookie.jpg)
 
 
 

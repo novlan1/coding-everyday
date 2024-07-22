@@ -8,7 +8,7 @@
 ### 1. 概述
 
 文件的逻辑结构
-![文件的逻辑结构](../../imgs/file_management.png)
+![文件的逻辑结构](/imgs/file_management.png)
 
 有结构文件：
 - [ ] 文件内容由**定长记录**和**可变长记录**组成
@@ -83,7 +83,7 @@
 
 空闲表：
 
-![空闲表](../../imgs/file_management_empty_table.png)
+![空闲表](/imgs/file_management_empty_table.png)
 
 空闲表与空闲链表：
 - [ ] 空闲盘区的分配与内存分配类似
@@ -93,7 +93,7 @@
 
 位示图（0没被使用，1已经被使用）：
 
-![位示图](../../imgs/file_management_bitmap.png)
+![位示图](/imgs/file_management_bitmap.png)
  
 
 位示图：
@@ -104,7 +104,7 @@
 
 #### 1.1. 目录管理
 目录树
-![目录管理](../../imgs/catalog_management.png) 
+![目录管理](/imgs/catalog_management.png) 
 
 任何文件或目录都只有唯一路径
 
@@ -145,7 +145,7 @@
 
 `Block Group`细分：
 
-![](../../imgs/ext_file_system.png)
+![](/imgs/ext_file_system.png)
 
 `Inode Table`
 - [ ] 存放文件`Inode`
@@ -171,7 +171,7 @@
 - [ ] `Inode`的位示图
 - [ ] 记录已分配的`Inode`和未分配的`Inode`
 
-![](../../imgs/linux_inode_bitmap.jpg)
+![](/imgs/linux_inode_bitmap.jpg)
 
 
 `Data Block`：

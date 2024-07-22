@@ -52,7 +52,7 @@ JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设
 
 下图就是主线程和任务队列的示意图。
 
-![任务队列](../../../imgs/eventloop.jpg)
+![任务队列](/imgs/eventloop.jpg)
 
 只要主线程空了，就会去读取"任务队列"，这就是JavaScript的运行机制。这个过程会不断重复。
 
@@ -69,7 +69,7 @@ JavaScript语言的设计者意识到，这时**主线程完全可以不管IO设
 ### 1.4. Event Loop
 主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。
 
-![Event Loop](../../../imgs/eventloop2.png)
+![Event Loop](/imgs/eventloop2.png)
 
 上图中，主线程运行的时候，产生堆（heap）和栈（stack），栈中的代码调用各种外部API，它们在"任务队列"中加入各种事件（click，load，done）。只要栈中的代码执行完毕，主线程就会去读取"任务队列"，依次执行那些事件所对应的回调函数。
 
@@ -122,7 +122,7 @@ close callbacks
 ```
 每个阶段都有一个先进先出的回调函数队列。只有一个阶段的回调函数队列清空了，该执行的回调函数都执行了，事件循环才会进入下一个阶段。
 
-![事件循环的六个阶段](../../../imgs/eventloop_steps.jpg)
+![事件循环的六个阶段](/imgs/eventloop_steps.jpg)
 
 ### 1.7. `setTimeout` 和 `setImmediate`
 **由于`setTimeout`在 `timers` 阶段执行，而`setImmediate`在 `check` 阶段执行。所以，`setTimeout`会早于`setImmediate`完成**。
@@ -258,7 +258,7 @@ console.log(6);
 - 宏仁务主要是： `script`（全局任务），`setTimeout` ，`setInterval` ，`setImmediate` ，`I/O` ，`UI rendering`
 - 微任务主要是： `process.nextTick`, `Promise.then`, `Object.observer`, `MutationObserver`.
 
-![宏任务和微任务](../../../imgs/eventloop3.png)
+![宏任务和微任务](/imgs/eventloop3.png)
 
 - 宏任务：当前调用栈中执行的代码成为宏任务。（主代码快，定时器等等）。
 - 微任务： 当前（此次事件循环中）宏任务执行完，在下一个宏任务开始之前需要执行的任务,可以理解为回调事件。（`promise.then`，`process.nextTick`等等）。

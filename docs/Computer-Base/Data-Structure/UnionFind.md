@@ -17,7 +17,7 @@
 
 我们看一张图来了解一下什么是动态连通性：
 
-![动态连通性](../../imgs/union_find_dynamic_connection.png) 
+![动态连通性](/imgs/union_find_dynamic_connection.png) 
 
 
 假设我们输入了一组整数对，即上图中的(4, 3) (3, 8)等等，每对整数代表这两个`points/sites`是连通的。那么随着数据的不断输入，整个图的连通性也会发生变化，从上图中可以很清晰的发现这一点。同时，对于已经处于连通状态的`points/sites`，直接忽略，比如上图中的(8, 9)。
@@ -66,7 +66,7 @@
 
 我们可以设计相应的API：
 
-![并查集API](../../imgs/union_find_api.png)
+![并查集API](/imgs/union_find_api.png)
 
 
 #### 1.4. Quick-Find

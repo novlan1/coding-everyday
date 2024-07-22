@@ -36,8 +36,8 @@ UDP 包头部包含了以下几个数据
 - 整个数据报文的长度
 - 整个数据报文的**检验和**（IPv4 可选 字段），该字段用于发现头部信息和数据中的错误
 
-![UDP Header](../../imgs/UDP_header.png)
-![UDP Header](../../imgs/udp_header2.png)
+![UDP Header](/imgs/UDP_header.png)
+![UDP Header](/imgs/udp_header2.png)
 
 ### 1.3. 传输方式
 

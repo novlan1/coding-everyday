@@ -49,7 +49,7 @@ const fiber = {
 优先级高的任务（如键盘输入）可以打断优先级低的任务（如Diff）的执行，从而更快的生效。
 Fiber Reconciler 在执行过程中，会分为 2 个阶段。
 
-![Fiber Reconciler 过程](../../imgs/fiber_reconciliation_process.png)
+![Fiber Reconciler 过程](/imgs/fiber_reconciliation_process.png)
 1. 阶段一，生成 Fiber 树，得出需要更新的节点信息。这一步是一个渐进的过程，可以被打断。
 2. 阶段二，将需要更新的节点一次过批量更新，这个过程不能被打断。
 

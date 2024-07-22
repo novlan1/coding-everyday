@@ -114,7 +114,7 @@
 
 
 ### 1.9. 线性(左标)变换
-<img src='../../imgs/svg_linear_change.png' height='200'/>
+<img src='/imgs/svg_linear_change.png' height='200'/>
 
 ```
 X = aX + cY +e
@@ -150,7 +150,7 @@ L：表示明暗程度（100%颜色最亮为白色，0%颜色最暗为黑色）
 参数之间可以⽤空格或逗号隔开，有⼀种情况例外，就是下⼀个数值是负数。
 如`<path d="M0,0L10,20C30-10,40,20,100,100" stroke="red">`
 
-<img src='../../imgs/svg_path.png' height='350'/>
+<img src='/imgs/svg_path.png' height='350'/>
 
 `M(X,Y)` 移动画笔，后面如果有重复参数，会当做是`L`命令处理
 
@@ -183,7 +183,7 @@ path命令基本规律：
 - S:C的简化版本
   C1是上一段曲线的控制点2关于当前曲线起始点的镜像位置
 
-<img src='../../imgs/svg_curve.png' height='200' />
+<img src='/imgs/svg_curve.png' height='200' />
 
 
 

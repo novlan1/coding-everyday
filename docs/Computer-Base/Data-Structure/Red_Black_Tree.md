@@ -51,7 +51,7 @@ function RBTree() {
 
 ### 左旋和右旋
 左旋：
-![左旋](../../imgs/red_black_tree_leftRotate.jpg)
+![左旋](/imgs/red_black_tree_leftRotate.jpg)
 ```js
 /*************对红黑树节点x进行左旋操作 ******************/
 /*
@@ -94,7 +94,7 @@ RBTree.prototype.leftRotate = function(x) {
 ```
 
 右旋：
-![右旋](../../imgs/red_black_tree_rightRotate.jpg)
+![右旋](/imgs/red_black_tree_rightRotate.jpg)
 
 ```js
 /*************对红黑树节点y进行右旋操作 ******************/
@@ -191,7 +191,7 @@ RBTree.prototype.insert = function(key) {
 下图是这样情况的红黑树的修改过程（上边是目标节点为左孩子，下边是目标节点是右孩子）：
 
 
-![插入](../../imgs/red_black_tree_insert.png)
+![插入](/imgs/red_black_tree_insert.png)
 
 为了新添加的节点也满足特性4:
 
@@ -204,7 +204,7 @@ RBTree.prototype.insert = function(key) {
 #### 调整-情况（2）：父节点是红色，叔叔节点是黑色，添加的节点是父节点的左孩子。
 下图是这样情况的红黑树的修改过程:
 
-![插入](../../imgs/red_black_tree_insert2.png)
+![插入](/imgs/red_black_tree_insert2.png)
 
 我们通过将祖父节点的左孩子分支上的连续两个红色节点，转移一个插入到祖父节点和他的右孩子之间（保证左边没有两个连续红点、右边插入的红点满足所有特性）。
 
@@ -217,7 +217,7 @@ RBTree.prototype.insert = function(key) {
 #### 调整-情况（3）：父节点是红色，叔叔节点是黑色，添加的节点是父节点的右孩子。
 下图是这样情况的红黑树的修改过程:
 
-![插入](../../imgs/red_black_tree_insert3.png)
+![插入](/imgs/red_black_tree_insert3.png)
 
 我们父节点进行左旋操作，这样就变成了调整-情况（2）的状态，然后再按照其调整操作继续进行调整。
 
@@ -419,7 +419,7 @@ function remove(node) {
 ##### 调整情况（1）:当前节点是黑色的，且兄弟节点是红色的
 下图是这样情况的红黑树的修改过程：
 
-![删除](../../imgs/red_black_tree_delete.png)
+![删除](/imgs/red_black_tree_delete.png)
 
 将父节点涂红，将兄弟节点涂黑，然后将当前节点的父节点进行支点左旋。这样就会转化为情况2中的某种状态。
 
@@ -428,7 +428,7 @@ function remove(node) {
 ###### 2.1、兄弟节点的两个子节点均为黑色的； 
 下图是这样情况的红黑树的修改过程：
 
-![删除](../../imgs/red_black_tree_delete3.png)
+![删除](/imgs/red_black_tree_delete3.png)
 
 将兄弟节点涂红，将当前节点指向其父节点，将其父节点指向当前节点的祖父节点，继续往树根递归判断以及调整；
 
@@ -436,7 +436,7 @@ function remove(node) {
 
 下图是这样情况的红黑树的修改过程：
 
-![删除](../../imgs/red_black_tree_delete2.png)
+![删除](/imgs/red_black_tree_delete2.png)
 
 把当前节点的兄弟节点涂红，把兄弟节点的左子节点涂黑，然后以兄弟节点作为支点做右旋操作。
 
@@ -444,7 +444,7 @@ function remove(node) {
 
 下图是这样情况的红黑树的修改过程：
 
-![删除](../../imgs/red_black_tree_delete4.png)
+![删除](/imgs/red_black_tree_delete4.png)
 
 把兄弟节点涂成父节点的颜色，再把父节点涂黑，把兄弟节点的右子节点涂黑，然后以当前节点的父节点为支点做左旋操作。
 

@@ -83,7 +83,7 @@ app.use((ctx, next) => {
   console.log(4)
 })
 ```
-![洋葱模型](../../imgs/koa_onion_model.png)
+![洋葱模型](/imgs/koa_onion_model.png)
 中间件只在应用程序启动时初始化一次，`validator`不容易做出中间件
 
 ### 1.3. async 和 await

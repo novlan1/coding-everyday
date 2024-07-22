@@ -38,7 +38,7 @@
   - `eventUtil` 是自定义对象，`textInput` 是 DOM3 级事件
 
 ### 3. DOM 事件模型
-![DOM 事件模型](../../../imgs/dom_event_model.jpg)
+![DOM 事件模型](/imgs/dom_event_model.jpg)
 
 捕获从上到下， 冒泡从下到上。 **先捕获，再到目标，再冒泡** 
 

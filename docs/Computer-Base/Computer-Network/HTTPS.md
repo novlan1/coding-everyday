@@ -27,7 +27,7 @@ SSL安全套接层（`Secure Socket Layer`），介于应用层和传输层之�
 - 保证**数据安全和数据完整**
 - 对传输数据进行**加密后传输**
 
-![](../../imgs/https_ssl.png)
+![](/imgs/https_ssl.png)
 
 ### 1.3. HTTPS 数据通信过程
 先进行443端口的**TCP连接**，再进行**SSL安全参数握手**，然后是客户端和服务端**数据传输**
@@ -40,9 +40,9 @@ SSL安全套接层（`Secure Socket Layer`），介于应用层和传输层之�
 4. 双方分别使**用随机数1、2、3和相同的加密算法** 生成对称秘钥，并使用这个对称秘钥通信
 
 
-![https过程](../../imgs/https_process.png)
+![https过程](/imgs/https_process.png)
 
-![https过程](../../imgs/https_process2.png)
+![https过程](/imgs/https_process2.png)
 
 
 

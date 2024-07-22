@@ -167,7 +167,7 @@ def heapSort(A):
 比较的是`data`，交换的是`index`，优势是如果`data`结构复杂的话，交换`index`方便
 还可以存放移动后的`index`（再多维护一个数组），即`reverse`，`reverse[i]`表示索引`i`在`indexes`（堆）中的位置
 
-![索引堆](../../../imgs/index_max_heap.png)
+![索引堆](/imgs/index_max_heap.png)
 
 
 

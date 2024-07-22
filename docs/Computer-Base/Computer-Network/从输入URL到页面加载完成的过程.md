@@ -77,5 +77,5 @@
 
 23. **显示页面**（HTML 解析过程中会逐步显示页面）
 
-![输入URL过程](../../imgs/visit_url.svg)
+![输入URL过程](/imgs/visit_url.svg)
 

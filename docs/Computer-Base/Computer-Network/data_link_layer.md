@@ -54,7 +54,7 @@
 
 
 模2除法，不借位，异或操作：
-![模2除法](../../imgs/data_link_layer_CRC.png)
+![模2除法](/imgs/data_link_layer_CRC.png)
 
 
 CRC：
@@ -62,8 +62,8 @@ CRC：
 1. 将添加`r个0`后的数据，使用**模`2`除法**除以**多项式的位串**
 1. 得到的余数填充在**原数据`r个0`的位置**得到可校验的位串
 
-![CRC](../../imgs/data_link_layer_CRC_example.png)
-![CRC](../../imgs/data_link_layer_CRC_example2.png)
+![CRC](/imgs/data_link_layer_CRC_example.png)
+![CRC](/imgs/data_link_layer_CRC_example2.png)
 
 
 - [ ] 接收端接收的数据除以`G(x)`的位串，根据余数判断出错
@@ -103,7 +103,7 @@ MAC地址（物理地址、硬件地址），48位，使用十六进制
 以太网协议的数据格式：
 目的地址、源地址就是Mac地址，6指的是字节。类型的每一位也是16进制。
 
-![以太网](../../imgs/data_link_layer_ethernet.png)
+![以太网](/imgs/data_link_layer_ethernet.png)
 
 
 **Mac地址表**：

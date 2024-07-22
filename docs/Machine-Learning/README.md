@@ -26,7 +26,7 @@
 实际类别　　正例    TP    FN     P(实际为正)
 　　　　　　负例    FP    TN     N(实际为负)
 ```
-![混淆矩阵](../imgs/hunxiaojuzhen.png)
+![混淆矩阵](/imgs/hunxiaojuzhen.png)
 
 #### 1.1.1. 分类准确率
 

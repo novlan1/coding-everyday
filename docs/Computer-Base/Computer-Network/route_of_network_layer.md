@@ -23,7 +23,7 @@
 - [ ] 自治系统内部路由的协议称为：内部网关协议（`RIP`、`OSPF`）
 - [ ] 自治系统外部路由的协议称为：外部网关协议（`BGP`）
  
-![自治系统AS](../../imgs/network_route_as.png)
+![自治系统AS](/imgs/network_route_as.png)
 
 ### 1.2. 内部网关路由协议之RIP协议
 
@@ -44,25 +44,25 @@ dij = min（dix + dxj）
 ```
 
 以节点A为例，A到B的距离与B到A的距离不一样的原因是路径不同：
-![距离矢量](../../imgs/network_route_DV.png)
+![距离矢量](/imgs/network_route_DV.png)
 
 
 
 
 由于A和B直接通信，可以知道它们之间距离为6，进而通过B的交换信息，可以知道经过B，A到其他点的距离：
-![距离矢量](../../imgs/network_route_DV2.png)
+![距离矢量](/imgs/network_route_DV2.png)
  
 
 
 
 得到这些距离矢量后，就会把它们和自己的距离矢量比较，如果比自己距离矢量小的话，就会把它填充到自己的距离矢量里面去，并把S向量的对应位置写成B
 
-![距离矢量](../../imgs/network_route_DV3.png)
+![距离矢量](/imgs/network_route_DV3.png)
  
 
 
 同理，A和C交换信息如下：
-![距离矢量](../../imgs/network_route_DV4.png)
+![距离矢量](/imgs/network_route_DV4.png)
  
 
 
@@ -88,18 +88,18 @@ dij = min（dix + dxj）
 
 ①插入的新的下一跳，左图表示达到D的距离是2，下一跳地址是A：
 
-![RIP](../../imgs/network_route_RIP.png)
+![RIP](/imgs/network_route_RIP.png)
  
 在我前面的人告诉我，他距离下一个目标有多远，我把他当做下一跳地址记下来，并把他到下一个目标距离加1，作为我到下一目标的距离
 
 
 ②把旧的信息替换成新的：
-![RIP](../../imgs/network_route_RIP2.png)
+![RIP](/imgs/network_route_RIP2.png)
  
 
 
 ③DV算法
-![RIP](../../imgs/network_route_RIP3.png)
+![RIP](/imgs/network_route_RIP3.png)
  
 
 
@@ -115,7 +115,7 @@ dij = min（dix + dxj）
 - [ ] 以起始点为中心，向外层层层扩展
 
 
-![Dijkstra](../../imgs/dijkstra.png)
+![Dijkstra](/imgs/dijkstra.png)
 
 
 
@@ -149,16 +149,16 @@ OSRF（`Open Shortest Path First`）开放最短路径优先
 
 先向邻居发送hello，再与其交流链路状态数据库，广播和更新未知路由
 
-![OSRF](../../imgs/OSRF.png)
+![OSRF](/imgs/OSRF.png)
 
 
 `RIP`和`OSRF`对比：
-|RIP协议|OSRF协议|
-|---|---|
-|从邻居看网络|整个网络的拓扑|
-|在路由器之间累加距离|Dijkstra算法计算最短路径|
-|频繁、周期更新，收敛很慢|状态变化更新，收敛很快|
-|路由间拷贝路由信息|路由间传递链路状态，自行计算路径|
+| RIP协议                  | OSRF协议                         |
+| ------------------------ | -------------------------------- |
+| 从邻居看网络             | 整个网络的拓扑                   |
+| 在路由器之间累加距离     | Dijkstra算法计算最短路径         |
+| 频繁、周期更新，收敛很慢 | 状态变化更新，收敛很快           |
+| 路由间拷贝路由信息       | 路由间传递链路状态，自行计算路径 |
 
 
 ### 1.5. 外部网关路由协议之BGP协议

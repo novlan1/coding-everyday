@@ -8,7 +8,7 @@ ARP缓存表：
 - [ ] **IP地址和Mac地址**的映射关系
 - [ ] ARP缓存表中的记录并不是永久有效的，有一定的期限
  
-![ARP缓存表](../../imgs/arp_protocol_cache_table.png)
+![ARP缓存表](/imgs/arp_protocol_cache_table.png)
 
 如果没有缓存的话
 - ARP协议会**广播**到除A以外的端口，收到回应后，记录Mac地址
@@ -19,7 +19,7 @@ ARP缓存表：
 
 ARP协议封装在数据链路层的数据帧中，数据总长28位：
  
-![ARP](../../imgs/arp_protocol_header.png)
+![ARP](/imgs/arp_protocol_header.png)
 
 - [ ] 因为ARP协议使用到了IP地址，所有是属于**网络层**的内容，其实是**网络层和数据链路层配合使用的协议**
 

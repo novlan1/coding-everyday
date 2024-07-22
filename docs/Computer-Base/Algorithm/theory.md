@@ -90,7 +90,7 @@
 
 #### 1.1.2. 时间复杂度按照阶排序
 
-![时间复杂度](../../imgs/time_complexity.png)
+![时间复杂度](/imgs/time_complexity.png)
 
 
 
@@ -221,7 +221,7 @@ T1(n) * T2(n) = O(f1(n) * f2(n))
 ### 1.8. 树的分类
 斜二叉树、完全二叉树、满二叉树
 
-![树的分类](../../imgs/tree_types.png)
+![树的分类](/imgs/tree_types.png)
 
 
 ### 1.9. 二叉搜索树
@@ -273,7 +273,7 @@ Trie 是一种字典，查找效率比二分搜索树的`logN`还快，因为它
 1. `Trie` 的典型应用是用于**统计、排序和保存大量的字符串**（但不仅限于字符串），所以经常被搜索引擎系统用于文本词频统计。
 2. 它的优点是：**利用字符串的公共前缀来减少查询时间**，最大限度地减少无谓的字符串比较，查询效率比哈希树高。
 
-![trie](../../imgs/trie_structure.png)
+![trie](/imgs/trie_structure.png)
 
 ### 1.12. 前序、中序、后序遍历的特性
 
@@ -318,7 +318,7 @@ Trie 是一种字典，查找效率比二分搜索树的`logN`还快，因为它
 ```
 那么，我们可以画出这个二叉树的形状：
 
-![二叉树](../../imgs/binary_tree_order_question.png)
+![二叉树](/imgs/binary_tree_order_question.png)
 
 那么，根据后序的遍历规则，我们可以知道，后序遍历顺序为：`AEFDHZMG`
 
@@ -385,7 +385,7 @@ n0 = 350，所以叶节点数为350
 
 无向图（`undirected graph`）没有箭头，直接相连的节点互为邻居。例如，下面两个图是等价的。
 
-![无向图](../../imgs/undirected_graph.png)
+![无向图](/imgs/undirected_graph.png)
 
 
 
@@ -440,7 +440,7 @@ n0 = 350，所以叶节点数为350
 
 邻接表的性质，存在多少个结点，就有多少个头结点的数组，每个头结点的数组都指向该结点在图中直接相连的结点。
 邻接表的形式：
-![邻接表](../../imgs/adjacency_list.png)
+![邻接表](/imgs/adjacency_list.png)
 
 
 ### 1.28. 邻接矩阵
@@ -448,8 +448,8 @@ n0 = 350，所以叶节点数为350
 
 对于有 n个顶点的图 `G=(V,E)` 来说，我们可以用一个 `n×n` 的矩阵 A来表示 G 中各顶点的相邻关系，如果 `vi`和 `vj​` 之间存在边（或弧），则 `A[i][j]=1`，否则 `A[i][j]=0`。下图为有向图 G 对应的邻接矩阵：
 
-![邻接矩阵](../../imgs/adjacency_matrix.png)
-![邻接矩阵](../../imgs/adjacency_matrix2.png)
+![邻接矩阵](/imgs/adjacency_matrix.png)
+![邻接矩阵](/imgs/adjacency_matrix2.png)
 
 遍历邻边-图算法中最常见的操作
 - 邻接矩阵`O(n)`
@@ -468,12 +468,12 @@ n0 = 350，所以叶节点数为350
 
 Prim算法：将顶点归并，与边数无关，适于稠密网
 
-![Prim算法](../../imgs/tree_prime.png)
+![Prim算法](/imgs/tree_prime.png)
 
 
 Kruskal算法：将边合并，适合稀疏网
 
-![Kruskal算法](../../imgs/tree_kruskal.png)
+![Kruskal算法](/imgs/tree_kruskal.png)
 
 
 - Prim 当前正在考虑的所有的横切边中最短的那个
@@ -492,7 +492,7 @@ Kruskal算法：将边合并，适合稀疏网
 
 绿色的边是横切边：
 
-![切分定理](../../imgs/cut_property.png)
+![切分定理](/imgs/cut_property.png)
 
 
 
@@ -512,7 +512,7 @@ Kruskal算法：将边合并，适合稀疏网
 不能有负权边，举例：从 0 到 2 再到 1 再到 2，比 0 直接到 2 等短。
 - 有负权环的话，就不存在最短路径了，因为可以一直转下去，直到负无穷。
 
-![狄克斯特拉算法](../../imgs/dijkstra_minus_border.png)
+![狄克斯特拉算法](/imgs/dijkstra_minus_border.png)
 
 
 狄克斯特拉算法包含4个步骤：
@@ -544,11 +544,11 @@ Kruskal算法：将边合并，适合稀疏网
 有负权边的一般是有向的，否则从`A`到`B`再从`B`到`A`就形成负权环了
 
 单源最短路径算法对比：
-| 算法| 有无环|有无向|时间复杂度|
-| ---| ---|---|---|
-|  `dijkstra`| 无负权环 |有向无向图均可 | `O(ElogV)`|
-| `Bellman-Ford`|无负权环|有向图|`O(VE)`|
-|拓扑排序|有向无环图，`DAG`|有向图|`O(V + E)`|
+| 算法           | 有无环            | 有无向         | 时间复杂度 |
+| -------------- | ----------------- | -------------- | ---------- |
+| `dijkstra`     | 无负权环          | 有向无向图均可 | `O(ElogV)` |
+| `Bellman-Ford` | 无负权环          | 有向图         | `O(VE)`    |
+| 拓扑排序       | 有向无环图，`DAG` | 有向图         | `O(V + E)` |
 
 
 `Floyed`算法
@@ -566,7 +566,7 @@ Kruskal算法：将边合并，适合稀疏网
 
 下面是算法的演示过程：
 
-![拓扑排序](../../imgs/topological_sorting.png)
+![拓扑排序](/imgs/topological_sorting.png)
 
 
 注意：
@@ -653,7 +653,7 @@ Kruskal算法：将边合并，适合稀疏网
 
 基本有序的情况下：快排最慢，堆排最快。
 
-![排序时间复杂度](../../imgs/sorting_complexity_table.png)
+![排序时间复杂度](/imgs/sorting_complexity_table.png)
 
 ### 2.3. 不稳定排序
 不稳定排序有选择排序、快排、堆排、希尔
@@ -710,7 +710,7 @@ Kruskal算法：将边合并，适合稀疏网
 
 ### 2.10. 几种常见的数据结构的操作性能对比
 
-![几种常见的数据结构的操作性能对比](../../imgs/data_structure_compare_table.png)
+![几种常见的数据结构的操作性能对比](/imgs/data_structure_compare_table.png)
 
 由上图可见：
 1. 平衡二叉树的查找，插入和删除性能都是`O(logN)`，其中查找和删除性能较好；
@@ -742,11 +742,11 @@ Kruskal算法：将边合并，适合稀疏网
 ### 2.13. Set和Map的时间复杂度
 Set和Map，对于不同的实现，有不同的时间复杂度
 
-||普通数组实现|顺序数组实现|二分搜索树（平衡）|哈希表|
-|---|:-:|:-:|:-:|:-:|
-|插入|O(1)|O(n)|O(log(n))|O(1)|
-|查找|O(n)|O(logn)|O(log(n))|O(1)|
-|删除|O(n)|O(n)|O(log(n))|O(1)|
+|      | 普通数组实现 | 顺序数组实现 | 二分搜索树（平衡） | 哈希表 |
+| ---- | :----------: | :----------: | :----------------: | :----: |
+| 插入 |     O(1)     |     O(n)     |     O(log(n))      |  O(1)  |
+| 查找 |     O(n)     |   O(logn)    |     O(log(n))      |  O(1)  |
+| 删除 |     O(n)     |     O(n)     |     O(log(n))      |  O(1)  |
 
 
 C++的set和map底层都是用平衡二叉树实现的，`unordered_map`和`unordered_set`的底层实现为哈希表。
@@ -765,11 +765,11 @@ C++的set和map底层都是用平衡二叉树实现的，`unordered_map`和`unor
 对角线1：相加为常数，其和为i+j
 对角线2：相减为常数
 
-![N皇后](../../imgs/n_queen_rule.png)
+![N皇后](/imgs/n_queen_rule.png)
 
-![N皇后](../../imgs/n_queen_cross_line.png)
+![N皇后](/imgs/n_queen_cross_line.png)
 
-![N皇后](../../imgs/n_queen_cross_line2.png)
+![N皇后](/imgs/n_queen_cross_line2.png)
 解法：
 回溯函数 backtrack(row = 0).
 
@@ -912,16 +912,16 @@ function fib(n) {
 3. **出现机率高的字母使用较短的编码**，反之出现机率低的则使用较长的编码，这便使编码之后的字符串的平均长度、期望值降低。
 
 
-![WPL](../../imgs/wpl_example.png)
+![WPL](/imgs/wpl_example.png)
 
 #### 2.16.1. 哈夫曼树的构造
 每次把权值最小的两棵树合并
 
 例1：
-![哈夫曼树的构造](../../imgs/huffman_tree_construction.png)
+![哈夫曼树的构造](/imgs/huffman_tree_construction.png)
 
 例2：
-![哈夫曼树的构造](../../imgs/huffman_tree_construction_example.png)
+![哈夫曼树的构造](/imgs/huffman_tree_construction_example.png)
 
 #### 2.16.2. 哈夫曼树的特点
 1. 没有度为1的结点

@@ -374,7 +374,7 @@ def getHeight(root):
 
 二叉树的子树：二叉树中以任一节点为头部的整棵树称为二叉树的子树
 
-![二叉树的子树](../../../imgs/binary_tree_son_tree.png)
+![二叉树的子树](/imgs/binary_tree_son_tree.png)
 
 
 ### 12. 重建二叉树

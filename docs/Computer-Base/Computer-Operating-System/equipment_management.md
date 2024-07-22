@@ -32,7 +32,7 @@ IO设备的缓冲区
 
 
 专用缓存区：
-![专用缓存区](../../imgs/linux_special_cache.png)
+![专用缓存区](/imgs/linux_special_cache.png)
 
 
 注意：
@@ -43,7 +43,7 @@ IO设备的缓冲区
 
 
 缓冲池：
-![缓冲池](../../imgs/linux_buffer_pool.png)
+![缓冲池](/imgs/linux_buffer_pool.png)
 
 
 `SPOOLing`技术（虚拟设备技术，还是为了解决CPU与IO设备的速率不匹配）
@@ -52,7 +52,7 @@ IO设备的缓冲区
 - [ ] 逻辑上，系统为每一个用户都分配了一台独立的高速独享设备
 
 
-![SPOOLing](../../imgs/linux_spooling.png)
+![SPOOLing](/imgs/linux_spooling.png)
  
 `SPOOLing`技术把同步调用低速设备改为异步调用
 

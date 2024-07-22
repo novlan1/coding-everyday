@@ -27,7 +27,7 @@ IP协议
 
 
 IP首部，至少有`20`个字节的长度（`4*5`）
-![IP首部](../../imgs/ip_protocol_header.png)
+![IP首部](/imgs/ip_protocol_header.png)
 
 
 - [ ] 版本
@@ -72,7 +72,7 @@ IP协议的转发流程（`A=>E=>F`）：
 
 #### 1.3.1. 分类的IP地址
 
-![分类的IP地址](../../imgs/ip_address_types.png)
+![分类的IP地址](/imgs/ip_address_types.png)
 
 - [ ] A类地址前面是`0`，网络号`8`位，主机号`24`位
 - [ ] B类地址前面是`10`，网络号`16`位，主机号`16`位
@@ -82,7 +82,7 @@ IP协议的转发流程（`A=>E=>F`）：
 
 判断IP地址类别，并不是死记硬背界限，而是把前八位转为二进制，看前几位和哪一类的规则能匹配上
 
-![分类的IP地址](../../imgs/ip_address_types2.png)
+![分类的IP地址](/imgs/ip_address_types2.png)
 
 
 特殊的主机号：
@@ -98,7 +98,7 @@ IP协议的转发流程（`A=>E=>F`）：
 
 
 更正：
-![分类的IP地址](../../imgs/ip_address_types3.jpg)
+![分类的IP地址](/imgs/ip_address_types3.jpg)
  
 
 
@@ -117,7 +117,7 @@ IP协议的转发流程（`A=>E=>F`）：
 
 
 划分子网的例子：
-![划分子网](../../imgs/ip_address_split_children.png) 
+![划分子网](/imgs/ip_address_split_children.png) 
 
 
 - [ ] 减少浪费
@@ -132,7 +132,7 @@ IP协议的转发流程（`A=>E=>F`）：
 - [ ] 作用：**能快速判断某IP属于哪个网络号**
 
 上一个例子的子网掩码为：
-![划分子网](../../imgs/ip_address_split_children2.png) 
+![划分子网](/imgs/ip_address_split_children2.png) 
 
 
 - A类地址子网掩码为`255.0.0.0`
@@ -154,7 +154,7 @@ IP协议的转发流程（`A=>E=>F`）：
 斜线记法：
 `193.10.10.129/25`表示它的网络前缀有`25`位，主机号则为7位
  
-![划分子网](../../imgs/ip_address_split_children3.png) 
+![划分子网](/imgs/ip_address_split_children3.png) 
 
 
 
@@ -188,5 +188,5 @@ IP协议的转发流程（`A=>E=>F`）：
 - [ ] 发生在本地路由器，把**本地端口号**换成对外端口号进行通信，收到数据的时候把外网端口换成内网端口，关键是**内网中每个端口不同**
 
 `NA(P)T`表
-![NA(P)T表](../../imgs/ip_address_NAT.png)
+![NA(P)T表](/imgs/ip_address_NAT.png)
 

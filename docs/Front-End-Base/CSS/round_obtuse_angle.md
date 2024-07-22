@@ -66,4 +66,4 @@
 }
 ```
 效果图：
-![圆角钝角](../../imgs/css_skewx_obtuse_angle.png)
+![圆角钝角](/imgs/css_skewx_obtuse_angle.png)

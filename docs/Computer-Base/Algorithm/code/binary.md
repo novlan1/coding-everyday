@@ -503,7 +503,7 @@ def findPos(arr):
 
 ### 10. 快速n次方
 
-![快速n次方](../../../imgs/binary_quick_n_power.png)
+![快速n次方](/imgs/binary_quick_n_power.png)
 
 ```python
 def power(base, exponent):

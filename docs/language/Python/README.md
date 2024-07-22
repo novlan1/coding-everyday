@@ -368,7 +368,7 @@ print(next(gen)) # world
 - `dict/list/set/tuple`
 
 
-![Python 内置数据结构算法](../../imgs/python_data_structure.png)
+![Python 内置数据结构算法](/imgs/python_data_structure.png)
 
 
 #### 16.1. Python `dict`底层结构
@@ -407,7 +407,7 @@ print(t) # ([1, 2], 2, 3)
 - 常见的有`LRU`、`LFU`等(`F`即`frequency`)
 - `LRU`通过使用一个**循环双端队列**不断把最新访问的`key`放到表头
 
-![什么是LRUCache](../../imgs/python_LRU.png)
+![什么是LRUCache](/imgs/python_LRU.png)
 
 #### 17.1. 如何实现`LRUCache`？
 - 字典用来缓存，循环双端链表用来记录访问顺序
@@ -845,7 +845,7 @@ def SleepThread(Thread):
 2.	`CPU`密集程序难以利用多核优势
 3.	IO期间会释放`GIL`，对IO密集程序影响不大
 
-![GIL](../../imgs/python_GIL_IO.png)
+![GIL](/imgs/python_GIL_IO.png)
 
 #### 31.1. 如何规避GIL影响
 区分 `CPU` 和 `IO` 密集程序
@@ -892,13 +892,13 @@ Web应用一般语言不会成为瓶颈
 
 
 Python和java对比：
-![Python和java对比](../../imgs/python_java_compare_thread.png)
+![Python和java对比](/imgs/python_java_compare_thread.png)
 
 1. 同一时刻一个进程内只有一个能拿到GIL，所以多线程很多时候是单线程的
 2. 限制了线程并发的数量（同时拿到GIL锁和互斥锁的线程才可以执行）
 
 串行、并行、并发：
-![串行、并行、并发](../../imgs/process_do_jobs_models.png)
+![串行、并行、并发](/imgs/process_do_jobs_models.png)
 
 
 IO操作时间比CPU操作时间高几十万倍，所以GIL锁的存在不会使python比java执行效率低，原因：

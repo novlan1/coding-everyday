@@ -744,9 +744,9 @@ Worker worker;
   - 基类`private`通过`private`继承为无法访问。
 
 
-![继承](../../imgs/c_plus_extend_public.png)
-![继承](../../imgs/c_plus_extend_protected.png)
-![继承](../../imgs/c_plus_extend_private.png)
+![继承](/imgs/c_plus_extend_public.png)
+![继承](/imgs/c_plus_extend_protected.png)
+![继承](/imgs/c_plus_extend_private.png)
 
 
 私有继承后父类对象的`public`和`protected`成员被继承到子类的`private`下，类似于在子类中定义了一个父类的私有对象成员。这两种方式都被称为`has-a`。
