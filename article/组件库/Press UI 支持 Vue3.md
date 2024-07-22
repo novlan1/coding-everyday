@@ -224,6 +224,19 @@ Vue3 现在提供了一个`emits`选项，类似于现有`props`选项，可用�
 
 Press UI 采用的是两种写法共存。
 
+
+### 4.9. scroll-view 的 scroll 事件
+
+`Vue2` 要从 `scroll-view` 中获得 `scrollTop`，需要 `event.detail.scrollTop`
+
+`Vue3` 需要 `event.target.scrollTop`
+
+```ts
+onScroll(e) {
+  this.scrollTop = e.target.scrollTop ?? e.detail.scrollTop;
+},
+```
+
 ## 5. template语法兼容
 
 ### 5.1. 空的template
