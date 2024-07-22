@@ -51,6 +51,10 @@ const configMap = [
 		name: '更多知识',
 		path: '/Knowledge-More',
 	},
+	{
+		name: '文章',
+		path: '/article',
+	},
 ]
 
 function getAllSideBar(configMap) {
