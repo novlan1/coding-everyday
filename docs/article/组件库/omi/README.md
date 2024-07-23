@@ -284,6 +284,68 @@ t-fake-arrow，注意这个箭头的动画，不要加 isActive 的 class，容�
 
 内部使用了 @popperjs/core。
 
+
+### dialog
+
+
+#### 闪烁问题
+
+遇到一个问题，打开后先快速消失，然后出现。问题原因在于 enter-from 动画的时候，没有归位，加上以下代码后正常：
+
+```scss
+&__vue {
+    &-enter-from {
+      .@{prefix}-dialog {
+        transform: scale(0);
+        opacity: 0;
+      }
+      .@{prefix}-dialog__mask {
+        opacity: 0;
+      }
+    }
+}
+```
+
+#### 点击处放大
+
+Dialog 的动画效果是从鼠标点击的地方，进行放大、缩小，如何实现呢？
+
+原理就是监听鼠标点击事件，拿到当前点击的位置，然后当弹窗展示的时候，改变弹窗的 `transformOrigin` 属性。
+
+获取鼠标位置：
+
+```ts
+let mousePosition: { x: number; y: number } | null;
+const getClickPosition = (e: MouseEvent) => {
+  mousePosition = {
+    x: e.clientX,
+    y: e.clientY,
+  };
+  setTimeout(() => {
+    mousePosition = null;
+  }, 100);
+};
+
+if (typeof window !== 'undefined' && window.document && window.document.documentElement) {
+  document.documentElement.addEventListener('click', getClickPosition, true);
+}
+```
+
+改变弹窗的 `style.transformOrigin` ：
+
+```ts
+@bind
+beforeEnter() {
+  const target = this.dialogRef.current as HTMLElement;
+  if (!target || !mousePosition) {
+    return
+  }
+  target.style.transformOrigin = `${mousePosition.x - target.offsetLeft}px ${
+    mousePosition.y - target.offsetTop
+  }px`;
+}
+```
+
 参考：
 
 1. https://juejin.cn/post/7298248624701358090
