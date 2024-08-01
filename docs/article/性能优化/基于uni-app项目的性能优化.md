@@ -332,8 +332,6 @@ export {
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_0e01e3afb98ee7f80d.png" width="600"/>
 
 
-
-
 ## 3. 小程序方向
 
 ### 3.1. uni-simple-router 减包
@@ -520,3 +518,103 @@ mainTemplate.hooks.requireEnsure.intercept({
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_f6f05e21921f62ce04.png" width="600">
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/3/own_mike_ddde23dd61a90c01a3.jpg" width="600">
+
+
+
+-----
+
+2024.8.1
+
+-----
+
+
+## 5. 更多
+
+### 5.1. md5
+
+md5 的 v1 版本包体积过大，打包产物竟然有 readable-stream 等 nodejs 环境下才需要的包，改成都是用 v2.3.0，体积可以减小。
+
+体积变化：
+
+- 压缩前 270-198 = 72kb
+- gzip后 82-62 = 20kb
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/md5-1_3_5.png" width="600">
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/md5-2_3_0.png" width="600">
+
+
+### 5.2. 极简版的 uni-app H5 运行时
+
+uni-app H5 运行时太大，内置了太多用不到的组件、API，且无法 `tree-shaking`，考虑用普通 Vue 环境进行编译运行。
+
+主要原则：低成本，高效率。争取对代码零侵入，对线上零影响，对其他开发人员零感知。
+
+改造主要分为两方面：
+
+- 编译
+- 运行
+
+编译又包括：
+
+- 编译命令 hook
+- 条件编译
+- 路由表生成
+
+
+运行时包括：
+
+- 路由
+- 生命周期
+- 全局变量，比如 uni，genCurrentPages
+- 内置组件，比如 image
+
+
+#### 5.2.1. 编译
+
+1. 编译命令
+
+`package.json` 中 `@dcloudio/vue-cli-plugin-uni` 和 `@dcloudio/vue-cli-plugin-hbuilderx` 被自动识别成 `vue-cli-service` 的插件，会被自动 `require` （`idToPlugin` 方法中），也就是自动执行。
+
+而 `@dcloudio/vue-cli-plugin-uni` 是 uni-app 的插件，会检查有没有 pages.json 等，没有就退出了。所以必须在启动前将这个插件去掉。
+
+2. 条件编译
+
+很早以前已经实现了，是跨端的灵魂，在此不再赘述。
+
+3. 路由表生成
+
+路由需要由 `pages.json` 生成 `routesMap`，这里借用了 uni-app 内置方法，提前生成 `routesMap`。
+
+
+#### 5.2.2. 运行时
+
+1. 路由
+
+路由改造还有运行时的工作，将 `routesMap` 传入，也就是使用 `vue-router`。
+
+2. 生命周期
+
+实现了 `onShow、onLoad、onHide` 方法。
+
+3. 全局变量
+
+封装了 `uni.request` 等业务中用到的方法和变量。
+
+4. 内置组件
+
+对 image 等内置组件，进行了封装和运行时的替换。
+
+内置组件的替换并不容易，直接设置 `Vue.component('image', xxx)` 会报错，需要重置 Vue 内部的保留标签，以及设置命名空间。
+
+命名空间存在的意义是，一个文档可能包含多个软件模块的元素和属性，在不同软件模块中使用相同名称的元素或属性，可能会导致识别和冲突问题，而 xml 命名空间可以解决该问题。
+
+重写 getTagNamespace 方法，在遇到 image 标签时，认为其不是个 svg 标签，通过 createElement 方法创建在默认命名空间下即可。
+
+#### 5.2.3. 其他
+
+`uni-app` 所有的组件样式都会变成 `scoped`，并且它对没有显式声明 `scoped` 下的 `scss` 文件，进行了 `v-deep` 的替换。
+
+改造后，这里需要注意对 App.vue 下的 scss 处理，去掉 v-deep，以及注意其他组件下的优先级问题。
+
+
