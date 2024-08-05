@@ -4,7 +4,7 @@
 
 ### 1.1. 使用方法
 
-在环境变量 `.env.local` 中新增 `VUE_APP_MP_PLUGIN = pluginName`。`pluginName` 会被当作插件目录名称。
+在环境变量 `.env.local` 中新增 `VUE_APP_MP_PLUGIN = pluginRoot`。`pluginRoot` 会被当作插件目录名称。
 
 启动命令如下：
 
@@ -14,6 +14,8 @@ npm run dev:mp-plugin
 # 发布
 npm run build:mp-plugin
 ```
+
+然后在小程序开发者工具打开 `dist/dev/mp-weixin` 或者 `dist/build/mp-weixin` 进行调试、预览、上传等。
 
 ### 1.2. 适配工作
 
@@ -100,5 +102,25 @@ spawnSync(command, otherArgv, { stdio: 'inherit' });
 
 由于我们项目的结构有点深，`src/project/subProject`，以及引用了外层公共模块，比如 `src/component`，`src/local-logic` 等。uni-app 在编译这种层级项目时，会生成错误的引用路径，需要编译插件修复。
 
+1. 引入公共模块错误
+
 举例来说，比如一个 `js` 文件中引用了 `../common/runtime.js`，插件需要从当前文件往上找 `common/runtime.js` 文件，找到了就返回正确的相对路径，并进行替换。替换结果可能为 `../../../common/runtime.js`。
+
+另外，node_modules 下的引入路径也有问题，问题截图如下，也需要用类似方法修复。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_59464c49f1f4d685d6.png" width="600">
+
+
+2. 使用了绝对路径
+
+参考下图，里面包含了错误的绝对路径，需要替换为正确的 `moduleId`。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_c3b9a672306f979192.png" width="600">
+
+
+3. getApp 找不到
+
+此外，低版本的 `uni-app` 在编译小程序插件时候，还会使用 `getApp`，由于插件并不支持这个API，所以会报错，可以升级到最新版本解决。
+
+
 
