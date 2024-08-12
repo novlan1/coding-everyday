@@ -1,8 +1,12 @@
 ## 1. 工程适配
 
-设计原则，简单易用，一套代码既能独立发布，又能当小程序插件。独立发布包含了 uni-app 支持的所有端，包括 H5、微信小程序、QQ 小程序等。所以目标是 n+1 端，额外的 1 就是小程序插件。
+介绍下基于 uni-app 的小程序插件的设计思想、使用方法、适配工作、性能优化等。
 
-### 1.1. 使用方法
+### 1.1. 设计原则
+
+简单易用，一套代码既能独立发布，又能当小程序插件。独立发布包含了 uni-app 支持的所有端，包括 H5、微信小程序、QQ 小程序等。所以目标是 n+1 端，额外的 1 就是小程序插件。
+
+### 1.2. 使用方法
 
 在环境变量 `.env.local` 中新增 `VUE_APP_MP_PLUGIN = pluginRoot`。`pluginRoot` 会被当作插件目录名称。
 
@@ -17,7 +21,7 @@ npm run build:mp-plugin
 
 然后在小程序开发者工具打开 `dist/dev/mp-weixin` 或者 `dist/build/mp-weixin` 进行调试、预览、上传等。
 
-### 1.2. 适配工作
+### 1.3. 适配工作
 
 包含以下几部分
 
@@ -25,7 +29,7 @@ npm run build:mp-plugin
 2. playground 自动生成
 3. 路径修复
 
-#### 1.2.1. 命令兼容
+#### 1.3.1. 命令兼容
 
 默认 uni-app 脚手架不提供小程序插件编译命令，但提供了[相关文档](https://zh.uniapp.dcloud.io/tutorial/mp-weixin-plugin-dev.html)。
 
@@ -85,7 +89,7 @@ spawnSync(command, otherArgv, { stdio: 'inherit' });
 }
 ```
 
-#### 1.2.2. playground 自动生成
+#### 1.3.2. playground 自动生成
 
 插件开发过程中需要一个小程序用来调试，具体可参见[官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/development.html)，我这里暂且称之为 `playground`。
 
@@ -98,7 +102,7 @@ spawnSync(command, otherArgv, { stdio: 'inherit' });
 为什么要命名为 `mp-plugin-public` 呢，是将其类比成了 H5 下的 `public` 目录，在打包过程中不会编译，只会复制。
 
 
-#### 1.2.3. 路径修复
+#### 1.3.3. 路径修复
 
 由于我们项目的结构有点深，`src/project/subProject`，以及引用了外层公共模块，比如 `src/component`，`src/local-logic` 等。uni-app 在编译这种层级项目时，会生成错误的引用路径，需要编译插件修复。
 
@@ -123,4 +127,51 @@ spawnSync(command, otherArgv, { stdio: 'inherit' });
 此外，低版本的 `uni-app` 在编译小程序插件时候，还会使用 `getApp`，由于插件并不支持这个API，所以会报错，可以升级到最新版本解决。
 
 
+## 2. CI
 
+
+
+## 3. 性能
+
+小程序插件本质和小程序一样，先从优化小程序包体积开始。
+
+### 3.1. press-ui
+
+press-ui 是核心组件库，虽然它可以减少的空间并不大，但是会对所有项目产生影响。
+
+优化前有 51KB，通过按需加载，条件编译去掉H5环境的方法等，缩小到了 43KB。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_039c8690b63b5ed991.png" width="500">
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_eead7e4ae02154b544.png" width="500">
+
+
+### 3.2. api 子仓库
+
+尽管 `src/api` 已经做到了按需加载，只打包所需的接口，而不是所有接口，但依然有 25KB 的体积，这里一起优化下，直接使用调用 `post`，这部分体积可以直接降为 0。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_5d6ebcc7a781562fa8.png" width="500">
+
+
+### 3.3. swiper
+
+业务使用了 `press-swiper`，来实现了一个较为美观的`swiper`。我研究了一番，直接用原生实现了。
+
+核心原理如下：
+
+1. 通过 next-margin，previous-margin， 实现 swiper-item 不再撑满全屏
+2. 通过 getSystemInfo 获取 windowWidth，减去 wrapMargin、imageWidth 等值，动态计算 next-margin 和 previous-margin
+3. 监听 bindtransition 事件，获取 event.detail.dx，计算当前 swiper-item，并赋值，实现滑动切换 swiper
+
+这样优化后，发现切换 swiper-item 更加平滑，并直接省掉了 176KB 的大小。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_540e35e2212afd174d.png" width="500">
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_bdd6a42f8069e60029.png" width="500">
+
+
+### 3.4. uni-i18n
+
+这个库是 uni-app 内部用来实现国际化的，业务没有用到，写了一个 `loader` 把它去掉了（只暴露了一个假的函数，返回最小需要的对象），可以省掉 7.5KB 的大小。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_cc1bc0dc96109135bd.png" width="500">
