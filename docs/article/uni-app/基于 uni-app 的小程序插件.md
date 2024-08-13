@@ -127,15 +127,50 @@ spawnSync(command, otherArgv, { stdio: 'inherit' });
 此外，低版本的 `uni-app` 在编译小程序插件时候，还会使用 `getApp`，由于插件并不支持这个API，所以会报错，可以升级到最新版本解决。
 
 
-## 2. CI
-
-
-
-## 3. 性能
+## 2. 性能
 
 小程序插件本质和小程序一样，先从优化小程序包体积开始。
 
-### 3.1. press-ui
+先贴下最开始的包体积，方便对比。最开始总包 1.92MB。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_bd34e66ccf679453ac.png" width="500">
+
+
+### 2.1. 分类
+
+小程序包可以分为公共部分和业务部分，公共部分又可分为第三方的和我们项目组的。
+
+第三方公共包括：
+
+- uni-app 相关
+  - uni-mp-weixin/dist/index.js 
+  - vue-cli-plugin-uni/mp-runtime.esm.js
+  - uni-i18n
+- Press UI
+- crypto、md5
+- weapp-qrcode
+- qs
+- 其他
+
+
+项目组公共包括：
+
+- pmd-npm
+  - startApp
+  - report
+  - login
+  - tools
+  - ...
+- press-plus
+- src/api
+
+业务部分就是剩下的了，包括所有业务组件和业务逻辑。
+
+优化不同部分内容的影响是不同的。对第三方库的优化，对影响所有使用它的项目，是影响力最大的。对项目组公共部分的优化，会影响项目组所有业务。对业务的优化，就只会影响当前业务了。
+
+就这个项目而言，三方库体积并不大，最大的是业务和项目组公共部分。
+
+### 2.2. press-ui
 
 press-ui 是核心组件库，虽然它可以减少的空间并不大，但是会对所有项目产生影响。
 
@@ -146,32 +181,147 @@ press-ui 是核心组件库，虽然它可以减少的空间并不大，但是�
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_eead7e4ae02154b544.png" width="500">
 
 
-### 3.2. api 子仓库
+### 2.3. api 子仓库
 
 尽管 `src/api` 已经做到了按需加载，只打包所需的接口，而不是所有接口，但依然有 25KB 的体积，这里一起优化下，直接使用调用 `post`，这部分体积可以直接降为 0。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_5d6ebcc7a781562fa8.png" width="500">
 
 
-### 3.3. swiper
+### 2.4. swiper
 
 业务使用了 `press-swiper`，来实现了一个较为美观的`swiper`。我研究了一番，直接用原生实现了。
 
 核心原理如下：
 
-1. 通过 next-margin，previous-margin， 实现 swiper-item 不再撑满全屏
-2. 通过 getSystemInfo 获取 windowWidth，减去 wrapMargin、imageWidth 等值，动态计算 next-margin 和 previous-margin
-3. 监听 bindtransition 事件，获取 event.detail.dx，计算当前 swiper-item，并赋值，实现滑动切换 swiper
+1. 通过 `next-margin`，`previous-margin`， 实现 `swiper-item` 不再撑满全屏
+2. 通过 `getSystemInfo` 获取 `windowWidth`，减去 `wrapMargin`、`imageWidth` 等值，动态计算 `next-margin` 和 `previous-margin`
+3. 监听 `transition` 事件，获取 `event.detail.dx`，计算当前` swiper-item`，并赋值，实现滑动切换 `swiper`
 
-这样优化后，发现切换 swiper-item 更加平滑，并直接省掉了 176KB 的大小。
+贴一下核心代码，备忘下。
+
+```html
+<!-- #ifndef H5 -->
+<swiper
+  v-if="mSwiperInit"
+  ref="zSwiper"
+  v-model="mGameTaskList"
+  :options="ZSwiperOptions"
+  :current="mCurrentSelectedTab"
+  :next-margin="nextMargin"
+  :previous-margin="nextMargin"
+  @transition="onSwiperTransition"
+  @animationfinish="onSwiperTransitionFInish"
+  @touchstart="onTouchStart"
+  @touchmove="onTouchMove"
+  @touchend="onTouchEnd"
+>
+  <swiper-item
+    v-for="(item,index) in mGameTaskList"
+    :key="index"
+  >
+    <div
+      class="task-type-item"
+      :class="{
+        'task-type-item--active': mCurrentSelectedTab === index
+      }"
+      @click.stop="changeSelectedGame(index, true)"
+    >
+      <img
+        class="task-type-img"
+        :src="tinyImage(item.icon)"
+      >
+    </div>
+  </swiper-item>
+</swiper>
+<!-- #endif -->
+```
+
+
+```ts
+methods: {
+  onSwiperTransition(e) {
+    const { dx } = e.detail;
+    if (!this.manualMoving) return;
+    movingDx = dx;
+  },
+  onSwiperTransitionFInish() {},
+  onTouchStart() {
+    this.clearTimer();
+    this.manualMoving = true;
+    this.movingCurrent = this.mCurrentSelectedTab;
+    movingDx = 0;
+  },
+  onTouchMove() {},
+  onTouchEnd() {
+    this.manualMoving = false;
+
+    let current;
+    if (movingDx > 0) {
+      current = Math.min(this.movingCurrent + Math.round(movingDx / 60), this.mGameTaskList.length - 1);
+    } else {
+      current = Math.max(this.movingCurrent +  Math.round(movingDx / 60), 0);
+    }
+    this.changeSelectedGame(current);
+
+    this.startTimer();
+  },
+  getSwiperDomWidth() {
+    const that = this;
+
+    return new Promise((resolve) => {
+      wx.getSystemInfo({
+        success(res) {
+          const clientWidth = res.windowWidth;
+          const ratio = 750 / clientWidth;
+          const wrapWidth = clientWidth - Math.floor(32 / ratio) * 2 - Math.floor(20 / ratio) * 2;
+
+          const nextMargin = (wrapWidth - Math.floor(104 / ratio) - Math.floor(16 / ratio) * 2) / 2;
+          that.nextMargin = `${nextMargin}px`;
+
+          resolve();
+        },
+      });
+    });
+  },
+}
+```
+
+这样优化后，发现切换 `swiper-item` 更加平滑，并直接省掉了 `176KB` 的大小。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_540e35e2212afd174d.png" width="500">
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_bdd6a42f8069e60029.png" width="500">
 
 
-### 3.4. uni-i18n
+### 2.5. uni-i18n
 
 这个库是 uni-app 内部用来实现国际化的，业务没有用到，写了一个 `loader` 把它去掉了（只暴露了一个假的函数，返回最小需要的对象），可以省掉 7.5KB 的大小。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_cc1bc0dc96109135bd.png" width="500">
+
+
+
+### 2.6. js-base64
+
+业务主要用到了这个库的 `encode` 方法，其实就是 `window.btoa`，这个自己实现下小程序端的就行了。
+
+从引用关系看，`js-base64` 引入了 `buffer.js`，`buffer.js` 又引入了其他的工具函数，所以去掉 `js-base64` 可以优化出比预期较多的体积，实际大概 25.89KB。
+
+之前 JS 总体积：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_1aa7454104cc5e6542.png" width="500">
+
+
+去掉 `js-base64` 后的 JS 总体积：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_4c73a0420f2de42cc5.png" width="500">
+
+`buffer.js` 体积：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_02514049b673f9a00c.png" width="500">
+
+`buffer.js` 引用的子模块：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_c58b5ef0d8ad6031f1.png" width="500">
+
