@@ -184,8 +184,11 @@ spawnSync(command, otherArgv, { stdio: 'inherit' });
 
 可以用更简单方式替换的代码，比如用小程序原生上报代替 `aegis`、用原生 `swiper` 代替 `press-swiper`、自己写 `btoa` 代替 `js-base64` 中的 `encode` 等。
 
+## 3. 优化点
 
-### 2.3. press-ui
+下面每条优化我都给出对比效果，以及其他项目也想要使用时，可以采用的方法。
+
+### 3.1. press-ui
 
 press-ui 是核心组件库，虽然它可以减少的空间并不大，但是会对所有项目产生影响。
 
@@ -204,21 +207,26 @@ press-ui 是核心组件库，虽然它可以减少的空间并不大，但是�
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_738d650545621823df.png" width="500">
 
+其他项目想要用的话，直接升级最新版本 `press-ui` 即可。
 
-另外 `press-icon-plus` 打包了所有的图标，但实际只用了其中一两个，这里可以用 `loader` 将多余的图标去掉。
+另外 `press-icon-plus` 打包了所有的图标，但实际只用了其中一两个，这里可以用 `postcss` 插件将多余的图标去掉，省掉 11KB。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_a93e2ff3f43d41ae1e.png" width="500">
 
 
+其他项目想要用的话，可以使用 `plugin-light` 中的 `remove-selector` 插件。
 
-### 2.4. api 子仓库
+
+### 3.2. api 子仓库
 
 尽管 `src/api` 已经做到了按需加载，只打包所需的接口，而不是所有接口，但依然有 25KB 的体积，这里一起优化下，直接使用调用 `post`，这部分体积可以直接降为 0。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_5d6ebcc7a781562fa8.png" width="500">
 
 
-### 2.5. swiper
+其他项目想要使用的话，需要自己修改代码。
+
+### 3.3. swiper
 
 业务使用了 `press-swiper`，来实现了一个较为美观的`swiper`。我研究了一番，直接用原生实现了。
 
@@ -328,15 +336,30 @@ methods: {
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_2014d9c6eb9f6f272b.gif" width="375">
 
 
-### 2.6. uni-i18n
+其他项目想要使用的话，可以使用封装好的方法。
+
+### 3.4. uni-i18n
 
 这个库是 uni-app 内部用来实现国际化的，业务没有用到，写了一个 `loader` 把它去掉了（只暴露了一个假的函数，返回最小需要的对象），可以省掉 7.5KB 的大小。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_cc1bc0dc96109135bd.png" width="500">
 
+其他项目想要使用的话，可以给 `plugin-light` 的 `getUniVueConfig` 传入
 
+```ts
+replaceLibraryLoaderOptions: {
+  replaceContentList: [
+    {
+      path: 'uni-i18n.es.js',
+      content: () => 'export function initVueI18n() {return {t:()=>{}}}',
+    },
+  ],
+},
+```
 
-### 2.7. js-base64
+也可以直接使用 `replaceLibraryLoader`，传入相同参数。
+
+### 3.5. js-base64
 
 业务主要用到了这个库的 `encode` 方法，其实就是 `window.btoa`，这个自己实现下小程序端的就行了。
 
@@ -359,8 +382,11 @@ methods: {
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_c58b5ef0d8ad6031f1.png" width="500">
 
+其他项目想要使用的话，手动替换 `encode/decode` 到 `t-comm` 或者 `pmd-tools` 中的方法。
 
-### 2.8. pmd-vue
+### 3.6. pmd
+
+#### 3.6.1. pmd-vue
 
 - `launchapp/base.ts` 中都是 H5 的拉起方法，用条件编译去掉
 
@@ -371,7 +397,7 @@ methods: {
 - 去掉 `initMixin`，使用工具方法
 
 
-### 2.9. pmd-tools
+#### 3.6.2. pmd-tools
 
 - `env/user-agent.ts` 小程序中用不到，用关键词编译方法去掉
 
@@ -381,11 +407,14 @@ methods: {
 
 - `time` 模块太大，用到的其中几个方法，把它们单独提出来，单独引用
 
-### 2.10. pmd-report
+#### 3.6.3. pmd-report
 
 `tcss` 已废弃，直接去掉
 
-### scoped
+
+其他项目想用的话，手动替换。
+
+### 3.7. scoped
 
 突然意识到小程序根本不需要 `scoped`，默认情况下，小程序组件样式就是只能作用于自己。于是写了个 `loader`，在小程序下去掉了所有 `scoped`，减少了 47KB。
 
@@ -393,9 +422,12 @@ methods: {
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_bfad98a1eb69e896e3.png" width="500">
 
-### 2.11. 最新进度
 
-当前总包 1.17+0.412 = 1.582MB
+其他项目想用的话，使用 `plugin-light` 中的 `removeScopedLoader`。
+
+### 3.8. 最新进度
+
+当前总包 1.512MB
 
 
-
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_d34295e3ea4044dedc.png" width="500">

@@ -50,3 +50,13 @@ require('./common/vendor.js');(global["webpackJsonp"]=global["webpackJsonp"]||[]
 
 虽然是个小问题，定位却花了不少时间，因为微信小程序没问题，所以没往执行顺序不同那方面想，期间猜想问题原因可能是`moduleId`找错了之类的。
 
+----
+
+## 2024.8.15 更新
+
+用了插件后，还是出现白屏。
+
+问题原因：uni-app 问题，QQ小程序打包 `vendor` 时模块划分有问题，把应该放到主包的模块放到了分包中。
+
+解决方法：需要确定被划分错的是哪个模块，比如最近一次的模块是 `@tencent/pmd-tools/lib/time`，当前的解决方法是把它放到 `main.js` 中。
+
