@@ -226,6 +226,12 @@ press-ui 是核心组件库，虽然它可以减少的空间并不大，但是�
 
 其他项目想要使用的话，需要自己修改代码。
 
+--- 分割线
+
+后面想了一下，`src/api` 这个库还是还有必要的，typescript 类型检查不可少。分析了一下为什么能占这么多体积，发现其引用了并非是按需加载的包，而是 `all-in-one` 的文件，而且即使是按需加载的包也有很多重复方法，这里我提取了一下。
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_46c11f85cfb1f84211.png" width="500">
+
 ### 3.3. swiper
 
 业务使用了 `press-swiper`，来实现了一个较为美观的`swiper`。我研究了一番，直接用原生实现了。
@@ -431,3 +437,5 @@ replaceLibraryLoaderOptions: {
 
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_d34295e3ea4044dedc.png" width="500">
+
+持续更新中...
