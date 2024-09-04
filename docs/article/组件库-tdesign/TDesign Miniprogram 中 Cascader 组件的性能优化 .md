@@ -52,7 +52,7 @@ function parseOptions(options: OptionsType, keys: KeysType) {
 
 ## 4. 进一步优化
 
-在 PMC 的建议下，进一步优化了两个方面:
+进一步优化了两个方面:
 
 1. 将 `options` 设为纯数据字段
 2. `handleSelect` 时切片更新 `items`，就是更新 `items` 的某一列，而不是一起更新。
@@ -81,3 +81,7 @@ options: WechatMiniprogram.Component.ComponentOptions = {
 核心就两步，**一是 `setData` 的时候少更新一点，二是取的时候稍微不那么方便一点**。仔细想一想，是不是其他业务的性能优化也是异曲同工？
 
 详细代码见[PR](https://github.com/Tencent/tdesign-miniprogram/pull/2866)。
+
+## 6. 后记
+
+本来我都把这篇文章删了，后来看到《团队分拆了，项目怎么办》中提到了这个 `issue`，呵呵，不想多说了。

@@ -200,3 +200,171 @@ function TodoList({ todos, filter }) {
 }
 ```
 
+### useDefaultProps
+
+```ts
+import { useMemo } from 'react';
+
+// defaultProps 将于 18.3.0 废弃，故需实现 hook 在组件内部兼容
+// https://github.com/facebook/react/pull/16210
+export default function useDefaultProps<T>(originalProps: T, defaultProps: Record<PropertyKey, any>): T {
+  return useMemo<T>(() => {
+    // eslint-disable-next-line
+    const props = Object.assign({}, originalProps);
+    Object.keys(defaultProps).forEach((key) => {
+      // https://github.com/facebook/react/blob/main/packages/react/src/jsx/ReactJSXElement.js#L719-L722
+      if (props[key] === undefined) {
+        props[key] = defaultProps[key];
+      }
+    });
+    return props;
+  }, [originalProps, defaultProps]);
+}
+```
+
+
+### useClass
+
+```ts
+import { useMemo } from 'react';
+import useConfig from './useConfig';
+
+export function usePrefixClass(componentName?: string) {
+  const { classPrefix } = useConfig();
+
+  return useMemo(() => (componentName ? `${classPrefix}-${componentName}` : classPrefix), [classPrefix, componentName]);
+}
+```
+
+### parseNode
+
+TNode 类型，统一使用 parseTNode 渲染
+
+```ts
+// 解析 TNode 数据结构
+export default function parseTNode(
+  renderNode: TNode | TNode<any> | undefined,
+  renderParams?: any,
+  defaultNode?: ReactNode,
+): ReactNode {
+  let node: ReactNode = null;
+
+  if (typeof renderNode === 'function') {
+    node = renderNode(renderParams);
+  } else if (renderNode === true) {
+    node = defaultNode;
+  } else if (renderNode !== null) {
+    node = renderNode ?? defaultNode;
+  }
+  return node as ReactNode;
+}
+```
+
+
+### useDefault
+
+
+```ts
+import { useState } from 'react';
+import noop from './noop';
+
+export interface ChangeHandler<T, P extends any[]> {
+  (value: T, ...args: P);
+}
+
+export default function useDefault<T, P extends any[]>(
+  value: T,
+  defaultValue: T,
+  onChange: ChangeHandler<T, P>,
+): [T, ChangeHandler<T, P>] {
+  // 无论是否受控，都要 useState，因为 Hooks 是无条件的
+  const [internalValue, setInternalValue] = useState<T>(defaultValue);
+
+  // 受控模式
+  if (typeof value !== 'undefined') {
+    return [value, onChange || noop];
+  }
+
+  // 非受控模式
+  return [
+    internalValue,
+    (newValue, ...args) => {
+      setInternalValue(newValue);
+      if (typeof onChange === 'function') {
+        onChange(newValue, ...args);
+      }
+    },
+  ];
+}
+```
+
+### ReactDom.render
+
+
+这个方法在 ts 和 tsx 中的类型是不同的，像下面的写法只能在 tsx 中写，否则会报错。
+
+```tsx
+ReactDOM.render(<Drawer {...drawerProps} /> , div);
+```
+
+如果使用了 ts 文件，报错内容是：
+
+```
+“Drawer”表示值，但在此处用作类型。是否指“类型 Drawer”
+```
+
+
+### 函数式调用组建后改变属性
+
+1. 用 `forwardRef` 将 `ref` 转发
+2. 用 `useImperativeHandle` 指定暴露哪些方法
+3. 组件内部不要直接使用 `props`，将其转化成内部变量再实用，方便 `plugin` 模式
+
+
+
+```ts
+const [state, setState] = useSetState<DrawerProps>({ isPlugin: false, ...props });
+```
+
+`useSetState` 可以将 `props` 转为 `state`。
+
+
+```ts
+/**
+ * 管理 object 类型 state 的 Hooks，用法与 class 组件的 this.setState 基本一致。
+ * @param initialState
+ * @returns [state, setMergeState]
+ */
+const useSetState = <T extends object>(
+  initialState: T = {} as T,
+): [T, (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void] => {
+  const [state, setState] = useState<T>(initialState);
+
+  const setMergeState = useCallback((patch) => {
+    setState((prevState) => ({ ...prevState, ...(isFunction(patch) ? patch(prevState) : patch) }));
+  }, []);
+
+  return [state, setMergeState];
+};
+
+export default useSetState;
+```
+
+`useImperativeHandle` 的使用：
+
+```ts
+useImperativeHandle(ref, () => ({
+  show() {
+    setState({ visible: true });
+  },
+  hide() {
+    setState({ visible: false });
+  },
+  destroy() {
+    setState({ visible: false, destroyOnClose: true });
+  },
+  update(newOptions) {
+    setState((prevState) => ({ ...prevState, ...newOptions }));
+  },
+}));
+```

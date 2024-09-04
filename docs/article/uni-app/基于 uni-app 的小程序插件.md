@@ -433,9 +433,209 @@ replaceLibraryLoaderOptions: {
 
 ### 3.8. 最新进度
 
-当前总包 1.512MB
-
+当前总包 1.512 MB
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_d34295e3ea4044dedc.png" width="500">
 
-持续更新中...
+
+## 4. Vue3
+
+### 4.1. 包体积
+
+尝试用 Vue3 改写了项目，包体积能降到 900KB。
+
+看了下，之所以能降这么多，除了 `uni-app` 运行时变小外，`js` 文件的运行时也缩减了很多。`Vue2.x` 用的 `webpack` 运行时那一套，熟悉的关键词是 `webpackJsonP`，而 `Vue3.x` 用的是 `Vite`，到了小程序这，转化成了小程序原生的 `require`。就这一点，就能降不少，因为 JS 模块太多了。
+
+下面记录下 Vue3 升级中的一些问题和解决办法。
+
+### 4.2. Vue2 中的 $set
+
+`Vue.set` 和 `this.$set` 区别
+
+说明：两者都是实现向实例对象中添加响应式属性，触发视图更新，两者原理和用法基本相同，都是使用 set,一个绑定在 vue 的构造函数身上，一个绑定在vue的原型身上。
+
+1. `vue.set()`，将 set 函数绑定在 Vue 构造函数中，设置实例创建之后添加的新的响应式属性，且触发视图更新，但是不允许添加根级响应式属性，只可以向嵌套对象添加响应式属性。
+
+用法： `Vue.set(object, propertyName, value)`
+
+```ts
+import { set } from '../observer/index'
+Vue.set = set
+```
+
+2. `this.$set()`**将 set 函数绑定在 vue 原型上，**只能设置实例创建后存在的数据（数据已经在 data 中）
+
+用法： `this.$set(object, propertyName, value)`
+
+第一个参数是要添加的对象，第二个是需要添加的属性名key（需要要用引号包裹起来),第三个是需要添加的值)
+
+```ts
+import { set } from '../observer/index'
+Vue.prototype.$set = set
+```
+
+### 4.3. scss 文件更新后不重新编译
+
+小程序开发时，独立的 `sass` 文件改动后并不会重新编译，用一个全新的示例工程也不可以。看了下源码，uni-app 是用 `import('vite').then({build}=>{})` 这种方式来启动的。
+
+解决办法是利用 `gulp.watch`，监听 `./src/**/*.scss` 文件，然后修改下 `main.ts`，然后这样就能重新编译了。同时加上了 `debounce`。
+
+
+### 4.4. Maximum recursive updates exceeded
+
+出现了死循环，报错如下：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_abb7c22e5de1650fee.png" width="500">
+
+```
+Maximum recursive updates exceeded. This means you have a reactive effect 
+that is mutating its own dependencies vendor.j5: 3. and thus recursively 
+triggering itself. Possible sources include component template, render 
+function, updated hook or watcher source
+```
+
+最后发现是 `watch` 使用的不合理，原先代码抽象如下（选项式API）：
+
+```ts
+props: {
+  task: {
+    type: Object,
+  }
+},
+data () {
+  return {
+    mTaskInfo: {},
+  }
+},
+watch: {
+  task(value) {
+    this.mTaskInfo = value;
+  }
+}
+```
+
+上面代码在 `Vue2.x` 时候也是不对的，完全可以用 `computed`。只不是 `Vue2.x` 的时候传递的是对象，并不是代理，所以不会出现死循环。
+
+而 `Vue3.x` 中传入的这个 `task` 是代理对象，执行 `this.mTaskInfo = value` 的时候，等于把 `mTaskInfo` 和 `task` 划上了等号，一旦对 `mTaskInfo` 的属性赋值，都会导致 `task` 也跟着变，从而死循环。
+
+测试了一下，选项式API中 `data` 的属性，如果是基础类型可以获取到原始类型，如果是对象和数组则是代理。`computed` 中返回的则始终是原始值。
+
+### 4.5. H5标签转化
+
+vue3 不会在 `img/div/span` 这些 H5 标签转化的产物中加额外类名了，比如 `_img/_div/_span`，之前是
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_7223075d1382090f18.png" width="360">
+
+现在是
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/8/own_mike_a07d3a1975fd25f5ae.png" width="360">
+
+需要自己改成
+
+```scss
+img, 
+image {
+
+}
+```
+
+更正规的做法是不要使用标签选择器，统一使用类名选择器。
+
+
+
+## 5. Vue3 转化 Tips
+
+为方便其他子工程迁移，贴下转化的基础步骤。
+
+
+### 5.1. 框架级别
+
+1. 复制 `main.ts`
+2. 删掉 `index.html` 中的 `VUE_APP_INDEX_CSS_HASH`
+3. 在 `index.html` 增加 `main.ts` 中的引入
+
+```html
+<script type="module" src="/main.ts"></script>
+```
+
+4. `manifest.json` 中 `vueVersion` 改成 3
+
+5. `pmd-merchant-ui` 替换，`pmd-merchant-ui/src/tip-comp-dialog-prompt/css` => `@tencent/press-plus/press-act-prompt-dialog/css`
+
+
+### 5.2. 业务级别
+
+
+
+1. `app.$set` 和 `this.$set` 用 `press-ui` 中的 `setAdapter` 替换。
+
+```ts
+import { setAdapter } from '@tencent/press-ui/common/vue3/set';
+```
+
+2. `router.push`， `router.replace` 在小程序下，用原生方法实现。
+
+3. 样式文件中的 `*` 选择器去掉，小程序不支持
+
+4. 生命周期替换
+
+5. 引入类型，需要加 `type`
+
+```ts
+import type { XXType } from 'xx';
+```
+
+## 6. 冰山之下
+
+做了一些对普通开发者无感知的工程相关工作，这里介绍下。
+
+1. 脚手架
+2. 通用Vite配置
+3. H5发布
+4. 小程序CI
+5. 合包流失线
+6. 统一的代码规范
+
+### 6.1. 通用 Vite 配置
+
+通用 Vite 配置兼容项目底层库，让业务无缝升级 Vue3，具体包括：
+
+插件支持：
+
+1. 支持条件编译
+2. 支持关键词跨平台文件编译
+3. 支持关键词跨平台样式编译
+4. 支持 `rem` 转 `rpx`
+5. 支持小程序下转化 `v-lazy` 指令
+6. 支持小程序下去掉 Vue 指令
+7. 支持构建产物分析
+8. 支持 QQ 小程序下中 `globalThis polyFill`
+9. 支持输出版本信息
+10. 支持输出不兼容语法的警告信息
+11. 支持动态修改 `vue.runtime.js`，解决编译问题
+
+插件修复 uni-app 内部问题：
+
+1. 修复 uni-app 中自带 `useRem` 函数带来的样式适配问题
+2. 修复 uni-app 中深层次 `monorepo` 仓库下打包路径问题
+3. 修复 uni-app QQ小程序打包后 `appId` 错误问题
+4. 修复 uni-app 小程序下样式文件变化无法重新编译的问题
+
+配置支持：
+
+1. 支持根据环境变量修改 `manifest` 中 `h5.router.base`，实现业务上云
+2. 支持小程序下劫持 `window`, `location`, `localStorage` 等变量
+3. 支持 `src` 等开头的 `alias`
+4. 支持 H5 下三方库设置外链
+
+### 6.2. 脚手架
+
+实现 **uni-app + Vue3 项目、普通 Vue3 项目**的脚手架及模版搭建，可以一键创建新的工程、子工程，并接入了研发平台。
+
+### 6.3. CI
+
+对 **H5发布、小程序CI、合包流水线**做了改造，均支持 Vue3 项目，普通开发者无感知。
+
+### 6.4. 代码规范
+
+样式规范无需变化，至于 `Eslint` 规范，发布了 `eslint-config-light-vue3`，更适合 `Vue3` 项目。
