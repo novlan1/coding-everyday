@@ -581,7 +581,28 @@ import type { XXType } from 'xx';
 6. Vant 组件改成 Press UI 组件，常见的包括 List/Tab/Swiper 等。
 
 
-## 6. 冰山之下
+## 6. 赛事转化
+
+转化步骤，拷贝文件，npm run dev, 改一些问题，npm run build 改编译问题，npm run dev 改运行时问题。
+
+先执行 npm run dev 是因为 Vite 按需加载，能较快看到成果。
+
+再执行 npm run build 是因为 build 模式能看到所有编译问题，方便快速定位和解决。
+
+编译问题：
+
+1. 路径移动，需与之前项目融合，所以要改动引入路径部分
+2. 业务大量使用了 Vuex，去掉有风险，也引入 4.x 版本的 Vuex
+3. template 内的 key 需要写在 template 标签上
+4. vue-qrcode 库替换成 press-ui 中的 qrcode
+5. vant/lib 库的动态引入，用条件编译包裹
+
+运行时问题：
+
+1. 业务大量使用了 $router，需要改成 uni.navigateTo 等
+
+
+## 7. 冰山之下
 
 上层业务改动其实只是冰山之上，做了一些对普通开发者无感知的工程相关工作，是冰山之下，这里介绍下。
 
@@ -593,11 +614,11 @@ import type { XXType } from 'xx';
 6. 统一的代码规范
 7. 组件库和工具库的兼容
 
-### 6.1. 通用 Vite 配置
+### 7.1. 通用 Vite 配置
 
 通用 Vite 配置兼容项目底层库，让业务无缝升级 Vue3，具体包括以下内容。
 
-#### 6.1.1. 插件支持
+#### 7.1.1. 插件支持
 
 1. 支持条件编译
 2. 支持关键词跨平台文件编译
@@ -613,7 +634,7 @@ import type { XXType } from 'xx';
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/9/own_mike_ba280fde6f7614a7a2.png" width="500">
 
-#### 6.1.2. 插件修复 uni-app 内部问题
+#### 7.1.2. 插件修复 uni-app 内部问题
 
 1. 修复 uni-app 中自带 `useRem` 函数带来的样式适配问题
 
@@ -637,7 +658,7 @@ export function normalizeMiniProgramFilename(
 }
 ```
 
-这里举个例子，`filename` 为 `/Users/yang/Documents/git-woa/guandan-match/node_modules/@tencent/press-ui/press-info/press-info.vue`，`inputDir` 为 `./src/project/guandan-match` 时，`path.relative` 生成的路径就会带上 `../`，这里背后的逻辑是 `inputDir` 和 `node_modules` 必须是同一级，`inputDir` 代表的是 `main.ts`，也就是 `main.ts` 和 `node_modules` 必须是同一级。
+这里举个例子，`filename` 为 `/Users/yang/Documents/git-woa/guandan-match/node_modules/@tencent/press-ui/press-info/press-info.vue`，`inputDir` 为 `./src/project/guandan-match` 时，`path.relative` 生成的路径就会带上 `../`，这里背后的逻辑是 `inputDir` 和 `node_modules` 必须是同一级。
 
 
 uni-app 社区也有其他人遇到了相同问题，参见：
@@ -649,7 +670,7 @@ uni-app 社区也有其他人遇到了相同问题，参见：
 
 尝试了覆盖 `rollupOptions`，发现不够，采用的是脚本改源码 + 插件修改 `rollupOptions.output.chunkFileNames`。
 
-3. 修复 uni-app QQ小程序打包后 `appId` 错误问题
+1. 修复 uni-app QQ小程序打包后 `appId` 错误问题
 
 这个解决办法就是用插件将 `manifest.json` 中正确的 `appId` 复制到产物中。
 
@@ -659,7 +680,7 @@ uni-app 社区也有其他人遇到了相同问题，参见：
 
 解决办法是利用 `gulp.watch`，监听 `./src/**/*.scss` 文件，然后修改下 `main.ts`，然后这样就能重新编译了。同时加上了 `debounce`。
 
-#### 6.1.3. 配置支持
+#### 7.1.3. 配置支持
 
 1. 支持根据环境变量修改 `manifest` 中 `h5.router.base`，实现业务上云
 2. 支持小程序下劫持 `window`, `location`, `localStorage` 等变量
@@ -725,25 +746,25 @@ const $document = reactive({
 ```
 
 
-### 6.2. 脚手架
+### 7.2. 脚手架
 
 实现 **uni-app + Vue3 项目、普通 Vue3 项目**的脚手架及模版搭建，可以一键创建新的工程、子工程，并接入了研发平台。
 
 开发者一键创建后，只需安装依赖、配置环境变量两步，就可以进入业务开发，体验与 Vue2 工程一致，无需进行工程配置、Eslint配置等，无额外心智负担。
 
-### 6.3. CI
+### 7.3. CI
 
 对 **H5发布、小程序CI、合包流水线**做了改造，均支持 Vue3 项目，普通开发者无感知。
 
 - H5发布同样支持 `history` 模式 和 `hash` 模式，编译速度更快
-- 小程序CI同样支持微信和QQ双端，支持消息通知、错误通知等
+- 小程序CI同样支持微信和QQ双端，支持包大小记录、消息通知、错误提醒等
 - 合包流水线支持其他子工程扩展，有一定通用性
 
-### 6.4. 代码规范
+### 7.4. 代码规范
 
 样式规范无需变化，至于 `Eslint` 规范，发布了 `eslint-config-light-vue3`，更适合 `Vue3` 项目，并已对齐公司规范。
 
-### 6.5. 组件库和工具库
+### 7.5. 组件库和工具库
 
 组件库和工具库同时支持 Vue2 和 Vue3，这一点尤为重要，只有底层组件和工具都支持了，上层业务升级时才有底气。
 

@@ -1,42 +1,4 @@
-### useState
-
-useState 如果放到 Vue 中，可以这样实现
-
-```ts
-import { ref } from 'vue';
-
-export function useState(value) {
-  const inner = ref(value);
-
-  const changeInner = (newVal) => {
-    inner.value = newVal;
-  };
-  return [
-    inner,
-    changeInner
-  ];
-}
-```
-
-引入并使用如下。
-
-和 React 的 useState 区别是，在模板中不用加 `.value`，在脚本中需要加。
-
-```html
-<div
-  @click.stop="setMock(mock+1)"
->
-  {{ mock }}
-</div>
-```
-
-```ts
-import { useState } from './useState';
-const [mock, setMock] = useState(0);
-```
-
-
-### 命名式 UI 和声明式 UI
+### 1. 命名式 UI 和声明式 UI
 
 命令式 UI 一定会直接操作DOM，举例如下：
 
@@ -60,7 +22,7 @@ function disable(el) {
 
 声明式 UI 是数据驱动
 
-### ref
+### 2. ref
 
 ```ts
 const ref = useRef(0)
@@ -78,7 +40,7 @@ ref.current += 1;
 5. 与 state 不同，设置 ref 的 current 值不会触发重新渲染。
 6. 不要在渲染过程中读取或写入 ref.current。这使你的组件难以预测。
 
-### ref 操作 DOM
+### 3. ref 操作 DOM
 
 1. Refs 是一个通用概念，但大多数情况下你会使用它们来保存 DOM 元素。
 2. 你通过传递 `<div ref={myRef}>` 指示 React 将 DOM 节点放入 myRef.current。
@@ -105,7 +67,7 @@ function Form() {
 ```
 
 
-### Effect
+### 4. Effect
 
 Effect 在 React 中是专有定义——由渲染引起的副作用。为了指代更广泛的编程概念，也可以将其称为“副作用（side effect）”。
 
@@ -161,7 +123,7 @@ useEffect(() => {
 
 
 
-### key
+### 5. key
 
 
 
@@ -185,7 +147,7 @@ function Profile({ userId }) {
 ```
 
 
-### useMemo
+### 6. useMemo
 
 这会告诉 React，除非 todos 或 filter 发生变化，否则不要重新执行传入的函数。
 
@@ -200,30 +162,8 @@ function TodoList({ todos, filter }) {
 }
 ```
 
-### useDefaultProps
 
-```ts
-import { useMemo } from 'react';
-
-// defaultProps 将于 18.3.0 废弃，故需实现 hook 在组件内部兼容
-// https://github.com/facebook/react/pull/16210
-export default function useDefaultProps<T>(originalProps: T, defaultProps: Record<PropertyKey, any>): T {
-  return useMemo<T>(() => {
-    // eslint-disable-next-line
-    const props = Object.assign({}, originalProps);
-    Object.keys(defaultProps).forEach((key) => {
-      // https://github.com/facebook/react/blob/main/packages/react/src/jsx/ReactJSXElement.js#L719-L722
-      if (props[key] === undefined) {
-        props[key] = defaultProps[key];
-      }
-    });
-    return props;
-  }, [originalProps, defaultProps]);
-}
-```
-
-
-### useClass
+### 7. useClass
 
 ```ts
 import { useMemo } from 'react';
@@ -236,7 +176,7 @@ export function usePrefixClass(componentName?: string) {
 }
 ```
 
-### parseNode
+### 8. parseNode
 
 TNode 类型，统一使用 parseTNode 渲染
 
@@ -260,111 +200,3 @@ export default function parseTNode(
 }
 ```
 
-
-### useDefault
-
-
-```ts
-import { useState } from 'react';
-import noop from './noop';
-
-export interface ChangeHandler<T, P extends any[]> {
-  (value: T, ...args: P);
-}
-
-export default function useDefault<T, P extends any[]>(
-  value: T,
-  defaultValue: T,
-  onChange: ChangeHandler<T, P>,
-): [T, ChangeHandler<T, P>] {
-  // 无论是否受控，都要 useState，因为 Hooks 是无条件的
-  const [internalValue, setInternalValue] = useState<T>(defaultValue);
-
-  // 受控模式
-  if (typeof value !== 'undefined') {
-    return [value, onChange || noop];
-  }
-
-  // 非受控模式
-  return [
-    internalValue,
-    (newValue, ...args) => {
-      setInternalValue(newValue);
-      if (typeof onChange === 'function') {
-        onChange(newValue, ...args);
-      }
-    },
-  ];
-}
-```
-
-### ReactDom.render
-
-
-这个方法在 ts 和 tsx 中的类型是不同的，像下面的写法只能在 tsx 中写，否则会报错。
-
-```tsx
-ReactDOM.render(<Drawer {...drawerProps} /> , div);
-```
-
-如果使用了 ts 文件，报错内容是：
-
-```
-“Drawer”表示值，但在此处用作类型。是否指“类型 Drawer”
-```
-
-
-### 函数式调用组建后改变属性
-
-1. 用 `forwardRef` 将 `ref` 转发
-2. 用 `useImperativeHandle` 指定暴露哪些方法
-3. 组件内部不要直接使用 `props`，将其转化成内部变量再实用，方便 `plugin` 模式
-
-
-
-```ts
-const [state, setState] = useSetState<DrawerProps>({ isPlugin: false, ...props });
-```
-
-`useSetState` 可以将 `props` 转为 `state`。
-
-
-```ts
-/**
- * 管理 object 类型 state 的 Hooks，用法与 class 组件的 this.setState 基本一致。
- * @param initialState
- * @returns [state, setMergeState]
- */
-const useSetState = <T extends object>(
-  initialState: T = {} as T,
-): [T, (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void] => {
-  const [state, setState] = useState<T>(initialState);
-
-  const setMergeState = useCallback((patch) => {
-    setState((prevState) => ({ ...prevState, ...(isFunction(patch) ? patch(prevState) : patch) }));
-  }, []);
-
-  return [state, setMergeState];
-};
-
-export default useSetState;
-```
-
-`useImperativeHandle` 的使用：
-
-```ts
-useImperativeHandle(ref, () => ({
-  show() {
-    setState({ visible: true });
-  },
-  hide() {
-    setState({ visible: false });
-  },
-  destroy() {
-    setState({ visible: false, destroyOnClose: true });
-  },
-  update(newOptions) {
-    setState((prevState) => ({ ...prevState, ...newOptions }));
-  },
-}));
-```
