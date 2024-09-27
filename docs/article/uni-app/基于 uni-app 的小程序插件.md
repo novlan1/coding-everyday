@@ -535,6 +535,19 @@ image {
 更正规的做法是不要使用标签选择器，统一使用类名选择器。
 
 
+还有一种批量处理方法，就是找到对应关系，用 `postcss` 插件批量转化。
+
+```
+span => label
+img => image
+i => view
+p => view
+```
+
+用插件的优点就是很快，缺点是：
+
+1. 不精确，多个web标签都对应 view，可能会导致与 Web 端表现不一致
+2. 有心智负担，无法做到可见即所得，不利于后期维护
 
 ## 5. Vue3 转化 Tips
 
@@ -592,15 +605,17 @@ import type { XXType } from 'xx';
 编译问题：
 
 1. 路径移动，需与之前项目融合，所以要改动引入路径部分
-2. 业务大量使用了 Vuex，去掉有风险，也引入 4.x 版本的 Vuex
-3. template 内的 key 需要写在 template 标签上
-4. vue-qrcode 库替换成 press-ui 中的 qrcode
-5. vant/lib 库的动态引入，用条件编译包裹
+2. 业务大量使用了 Vuex，去掉有风险，也引入 `4.x` 版本的 Vuex
+3. `template` 内的 key 需要写在 `template` 标签上
+4. `vue-qrcode` 库替换成 press-ui 中的 `qrcode`
+5. `vant/lib` 库的动态引入，用条件编译包裹
 
 运行时问题：
 
-1. 业务大量使用了 $router，需要改成 uni.navigateTo 等
-
+1. 业务大量使用了 `$router`，需要改成 `uni.navigateTo` 等
+2. 空的 `template` 标签会产生 `fragment`，导致白屏
+3. 对 `img/span/i` 等标签进行转换，可以用插件，用插件的优劣见上面。
+4. 在页面中，对 `global-component` 等组件进行手动注入
 
 ## 7. 冰山之下
 

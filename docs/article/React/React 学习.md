@@ -643,6 +643,8 @@ tdesign-web-components 正用 omi 搭建。
 
 `slider` 中的刻度是 `slider-stops`，刻度和标记一一对应，也就是 `stops` 和 `mark` 内的元素都是 `markList` 循环而来。
 
+有个 `slider-button` 不对齐的问题，原因是 `t-tooltip` 是 `shadow dom`，需要将其设置为 `height: 100%`。
+
 
 #### 3.5.3. popup
 
