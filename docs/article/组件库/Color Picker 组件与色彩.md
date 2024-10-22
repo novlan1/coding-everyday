@@ -11,7 +11,7 @@ Color Picker 组件最核心的两个部分是 `slider` 和 `saturation` 选择�
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/10/own_mike_64ad49690b81f5ba56.png" width="600" />
 
 
-[Saturation](https://zh.wikipedia.org/wiki/%E8%89%B2%E5%BA%A6_(%E8%89%B2%E5%BD%A9%E5%AD%A6)) 为饱和度，又称色度或彩度，表示颜色接近光谱色的程度，取值范围为 `0-100%`。饱和度高低会影响色彩的明艳程度，如大红就比玫红更红，这就是说大红的饱和度要高。黑色、白色以及灰色是“色度=0”的颜色，这一点可以通过拖拽 `saturation` 面板，并观察下方值来验证。直白点理解，假设你有一种红色颜料和水，水加的越多，红色会越淡（饱和度低）；水加的少，红色就会浓（饱和度高）。
+[Saturation](https://zh.wikipedia.org/wiki/%E8%89%B2%E5%BA%A6) 为饱和度，又称色度或彩度，表示颜色接近光谱色的程度，取值范围为 `0-100%`。饱和度高低会影响色彩的明艳程度，如大红就比玫红更红，这就是说大红的饱和度要高。黑色、白色以及灰色是“色度=0”的颜色，这一点可以通过拖拽 `saturation` 面板，并观察下方值来验证。直白点理解，假设你有一种红色颜料和水，水加的越多，红色会越淡（饱和度低）；水加的少，红色就会浓（饱和度高）。
 
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/10/own_mike_111a978ddc7a3ee69e.jpeg" width="500" />
@@ -90,7 +90,12 @@ RGB 模式更适合用于工业，HSV 和 HSL 更直观，符合直觉。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/10/own_mike_f2b500cc3a89932a2a.png" width="500" />
 
-参考：
+### 5. Press UI
+
+[Press UI 组件库](https://h5.igame.qq.com/pmd-mobile.support.press-ui.press-ui/)已实现 Color Picker 组件，支持 `2*(n+1)` 端，即 Vue2 + Vue3，uni-app、非 uni-app。
+
+### 6. 参考
+
 - https://www.w3schools.com/colors/colors_hsl.asp
 - https://zhuanlan.zhihu.com/p/67930839
 - https://zh.wikipedia.org/wiki/HSL%E5%92%8CHSV%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4
