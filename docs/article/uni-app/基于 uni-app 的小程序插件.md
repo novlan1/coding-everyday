@@ -596,11 +596,18 @@ import type { XXType } from 'xx';
 
 ## 6. 赛事转化
 
-转化步骤，拷贝文件，npm run dev, 改一些问题，npm run build 改编译问题，npm run dev 改运行时问题。
+转化步骤：
 
-先执行 npm run dev 是因为 Vite 按需加载，能较快看到成果。
+1. 拷贝文件
+2. 运行 `npm run dev`, 改一些问题
+3. 运行 `npm run build` 改编译问题
+4. 再运行 `npm run dev` 改运行时问题
 
-再执行 npm run build 是因为 build 模式能看到所有编译问题，方便快速定位和解决。
+先执行 `npm run dev` 是因为 `Vite` 按需加载，能较快看到成果，心里有底。
+
+再执行 `npm run build` 是因为 `build` 模式能看到所有编译问题，方便快速定位和解决。
+
+最后运行 `npm run dev` 就是查漏补缺，把每个页面的运行时都检查一遍。
 
 编译问题：
 
@@ -609,6 +616,8 @@ import type { XXType } from 'xx';
 3. `template` 内的 key 需要写在 `template` 标签上
 4. `vue-qrcode` 库替换成 press-ui 中的 `qrcode`
 5. `vant/lib` 库的动态引入，用条件编译包裹
+6. `@ttt/pmd-api` 替换成 `src/api`
+7. 增加必须的 `mixin`，比如 `share-mixin`
 
 运行时问题：
 
