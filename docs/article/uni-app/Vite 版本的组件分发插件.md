@@ -78,14 +78,14 @@ Vue2 时已经写了基于 Webpack 的组件分发和脚本分发插件，这次
 
 ## 4. 效果
 
-在一个项目中使用了，并且配置了只有一个分包使用时才移动，主包能够减少 `0.49MB`，降低了 `25%`，并且由于只移动了最需要移动的，所以总包大小并没有变化。
+在一个项目中使用了，并且配置了只有一个分包使用时才移动，主包能够减少 `0.8MB`，降低了 `41.5%`，并且由于只移动了最需要移动的，所以总包大小基本没有变化（变化的10K左右是由于生成的路径变深）。
 
 <img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_1ed8d8332bb4701483.png" width="550">
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_10f0e1ecaac41d4b2c.png" width="550">
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_986f687f40a5e5088d.png" width="550">
 
-如果把 `limit` 设置为`0`，也就是只要主包不使用，就移动到分包中，可以将主包减少到 `908KB`，降低了 `53%`。但由于多个分包中存在重复组件，总包也会增加。
+如果把 `limit` 设置为`0`，也就是只要主包不使用，就移动到分包中，可以将主包减少到 `1015KB`，降低了 `47%`。但由于多个分包中存在重复组件，总包也会增加。
 
 使用方可以根据自身项目需要，灵活设置此选项。
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_8bb9b4b22ec1255ce2.png" width="550">
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_b7ea304f549baf1e73.png" width="550">
