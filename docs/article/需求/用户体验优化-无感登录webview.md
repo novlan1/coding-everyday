@@ -42,6 +42,10 @@
 5. 调度器继续执行栈中的其他请求
 6. 由于 `url` 不再包含 `mpCode`，其他请求不再控制并发数，恢复正常逻辑
 
+流程图如下：
+
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_b9f845692775d55239.png" width="6000">
+
 ### 5. 细节
 
 有几个细节点：
@@ -126,7 +130,7 @@ export {
 };
 ```
 
-调度层代码：
+调度层（装饰器）代码：
 
 ```ts
 const addRequest = new Scheduler(1);
@@ -141,10 +145,12 @@ export function mpCodeScheduler(request): Promise<any> {
       })
         .catch((err) => {
           if (err?.code === SSO_LOGIN_SUCCESS_KEY) {
-            // 微任务
-            addRequest.unshift(request).then((tRes) => {
-              resolve(tRes);
-            })
+            // 不能用 `add(request)`，会改变请求顺序
+            addRequest.unshift(request)
+              // 微任务
+              .then((tRes) => {
+                resolve(tRes);
+              })
               .catch((tErr) => {
                 reject(tErr);
               });
@@ -158,3 +164,5 @@ export function mpCodeScheduler(request): Promise<any> {
   return request();
 }
 ```
+
+`Scheduler` 中用了 `setTimeout`，也就是宏任务来执行下一个任务。而装饰器中是在 `Promise` 的 `catch` 中，重新执行失败的请求，是微任务，会在下一个任务执行前执行，从而保证了原有的调用顺序。
