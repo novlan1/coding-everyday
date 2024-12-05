@@ -1,4 +1,4 @@
-[TOC]
+
 ## 1. 开始
 
 遇到一个比较大的项目从 `Vue2` 的 `uni-app` 迁移到 `Vue3`，主包大小又超了，在组件分发的基础上，做了脚本分发，这里简单记录下。
@@ -86,8 +86,7 @@ function createMoveToVendorChunkFn(): GetManualChunk {
 
 报错信息：
 
-<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/
-own_mike_d0f6532827b3cd18db.png" width="500">
+<img src="https://mike-1255355338.cos.ap-guangzhou.myqcloud.com/article/2024/11/own_mike_d0f6532827b3cd18db.png" width="500">
 
 common/vendor 相关内容：
 
@@ -178,3 +177,84 @@ const targetName = `${subPackages[0]}/${dispatchDir}/${dispatchChunkFileName}`;
 
 1. https://juejin.cn/post/7135671174893142030
 2. https://github.com/sanyuan0704/vite-plugin-chunk-split/blob/master/README-CN.md
+
+
+----
+
+分割线，后面聊聊依赖关系
+
+----
+
+## 6. 依赖关系
+
+有几种引用错误
+
+1. 主包引用子包
+2. 子包引用其他子包
+3. 循环依赖
+4. JS/TS 引用 Vue 文件（小程序下）
+
+脚本分发插件可以分析依赖，能输出前三种错误信息，帮助开发者快速定位问题
+。
+
+----
+
+分割线，后面聊聊 uni-app 的路由
+
+----
+
+## 7. 路由
+
+### 7.1. uni-app 中的路由
+
+#### 7.1.1. H5（Vue3）
+
+1. `uni-app` 内部也是用的 `vue-router`，能找到 `createRouter` API的调用
+2. `createRouter` 中 `routes` 参数使用的是 `__uniRoutes`，这是 `uni-app` 内部变量，有 `path/alias/meta/loader/component` 几个属性。直接在控制台打印 `window.__uniRoutes` 就能看到
+3. `createRouter` 源码路径：`packages/uni-h5-vite/src/plugins/pagesJson.ts`，或搜索 `generatePagesRoute`
+4. `__uniRoutes` 都没有 `name` 属性，自然无法通过 `name` 跳转，即 `$router.push({ name: 'xxx' })` 不可行，只能通过 `path` 跳转
+
+#### 7.1.2. H5（Vue2）
+
+1. 同样用的 `vue-router`
+2. Vue2 中 `__uniRoutes` 的生成逻辑源码在：`packages/webpack-uni-pages-loader/lib/platforms/h5.js`，或搜索 `genPageRoutes`
+
+#### 7.1.3. 非 H5
+
+`uni-app` 在非H5端没有提供 `$router`，推荐直接使用 `uni.navigateTo` 等原生语法。
+
+### 7.2. H5中路由的多样性
+
+路由有3种形式
+
+1. 动态路由，比如 `/match/match-detail/52973147`
+2. `aliasPath + query`，`aliasPath` 就是路径别名，比如 `/match-list?siteId=2066002`
+3. `fullPath + query`，`fullPath` 就是全部路径，比如 `views/match-list/match-list?siteId=2066002`
+
+非 `uni-app` 项目我更倾向于用1，参数精炼。`uni-app` 项目我更倾向于用3，好处有：
+
+1. 多端统一，无需额外兼容、转化
+2. 所见即所得，无心智负担
+
+路由有两种模式，`hash` 和 `history`，结合上面提到的3种形式，总共有 `2 * 3 = 6` 种类型。
+
+### 7.3. 命名路由
+
+毫无疑问，命名路由有[很多好处](https://router.vuejs.org/zh/guide/essentials/named-routes.html)，比如没有硬编码，不会担心打错 `path`。
+
+但是考虑到统一性，新项目还是建议直接用 `path`。
+
+### 7.4. 重定向
+
+非跨端转跨端，以及 vue2 升级 vue3，都会遇到映射路由表的问题。当前实现了：
+
+1. `hash + dynamic` => `history + aliasPath query`，如 `/#/match-detail/123 => /match-detail?childId=123`
+2. `history + aliasPath query` => `history + fullPath query`，如 `/match-detail?childId=123 => /match/match-detail?childId=123`
+
+其他几种类似。
+
+### 7.5. 动态路由
+
+是 `uni-simple-router` 支持的动态路由，`uni-app`框架本身不支持，具体是在初始化的时候，在 `routes` 中定义了 `aliasPath`。
+
+uni-app 使用 `vue-router` 时，传入的还是 `path`，即页面路径，这种无法支持动态路由。这一点可以通过打印 `window.__uniRoutes` 看出。引入 `uni-simple-router` 后，再打印 `window.__uniRoutes`，会发现 `path` 变成了动态路由，比如 `/match/match-detail/:childid`，这是 `uni-simple-router` 中 `src/H5/buildRouter.ts` 做的，将 `aliasPath` 赋值给了 `path`。
