@@ -183,3 +183,23 @@ qs是字符串解析库，使用非常广泛。
 - https://lists.debian.org/debian-lts-announce/2023/01/msg00039.html
 - https://github.com/advisories/GHSA-hrpp-h998-j3pp
 
+
+
+----- 2024.12.19 更新 ------
+
+## 7. vant
+
+亲身经历。
+
+有发布权限的人发布了 [vant@2.13.5](https://www.npmjs.com/package/vant/v/2.13.5)，带了一个恶意程序 `lib/utils/support.js`，并增加了 `postinstall` 脚本命令，用户安装`vant`后，就会自动执行这个文件，然后在构建机挖矿。
+
+影响范围：`vant` 被投毒后、未删之前期间，`package.json` 未锁定版本，从 `npm` 官方源下载 `vant` 的用户。
+
+解决办法：
+
+1. 官方删除有问题版本（已删除）
+2. 构建机重装
+3. 锁定版本号，避免出现类似问题
+
+相关链接：https://github.com/youzan/vant/discussions/13273
+

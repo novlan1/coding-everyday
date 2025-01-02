@@ -61,7 +61,7 @@ onLaunch(() => {
   });
 
   this.$router.afterEach(() => {
-    redirectToWebContainer({ router, tag: 'afterEach' });
+    redirectToWebContainer({ router: this.$router, tag: 'afterEach' });
   });
   // #endif
 })
