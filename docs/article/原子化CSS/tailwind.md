@@ -1,4 +1,4 @@
-## vue3 uni-app
+## 1. Vue3 uni-app 项目
 
 `vite.config.ts`
 
@@ -54,24 +54,7 @@ module.exports = {
 </style>
 ```
 
-
-`VSCode` 插件 `Tailwind CSS IntelliSense`
-
-名词解释：
-
-- preflight，预设的基础样式，原本含义是“飞行前检查”，[示例](https://unpkg.com/tailwindcss@2.2.19/dist/base.css)
-
-当在 CSS 中包含 `@tailwind base` 时，Tailwind 会自动注入以下样式：
-
-```css
-@tailwind base; /* Preflight will be injected here */
-
-@tailwind components;
-
-@tailwind utilities;
-```
-
-## vue2 uni-app
+## 2. Vue2 uni-app 项目
 
 `vue.config.js`
 
@@ -141,3 +124,90 @@ module.exports = {
 @import "tailwindcss/utilities";
 </style>
 ```
+
+
+## 3. Vue2 项目
+
+Vue2 项目不支持 `postcss8` ？所以需要指定安装 `postcss7` 的版本。
+
+```bash
+npm install tailwindcss@npm:@tailwindcss/postcss7-compat @tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
+```
+
+在终端中输入代码 `npx tailwindcss init` 生成一个空的配置文件。也可以生成一个包含所有默认配置的配置文件 `npx tailwindcss init -fill`。
+
+```bash
+npx tailwindcss init # 空的
+npx tailwindcss init -fill # 包含默认的
+```
+
+在项目的根目录下创建 `postcss.config.js` 文件
+
+```js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  }
+}
+```
+
+在 `main.js` 中添加以下代码
+
+```js
+import "tailwindcss/tailwind.css"
+```
+
+参考：
+
+1. https://juejin.cn/post/7091578341194465317
+2. https://blog.csdn.net/zqd_java/article/details/136568490
+
+## 4. Vue3 项目
+
+安装依赖
+
+```bash
+pnpm install -D tailwindcss postcss autoprefixer
+```
+
+`tailwind.config.js` 可以使用 `@type`:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+新建 `src/styles/tailwind.css`
+
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+`src/main.ts` 中引入 `tailwindcss`
+
+```ts
+import "./styles/tailwind.css";
+```
+
+## 5. 其他
+
+`VSCode` 插件 `Tailwind CSS IntelliSense`
+
+名词解释：
+
+- preflight，预设的基础样式，原本含义是“飞行前检查”，[示例](https://unpkg.com/tailwindcss@2.2.19/dist/base.css)
+
+当在 CSS 中包含 `@tailwind base` 时，Tailwind 会自动注入 preflight。
+
+
+
