@@ -1,5 +1,3 @@
-参考：https://blog.csdn.net/weixin_45012003/article/details/106979238
-
 
 现在很简单，申请免费证书后，可以自动部署，就是上传`per.key`和`per.pem`到远程服务器上，然后修改`nginx`配置。
 
@@ -42,3 +40,8 @@ ssl_certificate_key cloud.tencent.com.key;
 ```bash
 nginx -s reload
 ```
+
+参考：
+
+1. https://blog.csdn.net/weixin_45012003/article/details/106979238
+2. https://cloud.tencent.com/document/product/400/35244?from_cn_redirect=1
