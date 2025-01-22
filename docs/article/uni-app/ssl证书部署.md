@@ -1,7 +1,7 @@
 参考：https://blog.csdn.net/weixin_45012003/article/details/106979238
 
 
-现在很简单，申请免费证书后，可以自动部署，就是上传`per.key`和`per.pem`到远程服务器上。
+现在很简单，申请免费证书后，可以自动部署，就是上传`per.key`和`per.pem`到远程服务器上，然后修改`nginx`配置。
 
 填写内容：
 
@@ -18,10 +18,12 @@ scp -r ./* root@$server:/etc/nginx/cert
 
 证书、密钥地址输入：
 
+```
 /etc/nginx/cert/uwayfly.com.2025.key
 /etc/nginx/cert/uwayfly.com.2025.perm
+```
 
-不要忘了修改 nginx 配置！
+不要忘了修改 `nginx` 配置！
 
 ```bash
 #请填写绑定证书的域名
@@ -40,4 +42,3 @@ ssl_certificate_key cloud.tencent.com.key;
 ```bash
 nginx -s reload
 ```
-
