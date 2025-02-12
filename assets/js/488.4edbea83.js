@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[488],{761:function(t,n,o){"use strict";o.r(n);var s=o(14),e=Object(s.a)({},(function(){var t=this._self._c;return t("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[t("p",[this._v("坑点： join_type 在 childInfo中表示参赛类型 1需报名 2不设报名，在 gameInfo 中表示报名类型 1团队赛 2个人赛")])])}),[],!1,null,null,null);n.default=e.exports}}]);
