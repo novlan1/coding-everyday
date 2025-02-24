@@ -158,11 +158,6 @@ module.exports = {
 import "tailwindcss/tailwind.css"
 ```
 
-参考：
-
-1. https://juejin.cn/post/7091578341194465317
-2. https://blog.csdn.net/zqd_java/article/details/136568490
-
 ## 4. Vue3 项目
 
 安装依赖
@@ -211,3 +206,8 @@ import "./styles/tailwind.css";
 
 
 
+## 6. 参考
+
+1. https://juejin.cn/post/7091578341194465317
+2. https://blog.csdn.net/zqd_java/article/details/136568490
+3. https://blog.csdn.net/amiaoyaofeixiang/article/details/134395717
