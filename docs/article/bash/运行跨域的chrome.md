@@ -8,4 +8,8 @@ open -n /Applications/Google\ Chrome.app/ --args --disable-web-security  --user-
 open -n /Applications/Google\ Chrome.app/ --args --disable-web-security  --user-data-dir=/Users/yang/Documents/MyChromeDevUserData
 ```
 
+```bash
+open -n /Applications/Google\ Chrome.app/ --args --disable-web-security  --user-data-dir=/Users/guowangyang/Documents/MyChromeDevUserData
+```
+
 最后的目录是新的就行
