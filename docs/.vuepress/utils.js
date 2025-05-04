@@ -9,7 +9,7 @@ function getFileName(rpath) {
 
   fs.readdirSync(rpath).forEach((file) => {
     if (excludes.indexOf(file) < 0) {
-      fullpath = `${rpath}/${file}`;
+      const fullpath = `${rpath}/${file}`;
       const fileinfo = fs.statSync(fullpath);
 
       if (fileinfo.isFile()) {
@@ -56,7 +56,7 @@ function genSidebar(
   collapsable = true,
   sidebarDepth = 2,
 ) {
-  const fullPath = process.cwd() +  rpath;
+  const fullPath = process.cwd() + rpath;
 
   const info = {
     title,

@@ -4,8 +4,6 @@
 /test.js
 /test.md
 
-.vscode
-
 package-lock.json
 
 dist/
