@@ -1,10 +1,10 @@
-const loaderUtil = require('loader-utils')
+const loaderUtil = require('loader-utils');
 
 
-function loader (source) {
-  const options = loaderUtil.getOptions(this) || {}
+function loader(source) {
+  const options = loaderUtil.getOptions(this) || {};
 
-  source = source.replace(/111/g, "222" + (options.year || ''));
+  source = source.replace(/111/g, `222${options.year || ''}`);
   return source;
 }
 

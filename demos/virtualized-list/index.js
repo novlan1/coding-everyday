@@ -1,4 +1,4 @@
-let _list = [];
+const _list = [];
 const maxLen = 1000; // 数据总条数
 const itemHeight = 50; // 每条高度
 let startIndex = 0; // 起始索引
@@ -39,7 +39,7 @@ const realFill = () => {
 
   const visibleList = _list.slice(startIndex, endIndex);
   let showListDom = "";
-  for (let item of visibleList) {
+  for (const item of visibleList) {
     showListDom += `<div class='vir_item'>${item.content}</div>`;
   }
   virInner.innerHTML = showListDom;

@@ -10,24 +10,24 @@ const wss = new WebSocketServer({
 });
 
 wss.on('connection', function (ws) {
-  ws.send('connected')
+  ws.send('connected');
   console.log(`[SERVER] connection()`);
 
   ws.on('message', function (message) {
     try {
-      message = JSON.parse(message)
+      message = JSON.parse(message);
       wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN && client !== ws) {
-          client.send(JSON.stringify(message))
+          client.send(JSON.stringify(message));
         }
       });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  })
+  });
 });
 
 
 wss.on('close', function close(e) {
-  console.log(close, e)
+  console.log(close, e);
 });

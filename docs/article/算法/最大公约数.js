@@ -1,11 +1,11 @@
-function getGreatCommonDivider(a,b) {
+function getGreatCommonDivider(a, b) {
   while (b) {
-    [a,b] = [b, a % b]
+    [a, b] = [b, a % b];
   }
   return a;
 }
 
-console.log(getGreatCommonDivider(4,6))
+console.log(getGreatCommonDivider(4, 6));
 
 // a b
 // 4 6

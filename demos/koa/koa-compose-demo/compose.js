@@ -1,15 +1,15 @@
-const app = require('./app.js')
+const app = require('./app.js');
 
 // 1、同步的实现
-app.compose = function() {
+app.compose = function () {
   // 递归函数
   function dispatch(index) {
       // 如果所有中间件都执行完跳出
       if (index === app.middlewares.length) return;
-      
+
       // 取出第 index 个中间件并执行
       const route = app.middlewares[index];
-      console.log('index',index, route)
+      console.log('index', index, route);
       return route(() => dispatch(index + 1));
   }
 
@@ -19,7 +19,7 @@ app.compose = function() {
 
 // 2 升级为支持异步
 
-app.compose2 = function() {
+app.compose2 = function () {
   // 递归函数
   function dispatch(index) {
       // 如果所有中间件都执行完跳出，并返回一个 Promise
@@ -38,12 +38,12 @@ app.compose2 = function() {
 
 
 // Redux 旧版本 compose 的实现方式
-app.compose3 = function() {
+app.compose3 = function () {
   return app.middlewares.reduceRight((a, b) => () => b(a), () => {})();
 };
 
 // 2、升级为支持异步
-app.compose4 = function() {
+app.compose4 = function () {
   return Promise.resolve(
       app.middlewares.reduceRight(
           (a, b) => () => Promise.resolve(b(a)),
@@ -54,15 +54,15 @@ app.compose4 = function() {
 
 
 // Redux 新版本 compose 的实现方式
-app.compose5 = function() {
+app.compose5 = function () {
   return app.middlewares.reduce((a, b) => arg => a(() => b(arg)))(() => {});
 };
 /**
- * 
+ *
  */
 
 // 2、升级为支持异步
-app.compose6 = function() {
+app.compose6 = function () {
   return Promise.resolve(
       app.middlewares.reduce((a, b) => arg =>
           Promise.resolve(a(() => b(arg)))
@@ -71,7 +71,7 @@ app.compose6 = function() {
 };
 
 // 使用 async 函数实现
-app.compose7 = function() {
+app.compose7 = function () {
   // 自执行 async 函数返回 Promise
   return (async function () {
       // 定义默认的 next，最后一个中间件内执行的 next
@@ -82,7 +82,7 @@ app.compose7 = function() {
       function createNext(middleware, oldNext) {
           return async () => {
               await middleware(oldNext);
-          }
+          };
       }
 
       // 反向遍历中间件数组，先把 next 传给最后一个中间件函数
@@ -93,8 +93,8 @@ app.compose7 = function() {
       }
 
       await next();
-  })();
-}
+  }());
+};
 
 
 module.exports = app;

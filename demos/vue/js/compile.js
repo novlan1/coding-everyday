@@ -9,12 +9,12 @@ Compile.prototype = {
   init: function () {
     this.fragment = this.nodeFragment(this.el);
     this.compileNode(this.fragment);
-    this.el.appendChild(this.fragment); //解析完成添加到元素中
+    this.el.appendChild(this.fragment); // 解析完成添加到元素中
   },
   nodeFragment: function (el) {
     const fragment = document.createDocumentFragment();
     let child = el.firstChild;
-    //将子节点，全部移动文档片段里
+    // 将子节点，全部移动文档片段里
     while (child) {
       fragment.appendChild(child);
       child = el.firstChild;
@@ -22,35 +22,33 @@ Compile.prototype = {
     return fragment;
   },
   compileNode: function (fragment) {
-    let childNodes = fragment.childNodes;
+    const childNodes = fragment.childNodes;
     [...childNodes].forEach(node => {
-
       if (this.isElementNode(node)) {
         this.compile(node);
       }
 
-      let reg = /\{\{(.*)\}\}/;
-      let text = node.textContent;
-
+      const reg = /\{\{(.*)\}\}/;
+      const text = node.textContent;
 
 
       if (reg.test(text)) {
-        let prop = reg.exec(text)[1];
-        this.compileText(node, prop); //替换模板
+        const prop = reg.exec(text)[1];
+        this.compileText(node, prop); // 替换模板
       }
 
-      //编译子节点
+      // 编译子节点
       if (node.childNodes && node.childNodes.length) {
         this.compileNode(node);
       }
     });
   },
   compile: function (node) {
-    let nodeAttrs = node.attributes;
+    const nodeAttrs = node.attributes;
     [...nodeAttrs].forEach(attr => {
-      let name = attr.name;
+      const name = attr.name;
       if (this.isDirective(name)) {
-        let value = attr.value;
+        const value = attr.value;
         if (name === "v-model") {
           this.compileModel(node, value);
         }
@@ -58,17 +56,17 @@ Compile.prototype = {
     });
   },
   compileModel: function (node, prop) {
-    let val = this.vm.$data[prop]; // 因为属性被监听，会进入 observer 的 get 方法
+    const val = this.vm.$data[prop]; // 因为属性被监听，会进入 observer 的 get 方法
     this.updateModel(node, val);
-    
-    console.log('compileModel, prop:', prop)
+
+    console.log('compileModel, prop:', prop);
 
     new Watcher(this.vm, prop, (value) => {
       this.updateModel(node, value);
     });
 
     node.addEventListener('input', e => {
-      let newValue = e.target.value;
+      const newValue = e.target.value;
       if (val === newValue) {
         return;
       }
@@ -76,14 +74,14 @@ Compile.prototype = {
     });
   },
   compileText: function (node, prop) {
-    let text = this.vm.$data[prop];
+    const text = this.vm.$data[prop];
     this.updateView(node, text);
     new Watcher(this.vm, prop, (value) => {
       this.updateView(node, value);
     });
   },
 
-  updateModel: function(node, value) {
+  updateModel: function (node, value) {
     node.value = typeof value == 'undefined' ? '' : value;
   },
   updateView: function (node, value) {
@@ -99,4 +97,4 @@ Compile.prototype = {
   isTextNode: function (node) {
     return node.nodeType === 3;
   }
-}
+};

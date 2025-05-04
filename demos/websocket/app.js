@@ -23,8 +23,8 @@ app.use(async (ctx, next) => {
 });
 
 // static file support:
-let staticFiles = require('./static-files');
-app.use(staticFiles('/static/', __dirname + '/static'));
+const staticFiles = require('./static-files');
+app.use(staticFiles('/static/', `${__dirname}/static`));
 
 // parse request body:
 app.use(bodyParser());
@@ -38,23 +38,23 @@ app.use(templating('views', {
 // add controller middleware:
 app.use(controller());
 
-let server = app.listen(3000);
+const server = app.listen(3000);
 
 function parseUser(obj) {
   if (!obj) {
     return;
   }
-  console.log('try parse: ' + obj);
+  console.log(`try parse: ${obj}`);
   let s = '';
   if (typeof obj === 'string') {
     s = obj;
   } else if (obj.headers) {
-    let cookies = new Cookies(obj, null);
+    const cookies = new Cookies(obj, null);
     s = cookies.get('name');
   }
   if (s) {
     try {
-      let user = JSON.parse(Buffer.from(s, 'base64').toString());
+      const user = JSON.parse(Buffer.from(s, 'base64').toString());
       console.log(`User: ${user.name}, ID: ${user.id}`);
       return user;
     } catch (e) {
@@ -64,7 +64,7 @@ function parseUser(obj) {
 }
 
 function createWebSocketServer(server, onConnection, onMessage, onClose, onError) {
-  let wss = new WebSocketServer({
+  const wss = new WebSocketServer({
     server: server
   });
   wss.broadcast = function broadcast(data) {
@@ -76,17 +76,17 @@ function createWebSocketServer(server, onConnection, onMessage, onClose, onError
     console.log('[WebSocket] connected.');
   };
   onMessage = onMessage || function (msg) {
-    console.log('[WebSocket] message received: ' + msg);
+    console.log(`[WebSocket] message received: ${msg}`);
   };
   onClose = onClose || function (code, message) {
     console.log(`[WebSocket] closed: ${code} - ${message}`);
   };
   onError = onError || function (err) {
-    console.log('[WebSocket] error: ' + err);
+    console.log(`[WebSocket] error: ${err}`);
   };
   wss.on('connection', function (ws) {
-    let location = url.parse(ws.upgradeReq.url, true);
-    console.log('[WebSocketServer] connection: ' + location.href);
+    const location = url.parse(ws.upgradeReq.url, true);
+    console.log(`[WebSocketServer] connection: ${location.href}`);
     ws.on('message', onMessage);
     ws.on('close', onClose);
     ws.on('error', onError);
@@ -95,7 +95,7 @@ function createWebSocketServer(server, onConnection, onMessage, onClose, onError
       ws.close(4000, 'Invalid URL');
     }
     // check user:
-    let user = parseUser(ws.upgradeReq);
+    const user = parseUser(ws.upgradeReq);
     if (!user) {
       ws.close(4001, 'Invalid user');
     }
@@ -107,7 +107,7 @@ function createWebSocketServer(server, onConnection, onMessage, onClose, onError
   return wss;
 }
 
-var messageIndex = 0;
+let messageIndex = 0;
 
 function createMessage(type, user, data) {
   messageIndex++;
@@ -120,11 +120,11 @@ function createMessage(type, user, data) {
 }
 
 function onConnect() {
-  let user = this.user;
-  let msg = createMessage('join', user, `${user.name} joined.`);
+  const user = this.user;
+  const msg = createMessage('join', user, `${user.name} joined.`);
   this.wss.broadcast(msg);
   // build user list:
-  let users = this.wss.clients.map(function (client) {
+  const users = this.wss.clients.map(function (client) {
     return client.user;
   });
   this.send(createMessage('list', user, users));
@@ -133,14 +133,14 @@ function onConnect() {
 function onMessage(message) {
   console.log(message);
   if (message && message.trim()) {
-    let msg = createMessage('chat', this.user, message.trim());
+    const msg = createMessage('chat', this.user, message.trim());
     this.wss.broadcast(msg);
   }
 }
 
 function onClose() {
-  let user = this.user;
-  let msg = createMessage('left', user, `${user.name} is left.`);
+  const user = this.user;
+  const msg = createMessage('left', user, `${user.name} is left.`);
   this.wss.broadcast(msg);
 }
 

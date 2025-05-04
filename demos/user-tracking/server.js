@@ -5,7 +5,7 @@ const route = require('koa-route');
 const path = require('path');
 const serve = require('koa-static');
 
-const main = serve(path.join(__dirname + '/demos'));
+const main = serve(path.join(`${__dirname}/demos`));
 
 const log = ctx => {
   console.log(ctx.request.body);

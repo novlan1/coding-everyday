@@ -9,8 +9,11 @@ importers:
   .:
     devDependencies:
       eslint-config-light:
-        specifier: ^1.0.2
+        specifier: ^1.5.5
         version: 1.5.5(typescript@5.8.3)
+      eslint-plugin-light:
+        specifier: ^1.0.4
+        version: 1.0.4(@babel/eslint-parser@7.27.0(@babel/core@7.26.10)(eslint@8.57.1))(eslint@8.57.1)
       press-ui:
         specifier: ^1.3.6
         version: 1.3.39
@@ -2351,8 +2354,8 @@ packages:
       jest:
         optional: true
 
-  eslint-plugin-light@1.0.3:
-    resolution: {integrity: sha512-ibGNP45chjaD6UoCJmbXanYIqP3LidVdQ0WsIRQaN0SqIh5TUTBkoZehblPspN8Aa61d7rxv0u3UJT4AVfb76Q==}
+  eslint-plugin-light@1.0.4:
+    resolution: {integrity: sha512-JkxhwiC+BgeOq6dvA/BB+J4dYOwCyVGoqpKKnJK8HtX4hB32Ca0TTz+EkCPIu/2BCwSuJPzolIpGsZdd8zCzCg==}
     engines: {node: 12.x || 14.x || >= 16}
     peerDependencies:
       '@babel/eslint-parser': '>=6'
@@ -8457,7 +8460,7 @@ snapshots:
       eslint-import-resolver-typescript: 2.7.1(eslint-plugin-import@2.31.0)(eslint@8.57.1)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-typescript@2.7.1)(eslint@8.57.1)
       eslint-plugin-jest: 26.9.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
-      eslint-plugin-light: 1.0.3(@babel/eslint-parser@7.27.0(@babel/core@7.26.10)(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-light: 1.0.4(@babel/eslint-parser@7.27.0(@babel/core@7.26.10)(eslint@8.57.1))(eslint@8.57.1)
       eslint-plugin-react: 7.37.5(eslint@8.57.1)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.1)
       eslint-plugin-vue: 9.33.0(eslint@8.57.1)
@@ -8550,7 +8553,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-light@1.0.3(@babel/eslint-parser@7.27.0(@babel/core@7.26.10)(eslint@8.57.1))(eslint@8.57.1):
+  eslint-plugin-light@1.0.4(@babel/eslint-parser@7.27.0(@babel/core@7.26.10)(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@babel/eslint-parser': 7.27.0(@babel/core@7.26.10)(eslint@8.57.1)
       eslint: 8.57.1

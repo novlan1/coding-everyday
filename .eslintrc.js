@@ -1,3 +1,6 @@
 module.exports = {
-  extends: ['light'],
+  root: true,
+  extends: ['eslint-config-light'],
+  globals: {
+  },
 };

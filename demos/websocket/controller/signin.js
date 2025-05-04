@@ -1,11 +1,11 @@
 // sign in:
 
-var index = 0;
+let index = 0;
 
 module.exports = {
     'GET /signin': async (ctx, next) => {
-        let names = '甲乙丙丁戊己庚辛壬癸';
-        let name = names[index % 10];
+        const names = '甲乙丙丁戊己庚辛壬癸';
+        const name = names[index % 10];
         ctx.render('signin.html', {
             name: `路人${name}`
         });
@@ -13,13 +13,13 @@ module.exports = {
 
     'POST /signin': async (ctx, next) => {
         index ++;
-        let name = ctx.request.body.name || '路人甲';
-        let user = {
+        const name = ctx.request.body.name || '路人甲';
+        const user = {
             id: index,
             name: name,
             image: index % 10
         };
-        let value = Buffer.from(JSON.stringify(user)).toString('base64');
+        const value = Buffer.from(JSON.stringify(user)).toString('base64');
         console.log(`Set cookie value: ${value}`);
         ctx.cookies.set('name', value);
         ctx.response.redirect('/');

@@ -1,8 +1,8 @@
-import { logA } from './lib'
+import { logA } from './lib';
 import { version } from './package.json';
 
-logA()
+logA();
 
 export default function () {
-  console.log('version ' + version);
+  console.log(`version ${version}`);
 }

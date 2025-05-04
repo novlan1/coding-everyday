@@ -1,10 +1,10 @@
-const path = require('path')
-const DemoPlugin = require('./plugins/custom-plugin')
+const path = require('path');
+const DemoPlugin = require('./plugins/custom-plugin');
 
 
 const getLoaderPath = (loaderPath) => {
-  return path.resolve(__dirname, 'loaders', loaderPath)
-}
+  return path.resolve(__dirname, 'loaders', loaderPath);
+};
 
 module.exports = {
   entry: './src/index.js',
@@ -34,4 +34,4 @@ module.exports = {
       }
     ]
   }
-}
+};

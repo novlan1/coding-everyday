@@ -6,6 +6,6 @@ export default {
     file: './dist/distByConfig.js',
     format: 'cjs',
   },
-  plugins: [ json() ]
-}
+  plugins: [json()]
+};
 

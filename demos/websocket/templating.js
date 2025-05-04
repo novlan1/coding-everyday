@@ -1,7 +1,7 @@
 const nunjucks = require('nunjucks');
 
 function createEnv(path, opts) {
-  var
+  const
     autoescape = opts.autoescape === undefined ? true : opts.autoescape,
     noCache = opts.noCache || false,
     watch = opts.watch || false,
@@ -15,7 +15,7 @@ function createEnv(path, opts) {
       throwOnUndefined: throwOnUndefined
     });
   if (opts.filters) {
-    for (var f in opts.filters) {
+    for (const f in opts.filters) {
       env.addFilter(f, opts.filters[f]);
     }
   }
@@ -23,7 +23,7 @@ function createEnv(path, opts) {
 }
 
 function templating(path, opts) {
-  var env = createEnv(path, opts);
+  const env = createEnv(path, opts);
   return async (ctx, next) => {
     ctx.render = function (view, model) {
       ctx.response.body = env.render(view, Object.assign({}, ctx.state || {}, model || {}));

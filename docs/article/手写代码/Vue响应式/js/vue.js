@@ -3,20 +3,19 @@
 class Vue {
   constructor(options) {
     // 获取到传入的对象 没有默认为空对象
-    this.$options = options || {}
+    this.$options = options || {};
     // 获取 el
-    this.$el =
-      typeof options.el === 'string'
+    this.$el =      typeof options.el === 'string'
         ? document.querySelector(options.el)
-        : options.el
+        : options.el;
     // 获取 data
-    this.$data = options.data || {}
+    this.$data = options.data || {};
     // 调用 _proxyData 处理 data中的属性
-    this._proxyData(this.$data)
+    this._proxyData(this.$data);
     // 使用 Obsever 把data中的数据转为响应式
-    new Observer(this.$data)
+    new Observer(this.$data);
     // 编译模板
-    new Compiler(this)
+    new Compiler(this);
   }
   // 把data 中的属性注册到 Vue
   _proxyData(data) {
@@ -30,17 +29,17 @@ class Vue {
         configurable: true,
         // 获取数据
         get() {
-          return data[key]
+          return data[key];
         },
         // 设置数据
         set(newValue) {
           // 判断新值和旧值是否相等
-          if (newValue === data[key]) return
+          if (newValue === data[key]) return;
           // 设置新值
-          data[key] = newValue
+          data[key] = newValue;
         },
-      })
-    })
+      });
+    });
   }
 }
 

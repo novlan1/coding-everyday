@@ -4,12 +4,12 @@
  * @return hh:dd:ss string
  */
 export function dateCount(time) {
-  var hour = Math.floor((time / 3600000) % 24);
-  var minute = Math.floor((time / 60000) % 60);
-  var second = Math.floor((time / 1000) % 60);
-  return `${hour < 10 ? "0" + hour : hour}:${
-    minute < 10 ? "0" + minute : minute
-  }:${second < 10 ? "0" + second : second}`;
+  const hour = Math.floor((time / 3600000) % 24);
+  const minute = Math.floor((time / 60000) % 60);
+  const second = Math.floor((time / 1000) % 60);
+  return `${hour < 10 ? `0${hour}` : hour}:${
+    minute < 10 ? `0${minute}` : minute
+  }:${second < 10 ? `0${second}` : second}`;
 }
 
 /**
@@ -22,14 +22,13 @@ export function dateFormat(date, format) {
     console.error("format is undefiend or type is Error");
     return "";
   }
-  date =
-    date instanceof Date
+  date =    date instanceof Date
       ? date
       : typeof date === "number" || typeof date === "string"
       ? new Date(date)
       : new Date();
-  //解析
-  var formatReg = {
+  // 解析
+  const formatReg = {
     "y+": date.getFullYear(),
     "M+": date.getMonth() + 1,
     "d+": date.getDate(),
@@ -37,13 +36,13 @@ export function dateFormat(date, format) {
     "m+": date.getMinutes(),
     "s+": date.getSeconds(),
   };
-  for (var reg in formatReg) {
+  for (const reg in formatReg) {
     if (new RegExp(reg).test(format)) {
-      var match = RegExp.lastMatch; // 关键，lastMatch
+      const match = RegExp.lastMatch; // 关键，lastMatch
 
       format = format.replace(
         match,
-        formatReg[reg] < 10 ? "0" + formatReg[reg] : formatReg[reg].toString()
+        formatReg[reg] < 10 ? `0${formatReg[reg]}` : formatReg[reg].toString()
       );
       console.log(match, RegExp, format);
     }
@@ -64,10 +63,10 @@ export function decodeBase64(str) {
  */
 export function createRandomId() {
   return (
-    (Math.random() * 10000000).toString(16).substr(0, 4) +
-    "-" +
-    new Date().getTime() +
-    "-" +
-    Math.random().toString().substr(2, 5)
+    `${(Math.random() * 10000000).toString(16).substr(0, 4)
+    }-${
+    new Date().getTime()
+    }-${
+    Math.random().toString().substr(2, 5)}`
   );
 }

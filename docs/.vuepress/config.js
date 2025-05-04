@@ -1,6 +1,6 @@
 const {
 	genSidebar
-} = require('./utils')
+} = require('./utils');
 
 const configMap = [
 	{
@@ -55,54 +55,54 @@ const configMap = [
 		name: '文章',
 		path: '/article',
 	},
-]
+];
 
 function getAllSideBar(configMap) {
-	const res = []
+	const res = [];
 	configMap.map(item => {
-		res.push(genSidebar(item.name, '/docs' + item.path, item.collapsable || true))
-	})
+		res.push(genSidebar(item.name, `/docs${item.path}`, item.collapsable || true));
+	});
 	return res;
 }
 
-console.log(JSON.stringify(getAllSideBar(configMap)))
-console.log(getAllSideBar(configMap))
+console.log(JSON.stringify(getAllSideBar(configMap)));
+console.log(getAllSideBar(configMap));
 
 module.exports = {
-	"title": "Coding-everyday",
-	"description": "Coding-everyday",
-	"dest": "dist",
-	"serviceWorker": false,
-	"head": [
+	title: "Coding-everyday",
+	description: "Coding-everyday",
+	dest: "dist",
+	serviceWorker: false,
+	head: [
 		// ["script", { "src": "/assets/js/tj.js" }]
 	],
-	"configureWebpack": {
-		"resolve": {
-			"alias": {}
+	configureWebpack: {
+		resolve: {
+			alias: {}
 		}
 	},
-	"markdown": {},
-	"themeConfig": {
-		"repo": "novlan1/coding-everyday",
-		"repoLabel": "点亮⭐不迷路",
-		"editLinks": false,
-		"docsDir": "docs",
-		"editLinkText": "为该章节纠错",
+	markdown: {},
+	themeConfig: {
+		repo: "novlan1/coding-everyday",
+		repoLabel: "点亮⭐不迷路",
+		editLinks: false,
+		docsDir: "docs",
+		editLinkText: "为该章节纠错",
 		// "lastUpdated": "上次更新",
-		"sidebarDepth": 0,
-		"nav": [
+		sidebarDepth: 0,
+		nav: [
 			{
-				"text": "🙋‍♂️ 一起学习",
-				"link": "https://uwayfly.com",
-				target:'_self'
+				text: "🙋‍♂️ 一起学习",
+				link: "https://uwayfly.com",
+				target: '_self'
 			},
 			{
-				"text": "🔥 热爱生活",
-				"link": "https://uwayfly.com/image",
-				target:'_self'
+				text: "🔥 热爱生活",
+				link: "https://uwayfly.com/image",
+				target: '_self'
 			}
 		],
-		"sidebar": [
+		sidebar: [
 			[
 				"/",
 				"前言"
@@ -110,5 +110,5 @@ module.exports = {
 			...getAllSideBar(configMap),
 		]
 	},
-	"base": "/coding-everyday/"
-}
+	base: "/coding-everyday/"
+};

@@ -2,8 +2,8 @@
 // var t = require('babel-types');
 
 
-var babel = require('@babel/core');
-var t = require('@babel/types');
+const babel = require('@babel/core');
+const t = require('@babel/types');
 
 const visitor = {
   BinaryExpression(path) {
@@ -15,7 +15,7 @@ const visitor = {
       switch (node.operator) {
         case "+":
           result = node.left.value + node.right.value;
-          break
+          break;
         case "-":
           result = node.left.value - node.right.value;
           break;
@@ -42,7 +42,7 @@ const visitor = {
       // 把表达式节点替换成number字面量
       path.replaceWith(t.numericLiteral(result));
 
-      let parentPath = path.parentPath;
+      const parentPath = path.parentPath;
 
       // 向上遍历父级节点
       parentPath && visitor.BinaryExpression.call(this, parentPath);
@@ -54,5 +54,5 @@ module.exports = function (babel) {
   return {
     visitor
   };
-}
+};
 

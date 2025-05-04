@@ -1,4 +1,4 @@
-var gulp = require("gulp"), // gulp主组件
+const gulp = require("gulp"), // gulp主组件
   babel = require("gulp-babel"), // 编译es6
   sass = require("gulp-sass"), // 编译sass
   cssmin = require("gulp-clean-css"), // 压缩css文件
@@ -13,7 +13,7 @@ var gulp = require("gulp"), // gulp主组件
   browserSync = require("browser-sync").create(), // 自动刷新文件
   runSequence = require("run-sequence"); // 按顺序执行
 
-//先编译es6,再压缩js
+// 先编译es6,再压缩js
 gulp.task("compress_js", function () {
   return (
     gulp

@@ -1,12 +1,12 @@
 function defineReactive(data, key, value) {
-  //递归调用，监听所有属性
+  // 递归调用，监听所有属性
   observer(value);
-  var dep = new Dep();
+  const dep = new Dep();
   Object.defineProperty(data, key, {
     enumerable: true,
     configurable: true,
     get: function () {
-      console.log('observer-defineRactive-get', Dep.target, data, key, value)
+      console.log('observer-defineRactive-get', Dep.target, data, key, value);
       if (Dep.target) {
         dep.addSub(Dep.target);
       }
@@ -15,7 +15,7 @@ function defineReactive(data, key, value) {
     set: function (newVal) {
       if (value !== newVal) {
         value = newVal;
-        dep.notify(); //通知订阅器
+        dep.notify(); // 通知订阅器
       }
     }
   });
@@ -35,14 +35,14 @@ function Dep() {
 }
 Dep.prototype = {
   addSub(sub) {
-    this.subs.push(sub)
+    this.subs.push(sub);
   },
   notify() {
     this.subs.forEach(sub => {
       sub.update();
-    })
+    });
   }
-}
+};
 
 Dep.target = null;
 /**

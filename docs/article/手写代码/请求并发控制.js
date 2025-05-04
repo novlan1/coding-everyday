@@ -33,45 +33,44 @@ const request4 = () =>
 
 const addRequest = scheduler(2);
 addRequest(request1).then(res => {
-  console.log('A',res);
+  console.log('A', res);
 });
 addRequest(request2).then(res => {
-  console.log('B',res);
+  console.log('B', res);
 });
 addRequest(request3).then(res => {
-  console.log('C',res);
+  console.log('C', res);
 });
 addRequest(request4).then(res => {
-  console.log('D',res);
+  console.log('D', res);
 });
-
 
 
 // 解答
 function scheduler(max) {
-  const requestList = []
+  const requestList = [];
   let requesting = 0;
 
-  return function(request) {
+  return function (request) {
     const runTask = () => {
-      while(requestList.length && requesting < max) {
+      while (requestList.length && requesting < max) {
         const currentRequest = requestList.shift();
 
-        requesting +=1;
+        requesting += 1;
 
         currentRequest().then((result) => {
           requesting -= 1;
-          currentRequest.resolve(result)
-          runTask()
-        })
+          currentRequest.resolve(result);
+          runTask();
+        });
       }
-    }
+    };
 
     return new Promise((resolve, reject) => {
       request.resolve = resolve;
       request.reject = reject;
-      requestList.push(request)
+      requestList.push(request);
       runTask();
-    })
-  }
+    });
+  };
 }

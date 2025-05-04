@@ -1,6 +1,6 @@
 /**
  * 订阅者 Watcher 是一个 类，在它的构造函数中，定义了一些属性：
- * 
+ *
  * vm：   一个 Vue 的实例对象；
  * prop：是 node 节点的 v-model 等指令的属性值 或者插值符号中的属性。
  *       如 v-model="name"，prop 就是name;
@@ -29,4 +29,4 @@ Watcher.prototype = {
     Dep.target = null;
     return value;
   }
-}
+};

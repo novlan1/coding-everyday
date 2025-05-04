@@ -1,36 +1,36 @@
-Function.prototype.call2 = function(context, ...args) {
-  const key = Symbol('key')
+Function.prototype.call2 = function (context, ...args) {
+  const key = Symbol('key');
   context[key] = this;
 
-  const res = context[key](...args)
-  delete context[key]
+  const res = context[key](...args);
+  delete context[key];
   return res;
-}
+};
 
 
-Function.prototype.apply2 = function(context, args = []) {
-  const key = Symbol('key')
+Function.prototype.apply2 = function (context, args = []) {
+  const key = Symbol('key');
   context[key] = this;
 
-  const res = context[key](...args)
+  const res = context[key](...args);
 
-  delete context[key]
+  delete context[key];
   return res;
-}
+};
 
 
-Function.prototype.bind2 = function(context, ...args) {
+Function.prototype.bind2 = function (context, ...args) {
   const fn = this;
 
-  const newFn = function() {
-    const newArgs = args.concat(...arguments)
+  const newFn = function () {
+    const newArgs = args.concat(...arguments);
     if (this instanceof newFn) {
-      return fn.apply(this, newArgs)
+      return fn.apply(this, newArgs);
     }
-    return fn.apply(context, newArgs)
-  }
+    return fn.apply(context, newArgs);
+  };
   return newFn;
-}
+};
 
 
 // 测试
@@ -38,10 +38,10 @@ Function.prototype.bind2 = function(context, ...args) {
 const obj = {
   name: 'yang',
   getName() {
-    console.log(this.name)
+    console.log(this.name);
   }
-}
+};
 
-const getName2 = obj.getName.bind2({name: 'mike'})
-getName2()
+const getName2 = obj.getName.bind2({name: 'mike'});
+getName2();
 

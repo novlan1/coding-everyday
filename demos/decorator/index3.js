@@ -1,3 +1,3 @@
-class AAA{
-  
+class AAA {
+
 }

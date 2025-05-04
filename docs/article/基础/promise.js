@@ -27,7 +27,7 @@ class MyPromise {
         });
       });
     }
-  }
+  };
   reject = (reason) => {
     if (this.promiseState == MyPromise.PENDING) {
       setTimeout(() => {
@@ -39,7 +39,7 @@ class MyPromise {
         });
       });
     }
-  }
+  };
 
   then = (onFulfilled, onRejected) => {
     onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : a => a;
@@ -75,7 +75,7 @@ class MyPromise {
       }
     });
     return promise2;
-  }
+  };
 }
 
 function resolvePromise(promise2, x, resolve, reject) {
